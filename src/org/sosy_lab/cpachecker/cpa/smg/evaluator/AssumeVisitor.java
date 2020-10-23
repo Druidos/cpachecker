@@ -16,12 +16,15 @@ import java.util.List;
 import java.util.Map;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression.BinaryOperator;
+import org.sosy_lab.cpachecker.cfa.ast.c.CCastExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
+import org.sosy_lab.cpachecker.cfa.types.c.CType;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownAddressValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymValue;
@@ -72,11 +75,38 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               newState = resultValueAndState.getSmgState();
               SMGSymbolicValue resultValue = resultValueAndState.getObject();
 
-              //TODO: separate modifiable and unmodifiable visitor
-              int leftSideTypeSize = smgExpressionEvaluator.getBitSizeof(edge, leftSideExpression.getExpressionType(), newState);
-              int rightSideTypeSize = smgExpressionEvaluator.getBitSizeof(edge, rightSideExpression.getExpressionType(), newState);
-              newState.addPredicateRelation(leftSideVal, leftSideTypeSize,
-                  rightSideVal, rightSideTypeSize, binaryOperator, edge);
+              // TODO: separate modifiable and unmodifiable visitor
+              CType leftSideType = leftSideExpression.getExpressionType();
+              SMGType leftSideSMGType =
+                  SMGType.constructSMGType(leftSideType, newState, edge, smgExpressionEvaluator);
+              if (leftSideExpression instanceof CCastExpression) {
+                CCastExpression leftSideCastExpression = (CCastExpression) leftSideExpression;
+                CType leftSideOriginType = leftSideCastExpression.getOperand().getExpressionType();
+                SMGType leftSideOriginSMGType =
+                    SMGType.constructSMGType(
+                        leftSideOriginType, newState, edge, smgExpressionEvaluator);
+                leftSideSMGType = new SMGType(leftSideSMGType, leftSideOriginSMGType);
+              }
+
+              CType rightSideType = rightSideExpression.getExpressionType();
+              SMGType rightSideSMGType =
+                  SMGType.constructSMGType(rightSideType, newState, edge, smgExpressionEvaluator);
+              if (rightSideExpression instanceof CCastExpression) {
+                CCastExpression rightSideCastExpression = (CCastExpression) rightSideExpression;
+                CType rightSideOriginType =
+                    rightSideCastExpression.getOperand().getExpressionType();
+                SMGType rightSideOriginSMGType =
+                    SMGType.constructSMGType(
+                        rightSideOriginType, newState, edge, smgExpressionEvaluator);
+                rightSideSMGType = new SMGType(leftSideSMGType, rightSideOriginSMGType);
+              }
+              newState.addPredicateRelation(
+                  leftSideVal,
+                  leftSideSMGType,
+                  rightSideVal,
+                  rightSideSMGType,
+                  binaryOperator,
+                  edge);
               result.add(SMGValueAndState.of(newState, resultValue));
             }
         }
