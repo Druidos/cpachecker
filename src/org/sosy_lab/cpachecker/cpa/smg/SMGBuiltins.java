@@ -497,7 +497,7 @@ public class SMGBuiltins {
               + "_ID"
               + SMGCPA.getNewValue()
               + "_Line:"
-              + functionCall.getFileLocation().getStartingLineNumber();
+              + functionCall.getFileLocation().getStartingLineInOrigin();
       SMGEdgePointsTo new_address =
           currentState.addNewHeapAllocation(
               size * machineModel.getSizeofCharInBits(), allocation_label);
