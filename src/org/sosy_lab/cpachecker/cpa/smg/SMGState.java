@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.UniqueIdGenerator;
 import org.sosy_lab.common.log.LogManager;
@@ -1765,10 +1766,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   public void pruneUnreachable() throws SMGInconsistentException {
     Set<SMGObject> unreachable = heap.pruneUnreachable();
     if (!unreachable.isEmpty()) {
-      StringBuilder error = new StringBuilder();
-      for (SMGObject obj : unreachable) {
-        error.append(obj.getLabel());
-      }
+      String error =
+          unreachable.stream().map(obj -> obj.getLabel()).collect(Collectors.joining(", "));
       setMemLeak("Memory leak of " + error + " is detected", unreachable);
     }
     // TODO: Explicit values pruning
@@ -1896,11 +1895,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     performConsistencyCheck(SMGRuntimeCheck.FULL);
     // TODO Why do I do this here?
-    Set<SMGObject> unreachable = newSMGState.heap.pruneUnreachable();
-    if (!unreachable.isEmpty()) {
-      newSMGState.setMemLeak("Memory leak is detected", unreachable);
-    }
-    performConsistencyCheck(SMGRuntimeCheck.FULL);
+    newSMGState.pruneUnreachable();
     return newSMGState;
   }
 
