@@ -19,7 +19,7 @@ import org.sosy_lab.cpachecker.util.coverage.FileCoverageInformation.FunctionInf
 public class CoverageReportGcov {
 
   // String constants from gcov format
-  private static final String TEXTNAME = "TN:";
+  private static final String TESTNAME = "TN:";
   private static final String SOURCEFILE = "SF:";
   private static final String FUNCTION = "FN:";
   private static final String FUNCTIONDATA = "FNDA:";
@@ -33,7 +33,7 @@ public class CoverageReportGcov {
       FileCoverageInformation fileInfos = entry.getValue();
 
       // Convert ./test.c -> /full/path/test.c
-      w.append(TEXTNAME + "\n");
+      w.append(TESTNAME + "\n");
       w.append(SOURCEFILE + Path.of(sourcefile).toAbsolutePath() + "\n");
 
       for (FunctionInfo info : fileInfos.allFunctions) {
