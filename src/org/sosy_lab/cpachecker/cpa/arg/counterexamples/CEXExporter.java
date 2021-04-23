@@ -103,12 +103,13 @@ public class CEXExporter {
   private final ExtendedWitnessExporter extendedWitnessExporter;
   private final HarnessExporter harnessExporter;
   private TestCaseExporter testExporter;
+  private final CFA cfa;
 
   public CEXExporter(
       Configuration config,
       CEXExportOptions pOptions,
       LogManager pLogger,
-      CFA cfa,
+      CFA pCfa,
       ConfigurableProgramAnalysis cpa,
       WitnessExporter pWitnessExporter,
       ExtendedWitnessExporter pExtendedWitnessExporter)
@@ -118,12 +119,13 @@ public class CEXExporter {
     logger = pLogger;
     witnessExporter = checkNotNull(pWitnessExporter);
     extendedWitnessExporter = checkNotNull(pExtendedWitnessExporter);
+    cfa = pCfa;
 
     if (!options.disabledCompletely()) {
       cexFilter =
           CounterexampleFilter.createCounterexampleFilter(config, pLogger, cpa, cexFilterClasses);
-      harnessExporter = new HarnessExporter(config, pLogger, cfa);
-      testExporter = new TestCaseExporter(cfa, logger, config);
+      harnessExporter = new HarnessExporter(config, pLogger, pCfa);
+      testExporter = new TestCaseExporter(pCfa, logger, config);
     } else {
       cexFilter = null;
       harnessExporter = null;
@@ -174,7 +176,7 @@ public class CEXExporter {
     if (options.getCoveragePrefix() != null) {
       Path outputPath = options.getCoveragePrefix().getPath(counterexample.getUniqueId());
       try (Writer lcovFile = IO.openOutputFile(outputPath, Charset.defaultCharset())) {
-        CoverageReportLcov.write(CoverageCollector.fromCounterexample(targetPath), lcovFile);
+        CoverageReportLcov.write(CoverageCollector.fromCounterexample(targetPath, cfa), lcovFile);
       } catch (IOException e) {
         logger.logUserException(
             Level.WARNING, e, "Could not write coverage information for counterexample to file");
@@ -185,7 +187,8 @@ public class CEXExporter {
       Path outputPath = options.getAdditionalCoveragePrefix().getPath(counterexample.getUniqueId());
       try (Writer additionalLcovFile = IO.openOutputFile(outputPath, Charset.defaultCharset())) {
         AdditionalCoverageReportLcov.write(
-            CoverageCollector.additionalInfoFromCounterexample(targetPath), additionalLcovFile);
+            CoverageCollector.additionalInfoFromCounterexample(targetPath, cfa),
+            additionalLcovFile);
       } catch (IOException e) {
         logger.logUserException(
             Level.WARNING,
@@ -198,7 +201,7 @@ public class CEXExporter {
       Path outputPath = options.getGcovCoveragePrefix().getPath(counterexample.getUniqueId());
       try (Writer gcovFile = IO.openOutputFile(outputPath, Charset.defaultCharset())) {
         CoverageReportGcov.write(
-            CoverageCollector.additionalInfoFromCounterexample(targetPath), gcovFile);
+            CoverageCollector.additionalInfoFromCounterexample(targetPath, cfa), gcovFile);
       } catch (IOException e) {
         logger.logUserException(
             Level.WARNING,
