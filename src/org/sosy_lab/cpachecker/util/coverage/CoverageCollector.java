@@ -130,7 +130,7 @@ class CounterexampleCoverageCollector {
       cov.addVisitedEdge(edge);
 
       CFANode location = pathIterator.getLocation();
-      if (location != null && location instanceof FunctionEntryNode) {
+      if (location instanceof FunctionEntryNode) {
         FunctionEntryNode entryNode = (FunctionEntryNode) location;
 
         final FileLocation loc = entryNode.getFileLocation();
