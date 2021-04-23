@@ -162,7 +162,8 @@ public class CPAMain {
     // This is for actually forcing a termination when CPAchecker
     // fails to shutdown within some time.
     ShutdownRequestListener forcedExitOnShutdown =
-        ForceTerminationOnShutdown.createShutdownListener(logManager, shutdownHook);
+        ForceTerminationOnShutdown.createShutdownListener(
+            logManager, shutdownHook, options.shutdownTimeout);
     shutdownNotifier.register(forcedExitOnShutdown);
 
     // run analysis
@@ -286,6 +287,12 @@ public class CPAMain {
 
     @Option(secure = true, name = "pcc.proofgen.doPCC", description = "Generate and dump a proof")
     private boolean doPCC = false;
+
+    @Option(
+        secure = true,
+        name = "shutdown.timeout",
+        description = "Termination timeout before force exit in seconds")
+    private int shutdownTimeout = 10;
   }
 
   private static void dumpConfiguration(

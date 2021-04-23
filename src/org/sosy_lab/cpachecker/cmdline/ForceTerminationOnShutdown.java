@@ -35,7 +35,7 @@ class ForceTerminationOnShutdown implements Runnable {
   private static final AtomicBoolean canceled = new AtomicBoolean();
 
   // Time that a shutdown may last before we kill the program.
-  private static final int SHUTDOWN_GRACE_PERIOD = 10; // seconds
+  private final int SHUTDOWN_GRACE_PERIOD; // seconds
   private static final int SHUTDOWN_GRACE_PERIOD_2 = 1; // seconds
 
   private final LogManager logger;
@@ -43,10 +43,11 @@ class ForceTerminationOnShutdown implements Runnable {
   private final ShutdownHook shutdownHook;
 
   private ForceTerminationOnShutdown(
-      LogManager pLogger, Thread pMainThread, ShutdownHook pShutdownHook) {
+      LogManager pLogger, Thread pMainThread, ShutdownHook pShutdownHook, int pShutdownTimeout) {
     logger = pLogger;
     mainThread = pMainThread;
     shutdownHook = pShutdownHook;
+    SHUTDOWN_GRACE_PERIOD = pShutdownTimeout;
   }
 
   /**
@@ -54,7 +55,7 @@ class ForceTerminationOnShutdown implements Runnable {
    * some time. When doing so, it will disable the given shutdown hook.
    */
   static ShutdownRequestListener createShutdownListener(
-      final LogManager logger, final ShutdownHook shutdownHook) {
+      final LogManager logger, final ShutdownHook shutdownHook, final int pShutdownTimeout) {
     final Thread mainThread = Thread.currentThread();
     return new ShutdownRequestListener() {
 
@@ -77,7 +78,7 @@ class ForceTerminationOnShutdown implements Runnable {
         Thread t =
             Concurrency.newDaemonThread(
                 "ForceTerminationOnShutdown",
-                new ForceTerminationOnShutdown(logger, mainThread, shutdownHook));
+                new ForceTerminationOnShutdown(logger, mainThread, shutdownHook, pShutdownTimeout));
         boolean success = forceTerminationOnShutdownThread.compareAndSet(null, t);
         if (success) {
           t.start();
