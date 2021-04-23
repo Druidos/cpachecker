@@ -185,10 +185,11 @@ public class SMGExpressionEvaluator {
     }
 
     long fieldOffset = pOffset.getAsLong();
+    long typeBitSize = getBitSizeof(pEdge, pType, pSmgState);
+    long objectBitSize = pObject.getSize();
 
     // FIXME Does not work with variable array length.
-    boolean doesNotFitIntoObject =
-        fieldOffset < 0 || fieldOffset + getBitSizeof(pEdge, pType, pSmgState) > pObject.getSize();
+    boolean doesNotFitIntoObject = fieldOffset < 0 || fieldOffset + typeBitSize > objectBitSize;
 
     if (doesNotFitIntoObject) {
       // Field does not fit size of declared Memory

@@ -48,6 +48,7 @@ import org.sosy_lab.cpachecker.cpa.smg.TypeUtils;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGAddressAndState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGAddressValueAndState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddress;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddressValue;
@@ -117,8 +118,20 @@ class ExpressionValueVisitor
               address.getOffset(),
               TypeUtils.getRealExpressionType(exp),
               cfaEdge);
-      symbolicValueResultAndState.getSmgState().addReadVariable(exp.toASTString(),
-          symbolicValueResultAndState.getObject());
+      symbolicValueResultAndState
+          .getSmgState()
+          .addReadVariable(exp.toASTString(), symbolicValueResultAndState.getObject());
+      symbolicValueResultAndState
+          .getSmgState()
+          .addReadParams(
+              exp.toASTString(),
+              SMGReadParams.of(
+                  address.getObject(),
+                  smgExpressionEvaluator.getBitSizeof(
+                      cfaEdge,
+                      TypeUtils.getRealExpressionType(exp),
+                      symbolicValueResultAndState.getSmgState()),
+                  address.getOffset().getAsLong()));
       result.add(symbolicValueResultAndState);
     }
 
@@ -171,13 +184,21 @@ class ExpressionValueVisitor
 
       CType fieldType = TypeUtils.getRealExpressionType(fieldReference);
 
-      SMGValueAndState smgValueAndState = smgExpressionEvaluator.readValue(
-          newState,
-          addressOfField.getObject(),
-          addressOfField.getOffset(),
-          fieldType,
-          cfaEdge);
-      smgValueAndState.getSmgState().addReadVariable(fieldReference.toASTString(), smgValueAndState.getObject());
+      SMGValueAndState smgValueAndState =
+          smgExpressionEvaluator.readValue(
+              newState, addressOfField.getObject(), addressOfField.getOffset(), fieldType, cfaEdge);
+      smgValueAndState
+          .getSmgState()
+          .addReadVariable(fieldReference.toASTString(), smgValueAndState.getObject());
+      smgValueAndState
+          .getSmgState()
+          .addReadParams(
+              fieldReference.toASTString(),
+              SMGReadParams.of(
+                  addressOfField.getObject(),
+                  smgExpressionEvaluator.getBitSizeof(
+                      cfaEdge, fieldType, smgValueAndState.getSmgState()),
+                  addressOfField.getOffset().getAsLong()));
       result.add(smgValueAndState);
     }
 
@@ -226,7 +247,17 @@ class ExpressionValueVisitor
                 cfaEdge);
         result.getSmgState().addElementToCurrentChain(result.getObject());
         result.getSmgState().addReadVariable(idExpression.getName(), result.getObject());
-
+        result
+            .getSmgState()
+            .addReadParams(
+                idExpression.getName(),
+                SMGReadParams.of(
+                    variableObject,
+                    smgExpressionEvaluator.getBitSizeof(
+                        cfaEdge,
+                        TypeUtils.getRealExpressionType(idExpression),
+                        result.getSmgState()),
+                    0));
         return singletonList(result);
       }
     }
@@ -288,13 +319,17 @@ class ExpressionValueVisitor
     if (operandType instanceof CPointerType) {
       List<? extends SMGValueAndState> smgValueAndStates = dereferencePointer(operand, expType);
       for (SMGValueAndState smgValueAndState : smgValueAndStates) {
-        smgValueAndState.getSmgState().addReadVariable(pointerExpression.toASTString(), smgValueAndState.getObject());
+        smgValueAndState
+            .getSmgState()
+            .addReadVariable(pointerExpression.toASTString(), smgValueAndState.getObject());
       }
       return smgValueAndStates;
     } else if (operandType instanceof CArrayType) {
       List<? extends SMGValueAndState> smgValueAndStates = dereferenceArray(operand, expType);
       for (SMGValueAndState smgValueAndState : smgValueAndStates) {
-        smgValueAndState.getSmgState().addReadVariable(pointerExpression.toASTString(), smgValueAndState.getObject());
+        smgValueAndState
+            .getSmgState()
+            .addReadVariable(pointerExpression.toASTString(), smgValueAndState.getObject());
       }
       return smgValueAndStates;
     } else {

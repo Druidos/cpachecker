@@ -68,6 +68,13 @@ public class SMGEdgeHasValueFilter {
     return new SMGEdgeHasValueFilterByObject().filterByObject(pObject);
   }
 
+  public static SMGEdgeHasValueFilter readParamsFilter(SMGReadParams pParams) {
+    return new SMGEdgeHasValueFilter()
+        .filterByObject(pParams.getObject())
+        .filterAtOffset(pParams.getOffset())
+        .filterBySize(pParams.getSize());
+  }
+
   public SMGObject getObject() {
     return object;
   }
