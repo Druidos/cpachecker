@@ -99,7 +99,7 @@ public class AdditionalInfoExtractor {
           edgeWithAdditionalInfo.addInfo(
               SMGConvertingTags.NOTE,
               SMGAdditionalInfo.of(
-                  getNoteMessageOnElement(prevSMGState.getHeap(), elem), Level.NOTE));
+                  getNoteMessageOnElement(prevSMGState.getHeap(), elem), Level.WARNING));
 
         } else {
           toCheck.add(elem);
