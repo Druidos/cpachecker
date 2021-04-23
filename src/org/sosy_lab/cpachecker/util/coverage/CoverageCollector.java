@@ -8,7 +8,6 @@
 
 package org.sosy_lab.cpachecker.util.coverage;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.FluentIterable.from;
 
@@ -64,19 +63,13 @@ class CounterexampleCoverageCollector {
   }
 
   private boolean isOutsideAssumptionAutomaton(ARGState s) {
-    boolean foundAssumptionAutomaton = false;
     for (AutomatonState aState : AbstractStates.asIterable(s).filter(AutomatonState.class)) {
       if (aState.getOwningAutomatonName().equals("AssumptionAutomaton")) {
-        foundAssumptionAutomaton = true;
         if (aState.getInternalStateName().equals("__FALSE")) {
           return true;
         }
       }
     }
-    checkArgument(
-        foundAssumptionAutomaton,
-        "This method should only be called when an "
-            + "Assumption Automaton is used as part of the specification.");
     return false;
   }
 
