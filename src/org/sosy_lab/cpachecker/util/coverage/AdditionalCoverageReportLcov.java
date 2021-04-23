@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.Map;
 import org.sosy_lab.cpachecker.util.coverage.FileCoverageInformation.FunctionInfo;
 
-public class AdditionalCoverageReportGcov {
+public class AdditionalCoverageReportLcov {
 
   // String constants from gcov format
   private static final String TESTNAME = "TN:";

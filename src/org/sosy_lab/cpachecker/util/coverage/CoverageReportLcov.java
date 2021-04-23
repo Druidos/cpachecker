@@ -15,10 +15,13 @@ import java.nio.file.Path;
 import java.util.Map;
 import org.sosy_lab.cpachecker.util.coverage.FileCoverageInformation.FunctionInfo;
 
-/** Generate coverage information in Gcov format (http://gcc.gnu.org/onlinedocs/gcc/Gcov.html). */
-public class CoverageReportGcov {
+/**
+ * Generate coverage information in lcov format, which the genhtml tool can convert to HTML output.
+ * (https://linux.die.net/man/1/geninfo).
+ */
+public class CoverageReportLcov {
 
-  // String constants from gcov format
+  // String constants from lcov format
   private static final String TESTNAME = "TN:";
   private static final String SOURCEFILE = "SF:";
   private static final String FUNCTION = "FN:";
