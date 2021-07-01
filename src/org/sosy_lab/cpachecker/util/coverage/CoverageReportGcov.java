@@ -34,6 +34,7 @@ public class CoverageReportGcov {
   private static final String SOURCEFILE = "\t-:\t0:Source:";
   private static final String WORKING_DIRECTORY = "\t-:\t0:Working directory:";
   private static final String ADDITIONAL_TAG = "info ";
+  private static final String COUNTER_TAG = "counter ";
 
   public static void write(CoverageData pCoverage, Writer w) throws IOException {
 
@@ -75,6 +76,10 @@ public class CoverageReportGcov {
         String additionalInfo = fileInfos.getAdditionalInfo(line);
         if (!additionalInfo.isEmpty()) {
           w.append(ADDITIONAL_TAG + additionalInfo + "\n");
+        }
+        String counterInfo = fileInfos.getCounterInfo(line);
+        if (!counterInfo.isEmpty()) {
+          w.append(COUNTER_TAG + counterInfo + "\n");
         }
       }
     }
