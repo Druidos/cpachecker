@@ -78,7 +78,7 @@ public class AdditionalInfoExtractor {
               invalidChain, prevSMGState, visitedElems, smgState, edgeWithAdditionalInfo);
       if (!valueMessage.isEmpty()) {
         edgeWithAdditionalInfo.addInfo(
-            SMGConvertingTags.READ_VALUES, SMGAdditionalInfo.of(valueMessage, Level.INFO));
+            SMGConvertingTags.READ_VALUES, SMGAdditionalInfo.of(valueMessage, Level.NOTE));
       }
 
       boolean hasChange = false;
