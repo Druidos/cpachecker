@@ -88,13 +88,21 @@ public class SMGPredicateManager {
 
   private BooleanFormula addPredicateToFormula(
       BooleanFormula pFormula, ExplicitRelation pRelation, boolean conjunction) {
+    System.out.println("addPredicateToFormula");
+    System.out.println(pFormula);
+    System.out.println(pRelation);
+    System.out.println(conjunction);
     BooleanFormula result;
     BigInteger explicitValue = pRelation.getExplicitValue().getValue();
+    System.out.println(explicitValue);
     SMGType symbolicSMGType = pRelation.getSymbolicSMGType();
+    System.out.println(symbolicSMGType);
     long explicitSize = symbolicSMGType.getCastedSize();
+    System.out.println(explicitSize);
     boolean isExplicitSigned = symbolicSMGType.isCastedSigned();
     BinaryOperator op = pRelation.getOperator();
-
+    System.out.println(op);
+    System.out.println("addPredicateToFormula");
     BitvectorFormula explicitValueFormula = efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
     BitvectorFormula explicitValueFormulaCasted =
         efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(), 0, isExplicitSigned);

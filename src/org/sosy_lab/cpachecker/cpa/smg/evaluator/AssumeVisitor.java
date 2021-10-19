@@ -119,7 +119,7 @@ public class AssumeVisitor extends ExpressionValueVisitor {
                 SMGType rightSideOriginSMGType =
                     SMGType.constructSMGType(
                         rightSideOriginType, newState, edge, smgExpressionEvaluator);
-                rightSideSMGType = new SMGType(leftSideSMGType, rightSideOriginSMGType);
+                rightSideSMGType = new SMGType(rightSideSMGType, rightSideOriginSMGType);
               }
 
               // TODO
@@ -131,6 +131,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               // There exists code in SMGTransferRelation.strenghten
               // that even needs to negate an edge to get correct results.
 
+              System.out.println("---");
+              System.out.println(leftSideVal);
+              System.out.println(leftSideSMGType);
+              System.out.println("---");
+              System.out.println(rightSideVal);
+              System.out.println(rightSideSMGType);
               //FIXME: require calculate cast on integer promotions
               newState.addPredicateRelation(
                   // next line: use the symbolic value here and not the potential explicit one.
@@ -145,7 +151,7 @@ public class AssumeVisitor extends ExpressionValueVisitor {
             }
         }
       }
-
+        System.out.println("EXIT");
         return result;
     default:
       return super.visit(pExp);
