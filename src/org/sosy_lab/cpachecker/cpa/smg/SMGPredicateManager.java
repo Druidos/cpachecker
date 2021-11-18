@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.cpa.smg;
 import com.google.common.collect.ImmutableSet;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -94,18 +95,38 @@ public class SMGPredicateManager {
     System.out.println(conjunction);
     BooleanFormula result;
     BigInteger explicitValue = pRelation.getExplicitValue().getValue();
+    System.out.print("explicitValue = ");
     System.out.println(explicitValue);
     SMGType symbolicSMGType = pRelation.getSymbolicSMGType();
     System.out.println(symbolicSMGType);
-    long explicitSize = symbolicSMGType.getCastedSize();
+    long explicitSize = symbolicSMGType.getCastedSize().get(symbolicSMGType.getCastedSize().size() - 1);
+    System.out.print("explicitSize = ");
     System.out.println(explicitSize);
-    boolean isExplicitSigned = symbolicSMGType.isCastedSigned();
+    boolean isExplicitSigned = symbolicSMGType.getCastedSigned().get(symbolicSMGType.getCastedSigned().size()-1);
     BinaryOperator op = pRelation.getOperator();
+    System.out.print("op = ");
     System.out.println(op);
     System.out.println("addPredicateToFormula");
-    BitvectorFormula explicitValueFormula = efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
-    BitvectorFormula explicitValueFormulaCasted =
-        efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(), 0, isExplicitSigned);
+    BitvectorFormula explicitValueFormula;
+    BitvectorFormula explicitValueFormulaCasted;
+    try
+    {
+      explicitValueFormula =
+          efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
+      explicitValueFormulaCasted =
+          efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(),
+              0, isExplicitSigned);
+    }
+    catch (Exception e)
+    {
+      symbolicSMGType = new SMGType(new SMGType(64, true), symbolicSMGType);
+      explicitSize = 64;
+      explicitValueFormula =
+          efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
+      explicitValueFormulaCasted =
+          efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(),
+              0, isExplicitSigned);
+    }
 
     BitvectorFormula symbolicValue = getCastedValue(pRelation.getSymbolicValue(), symbolicSMGType);
     result = createBooleanFormula(symbolicValue, explicitValueFormulaCasted, op);
@@ -115,6 +136,9 @@ public class SMGPredicateManager {
     } else {
       result = bfmgr.or(result, pFormula);
     }
+
+    System.out.println(result);
+    System.out.println("EXIIIIIT");
     return result;
   }
 
@@ -127,6 +151,8 @@ public class SMGPredicateManager {
    */
   private BitvectorFormula getCastedValue(SMGValue pSMGValue, SMGType pSMGType) {
     BitvectorFormula valueFormula = createdValueFormulas.get(pSMGValue);
+    System.out.print("valueFormula");
+    System.out.println(valueFormula);
     if (valueFormula == null) {
       long size = pSMGType.getOriginSize();
       boolean isSigned = pSMGType.isOriginSigned();
@@ -144,16 +170,27 @@ public class SMGPredicateManager {
     BitvectorFormula result;
     long fromSize = pFromSMGType.getOriginSize();
     boolean isFromSigned = pFromSMGType.isOriginSigned();
-    long toSize = pToSMGType.getCastedSize();
-    boolean isToSigned = pToSMGType.isCastedSigned();
+    List<Long> toSize = pToSMGType.getCastedSize();
+    toSize.add(0, pToSMGType.getOriginSize());
+    List<Boolean> isToSigned = pToSMGType.getCastedSigned();
+    isToSigned.add(0, pToSMGType.isOriginSigned());
     result = pVariableFormula;
-    if (toSize > fromSize) {
-      result = efmgr.extend(result, BigInteger.valueOf(toSize - fromSize).intValueExact(), isToSigned);
-    } else if (toSize < fromSize) {
-      result = efmgr.extract(result, BigInteger.valueOf(toSize - 1).intValueExact(), 0, isToSigned);
-    } else if (isToSigned != isFromSigned) {
-      result = efmgr.extend(result, 0, isToSigned);
+    for (int i=0;i<toSize.size();i++) {
+      if (toSize.get(i) > fromSize) {
+        result =
+            efmgr.extend(result, BigInteger.valueOf(toSize.get(i) - fromSize).intValueExact(), isToSigned.get(i));
+      } else if (toSize.get(i) < fromSize) {
+        result =
+            efmgr.extract(result, BigInteger.valueOf(toSize.get(i) - 1).intValueExact(), 0, isToSigned.get(i));
+      } else if (isToSigned.get(i) != isFromSigned) {
+        result = efmgr.extend(result, 0, isToSigned.get(i));
+      }
+      fromSize = toSize.get(i);
+      isFromSigned = isToSigned.get(i);
+
     }
+    System.out.print("CAST RESULT=");
+    System.out.println(result);
     return result;
   }
 
@@ -164,33 +201,37 @@ public class SMGPredicateManager {
     BitvectorFormula formulaTwo;
 
     SMGType firstValSMGType = pRelation.getFirstValSMGType();
-    long firstCastedSize = firstValSMGType.getCastedSize();
+    List<Long> firstCastedSize = firstValSMGType.getCastedSize();
 
     SMGType secondValSMGType = pRelation.getSecondValSMGType();
-    long secondCastedSize = secondValSMGType.getCastedSize();
+    List<Long> secondCastedSize = secondValSMGType.getCastedSize();
 
     // Special case for NULL value
     if (pRelation.getFirstValue().isZero()) {
       firstCastedSize = secondCastedSize;
-      formulaOne = efmgr.makeBitvector(BigInteger.valueOf(firstCastedSize).intValueExact(), 0);
+      formulaOne = efmgr.makeBitvector(BigInteger.valueOf(firstCastedSize.get(firstCastedSize.size()-1)).intValueExact(), 0);
     } else {
       formulaOne = getCastedValue(pRelation.getFirstValue(), firstValSMGType);
     }
 
     if (pRelation.getSecondValue().isZero()) {
       secondCastedSize = firstCastedSize;
-      formulaTwo = efmgr.makeBitvector(BigInteger.valueOf(secondCastedSize).intValueExact(), 0);
+      formulaTwo = efmgr.makeBitvector(BigInteger.valueOf(secondCastedSize.get(secondCastedSize.size()-1)).intValueExact(), 0);
     } else {
       formulaTwo = getCastedValue(pRelation.getSecondValue(), secondValSMGType);
     }
 
     //FIXME: require calculate cast on integer promotions
-    if (firstCastedSize > secondCastedSize) {
-      formulaTwo = cast(formulaTwo, secondValSMGType, firstValSMGType);
+    if (firstCastedSize.get(firstCastedSize.size()-1) > secondCastedSize.get(secondCastedSize.size()-1)) {
+      SMGType firstVALSMGTypeCasted = new SMGType(firstValSMGType.getCastedSize().get(firstValSMGType.getCastedSize().size()-1),
+          firstValSMGType.getCastedSigned().get(firstValSMGType.getCastedSigned().size()-1));
+      formulaTwo = cast(formulaTwo, secondValSMGType, firstVALSMGTypeCasted);
     }
 
-    if (secondCastedSize > firstCastedSize) {
-      formulaOne = cast(formulaOne, firstValSMGType, secondValSMGType);
+    if (secondCastedSize.get(secondCastedSize.size()-1) > firstCastedSize.get(firstCastedSize.size()-1)) {
+      SMGType secondValSMGTypeCasted = new SMGType(secondValSMGType.getCastedSize().get(secondValSMGType.getCastedSize().size()-1),
+          secondValSMGType.getCastedSigned().get(secondValSMGType.getCastedSigned().size()-1));
+      formulaOne = cast(formulaOne, firstValSMGType, secondValSMGTypeCasted);
     }
 
     BinaryOperator op = pRelation.getOperator();
@@ -200,6 +241,9 @@ public class SMGPredicateManager {
     } else {
       result = fmgr.makeOr(pFormula, result);
     }
+
+    System.out.print("RESULT=");
+    System.out.println(result);
     return result;
   }
 
@@ -237,7 +281,7 @@ public class SMGPredicateManager {
         BooleanFormula equality =
             fmgr.makeEqual(
                 valueFormula,
-                efmgr.makeBitvector(BigInteger.valueOf(symbolicType.getCastedSize()).intValueExact(), explicitValue.getValue()));
+                efmgr.makeBitvector(BigInteger.valueOf(symbolicType.getCastedSize().get(symbolicType.getCastedSize().size()-1)).intValueExact(), explicitValue.getValue()));
         result = fmgr.makeAnd(result, equality);
       }
     }
@@ -246,6 +290,9 @@ public class SMGPredicateManager {
 
   private BooleanFormula getPredicateFormula(SMGPredicateRelation pRelation, boolean conjunction) {
     BooleanFormula result = bfmgr.makeBoolean(conjunction);
+
+    System.out.print("pRelation=");
+    System.out.println(pRelation);
 
     if (!verifyPredicates) {
       return result;
@@ -262,6 +309,9 @@ public class SMGPredicateManager {
     }
 
     for (ExplicitRelation relation : pRelation.getExplicitRelations()) {
+      System.out.println("CYCLE");
+      System.out.println(relation);
+      System.out.println(result);
       result = addPredicateToFormula(result, relation, conjunction);
     }
     return result;

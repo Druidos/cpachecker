@@ -98,9 +98,13 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               CType leftSideType = leftSideExpression.getExpressionType();
               SMGType leftSideSMGType =
                   SMGType.constructSMGType(leftSideType, newState, edge, smgExpressionEvaluator);
+              System.out.println("I AM BEFORE CCAST");
               while (leftSideExpression instanceof CCastExpression) {
                 //TODO: rewrite as list of castings
+                System.out.println("LEFT CCAST EXPRESSION");
+                System.out.println(leftSideExpression);
                 CCastExpression leftSideCastExpression = (CCastExpression) leftSideExpression;
+                System.out.println(leftSideCastExpression);
                 leftSideExpression = leftSideCastExpression.getOperand();
                 CType leftSideOriginType = leftSideExpression.getExpressionType();
                 SMGType leftSideOriginSMGType =
@@ -113,13 +117,21 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               SMGType rightSideSMGType =
                   SMGType.constructSMGType(rightSideType, newState, edge, smgExpressionEvaluator);
               while (rightSideExpression instanceof CCastExpression) {
+                System.out.println("RIGHT CCAST EXPRESSION");
+                System.out.println(rightSideExpression);
                 CCastExpression rightSideCastExpression = (CCastExpression) rightSideExpression;
+                System.out.println(rightSideCastExpression);
                 rightSideExpression = rightSideCastExpression.getOperand();
+                System.out.println(rightSideExpression);
                 CType rightSideOriginType = rightSideExpression.getExpressionType();
                 SMGType rightSideOriginSMGType =
                     SMGType.constructSMGType(
                         rightSideOriginType, newState, edge, smgExpressionEvaluator);
+                System.out.println(rightSideSMGType);
+                System.out.print("ORIGIN= ");
+                System.out.println(rightSideOriginSMGType);
                 rightSideSMGType = new SMGType(rightSideSMGType, rightSideOriginSMGType);
+                System.out.println(rightSideSMGType);
               }
 
               // TODO
@@ -131,12 +143,7 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               // There exists code in SMGTransferRelation.strenghten
               // that even needs to negate an edge to get correct results.
 
-              System.out.println("---");
-              System.out.println(leftSideVal);
-              System.out.println(leftSideSMGType);
-              System.out.println("---");
-              System.out.println(rightSideVal);
-              System.out.println(rightSideSMGType);
+              
               //FIXME: require calculate cast on integer promotions
               newState.addPredicateRelation(
                   // next line: use the symbolic value here and not the potential explicit one.
@@ -151,7 +158,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
             }
         }
       }
-        System.out.println("EXIT");
         return result;
     default:
       return super.visit(pExp);
