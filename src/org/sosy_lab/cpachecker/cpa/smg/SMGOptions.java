@@ -215,6 +215,12 @@ public class SMGOptions {
           "Perform merge SMGStates by SMGJoin on ends of code block. Works with 'merge=JOIN'")
   private boolean joinOnBlockEnd = true;
 
+  @Option(
+      secure = true,
+      name = "produceErrorTraceInsteadOfException",
+      description = "Produce error trace instead of exception during analysis")
+  private boolean produceErrorTraceInsteadOfException = false;
+
   public enum SMGExportLevel {
     NEVER,
     LEAF,
@@ -344,5 +350,9 @@ public class SMGOptions {
 
   public boolean crashOnUnknown() {
     return crashOnUnknown;
+  }
+
+  public boolean produceErrorTraceInsteadOfException() {
+    return produceErrorTraceInsteadOfException;
   }
 }
