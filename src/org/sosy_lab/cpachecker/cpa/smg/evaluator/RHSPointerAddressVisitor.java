@@ -11,7 +11,6 @@ package org.sosy_lab.cpachecker.cpa.smg.evaluator;
 import java.util.ArrayList;
 import java.util.List;
 import org.sosy_lab.cpachecker.cfa.ast.c.CCharLiteralExpression;
-import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CFunctionCallExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CFunctionDeclaration;
 import org.sosy_lab.cpachecker.cfa.ast.c.CIdExpression;
@@ -65,10 +64,8 @@ class RHSPointerAddressVisitor extends PointerVisitor {
   @Override
   public List<? extends SMGValueAndState> visit(CFunctionCallExpression pIastFunctionCallExpression)
       throws CPATransferException {
-    CExpression fileNameExpression = pIastFunctionCallExpression.getFunctionNameExpression();
-    String functionName = fileNameExpression.toASTString();
     return smgRightHandSideEvaluator.builtins.handleFunctioncall(
-        pIastFunctionCallExpression, functionName, getInitialSmgState(), getCfaEdge(), kind);
+        pIastFunctionCallExpression, getInitialSmgState(), getCfaEdge(), kind);
   }
 
   @Override
