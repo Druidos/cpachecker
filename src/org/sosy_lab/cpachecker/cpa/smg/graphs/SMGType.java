@@ -77,6 +77,8 @@ public class SMGType {
     return castedSigned;
   }
 
+  public Boolean getCastedSignedLast() { return castedSigned.get(castedSigned.size() - 1); }
+
   public long getOriginSize() {
     return originSize;
   }

@@ -531,12 +531,10 @@ public class SMGTransferRelation
     List<SMGState> result = new ArrayList<>();
     for (SMGValueAndState valueAndState : expression.accept(visitor)) {
 
-      System.out.print("valueAndState=");
-      System.out.println(valueAndState);
       SMGValue value = valueAndState.getObject();
       state = valueAndState.getSmgState();
-      System.out.print("state=");
-      System.out.println(state);
+      //System.out.print("state=");
+      //System.out.println(state);
       if (!value.isUnknown()) {
         if ((truthValue && value.equals(SMGKnownSymValue.TRUE))
             || (!truthValue && value.equals(SMGZeroValue.INSTANCE))) {

@@ -17,12 +17,14 @@ long rand();
 
 int main() {
   long res;
-  long num;
-  res = 5L & num;
-  int * r = malloc(20 * sizeof(int));
-  r[res] = 10;
-  free(r);
- }
+  void *r = malloc(2);
+  if (128 > (char)(res)) {
+    free(r);
+  } else {
+    //unreached path
+    r = malloc(2);
+  }
+}
 
 /*
 //работает некорректно

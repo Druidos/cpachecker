@@ -47,8 +47,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
   @Override
   public List<? extends SMGValueAndState> visit(CBinaryExpression pExp)
       throws CPATransferException {
-    System.out.println("Welcome to visit");
-    System.out.println(pExp);
     BinaryOperator binaryOperator = pExp.getOperator();
 
     switch (binaryOperator) {
@@ -62,24 +60,17 @@ public class AssumeVisitor extends ExpressionValueVisitor {
 
       CExpression leftSideExpression = pExp.getOperand1();
       CExpression rightSideExpression = pExp.getOperand2();
-      System.out.print("left expression = ");
-      System.out.println(leftSideExpression);
-      System.out.print("right expression = ");
-      System.out.println(rightSideExpression);
       CFAEdge edge = getCfaEdge();
 
         for (SMGValueAndState leftSideValAndState :
             smgExpressionEvaluator.evaluateExpressionValue(
                 getInitialSmgState(), edge, leftSideExpression)) {
-          System.out.format("leftSideValAndState = %s\n", leftSideValAndState);
           SMGValue leftSideVal = leftSideValAndState.getObject();
-          System.out.format("LeftSideVal = %s\n", leftSideVal.toString());
           SMGState newState = leftSideValAndState.getSmgState();
 
           for (SMGValueAndState rightSideValAndState :
               smgExpressionEvaluator.evaluateExpressionValue(newState, edge, rightSideExpression)) {
             SMGValue rightSideVal = rightSideValAndState.getObject();
-            System.out.format("rightSideVal = %s\n", rightSideVal.toString());
             newState = rightSideValAndState.getSmgState();
 
             // if we already know the value, we should use it.
@@ -106,13 +97,9 @@ public class AssumeVisitor extends ExpressionValueVisitor {
               CType leftSideType = leftSideExpression.getExpressionType();
               SMGType leftSideSMGType =
                   SMGType.constructSMGType(leftSideType, newState, edge, smgExpressionEvaluator);
-              System.out.println("I AM BEFORE CCAST");
               while (leftSideExpression instanceof CCastExpression) {
                 //TODO: rewrite as list of castings
-                System.out.println("LEFT CCAST EXPRESSION");
-                System.out.println(leftSideExpression);
                 CCastExpression leftSideCastExpression = (CCastExpression) leftSideExpression;
-                System.out.println(leftSideCastExpression);
                 leftSideExpression = leftSideCastExpression.getOperand();
                 CType leftSideOriginType = leftSideExpression.getExpressionType();
                 SMGType leftSideOriginSMGType =
@@ -155,8 +142,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
                   binaryOperator,
                   edge);
               result.add(SMGValueAndState.of(newState, resultValue));
-              System.out.format("leftSideVal = %s RightSideVal = %s\n",leftSideVal.toString(), rightSideVal.toString());
-              System.out.format("newState = %s\nresultValue = %s\n", newState, resultValue);
             }
         }
       }

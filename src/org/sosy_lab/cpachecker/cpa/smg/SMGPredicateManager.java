@@ -89,45 +89,45 @@ public class SMGPredicateManager {
 
   private BooleanFormula addPredicateToFormula(
       BooleanFormula pFormula, ExplicitRelation pRelation, boolean conjunction) {
-    System.out.println("addPredicateToFormula");
-    System.out.println(pFormula);
-    System.out.println(pRelation);
-    System.out.println(conjunction);
     BooleanFormula result;
     BigInteger explicitValue = pRelation.getExplicitValue().getValue();
-    System.out.format("explicitValue = %s\n", explicitValue.toString());
     SMGType symbolicSMGType = pRelation.getSymbolicSMGType();
-    System.out.println(symbolicSMGType);
-    long explicitSize = symbolicSMGType.getCastedSize().get(symbolicSMGType.getCastedSize().size() - 1);
-    System.out.format("explicitSize = %d\n", explicitSize);
-    boolean isExplicitSigned = symbolicSMGType.getCastedSigned().get(symbolicSMGType.getCastedSigned().size()-1);
+
+    long explicitSize = symbolicSMGType.getCastedSizeLast();
+    boolean isExplicitSigned = symbolicSMGType.getCastedSignedLast();
+
     BinaryOperator op = pRelation.getOperator();
-    System.out.format("op = %s\n", op.toString());
     BitvectorFormula explicitValueFormula;
     BitvectorFormula explicitValueFormulaCasted;
-    try
-    {
-      explicitValueFormula =
-          efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
-      explicitValueFormulaCasted =
-          efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(),
-              0, isExplicitSigned);
+
+
+    if (explicitValue.intValueExact() < 0) {
+      if (Math.abs(explicitValue.intValueExact()) > (1L << (explicitSize - 1))) {
+        symbolicSMGType = new SMGType(new SMGType(64, true), symbolicSMGType);
+        explicitSize = 64;
+      }
     }
-    catch (IllegalArgumentException e)
+    else if(isExplicitSigned) {
+      if (explicitValue.intValueExact() >= (1L << (explicitSize - 1))){
+        symbolicSMGType = new SMGType(new SMGType(64, true), symbolicSMGType);
+        explicitSize = 64;
+      }
+    }
+    else if(explicitValue.intValueExact() >= (1L << (explicitSize - 1)))
     {
       symbolicSMGType = new SMGType(new SMGType(64, true), symbolicSMGType);
       explicitSize = 64;
-      explicitValueFormula =
-          efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
-      explicitValueFormulaCasted =
-          efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(),
-              0, isExplicitSigned);
     }
+
+    explicitValueFormula =
+        efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
+    explicitValueFormulaCasted =
+        efmgr.extract(explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(),
+            0, isExplicitSigned);
+
 
     BitvectorFormula symbolicValue = getCastedValue(pRelation.getSymbolicValue(), symbolicSMGType);
     result = createBooleanFormula(symbolicValue, explicitValueFormulaCasted, op);
-    System.out.format("Result = %s\n", result);
-    System.out.format("pFormula = %s\n", pFormula);
 
     if (conjunction) {
       result = bfmgr.and(result, pFormula);
@@ -135,8 +135,6 @@ public class SMGPredicateManager {
       result = bfmgr.or(result, pFormula);
     }
 
-    System.out.println(result);
-    System.out.println("EXIIIIIT");
     return result;
   }
 
@@ -149,17 +147,12 @@ public class SMGPredicateManager {
    */
   private BitvectorFormula getCastedValue(SMGValue pSMGValue, SMGType pSMGType) {
     BitvectorFormula valueFormula = createdValueFormulas.get(pSMGValue);
-    System.out.println(pSMGValue);
-    System.out.print("valueFormula:");
-    System.out.println(valueFormula);
     if (valueFormula == null) {
       long size = pSMGType.getOriginSize();
       boolean isSigned = pSMGType.isOriginSigned();
       valueFormula =
           efmgr.makeVariable(BigInteger.valueOf(size).intValueExact(), pSMGValue.toString());
       valueFormula = efmgr.extend(valueFormula, 0, isSigned);
-      System.out.print("valueFormula = ");
-      System.out.println(valueFormula);
       createdValueFormulas.put(pSMGValue, valueFormula);
       valueTypes.put(pSMGValue, pSMGType);
     }
@@ -190,8 +183,6 @@ public class SMGPredicateManager {
       isFromSigned = isToSigned.get(i);
 
     }
-    System.out.print("CAST RESULT=");
-    System.out.println(result);
     return result;
   }
 
@@ -243,29 +234,27 @@ public class SMGPredicateManager {
       result = fmgr.makeOr(pFormula, result);
     }
 
-    System.out.print("RESULT=");
-    System.out.println(result);
     return result;
   }
 
   public BooleanFormula getPathPredicateFormula(UnmodifiableSMGState pState) {
     SMGPredicateRelation pRelation = pState.getPathPredicateRelation();
     BooleanFormula predicateFormula = getPredicateFormula(pRelation, true);
-    System.out.format("predicateFormula = %s\npSate = %s\n",predicateFormula, pState);
-    System.out.format("explicitFormulaFromState = %s\n", getExplicitFormulaFromState(pState));
+    //System.out.format("predicateFormula = %s\npSate = %s\n",predicateFormula, pState);
+    //System.out.format("explicitFormulaFromState = %s\n", getExplicitFormulaFromState(pState));
     predicateFormula = fmgr.makeAnd(predicateFormula, getExplicitFormulaFromState(pState));
-    System.out.format("PathPredicateFormula = %s\n", predicateFormula.toString());
+    //System.out.format("PathPredicateFormula = %s\n", predicateFormula.toString());
     return predicateFormula;
   }
 
   public BooleanFormula getErrorPredicateFormula(
       SMGPredicateRelation pErrorPredicate, UnmodifiableSMGState pState) {
     BooleanFormula errorFormula = getPredicateFormula(pErrorPredicate, false);
-    System.out.print("errorFormula = ");
-    System.out.println(errorFormula);
+    //System.out.print("errorFormula = ");
+    //System.out.println(errorFormula);
     BooleanFormula pathFormula = getPathPredicateFormula(pState);
-    System.out.print("pathFormula = ");
-    System.out.println(pathFormula);
+    //System.out.print("pathFormula = ");
+    //System.out.println(pathFormula);
     pathFormula = fmgr.makeAnd(pathFormula, getExplicitFormulaFromState(pState));
     return fmgr.makeAnd(pathFormula, errorFormula);
   }
@@ -299,8 +288,8 @@ public class SMGPredicateManager {
   private BooleanFormula getPredicateFormula(SMGPredicateRelation pRelation, boolean conjunction) {
     BooleanFormula result = bfmgr.makeBoolean(conjunction);
 
-    System.out.format("getPredicateFormula\npRelation= %s\nresult = %s\nconjuction=%b\n",
-        pRelation.toString(), result.toString(), conjunction);
+    //System.out.format("getPredicateFormula\npRelation= %s\nresult = %s\nconjuction=%b\n",
+        //pRelation.toString(), result.toString(), conjunction);
 
     if (!verifyPredicates) {
       return result;
@@ -316,16 +305,16 @@ public class SMGPredicateManager {
       }
     }
 
-    System.out.format("result = %s\n", result.toString());
+    //System.out.format("result = %s\n", result.toString());
 
     for (ExplicitRelation relation : pRelation.getExplicitRelations()) {
-      System.out.println("CYCLE");
-      System.out.println(relation);
-      System.out.println(result);
+      //System.out.println("CYCLE");
+      //System.out.println(relation);
+      //System.out.println(result);
       result = addPredicateToFormula(result, relation, conjunction);
     }
 
-    System.out.format("Out of CYCLE result = %s\n", result.toString());
+    //System.out.format("Out of CYCLE result = %s\n", result.toString());
     return result;
   }
 
