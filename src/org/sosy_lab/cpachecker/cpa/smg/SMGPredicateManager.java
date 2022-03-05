@@ -29,6 +29,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymbolicValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 import org.sosy_lab.cpachecker.util.predicates.smt.BitvectorFormulaManagerView;
 import org.sosy_lab.cpachecker.util.predicates.smt.BooleanFormulaManagerView;
 import org.sosy_lab.cpachecker.util.predicates.smt.FormulaManagerView;
@@ -64,6 +65,7 @@ public class SMGPredicateManager {
     efmgr = fmgr.getBitvectorFormulaManager();
     createdValueFormulas = new HashMap<>();
     valueTypes = new HashMap<>();
+    valueTypes.put(SMGZeroValue.INSTANCE, new SMGType(1, false));
   }
 
   private BooleanFormula createBooleanFormula(
@@ -229,9 +231,8 @@ public class SMGPredicateManager {
       if (errorPredicateRelation.hasRelation(symbolicValue)
           || pathPredicateRelation.hasRelation(symbolicValue)) {
         SMGKnownExpValue explicitValue = expValueEntry.getValue();
-        BitvectorFormula valueFormula = createdValueFormulas.get(symbolicValue);
         SMGType symbolicType = valueTypes.get(symbolicValue);
-        valueFormula = cast(valueFormula, symbolicType, symbolicType);
+        BitvectorFormula valueFormula = getCastedValue(symbolicValue, symbolicType);
         BooleanFormula equality =
             fmgr.makeEqual(
                 valueFormula,
