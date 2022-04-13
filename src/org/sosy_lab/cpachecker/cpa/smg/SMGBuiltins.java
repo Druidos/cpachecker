@@ -9,7 +9,6 @@
 package org.sosy_lab.cpachecker.cpa.smg;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -959,7 +958,7 @@ public class SMGBuiltins {
 
   private boolean isSafeFunction(String calledFunctionName) {
     if (safeUnknownFunctionCompiledPatterns == null) {
-      Builder<Pattern> builder = new Builder<>();
+      ImmutableList.Builder<Pattern> builder = new ImmutableList.Builder<>();
       for (String safeUnknownFunctionPattern : options.getSafeUnknownFunctionsPatterns()) {
         builder.add(Pattern.compile(safeUnknownFunctionPattern));
       }
