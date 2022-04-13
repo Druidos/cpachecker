@@ -2791,6 +2791,9 @@ cpa.slicing.weakeningStrategy = CEX
 # Enable GCC extension 'Arrays of Length Zero'.
 cpa.smg.GCCZeroLengthArray = false
 
+# Functions with alloca behavior
+cpa.smg.allocaFunctions = {"__builtin_alloca"}
+
 # Allocate memory on declaration of external variable
 cpa.smg.allocateExternalVariables = true
 
@@ -2852,6 +2855,9 @@ cpa.smg.handleUnknownFunctions = STRICT
 # 'merge=JOIN'
 cpa.smg.joinOnBlockEnd = true
 
+# Functions with memcpy behavior
+cpa.smg.memcpyFunctions = {"memcpy"}
+
 # Memory allocation functions
 cpa.smg.memoryAllocationFunctions = {"malloc", "__kmalloc", "kmalloc", "realloc"}
 
@@ -2867,12 +2873,24 @@ cpa.smg.memoryArrayAllocationFunctionsNumParameter = 0
 # Determines if memory errors are target states
 cpa.smg.memoryErrors = true
 
+# Functions with memset behavior
+cpa.smg.memsetFunctions = {"memset"}
+
 # which merge operator to use for the SMGCPA
 cpa.smg.merge = "SEP"
   allowed values: [SEP, JOIN]
 
+# Functions for smg plot
+cpa.smg.plotFunctions = {"__VERIFIER_BUILTIN_PLOT"}
+
+# Functions with printf behavior
+cpa.smg.printfFunctions = {"printf"}
+
 # Produce error trace instead of exception during analysis
 cpa.smg.produceErrorTraceInsteadOfException = false
+
+# Functions with realloc behavior
+cpa.smg.reallocFunctions = {"realloc"}
 
 # export interpolant smgs for every path interpolation to this path template
 cpa.smg.refinement.exportInterpolantSMGs = "smg/interpolation-%d/%s"
@@ -2902,6 +2920,9 @@ cpa.smg.safeUnknownFunctionsPatterns = {"abort"}
 # which stop operator to use for the SMGCPA
 cpa.smg.stop = "SEP"
   allowed values: [SEP, NEVER, END_BLOCK]
+
+# Functions with strcmp behavior
+cpa.smg.strcmpFunctions = {"strcmp"}
 
 # Enable track predicates for possible memory safety error on SMG state
 cpa.smg.trackErrorPredicates = false

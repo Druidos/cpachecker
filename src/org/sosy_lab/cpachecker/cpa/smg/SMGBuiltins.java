@@ -11,11 +11,10 @@ package org.sosy_lab.cpachecker.cpa.smg;
 import static com.google.common.base.Verify.verify;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 import org.sosy_lab.common.log.LogManager;
@@ -79,17 +78,7 @@ public class SMGBuiltins {
   private static final int STRCMP_FIRST_PARAMETER = 0;
   private static final int STRCMP_SECOND_PARAMETER = 1;
 
-  private final Set<String> BUILTINS =
-      Sets.newHashSet(
-          "__VERIFIER_BUILTIN_PLOT",
-          "memcpy",
-          "memset",
-          "__builtin_alloca",
-          // TODO: Properly model printf (dereferences and stuff)
-          // TODO: General modelling system for functions which do not modify state?
-          "printf",
-          "strcmp",
-          "realloc");
+  private ImmutableSet<String> BUILTINS_FUNCTIONS;
 
   private void evaluateVBPlot(
       CFunctionCallExpression functionCall, UnmodifiableSMGState currentState) {
@@ -576,11 +565,22 @@ public class SMGBuiltins {
 
   public boolean isABuiltIn(CFunctionCallExpression pFunctionCall) {
     String functionName = getFunctionName(pFunctionCall);
-    return (BUILTINS.contains(functionName)
-        || isNondetBuiltin(functionName)
-        || isConfigurableAllocationFunction(pFunctionCall)
-        || isDeallocationFunction(pFunctionCall)
-        || isExternalAllocationFunction(pFunctionCall));
+    if (BUILTINS_FUNCTIONS == null) {
+      ImmutableSet.Builder<String> builder = new ImmutableSet.Builder<>();
+      builder.addAll(options.getPlotFunctions());
+      builder.addAll(options.getMemcpyFunctions());
+      builder.addAll(options.getMemsetFunctions());
+      builder.addAll(options.getAllocaFunctions());
+      builder.addAll(options.getPrintfFunctions());
+      builder.addAll(options.getStrcmpFunctions());
+      builder.addAll(options.getReallocFunctions());
+      builder.addAll(options.getMemoryAllocationFunctions());
+      builder.addAll(options.getArrayAllocationFunctions());
+      builder.addAll(options.getDeallocationFunctions());
+      builder.addAll(options.getExternalAllocationFunction());
+      BUILTINS_FUNCTIONS = builder.build();
+    }
+    return (BUILTINS_FUNCTIONS.contains(functionName) || isNondetBuiltin(functionName));
   }
 
   private static final String NONDET_PREFIX = "__VERIFIER_nondet_";
@@ -598,11 +598,6 @@ public class SMGBuiltins {
   boolean isDeallocationFunction(CFunctionCallExpression cFCExpression) {
     String functionName = getFunctionName(cFCExpression);
     return options.getDeallocationFunctions().contains(functionName);
-  }
-
-  private boolean isExternalAllocationFunction(CFunctionCallExpression cFCExpression) {
-    String functionName = getFunctionName(cFCExpression);
-    return options.getExternalAllocationFunction().contains(functionName);
   }
 
   private List<SMGAddressValueAndState> evaluateMemcpy(
@@ -780,39 +775,43 @@ public class SMGBuiltins {
 
     String calledFunctionName = getFunctionName(cFCExpression);
 
-    if (isExternalAllocationFunction(cFCExpression)) {
+    if (options.getExternalAllocationFunction().contains(calledFunctionName)) {
       return evaluateExternalAllocation(cFCExpression, newState);
     }
 
-    switch (calledFunctionName) {
-      case "__builtin_alloca":
-        return evaluateAlloca(cFCExpression, newState, pCfaEdge, kind);
+    if (options.getAllocaFunctions().contains(calledFunctionName)) {
+      return evaluateAlloca(cFCExpression, newState, pCfaEdge, kind);
+    }
 
-      case "memset":
-        return evaluateMemset(cFCExpression, newState, pCfaEdge);
+    if (options.getMemsetFunctions().contains(calledFunctionName)) {
+      return evaluateMemset(cFCExpression, newState, pCfaEdge);
+    }
 
-      case "memcpy":
-        return evaluateMemcpy(cFCExpression, newState, pCfaEdge);
+    if (options.getMemcpyFunctions().contains(calledFunctionName)) {
+      return evaluateMemcpy(cFCExpression, newState, pCfaEdge);
+    }
 
-      case "strcmp":
-        return evaluateStrcmp(cFCExpression, newState, pCfaEdge);
+    if (options.getStrcmpFunctions().contains(calledFunctionName)) {
+      return evaluateStrcmp(cFCExpression, newState, pCfaEdge);
+    }
 
-      case "__VERIFIER_BUILTIN_PLOT":
-        evaluateVBPlot(cFCExpression, newState);
-        // $FALL-THROUGH$
-      case "printf":
-        return ImmutableList.of(SMGAddressValueAndState.of(newState));
+    if (options.getPrintfFunctions().contains(calledFunctionName)) {
+      return ImmutableList.of(SMGAddressValueAndState.of(newState));
+    }
 
-      case "realloc":
-        return evaluateRealloc();
+    if (options.getPlotFunctions().contains(calledFunctionName)) {
+      evaluateVBPlot(cFCExpression, newState);
+      return ImmutableList.of(SMGAddressValueAndState.of(newState));
+    }
 
-      default:
-        if (isNondetBuiltin(calledFunctionName)) {
-          return Collections.singletonList(SMGAddressValueAndState.of(newState));
-        } else {
-          throw new AssertionError(
-              "Unexpected function handled as a builtin: " + calledFunctionName);
-        }
+    if (options.getReallocFunctions().contains(calledFunctionName)) {
+      return evaluateRealloc();
+    }
+
+    if (isNondetBuiltin(calledFunctionName)) {
+      return Collections.singletonList(SMGAddressValueAndState.of(newState));
+    } else {
+      throw new AssertionError("Unexpected function handled as a builtin: " + calledFunctionName);
     }
   }
 
