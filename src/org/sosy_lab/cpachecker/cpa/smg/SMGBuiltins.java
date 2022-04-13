@@ -986,11 +986,11 @@ public class SMGBuiltins {
 
   private boolean isSafeFunction(String calledFunctionName) {
     if (safeUnknownFunctionCompiledPatterns == null) {
-      List<Pattern> list = new ArrayList<>();
+      ImmutableList.Builder<Pattern> builder = new ImmutableList.Builder<>();
       for (String safeUnknownFunctionPattern : options.getSafeUnknownFunctionsPatterns()) {
-        list.add(Pattern.compile(safeUnknownFunctionPattern));
+        builder.add(Pattern.compile(safeUnknownFunctionPattern));
       }
-      safeUnknownFunctionCompiledPatterns = ImmutableList.copyOf(list);
+      safeUnknownFunctionCompiledPatterns = builder.build();
     }
     for (Pattern safeUnknownFunctionPattern : safeUnknownFunctionCompiledPatterns) {
       if (safeUnknownFunctionPattern.matcher(calledFunctionName).matches()) {
