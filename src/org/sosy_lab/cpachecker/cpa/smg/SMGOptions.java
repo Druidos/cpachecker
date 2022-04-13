@@ -132,6 +132,24 @@ public class SMGOptions {
       description = "Default size of externally allocated memory")
   private int externalAllocationSize = Integer.MAX_VALUE;
 
+  @Option(secure = true, name = "allocaFunctions", description = "Functions with alloca behavior")
+  private ImmutableSet<String> allocaFunctions = ImmutableSet.of("__builtin_alloca");
+
+  @Option(secure = true, name = "memsetFunctions", description = "Functions with memset behavior")
+  private ImmutableSet<String> memsetFunctions = ImmutableSet.of("memset");
+
+  @Option(secure = true, name = "memcpyFunctions", description = "Functions with memcpy behavior")
+  private ImmutableSet<String> memcpyFunctions = ImmutableSet.of("memcpy");
+
+  @Option(secure = true, name = "strcmpFunctions", description = "Functions with strcmp behavior")
+  private ImmutableSet<String> strcmpFunctions = ImmutableSet.of("strcmp");
+
+  @Option(secure = true, name = "plotFunctions", description = "Functions for smg plot")
+  private ImmutableSet<String> plotFunctions = ImmutableSet.of("__VERIFIER_BUILTIN_PLOT");
+
+  @Option(secure = true, name = "printfFunctions", description = "Functions with printf behavior")
+  private ImmutableSet<String> printfFunctions = ImmutableSet.of("printf");
+
   @Option(
       secure = true,
       name = "trackPredicates",
@@ -287,6 +305,30 @@ public class SMGOptions {
 
   public int getExternalAllocationSize() {
     return externalAllocationSize;
+  }
+
+  public ImmutableSet<String> getAllocaFunctions() {
+    return allocaFunctions;
+  }
+
+  public ImmutableSet<String> getMemcpyFunctions() {
+    return memcpyFunctions;
+  }
+
+  public ImmutableSet<String> getMemsetFunctions() {
+    return memsetFunctions;
+  }
+
+  public ImmutableSet<String> getPrintfFunctions() {
+    return printfFunctions;
+  }
+
+  public ImmutableSet<String> getStrcmpFunctions() {
+    return strcmpFunctions;
+  }
+
+  public ImmutableSet<String> getPlotFunctions() {
+    return plotFunctions;
   }
 
   public boolean trackPredicates() {
