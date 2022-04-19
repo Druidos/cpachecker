@@ -18,6 +18,7 @@ import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
 import org.sosy_lab.cpachecker.cfa.types.c.CArrayType;
 import org.sosy_lab.cpachecker.cpa.smg.SMGCPA;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
+import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.SMGTransferRelationKind;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGAddressValueAndState;
@@ -38,8 +39,9 @@ class RHSPointerAddressVisitor extends PointerVisitor {
       SMGRightHandSideEvaluator pSmgRightHandSideEvaluator,
       CFAEdge pEdge,
       SMGState pSmgState,
-      SMGTransferRelationKind pKind) {
-    super(pSmgRightHandSideEvaluator, pEdge, pSmgState);
+      SMGTransferRelationKind pKind,
+      SMGOptions pOptions) {
+    super(pSmgRightHandSideEvaluator, pEdge, pSmgState, pOptions);
     smgRightHandSideEvaluator = pSmgRightHandSideEvaluator;
     kind = pKind;
   }

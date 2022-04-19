@@ -60,17 +60,14 @@ import org.sosy_lab.cpachecker.exceptions.UnrecognizedCodeException;
  */
 public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
 
-  private final SMGOptions options;
-
   public SMGRightHandSideEvaluator(
       LogManagerWithoutDuplicates pLogger,
       MachineModel pMachineModel,
       SMGOptions pOptions,
       SMGTransferRelationKind pKind,
       SMGExportDotOption exportSMGOptions) {
-    super(pLogger, pMachineModel, pKind);
-    options = pOptions;
-    builtins = new SMGBuiltins(this, options, exportSMGOptions, machineModel, logger);
+    super(pLogger, pMachineModel, pKind, pOptions);
+    builtins = new SMGBuiltins(this, getOptions(), exportSMGOptions, machineModel, logger);
   }
 
   public SMGExplicitValueAndState forceExplicitValue(
@@ -78,7 +75,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
 
     ForceExplicitValueVisitor v =
         new ForceExplicitValueVisitor(
-            this, smgState, null, machineModel, logger, pCfaEdge, options);
+            this, smgState, null, machineModel, logger, pCfaEdge, getOptions());
 
     Value val = rVal.accept(v);
 
@@ -345,12 +342,12 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
 
   @Override
   PointerVisitor getPointerVisitor(CFAEdge pCfaEdge, SMGState pNewState) {
-    return new RHSPointerAddressVisitor(this, pCfaEdge, pNewState, kind);
+    return new RHSPointerAddressVisitor(this, pCfaEdge, pNewState, kind, getOptions());
   }
 
   @Override
   ExpressionValueVisitor getExpressionValueVisitor(CFAEdge pCfaEdge, SMGState pNewState) {
-    return new RHSExpressionValueVisitor(this, builtins, pCfaEdge, pNewState, kind);
+    return new RHSExpressionValueVisitor(this, builtins, pCfaEdge, pNewState, kind, getOptions());
   }
 
   @Override

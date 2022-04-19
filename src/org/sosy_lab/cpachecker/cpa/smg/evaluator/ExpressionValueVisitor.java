@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableList;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.sosy_lab.cpachecker.cfa.ast.c.CArraySubscriptExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression;
@@ -43,11 +44,15 @@ import org.sosy_lab.cpachecker.cfa.types.c.CPointerType;
 import org.sosy_lab.cpachecker.cfa.types.c.CType;
 import org.sosy_lab.cpachecker.cfa.types.c.CTypes;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
+import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.TypeUtils;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGAddressAndState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGAddressValueAndState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGPredicateRelation.ExplicitRelation;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGPredicateRelation.SymbolicRelation;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddress;
@@ -75,6 +80,8 @@ class ExpressionValueVisitor
 
   final SMGExpressionEvaluator smgExpressionEvaluator;
 
+  private final SMGOptions options;
+
   /**
    * The edge should never be used to retrieve any information. It should only be used for logging
    * and debugging, because we do not know the context of the caller.
@@ -83,10 +90,15 @@ class ExpressionValueVisitor
 
   private final SMGState initialSmgState;
 
-  public ExpressionValueVisitor(SMGExpressionEvaluator pSmgExpressionEvaluator, CFAEdge pEdge, SMGState pSmgState) {
+  public ExpressionValueVisitor(
+      SMGExpressionEvaluator pSmgExpressionEvaluator,
+      CFAEdge pEdge,
+      SMGState pSmgState,
+      SMGOptions pOptions) {
     smgExpressionEvaluator = pSmgExpressionEvaluator;
     cfaEdge = pEdge;
     initialSmgState = pSmgState;
+    options = pOptions;
   }
 
   @Override
@@ -397,95 +409,349 @@ class ExpressionValueVisitor
     return result;
   }
 
+  private int findOutSignOfSymbolicValue(
+      SMGState state, SMGValue value, HashMap<SMGValue, Long> alreadyChecked, int depth) {
+    if (alreadyChecked.containsKey(value)) {
+      return alreadyChecked.get(value).intValue();
+    } else {
+      alreadyChecked.put(value, 0L);
+    }
+    int sign;
+    for (ExplicitRelation relation :
+        state.getPathPredicateRelation().findAllExplicitRelation(value)) {
+      BinaryOperator binaryOperator = relation.getOperator();
+      switch (binaryOperator) {
+        case GREATER_THAN:
+        case GREATER_EQUAL:
+          if (relation.getExplicitValue().getValue().compareTo(BigInteger.valueOf(0)) >= 0) {
+            return 1;
+          }
+          break;
+        case LESS_THAN:
+          if (relation.getExplicitValue().getValue().compareTo(BigInteger.valueOf(0)) <= 0) {
+            return -1;
+          }
+          break;
+        case LESS_EQUAL:
+          if (relation.getExplicitValue().getValue().compareTo(BigInteger.valueOf(0)) < 0) {
+            return -1;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    if (depth == 0) return 0;
+
+    for (SymbolicRelation relation :
+        state.getPathPredicateRelation().findAllSymbolicRelation(value)) {
+      boolean isFirst = relation.getFirstValue().equals(value);
+      SMGValue secondValue;
+      if (isFirst) {
+        secondValue = relation.getSecondValue();
+      } else {
+        secondValue = relation.getFirstValue();
+      }
+      sign = findOutSignOfSymbolicValue(state, secondValue, alreadyChecked, depth - 1);
+      alreadyChecked.put(secondValue, (long) sign);
+      if (sign == 0) {
+        continue;
+      }
+      switch (relation.getOperator()) {
+        case LESS_EQUAL:
+        case LESS_THAN:
+          if (sign == -1 && isFirst) {
+            return -1;
+          } else if (sign == 1 && !isFirst) {
+            return 1;
+          }
+          break;
+        case GREATER_EQUAL:
+        case GREATER_THAN:
+          if (sign == 1 && isFirst) {
+            return 1;
+          } else if (sign == -1 && !isFirst) {
+            return -1;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    return 0;
+  }
+
+  private int findOutSignOfSMGValue(SMGState state, SMGValue value) {
+    // return 1 if value >= 0,
+    // 0 if can not find out sign of value
+    // -1 if value < 0
+    if (state.getExplicit(value) != null) {
+      if (state.getExplicit(value).getValue().compareTo(BigInteger.valueOf(0)) >= 0) {
+        return 1;
+      } else {
+        return -1;
+      }
+    }
+    return findOutSignOfSymbolicValue(state, value, new HashMap<>(), 1);
+  }
+
+  private List<? extends SMGValueAndState> handleBitArithmeticApproximation(
+      SMGValue lVal,
+      SMGValue rVal,
+      CType leftSideType,
+      BinaryOperator binaryOperator,
+      SMGState newState,
+      CFAEdge edge)
+      throws UnrecognizedCodeException {
+
+    SMGType leftSideSMGType =
+        SMGType.constructSMGType(leftSideType, newState, edge, smgExpressionEvaluator);
+    SMGType rightSideSMGType = leftSideSMGType;
+    SMGSymbolicValue val;
+
+    boolean isZeroBoth = lVal.equals(SMGZeroValue.INSTANCE) && rVal.equals(SMGZeroValue.INSTANCE);
+    boolean isZeroSome = lVal.equals(SMGZeroValue.INSTANCE) || rVal.equals(SMGZeroValue.INSTANCE);
+
+    switch (binaryOperator) {
+      case SHIFT_RIGHT:
+      case SHIFT_LEFT:
+        if (options.isHandleRightSideOfShift()) {
+          if (rightSideSMGType.getCastedSignedLast()) {
+            newState
+                .getErrorPredicateRelation()
+                .addExplicitRelation(
+                    rVal, rightSideSMGType, SMGZeroValue.INSTANCE, BinaryOperator.LESS_THAN);
+          }
+          newState
+              .getErrorPredicateRelation()
+              .addExplicitRelation(
+                  rVal,
+                  rightSideSMGType,
+                  SMGKnownExpValue.valueOf(BigInteger.valueOf(leftSideSMGType.getCastedSizeLast())),
+                  BinaryOperator.GREATER_EQUAL);
+        }
+
+        val = isZeroBoth ? SMGZeroValue.INSTANCE : SMGKnownSymValue.of();
+
+        //        if (binaryOperator == BinaryOperator.SHIFT_RIGHT && newState.getExplicit(rVal) !=
+        // null && !isZeroBoth) {
+        //          if (!leftSideSMGType.getCastedSignedLast() || findOutSignOfSMGValue(newState,
+        // lVal) == 1) {
+        //            newState
+        //                .getPathPredicateRelation()
+        //                .addExplicitRelation(
+        //                    val,
+        //                    leftSideSMGType,
+        //
+        // SMGKnownExpValue.valueOf(BigInteger.valueOf(1).shiftLeft((int)(leftSideSMGType.getCastedSizeLast() - newState.getExplicit(rVal).getAsLong()))),
+        //                    BinaryOperator.LESS_THAN);
+        //            if (leftSideSMGType.getCastedSignedLast()) {
+        //              newState
+        //                  .getPathPredicateRelation()
+        //                  .addExplicitRelation(
+        //                      val,
+        //                      leftSideSMGType,
+        //                      SMGZeroValue.INSTANCE,
+        //                      BinaryOperator.GREATER_EQUAL);
+        //            }
+        //          }
+        //        }
+
+        return singletonList(SMGValueAndState.of(newState, val));
+
+      case BINARY_XOR:
+        if (lVal.equals(rVal) || isZeroBoth) {
+          return singletonList(SMGValueAndState.of(newState, SMGZeroValue.INSTANCE));
+        }
+        return singletonList(SMGValueAndState.of(newState, SMGUnknownValue.INSTANCE));
+
+      case BINARY_OR:
+        val = isZeroBoth ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
+      case BINARY_AND:
+        if (isZeroSome) {
+          return singletonList(SMGValueAndState.of(newState, SMGZeroValue.INSTANCE));
+        }
+
+        val = SMGKnownSymValue.of();
+        SMGType valSMGType =
+            SMGType.constructSMGType(leftSideType, newState, edge, smgExpressionEvaluator);
+
+        if (!leftSideSMGType.getCastedSignedLast()) {
+          newState
+              .getPathPredicateRelation()
+              .addRelation(val, valSMGType, lVal, leftSideSMGType, BinaryOperator.LESS_EQUAL);
+          newState
+              .getPathPredicateRelation()
+              .addRelation(val, valSMGType, rVal, rightSideSMGType, BinaryOperator.LESS_EQUAL);
+        } else {
+          int signLVal = findOutSignOfSMGValue(newState, lVal);
+          int signRVal = findOutSignOfSMGValue(newState, rVal);
+
+          switch (signLVal) {
+            case -1:
+              if (signRVal == -1) {
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val, valSMGType, rVal, rightSideSMGType, BinaryOperator.LESS_EQUAL);
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(val, valSMGType, lVal, leftSideSMGType, BinaryOperator.LESS_EQUAL);
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val,
+                        valSMGType,
+                        SMGZeroValue.INSTANCE,
+                        valSMGType,
+                        BinaryOperator.LESS_THAN);
+              } else if (signRVal == 1) {
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val, valSMGType, rVal, rightSideSMGType, BinaryOperator.LESS_EQUAL);
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val,
+                        valSMGType,
+                        SMGZeroValue.INSTANCE,
+                        valSMGType,
+                        BinaryOperator.GREATER_EQUAL);
+              }
+              break;
+            case 0:
+              if (signRVal == 1) {
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val, valSMGType, rVal, rightSideSMGType, BinaryOperator.LESS_EQUAL);
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val,
+                        valSMGType,
+                        SMGZeroValue.INSTANCE,
+                        valSMGType,
+                        BinaryOperator.GREATER_EQUAL);
+              }
+              break;
+            case 1:
+              if (signRVal == -1 || signRVal == 0) {
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(val, valSMGType, lVal, leftSideSMGType, BinaryOperator.LESS_EQUAL);
+              } else if (signRVal == 1) {
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(val, valSMGType, lVal, leftSideSMGType, BinaryOperator.LESS_EQUAL);
+                newState
+                    .getPathPredicateRelation()
+                    .addRelation(
+                        val, valSMGType, rVal, rightSideSMGType, BinaryOperator.LESS_EQUAL);
+              }
+              newState
+                  .getPathPredicateRelation()
+                  .addRelation(
+                      val,
+                      valSMGType,
+                      SMGZeroValue.INSTANCE,
+                      valSMGType,
+                      BinaryOperator.GREATER_EQUAL);
+              break;
+            default:
+              break;
+          }
+        }
+
+        SMGValueAndState res = SMGValueAndState.of(newState, val);
+        return singletonList(res);
+
+      default:
+        throw new AssertionError("unexpected bit operator" + binaryOperator);
+    }
+  }
+
   private List<? extends SMGValueAndState> evaluateBinaryExpression(
       SMGValue lVal,
       SMGValue rVal,
       CExpression lVarInBinaryExp,
       BinaryOperator binaryOperator,
       SMGState newState)
-      throws SMGInconsistentException {
+      throws SMGInconsistentException, UnrecognizedCodeException {
 
     if (lVal.equals(SMGUnknownValue.INSTANCE) || rVal.equals(SMGUnknownValue.INSTANCE)) {
       return singletonList(SMGValueAndState.withUnknownValue(newState));
     }
 
+    CFAEdge edge = getCfaEdge();
+    CType leftSideType = lVarInBinaryExp.getExpressionType();
+
+    SMGSymbolicValue val;
+    boolean isZero;
+    boolean isZeroBoth = lVal.equals(SMGZeroValue.INSTANCE) && rVal.equals(SMGZeroValue.INSTANCE);
+    boolean isZeroSome = lVal.equals(SMGZeroValue.INSTANCE) || rVal.equals(SMGZeroValue.INSTANCE);
+
     switch (binaryOperator) {
       case PLUS:
+        val = isZeroBoth ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
       case MINUS:
+        if (lVal instanceof SMGKnownAddressValue && rVal instanceof SMGKnownAddressValue) {
+          SMGKnownAddressValue lValAddress = (SMGKnownAddressValue) lVal;
+          SMGKnownAddressValue rValAddress = (SMGKnownAddressValue) rVal;
+          if (lValAddress.getObject().equals(rValAddress.getObject())) {
+            CType lVarType = lVarInBinaryExp.getExpressionType().getCanonicalType();
+            BigInteger sizeOfLVal;
+            if (lVarType instanceof CPointerType) {
+              sizeOfLVal =
+                  smgExpressionEvaluator.machineModel.getSizeofInBits(
+                      ((CPointerType) lVarType).getType());
+            } else if (CTypes.isArithmeticType(lVarType)) {
+              sizeOfLVal =
+                  BigInteger.valueOf(smgExpressionEvaluator.machineModel.getSizeofCharInBits());
+            } else {
+              throw new AssertionError("unhandled type for pointer comparison: " + lVarType);
+            }
+            SMGExplicitValue diff = lValAddress.getOffset().subtract(rValAddress.getOffset());
+            diff = diff.divide(SMGKnownExpValue.valueOf(sizeOfLVal));
+            return singletonList(SMGValueAndState.of(newState, diff));
+          }
+        }
+        // else
+        isZero = lVal.equals(rVal);
+        val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
       case DIVIDE:
+        if (rVal.equals(SMGZeroValue.INSTANCE)) {
+          return singletonList(SMGValueAndState.withUnknownValue(newState));
+        }
+
+        isZero = lVal.equals(SMGZeroValue.INSTANCE);
+        val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
       case MULTIPLY:
-      case SHIFT_LEFT:
+        val = isZeroSome ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
       case MODULO:
+        isZero = lVal.equals(rVal);
+        val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
+        return singletonList(SMGValueAndState.of(newState, val));
+
+      case SHIFT_LEFT:
       case SHIFT_RIGHT:
       case BINARY_AND:
       case BINARY_OR:
-      case BINARY_XOR: {
-
-        boolean isZero;
-
-        switch (binaryOperator) {
-          case PLUS:
-          case SHIFT_LEFT:
-          case BINARY_OR:
-          case BINARY_XOR:
-          case SHIFT_RIGHT:
-              isZero = lVal.equals(SMGZeroValue.INSTANCE) && rVal.equals(SMGZeroValue.INSTANCE);
-              SMGSymbolicValue val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
-              return singletonList(SMGValueAndState.of(newState, val));
-
-          case MINUS:
-            if (lVal instanceof SMGKnownAddressValue && rVal instanceof SMGKnownAddressValue) {
-              SMGKnownAddressValue lValAddress = (SMGKnownAddressValue) lVal;
-              SMGKnownAddressValue rValAddress = (SMGKnownAddressValue) rVal;
-              if (lValAddress.getObject().equals(rValAddress.getObject())) {
-                CType lVarType = lVarInBinaryExp.getExpressionType().getCanonicalType();
-                BigInteger sizeOfLVal;
-                if (lVarType instanceof CPointerType) {
-                    sizeOfLVal =
-                        smgExpressionEvaluator.machineModel.getSizeofInBits(
-                            ((CPointerType) lVarType).getType());
-                  } else if (CTypes.isArithmeticType(lVarType)) {
-                    sizeOfLVal =
-                        BigInteger.valueOf(
-                            smgExpressionEvaluator.machineModel.getSizeofCharInBits());
-                  } else {
-                    throw new AssertionError("unhandled type for pointer comparison: " + lVarType);
-                }
-                SMGExplicitValue diff = lValAddress.getOffset().subtract(rValAddress.getOffset());
-                diff = diff.divide(SMGKnownExpValue.valueOf(sizeOfLVal));
-                return singletonList(SMGValueAndState.of(newState, diff));
-              }
-            }
-            // else
-            isZero = lVal.equals(rVal);
-            val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
-            return singletonList(SMGValueAndState.of(newState, val));
-
-          case MODULO:
-              isZero = lVal.equals(rVal);
-              val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
-              return singletonList(SMGValueAndState.of(newState, val));
-
-          case DIVIDE:
-              // TODO maybe we should signal a division by zero error?
-              if (rVal.equals(SMGZeroValue.INSTANCE)) {
-                return singletonList(SMGValueAndState.withUnknownValue(newState));
-            }
-
-              isZero = lVal.equals(SMGZeroValue.INSTANCE);
-              val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
-              return singletonList(SMGValueAndState.of(newState, val));
-
-          case MULTIPLY:
-          case BINARY_AND:
-              isZero = lVal.equals(SMGZeroValue.INSTANCE) || rVal.equals(SMGZeroValue.INSTANCE);
-              val = isZero ? SMGZeroValue.INSTANCE : SMGUnknownValue.INSTANCE;
-              return singletonList(SMGValueAndState.of(newState, val));
-
-          default:
-            throw new AssertionError();
-        }
-      }
+      case BINARY_XOR:
+        return handleBitArithmeticApproximation(
+            lVal, rVal, leftSideType, binaryOperator, newState, edge);
 
       case EQUALS:
       case NOT_EQUALS:

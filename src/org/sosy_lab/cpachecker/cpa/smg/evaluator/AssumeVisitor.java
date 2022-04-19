@@ -21,6 +21,7 @@ import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
 import org.sosy_lab.cpachecker.cfa.types.c.CType;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
+import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
@@ -40,8 +41,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
 
   private final Map<UnmodifiableSMGState, BinaryRelationResult> relations = new HashMap<>();
 
-  public AssumeVisitor(SMGExpressionEvaluator pSmgExpressionEvaluator, CFAEdge pEdge, SMGState pSmgState) {
-    super(pSmgExpressionEvaluator, pEdge, pSmgState);
+  public AssumeVisitor(
+      SMGExpressionEvaluator pSmgExpressionEvaluator,
+      CFAEdge pEdge,
+      SMGState pSmgState,
+      SMGOptions pOptions) {
+    super(pSmgExpressionEvaluator, pEdge, pSmgState, pOptions);
   }
 
   @Override
@@ -60,7 +65,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
 
       CExpression leftSideExpression = pExp.getOperand1();
       CExpression rightSideExpression = pExp.getOperand2();
-
       CFAEdge edge = getCfaEdge();
 
         for (SMGValueAndState leftSideValAndState :
@@ -119,19 +123,21 @@ public class AssumeVisitor extends ExpressionValueVisitor {
                 SMGType rightSideOriginSMGType =
                     SMGType.constructSMGType(
                         rightSideOriginType, newState, edge, smgExpressionEvaluator);
-                rightSideSMGType = new SMGType(leftSideSMGType, rightSideOriginSMGType);
+                rightSideSMGType = new SMGType(rightSideSMGType, rightSideOriginSMGType);
               }
 
               // TODO
               // The following predicate relation is a completely unsound assumption,
-              // because we know nothing about the calling context, not even, if we are in a negated (!) expression.
-              // This might clearly be a bug, but I could currently not find a better way to solve this.
+              // because we know nothing about the calling context, not even, if we are in a negated
+              // (!) expression.
+              // This might clearly be a bug, but I could currently not find a better way to solve
+              // this.
               // The code works well for expressions that are not nested, like "a==b" or "a!=b",
               // but is invalid for "(a==b)==c".
               // There exists code in SMGTransferRelation.strenghten
               // that even needs to negate an edge to get correct results.
 
-              //FIXME: require calculate cast on integer promotions
+              // FIXME: require calculate cast on integer promotion
               newState.addPredicateRelation(
                   // next line: use the symbolic value here and not the potential explicit one.
                   leftSideVal,
@@ -145,7 +151,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
             }
         }
       }
-
         return result;
     default:
       return super.visit(pExp);

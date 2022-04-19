@@ -149,6 +149,43 @@ public final class SMGPredicateRelation {
     }
   }
 
+  public SymbolicRelation findAnySymbolicRelation(SMGValue pValue) {
+    ImmutableSet<SMGValue> valuesDependency = smgValuesDependency.get(pValue);
+    if (!valuesDependency.isEmpty()) {
+      return smgValuesRelation
+          .get(SMGValuesPair.of(pValue, valuesDependency.iterator().next()))
+          .iterator()
+          .next();
+    }
+
+    return null;
+  }
+
+  public Set<SymbolicRelation> findAllSymbolicRelation(SMGValue pValue) {
+    ImmutableSet<SMGValue> valuesDependency = smgValuesDependency.get(pValue);
+    Set<SymbolicRelation> result = new HashSet<>();
+    if (!valuesDependency.isEmpty()) {
+      for (SMGValue smgValue : valuesDependency) {
+        result.addAll(smgValuesRelation.get(SMGValuesPair.of(pValue, smgValue)));
+      }
+    }
+
+    return result;
+  }
+
+  public ExplicitRelation findAnyExplicitRelation(SMGValue pValue) {
+    ImmutableSet<ExplicitRelation> explicitRelations = smgExplicitValueRelation.get(pValue);
+    if (!explicitRelations.isEmpty()) {
+      return explicitRelations.iterator().next();
+    }
+
+    return null;
+  }
+
+  public ImmutableSet<ExplicitRelation> findAllExplicitRelation(SMGValue pValue) {
+    return smgExplicitValueRelation.get(pValue);
+  }
+
   public void removeValue(SMGValue pValue) {
     for (SMGValue pOposit : smgValuesDependency.get(pValue)) {
 
@@ -276,7 +313,8 @@ public final class SMGPredicateRelation {
   }
 
   public boolean hasRelation(SMGValue pSymbolicValue) {
-    return smgValuesDependency.contains(pSymbolicValue);
+    return smgValuesDependency.contains(pSymbolicValue)
+        || smgExplicitValueRelation.contains(pSymbolicValue);
   }
 
   static public class SymbolicRelation {

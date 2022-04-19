@@ -12,6 +12,7 @@ import java.util.List;
 import org.sosy_lab.cpachecker.cfa.ast.c.CFunctionCallExpression;
 import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
 import org.sosy_lab.cpachecker.cpa.smg.SMGBuiltins;
+import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.SMGTransferRelationKind;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
@@ -27,8 +28,9 @@ class RHSExpressionValueVisitor extends ExpressionValueVisitor {
       SMGBuiltins pBuiltins,
       CFAEdge pEdge,
       SMGState pSmgState,
-      SMGTransferRelationKind pKind) {
-    super(pSmgRightHandSideEvaluator, pEdge, pSmgState);
+      SMGTransferRelationKind pKind,
+      SMGOptions pOptions) {
+    super(pSmgRightHandSideEvaluator, pEdge, pSmgState, pOptions);
     builtins = pBuiltins;
     kind = pKind;
   }
