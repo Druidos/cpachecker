@@ -19,4 +19,14 @@ public interface SMGSymbolicValue extends SMGValue {
    * <p>Special case: {@link SMGZeroValue#getId} has an id value of ZERO.
    */
   BigInteger getId();
+
+  @Override
+  default boolean isExplicit() {
+    return false;
+  }
+
+  @Override
+  default BigInteger comparisonValue() {
+    return getId();
+  }
 }

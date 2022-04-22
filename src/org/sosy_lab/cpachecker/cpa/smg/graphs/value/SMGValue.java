@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.value;
 
+import java.math.BigInteger;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 
@@ -51,26 +52,22 @@ public interface SMGValue extends Comparable<SMGValue> {
     }
 
     // explicitValues (ordered by their value)
-    if (this instanceof SMGExplicitValue) {
+    if (this.isExplicit()) {
       if (other.isUnknown() || other.isZero()) {
         return 1;
-      } else if (other instanceof SMGExplicitValue) {
-        return ((SMGExplicitValue) this).getValue().compareTo(((SMGExplicitValue) other).getValue());
+      } else if (other.isExplicit()) {
+        return this.comparisonValue().compareTo(other.comparisonValue());
       } else {
         return -1;
       }
     }
 
     // symbolic values (ordered by their id)
-    if (this instanceof SMGSymbolicValue) {
-      if (other.isUnknown() || other.isZero() || !(other instanceof SMGSymbolicValue)) {
-        return 1;
-      } else {
-        return ((SMGSymbolicValue) this).getId().compareTo(((SMGSymbolicValue) other).getId());
-      }
+    if (other.isUnknown() || other.isZero() || other.isExplicit()) {
+      return 1;
+    } else {
+      return this.comparisonValue().compareTo(other.comparisonValue());
     }
-
-    throw new AssertionError(String.format("unexpected comparison of '%s' and '%s'", this, other));
   }
 
   /**
@@ -83,6 +80,11 @@ public interface SMGValue extends Comparable<SMGValue> {
 
   default boolean isUnknown() {
     return SMGUnknownValue.INSTANCE == this;
+  }
+  boolean isExplicit();
+
+  default BigInteger comparisonValue() {
+    throw new IllegalStateException("Can't get Value of an Value.");
   }
 
   /** returns a unique identifier that can be used as dot-identifier for graphvis. */

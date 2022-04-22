@@ -89,6 +89,16 @@ public final class SMGUnknownValue implements SMGExplicitValue, SMGAddressValue 
   }
 
   @Override
+  public boolean isExplicit() {
+    return false;
+  }
+
+  @Override
+  public BigInteger comparisonValue() {
+    throw new IllegalStateException("Can't get Value of an Unknown Value.");
+  }
+
+  @Override
   public SMGExplicitValue getOffset() {
     return INSTANCE;
   }

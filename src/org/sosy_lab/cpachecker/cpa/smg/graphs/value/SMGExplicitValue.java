@@ -35,4 +35,14 @@ public interface SMGExplicitValue extends SMGValue {
   SMGExplicitValue subtract(SMGExplicitValue pRVal);
 
   SMGExplicitValue add(SMGExplicitValue pRVal);
+
+  @Override
+  default boolean isExplicit() {
+    return true;
+  }
+
+  @Override
+  default BigInteger comparisonValue() {
+    return getValue();
+  }
 }

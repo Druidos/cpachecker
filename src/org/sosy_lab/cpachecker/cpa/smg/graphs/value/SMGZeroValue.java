@@ -46,5 +46,16 @@ public final class SMGZeroValue extends SMGKnownExpValue
   public BigInteger getId() {
     return BigInteger.ZERO;
   }
+
+
+  @Override
+  public boolean isExplicit() {
+    return true;
+  }
+
+  @Override
+  public BigInteger comparisonValue() {
+    return getId();
+  }
 }
 
