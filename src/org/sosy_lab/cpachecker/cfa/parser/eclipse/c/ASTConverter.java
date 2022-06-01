@@ -91,7 +91,6 @@ import org.eclipse.cdt.core.dom.ast.gnu.IGNUASTCompoundStatementExpression;
 import org.eclipse.cdt.core.dom.ast.gnu.c.IGCCASTArrayRangeDesignator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTArrayDesignator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTArrayRangeDesignator;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTCompositeTypeSpecifier;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTDeclarator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTFunctionCallExpression;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTLiteralExpression;
@@ -2129,6 +2128,19 @@ class ASTConverter {
    */
   public CType handleAlignment(
       CType type, @Nullable IASTDeclarator declarator, IASTDeclSpecifier specifier) {
+    return handleAlignment(type, declarator, specifier, true);
+  }
+
+  public CType handleAlignmentOfNotPackedMember(
+      CType type, @Nullable IASTDeclarator declarator, IASTDeclSpecifier specifier) {
+    return handleAlignment(type, declarator, specifier, false);
+  }
+
+  public CType handleAlignment(
+      CType type,
+      @Nullable IASTDeclarator declarator,
+      IASTDeclSpecifier specifier,
+      boolean canBeLessAligned) {
     // get attributes from declSpecifier (it is an attribute after type, and applies to all
     // variables in declaration) and declarator (it is an attribute after variable)
     int aligned;
@@ -2136,7 +2148,9 @@ class ASTConverter {
       // Attribute after composite type declaration applies to the type,
       // not to all declared names in the declaration.
       // Use it first time (with the type), ignore it after (with declarators).
-      specifiersForCompositeTypes.add(specifier);
+      if (type instanceof CComplexType) {
+        specifiersForCompositeTypes.add(specifier);
+      }
       aligned = getAlignmentFromAttributes(specifier.getAttributes());
     } else if (specifiersForCompositeTypes.contains(specifier)) {
       aligned = getAlignmentFromAttributes(declarator.getAttributes());
@@ -2145,6 +2159,15 @@ class ASTConverter {
       aligned = getBiggerAlignmentFromAttributes(declarator.getAttributes(), aligned);
     }
 
+    // members of not packed structs or unions can not be
+    // less aligned than their default alignment
+    // (do not check alignment if it is not neccessary)
+    BigInteger defaultAlignment =
+        BigInteger.valueOf(canBeLessAligned ? -1 : machinemodel.getAlignof(type));
+
+    if (!canBeLessAligned && BigInteger.valueOf(aligned).compareTo(defaultAlignment) <= 0) {
+      aligned = Alignment.NO_SPECIFIER;
+    }
     Alignment alignment = Alignment.ofVar(aligned);
 
     // get specifier from declSpecifier (it applies to all variables like attribute in declSpecifier)
@@ -2171,7 +2194,11 @@ class ASTConverter {
       }
     }
 
+    if (!canBeLessAligned && BigInteger.valueOf(alignas).compareTo(defaultAlignment) <= 0) {
+      alignas = Alignment.NO_SPECIFIER;
+    }
     alignment = alignment.withAlignas(alignas);
+
     type = CTypes.updateAlignment(type, alignment);
     return type;
   }
@@ -2241,19 +2268,19 @@ class ASTConverter {
     if (declarators == null || declarators.length == 0) {
       // declaration without declarator, anonymous struct field?
       CCompositeTypeMemberDeclaration newD =
-          createDeclarationForCompositeType(type, null, nofMember);
+          createDeclarationForCompositeType(type, null, sd.getDeclSpecifier(), nofMember);
       result = Collections.singletonList(newD);
 
     } else if (declarators.length == 1) {
       CCompositeTypeMemberDeclaration newD =
-          createDeclarationForCompositeType(type, declarators[0], nofMember);
+          createDeclarationForCompositeType(type, declarators[0], sd.getDeclSpecifier(), nofMember);
       result = Collections.singletonList(newD);
 
     } else {
       result = new ArrayList<>(declarators.length);
       for (IASTDeclarator c : declarators) {
 
-        result.add(createDeclarationForCompositeType(type, c, nofMember));
+        result.add(createDeclarationForCompositeType(type, c, sd.getDeclSpecifier(), nofMember));
       }
     }
 
@@ -2261,7 +2288,7 @@ class ASTConverter {
   }
 
   private CCompositeTypeMemberDeclaration createDeclarationForCompositeType(
-      CType type, IASTDeclarator d, int nofMember) {
+      CType type, IASTDeclarator d, IASTDeclSpecifier dspec, int nofMember) {
     String name = null;
 
     if (d != null) {
@@ -2273,6 +2300,7 @@ class ASTConverter {
 
       type = declarator.getFirst();
       name = declarator.getThird();
+      type = handleAlignmentOfNotPackedMember(type, d, dspec);
     }
 
     if (isNullOrEmpty(name)) {
