@@ -269,7 +269,7 @@ public class CLangSMGConsistencyVerifier {
   private static boolean verifyPointersSize(LogManager pLogger, UnmodifiableCLangSMG pSmg) {
 
     for (SMGEdgePointsTo ptEdge : pSmg.getPTEdges()) {
-      if (!ptEdge.getValue().isZero()) {
+      if (!ptEdge.getValue().isZero() && !ptEdge.getObject().equals(SMGNullObject.INSTANCE)) {
         SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.valueFilter(ptEdge.getValue());
         for (SMGEdgeHasValue hvEdge : pSmg.getHVEdges(filter)) {
           if (hvEdge.getSizeInBits() != pSmg.getSizeofPtrInBits()) {
