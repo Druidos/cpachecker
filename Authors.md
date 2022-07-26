@@ -31,6 +31,7 @@ SPDX-License-Identifier: Apache-2.0
 - Lemberger, Thomas (since 2014); LMU Munich, Germany
 - Lingsch, Marian (since 2020): LMU Munich, Germany
 - Mutilin, Vadim (since 2012); ISP RAS, Russia
+- Petrov, Oleg (since 2020); ISP RAS, Russia
 - Port, Valentin (since 2019); LMU Munich, Germany
 - Rust, Henry (since 2021); TU Darmstadt, Germany
 - Schönberger, Frederic (since 2021); LMU Munich, Germany
