@@ -16,9 +16,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -349,25 +347,25 @@ public class CLangSMG extends SMG implements UnmodifiableCLangSMG {
         + getPTEdges()
         + "\n  hasValue="
         + getHVEdges()
-        + "\n  "
-        + getMapOfMemoryLocationsWithValue()
+        //        + "\n  "
+        //        + getMapOfMemoryLocationsWithValue()
         + "\n]";
   }
 
-  private Map<MemoryLocation, SMGValue> getMapOfMemoryLocationsWithValue() {
-    Map<MemoryLocation, SMGValue> result = new LinkedHashMap<>();
-
-    for (SMGEdgeHasValue hvedge : getHVEdges()) {
-      MemoryLocation memloc = resolveMemLoc(hvedge);
-      Iterable<SMGEdgeHasValue> edge = getHVEdgeFromMemoryLocation(memloc);
-
-      if (edge.iterator().hasNext()) {
-        result.put(memloc, edge.iterator().next().getValue());
-      }
-    }
-
-    return result;
-  }
+  //  private Map<MemoryLocation, SMGValue> getMapOfMemoryLocationsWithValue() {
+  //    Map<MemoryLocation, SMGValue> result = new LinkedHashMap<>();
+  //
+  //    for (SMGEdgeHasValue hvedge : getHVEdges()) {
+  //      MemoryLocation memloc = resolveMemLoc(hvedge);
+  //      Iterable<SMGEdgeHasValue> edge = getHVEdgeFromMemoryLocation(memloc);
+  //
+  //      if (edge.iterator().hasNext()) {
+  //        result.put(memloc, edge.iterator().next().getValue());
+  //      }
+  //    }
+  //
+  //    return result;
+  //  }
 
   /**
    * Returns an SMGObject tied to the variable name. The name must be visible in the current scope:
@@ -499,55 +497,56 @@ public class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     markObjectDeletedAndRemoveEdges(pObject);
   }
 
-  private Iterable<SMGEdgeHasValue> getHVEdgeFromMemoryLocation(MemoryLocation pLocation) {
-    SMGObject objectAtLocation = getObjectFromMemoryLocation(pLocation);
-    if (objectAtLocation == null) {
-      return new SMGHasValueEdgeSet();
-    }
+  //  private Iterable<SMGEdgeHasValue> getHVEdgeFromMemoryLocation(MemoryLocation pLocation) {
+  //    SMGObject objectAtLocation = getObjectFromMemoryLocation(pLocation);
+  //    if (objectAtLocation == null) {
+  //      return new SMGHasValueEdgeSet();
+  //    }
+  //
+  //    SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.objectFilter(objectAtLocation);
+  //    if (pLocation.isReference()) {
+  //      filter = filter.filterAtOffset(pLocation.getOffset()).filterWithoutSize();
+  //    }
+  //
+  //    // Remember, edges may overlap with different types
+  //    return getHVEdges(filter);
+  //  }
 
-    SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.objectFilter(objectAtLocation);
-    if (pLocation.isReference()) {
-      filter = filter.filterAtOffset(pLocation.getOffset()).filterWithoutSize();
-    }
-
-    // Remember, edges may overlap with different types
-    return getHVEdges(filter);
-  }
-
-  @Nullable
-  private SMGObject getObjectFromMemoryLocation(MemoryLocation pLocation) {
-
-    String locId = pLocation.getIdentifier();
-
-    if (pLocation.isOnFunctionStack()) {
-
-      CLangStackFrame frame =
-          Iterables.find(
-              stack_objects,
-              f -> f.getFunctionDeclaration().getName().equals(pLocation.getFunctionName()),
-              null);
-
-      if (frame == null) {
-        return null;
-      }
-
-      if (locId.equals(CLangStackFrame.RETVAL_LABEL)) {
-        return frame.getReturnObject();
-      }
-
-      if (!frame.hasVariable(locId)) {
-        return null;
-      }
-
-      return frame.getVariable(locId);
-    } else if (global_objects.containsKey(locId)) {
-
-      return global_objects.get(locId);
-    } else {
-
-      return Iterables.tryFind(heap_objects, object -> object.getLabel().equals(locId)).orNull();
-    }
-  }
+  //  @Nullable
+  //  private SMGObject getObjectFromMemoryLocation(MemoryLocation pLocation) {
+  //
+  //    String locId = pLocation.getIdentifier();
+  //
+  //    if (pLocation.isOnFunctionStack()) {
+  //
+  //      CLangStackFrame frame =
+  //          Iterables.find(
+  //              stack_objects,
+  //              f -> f.getFunctionDeclaration().getName().equals(pLocation.getFunctionName()),
+  //              null);
+  //
+  //      if (frame == null) {
+  //        return null;
+  //      }
+  //
+  //      if (locId.equals(CLangStackFrame.RETVAL_LABEL)) {
+  //        return frame.getReturnObject();
+  //      }
+  //
+  //      if (!frame.hasVariable(locId)) {
+  //        return null;
+  //      }
+  //
+  //      return frame.getVariable(locId);
+  //    } else if (global_objects.containsKey(locId)) {
+  //
+  //      return global_objects.get(locId);
+  //    } else {
+  //
+  //      return Iterables.tryFind(heap_objects, object ->
+  // object.getLabel().equals(locId)).orNull();
+  //    }
+  //  }
 
   @Override
   public Optional<SMGEdgeHasValue> getHVEdgeFromMemoryLocation(SMGMemoryPath pLocation) {
@@ -607,28 +606,28 @@ public class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     }
   }
 
-  private MemoryLocation resolveMemLoc(SMGEdgeHasValue hvEdge) {
-
-    SMGObject object = hvEdge.getObject();
-    long offset = hvEdge.getOffset();
-
-    if (global_objects.containsValue(object) || isHeapObject(object)) {
-      return MemoryLocation.fromQualifiedName(object.getLabel(), offset);
-    } else {
-
-      String regionLabel = object.getLabel();
-      CLangStackFrame frame =
-          Iterables.find(
-              stack_objects,
-              f ->
-                  (f.containsVariable(regionLabel) && f.getVariable(regionLabel) == object)
-                      || object == f.getReturnObject());
-
-      String functionName = frame.getFunctionDeclaration().getName();
-
-      return MemoryLocation.forLocalVariable(functionName, object.getLabel(), offset);
-    }
-  }
+  //  private MemoryLocation resolveMemLoc(SMGEdgeHasValue hvEdge) {
+  //
+  //    SMGObject object = hvEdge.getObject();
+  //    long offset = hvEdge.getOffset();
+  //
+  //    if (global_objects.containsValue(object) || isHeapObject(object)) {
+  //      return MemoryLocation.fromQualifiedName(object.getLabel(), offset);
+  //    } else {
+  //
+  //      String regionLabel = object.getLabel();
+  //      CLangStackFrame frame =
+  //          Iterables.find(
+  //              stack_objects,
+  //              f ->
+  //                  (f.containsVariable(regionLabel) && f.getVariable(regionLabel) == object)
+  //                      || object == f.getReturnObject());
+  //
+  //      String functionName = frame.getFunctionDeclaration().getName();
+  //
+  //      return MemoryLocation.forLocalVariable(functionName, object.getLabel(), offset);
+  //    }
+  //  }
 
   /** Remove all values and every edge from the smg. */
   public void clearValues() {
