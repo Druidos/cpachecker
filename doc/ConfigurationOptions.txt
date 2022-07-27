@@ -2843,6 +2843,10 @@ cpa.smg.handleIncompleteExternalVariableAsExternalAllocation = false
 # is reported as memleak even if it is reachable from local variables in main
 cpa.smg.handleNonFreedMemoryInMainAsMemLeak = true
 
+# Option to handle same string literals as always equal memory regions or
+# possible unequal memory regions
+cpa.smg.handleSameLiteralsAsOneMemoryRegion = true
+
 # Handle unknown dereference as safe and check error based on error
 # predicate, depends on trackPredicates
 cpa.smg.handleUnknownDereferenceAsSafe = false

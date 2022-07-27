@@ -242,6 +242,14 @@ public class SMGOptions {
       description = "Produce error trace instead of exception during analysis")
   private boolean produceErrorTraceInsteadOfException = false;
 
+  @Option(
+      secure = true,
+      name = "handleSameLiteralsAsOneMemoryRegion",
+      description =
+          "Option to handle same string literals as always equal memory regions or possible unequal"
+              + " memory regions")
+  private boolean handleSameLiteralsAsOneMemoryRegion = true;
+
   public enum SMGExportLevel {
     NEVER,
     LEAF,
@@ -403,5 +411,9 @@ public class SMGOptions {
 
   public boolean produceErrorTraceInsteadOfException() {
     return produceErrorTraceInsteadOfException;
+  }
+
+  public boolean handleSameLiteralsAsOneMemoryRegion() {
+    return handleSameLiteralsAsOneMemoryRegion;
   }
 }

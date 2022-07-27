@@ -1158,7 +1158,7 @@ public class SMGTransferRelation
       String name = pExpression.getContentString() + " string literal";
       SMGRegion region = pNewState.getHeap().getObjectForVisibleVariable(name);
 
-      if (region != null) {
+      if (!options.handleSameLiteralsAsOneMemoryRegion() && region != null) {
         smgStates.add(pNewState);
         name = name + "ID" + SMGCPA.getNewValue();
       }
