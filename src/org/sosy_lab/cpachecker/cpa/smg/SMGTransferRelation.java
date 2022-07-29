@@ -1287,21 +1287,14 @@ public class SMGTransferRelation
       CInitializerList pNewInitializer)
       throws CPATransferException {
 
-    int listCounter = 0;
+    SMGState newState = pNewState;
 
-    List<CCompositeType.CCompositeTypeMemberDeclaration> memberTypes = pLValueType.getMembers();
-    Pair<SMGState, Long> startOffsetAndState = Pair.of(pNewState, pOffset);
-    List<Pair<SMGState, Long>> offsetAndStates = new ArrayList<>();
-    offsetAndStates.add(startOffsetAndState);
-
-    // Move preinitialization of global variable because of unpredictable fields' order within
+    // preinitialization of global variable because of unpredictable fields' order within
     // CDesignatedInitializer
     if (pVarDecl.isGlobal()) {
-      List<Pair<SMGState, Long>> result = new ArrayList<>();
-
       long sizeOfType = expressionEvaluator.getBitSizeof(pEdge, pLValueType, pNewState);
 
-      SMGState newState =
+      newState =
           expressionEvaluator.writeValue(
               pNewState,
               pNewObject,
@@ -1309,25 +1302,23 @@ public class SMGTransferRelation
               TypeUtils.createTypeWithLength(Math.toIntExact(sizeOfType)),
               SMGZeroValue.INSTANCE,
               pEdge);
-
-      result.add(Pair.of(newState, pOffset));
-
-      offsetAndStates = result;
     }
+
+    int listCounter = 0;
+    long currentOffset = pOffset;
+    List<SMGState> currentStates = new ArrayList<>();
+    currentStates.add(newState);
+
+    List<CCompositeType.CCompositeTypeMemberDeclaration> memberTypes = pLValueType.getMembers();
 
     for (CInitializer initializer : pNewInitializer.getInitializers()) {
       if (initializer instanceof CDesignatedInitializer) {
         Pair<BigInteger, Integer> offsetAndPosition =
             calculateOffsetAndPositionOfFieldFromDesignator(
                 pOffset, memberTypes, (CDesignatedInitializer) initializer, pLValueType);
-        long offset = offsetAndPosition.getFirst().longValueExact();
+        currentOffset = offsetAndPosition.getFirst().longValueExact();
         listCounter = offsetAndPosition.getSecond();
         initializer = ((CDesignatedInitializer) initializer).getRightHandSide();
-
-        List<Pair<SMGState, Long>> resultOffsetAndStatesDesignated = new ArrayList<>();
-        resultOffsetAndStatesDesignated.add(Pair.of(pNewState, offset));
-
-        offsetAndStates = resultOffsetAndStatesDesignated;
       }
 
       if (listCounter >= memberTypes.size()) {
@@ -1339,27 +1330,23 @@ public class SMGTransferRelation
       }
 
       CType memberType = memberTypes.get(listCounter).getType();
-      List<Pair<SMGState, Long>> resultOffsetAndStates = new ArrayList<>();
+      List<SMGState> newStates = new ArrayList<>();
+      for (SMGState currentState : currentStates) {
+        long offset = getOffsetWithPadding(currentOffset, memberType);
 
-      for (Pair<SMGState, Long> offsetAndState : offsetAndStates) {
-        long offset = getOffsetWithPadding(offsetAndState.getSecond(), memberType);
-
-        SMGState newState = offsetAndState.getFirst();
-        List<SMGState> pNewStates =
+        newStates.addAll(
             handleInitializer(
-                newState, pVarDecl, pEdge, pNewObject, offset, memberType, initializer);
-
-        offset = offset + machineModel.getSizeofInBits(memberType).longValueExact();
-
-        final long currentOffset = offset;
-        resultOffsetAndStates.addAll(Lists.transform(pNewStates, s -> Pair.of(s, currentOffset)));
+                currentState, pVarDecl, pEdge, pNewObject, offset, memberType, initializer));
       }
 
-      offsetAndStates = resultOffsetAndStates;
+      currentOffset =
+          getOffsetWithPadding(currentOffset, memberType)
+              + machineModel.getSizeofInBits(memberType).longValueExact();
+      currentStates = newStates;
       listCounter++;
     }
 
-    return Lists.transform(offsetAndStates, Pair::getFirst);
+    return currentStates;
   }
 
   private long getOffsetWithPadding(long offset, CType memberType) {
