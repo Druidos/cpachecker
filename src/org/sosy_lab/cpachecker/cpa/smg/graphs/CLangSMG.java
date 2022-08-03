@@ -34,6 +34,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.refiner.SMGMemoryPath;
@@ -256,7 +257,9 @@ public class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     Set<SMGObject> unreachableObjects = new LinkedHashSet<>();
     for (SMGObject object : objects) {
       if (object != SMGNullObject.INSTANCE) {
-        if (isObjectValid(object) && !isObjectExternallyAllocated(object)) {
+        if (isObjectValid(object)
+            && !isObjectExternallyAllocated(object)
+            && !object.getKind().equals(SMGObjectKind.STRING_LITERAL)) {
           unreachableObjects.add(object);
         }
         markHeapObjectDeletedAndRemoveEdges(object);

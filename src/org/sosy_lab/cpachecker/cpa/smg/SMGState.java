@@ -64,6 +64,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll.SMGDoublyLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.optional.SMGOptionalObject;
@@ -305,8 +306,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   /**
-   * Makes SMGState create a new anonymous object and put it into the current stack frame. Used for
-   * string initilizers as function arguments.
+   * Makes SMGState create a new object for string initilizers
    *
    * <p>Keeps consistency: yes
    *
@@ -315,16 +315,13 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    * @throws SMGInconsistentException when resulting SMGState is inconsistent and the checks are
    *     enabled
    */
-  public Optional<SMGRegion> addAnonymousVariable(long pTypeSize) throws SMGInconsistentException {
-    if (heap.getStackFrames().isEmpty()) {
-      return Optional.empty();
-    }
+  public SMGRegion addStringLiteral(long pTypeSize, String pStringLiteral)
+      throws SMGInconsistentException {
+    SMGRegion new_object = new SMGRegion(pTypeSize, pStringLiteral, SMGObjectKind.STRING_LITERAL);
 
-    SMGRegion new_object = new SMGRegion(pTypeSize);
-
-    heap.addStackObject(new_object);
+    heap.addGlobalObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
-    return Optional.of(new_object);
+    return new_object;
   }
 
   /**

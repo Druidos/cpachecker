@@ -379,17 +379,20 @@ public class SMGTransferRelation
 
         String name = strExp.getContentString() + " string literal";
 
-        SMGRegion stringObj = initialNewState.getHeap().getObjectForVisibleVariable(name);
+        SMGRegion stringObj = initialNewState.getHeap().getGlobalObjects().get(name);
 
-        if (stringObj != null) {
+        if (!options.handleSameLiteralsAsOneMemoryRegion() && stringObj != null) {
           // FIXME: require correctly process with redefinition of string literal to provide
           // state corresponding to previous
           name = name + "ID" + SMGCPA.getNewValue();
         }
         // 1. create region and save string as char array
-        stringObj =
-            initialNewState.addGlobalVariable(
-                machineModel.getSizeofInBits(cParamType).longValue(), name);
+        if (stringObj == null) {
+          initialNewState = initialNewState.copyOf();
+          stringObj =
+              initialNewState.addStringLiteral(
+                  machineModel.getSizeofInBits(cParamType).longValue(), name);
+        }
         CInitializerExpression initializer = new CInitializerExpression(exp.getFileLocation(), exp);
         CVariableDeclaration decl =
             new CVariableDeclaration(
@@ -1156,46 +1159,40 @@ public class SMGTransferRelation
       List<SMGState> smgStates = new ArrayList<>();
       CType cParamType = pExpression.transformTypeToArrayType();
       String name = pExpression.getContentString() + " string literal";
-      SMGRegion region = pNewState.getHeap().getObjectForVisibleVariable(name);
+      SMGRegion region = pNewState.getHeap().getGlobalObjects().get(name);
 
       if (!options.handleSameLiteralsAsOneMemoryRegion() && region != null) {
-        smgStates.add(pNewState);
-        name = name + "ID" + SMGCPA.getNewValue();
-      }
-
-      region =
-          pNewState.addGlobalVariable(machineModel.getSizeofInBits(cParamType).longValue(), name);
-      CInitializerExpression initializer =
-          new CInitializerExpression(pExpression.getFileLocation(), pExpression);
-      CVariableDeclaration decl =
-          new CVariableDeclaration(
-              pFileLocation,
-              false,
-              CStorageClass.AUTO,
-              cParamType,
-              region.getLabel(),
-              region.getLabel(),
-              region.getLabel(),
-              initializer);
-
-      // call #handleInitializer for new region and string expression
-      for (SMGState smgState :
-          handleInitializer(pNewState, decl, pEdge, region, 0, cParamType, initializer)) {
-        // create pointer for new region
-        CIdExpression exp = new CIdExpression(pFileLocation, cParamType, region.getLabel(), decl);
-        CInitializerExpression newInitializer =
-            new CInitializerExpression(pExpression.getFileLocation(), exp);
-        // initialize struct field with new pointer
         smgStates.addAll(
-            handleInitializer(
-                smgState,
+            initializeString(
+                pNewState.copyOf(),
                 pVarDecl,
                 pEdge,
                 pNewObject,
                 pOffset,
-                pExpression.getExpressionType(),
-                newInitializer));
+                pFileLocation,
+                pExpression,
+                cParamType,
+                region));
+        name = name + "ID" + SMGCPA.getNewValue();
+        region = null;
       }
+
+      if (region == null) {
+        region =
+            pNewState.addStringLiteral(machineModel.getSizeofInBits(cParamType).longValue(), name);
+      }
+
+      smgStates.addAll(
+          initializeString(
+              pNewState,
+              pVarDecl,
+              pEdge,
+              pNewObject,
+              pOffset,
+              pFileLocation,
+              pExpression,
+              cParamType,
+              region));
 
       return smgStates;
     }
@@ -1213,6 +1210,52 @@ public class SMGTransferRelation
         pOffset,
         arrayType,
         new CInitializerList(pFileLocation, charInitialziers));
+  }
+
+  private List<SMGState> initializeString(
+      SMGState pNewState,
+      CVariableDeclaration pVarDecl,
+      CFAEdge pEdge,
+      SMGObject pNewObject,
+      long pOffset,
+      FileLocation pFileLocation,
+      CStringLiteralExpression pExpression,
+      CType cParamType,
+      SMGRegion region)
+      throws CPATransferException {
+    List<SMGState> smgStates = new ArrayList<>();
+    CInitializerExpression initializer =
+        new CInitializerExpression(pExpression.getFileLocation(), pExpression);
+    CVariableDeclaration decl =
+        new CVariableDeclaration(
+            pFileLocation,
+            false,
+            CStorageClass.AUTO,
+            cParamType,
+            region.getLabel(),
+            region.getLabel(),
+            region.getLabel(),
+            initializer);
+
+    // call #handleInitializer for new region and string expression
+    for (SMGState smgState :
+        handleInitializer(pNewState, decl, pEdge, region, 0, cParamType, initializer)) {
+      // create pointer for new region
+      CIdExpression exp = new CIdExpression(pFileLocation, cParamType, region.getLabel(), decl);
+      CInitializerExpression newInitializer =
+          new CInitializerExpression(pExpression.getFileLocation(), exp);
+      // initialize struct field with new pointer
+      smgStates.addAll(
+          handleInitializer(
+              smgState,
+              pVarDecl,
+              pEdge,
+              pNewObject,
+              pOffset,
+              pExpression.getExpressionType(),
+              newInitializer));
+    }
+    return smgStates;
   }
 
   @SuppressWarnings("deprecation") // replace with machineModel.getAllFieldOffsetsInBits

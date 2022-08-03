@@ -33,6 +33,10 @@ public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
     super(pSize, pLabel, pLevel, SMGObjectKind.REG);
   }
 
+  public SMGRegion(long pSize, String pLabel, SMGObjectKind pKind) {
+    super(pSize, pLabel, pKind);
+  }
+
   @Override
   public String toString() {
     return "REGION(" + getLabel() + ", " + getSize() + "b, " + "level=" + getLevel() + ")";
