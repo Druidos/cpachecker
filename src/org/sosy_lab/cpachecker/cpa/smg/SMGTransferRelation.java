@@ -19,10 +19,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
@@ -335,22 +333,21 @@ public class SMGTransferRelation
     }
 
     SMGState initialNewState = state.copyOf();
-    Map<UnmodifiableSMGState, List<Pair<SMGRegion, SMGValue>>> valuesMap = new LinkedHashMap<>();
     List<Pair<SMGRegion, SMGValue>> initialValuesList = new ArrayList<>();
-    valuesMap.put(initialNewState, initialValuesList);
     List<SMGState> newStates =
-        evaluateArgumentValues(callEdge, arguments, paramDecl, initialNewState, valuesMap);
+        evaluateArgumentValues(callEdge, arguments, paramDecl, initialNewState, initialValuesList);
 
+    List<SMGState> resultStates = new ArrayList<>();
     for (SMGState newState : newStates) {
-      assignParameterValues(callEdge, paramDecl, valuesMap.get(newState), newState);
+      resultStates.add(assignParameterValues(callEdge, paramDecl, initialValuesList, newState));
     }
-    return newStates;
+    return resultStates;
   }
 
   /**
    * read and evaluate all arguments and put them into the valuesMap.
    *
-   * @param valuesMap contains a mapping of newly created states (copied from initial state due to
+   * @param valuesList contains a mapping of newly created states (copied from initial state due to
    *     read operation) to a list of parameter assignments (pairs of region and symbolic value).
    */
   private List<SMGState> evaluateArgumentValues(
@@ -358,7 +355,7 @@ public class SMGTransferRelation
       List<CExpression> arguments,
       List<CParameterDeclaration> paramDecl,
       SMGState initialNewState,
-      Map<UnmodifiableSMGState, List<Pair<SMGRegion, SMGValue>>> valuesMap)
+      List<Pair<SMGRegion, SMGValue>> valuesList)
       throws CPATransferException {
 
     List<SMGState> newStates = Collections.singletonList(initialNewState);
@@ -422,7 +419,7 @@ public class SMGTransferRelation
       SMGRegion paramObj = new SMGRegion(size, varName);
       // get value of actual parameter in caller function context
       for (SMGState newState : newStates) {
-        result.addAll(evaluateArgumentValue(callEdge, valuesMap, i, exp, paramObj, newState));
+        result.addAll(evaluateArgumentValue(callEdge, valuesList, i, exp, paramObj, newState));
       }
       newStates = result;
     }
@@ -433,7 +430,7 @@ public class SMGTransferRelation
   /** read and evaluate one argument (at index <code>i</code>) and put it into the valuesMap. */
   private List<SMGState> evaluateArgumentValue(
       CFunctionCallEdge callEdge,
-      Map<UnmodifiableSMGState, List<Pair<SMGRegion, SMGValue>>> valuesMap,
+      List<Pair<SMGRegion, SMGValue>> valuesList,
       int i,
       CExpression exp,
       SMGRegion paramObj,
@@ -454,12 +451,7 @@ public class SMGTransferRelation
         SMGState curState = newStateWithExpVal.getFirst();
         result.add(curState);
 
-        if (!valuesMap.containsKey(curState)) {
-          // copy values into new list
-          valuesMap.put(curState, new ArrayList<>(valuesMap.get(newState)));
-        }
-
-        final List<Pair<SMGRegion, SMGValue>> curValues = valuesMap.get(curState);
+        final List<Pair<SMGRegion, SMGValue>> curValues = valuesList;
         assert curValues.size() == i : "evaluation of parameters out of order";
         curValues.add(i, Pair.of(paramObj, value));
 
@@ -480,13 +472,14 @@ public class SMGTransferRelation
   }
 
   /** add a new stackframe and assign all arguments to parameters. */
-  private void assignParameterValues(
+  private SMGState assignParameterValues(
       CFunctionCallEdge callEdge,
       List<CParameterDeclaration> paramDecl,
       List<Pair<SMGRegion, SMGValue>> values,
-      SMGState newState)
+      SMGState pState)
       throws SMGInconsistentException, UnrecognizedCodeException {
 
+    SMGState newState = pState.copyOf();
     newState.addStackFrame(callEdge.getSuccessor().getFunctionDefinition());
 
     // get value of actual parameter in caller function context
@@ -520,6 +513,7 @@ public class SMGTransferRelation
           expressionEvaluator.assignFieldToState(
               newState, callEdge, newObject, 0, symbolicValue, rValueType);
     }
+    return newState;
   }
 
   // Current SMGState is not fully persistent
