@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.core.counterexample;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
+import org.sosy_lab.common.collect.PersistentMap;
 import org.sosy_lab.cpachecker.cfa.CFA;
 
 /**
@@ -27,11 +28,15 @@ import org.sosy_lab.cpachecker.cfa.CFA;
 public class Memory {
 
   private final String name;
-  private final Map<Address, Object> values;
+  private final Map<? extends Address, Object> values;
 
-  public Memory(String pName, Map<Address, Object> pValues) {
+  public Memory(String pName, Map<? extends Address, Object> pValues) {
     name = pName;
-    values = ImmutableMap.copyOf(pValues);
+    if (pValues instanceof PersistentMap) {
+      values = pValues;
+    } else {
+      values = ImmutableMap.copyOf(pValues);
+    }
   }
 
   public String getName() {

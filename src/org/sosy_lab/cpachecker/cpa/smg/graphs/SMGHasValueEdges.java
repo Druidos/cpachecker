@@ -44,4 +44,6 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
   SMGHasValueEdges addEdgesForObject(Iterable<SMGEdgeHasValue> pEdgesSet);
 
   boolean isEmpty();
+
+  Iterable<SMGEdgeHasValue> remove(SMGHasValueEdges pEdgesToRemove);
 }

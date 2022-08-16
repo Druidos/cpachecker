@@ -19,6 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.sosy_lab.common.collect.PathCopyingPersistentTreeMap;
+import org.sosy_lab.common.collect.PersistentMap;
+import org.sosy_lab.common.collect.PersistentSortedMap;
 import org.sosy_lab.cpachecker.cfa.ast.c.CAssignment;
 import org.sosy_lab.cpachecker.cfa.ast.c.CLeftHandSide;
 import org.sosy_lab.cpachecker.cfa.ast.c.CStatement;
@@ -27,6 +30,7 @@ import org.sosy_lab.cpachecker.cfa.model.CFAEdgeType;
 import org.sosy_lab.cpachecker.cfa.model.c.CDeclarationEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CStatementEdge;
 import org.sosy_lab.cpachecker.core.counterexample.Address;
+import org.sosy_lab.cpachecker.core.counterexample.Address.ConcreteAddress;
 import org.sosy_lab.cpachecker.core.counterexample.AssumptionToEdgeAllocator;
 import org.sosy_lab.cpachecker.core.counterexample.ConcreteState;
 import org.sosy_lab.cpachecker.core.counterexample.ConcreteStatePath;
@@ -40,6 +44,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.value.refiner.ConcreteErrorPathAllocator;
 import org.sosy_lab.cpachecker.util.Pair;
@@ -48,6 +53,7 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
 
   // this analysis puts every object in the same heap
   private static final String MEMORY_NAME = "SMG_Analysis_Heap";
+  private PersistentSortedMap<ConcreteAddress, Object> pPrevMap = PathCopyingPersistentTreeMap.of();
 
   public SMGConcreteErrorPathAllocator(AssumptionToEdgeAllocator pAssumptionToEdgeAllocator) {
     super(SMGState.class, pAssumptionToEdgeAllocator);
@@ -62,6 +68,8 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
     // and depends on side effects
     SMGObjectAddressMap variableAddresses = new SMGObjectAddressMap();
 
+    SMGState prevState = null;
+
     for (Pair<SMGState, List<CFAEdge>> edgeStatePair : pPath) {
 
       SMGState pSMGState = edgeStatePair.getFirst();
@@ -74,7 +82,8 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
         while (it.hasNext()) {
           CFAEdge innerEdge = it.next();
           ConcreteState state =
-              createConcreteState(variableAddresses, pSMGState, alreadyAssigned, innerEdge);
+              createConcreteState(
+                  variableAddresses, pSMGState, prevState, alreadyAssigned, innerEdge);
 
           // intermediate edge
           if (it.hasNext()) {
@@ -94,10 +103,11 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
                 Iterables.getOnlyElement(edges),
                 new ConcreteState(
                     ImmutableMap.of(),
-                    allocateAddresses(pSMGState, variableAddresses),
+                    allocateAddresses(pSMGState, prevState, variableAddresses),
                     variableAddresses.getAddressMap(),
                     exp -> MEMORY_NAME)));
       }
+      prevState = pSMGState;
     }
 
     return new ConcreteStatePath(result);
@@ -106,6 +116,7 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
   private ConcreteState createConcreteState(
       SMGObjectAddressMap variableAddresses,
       SMGState pSMGState,
+      SMGState pPrevState,
       Set<CLeftHandSide> alreadyAssigned,
       CFAEdge innerEdge) {
     ConcreteState state;
@@ -115,7 +126,7 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
       state =
           new ConcreteState(
               ImmutableMap.of(),
-              allocateAddresses(pSMGState, variableAddresses),
+              allocateAddresses(pSMGState, pPrevState, variableAddresses),
               variableAddresses.getAddressMap(),
               exp -> MEMORY_NAME);
     } else {
@@ -161,16 +172,24 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
     return false;
   }
 
-  private Map<String, Memory> allocateAddresses(SMGState pSMGState, SMGObjectAddressMap pAdresses) {
-    Map<Address, Object> values = createHeapValues(pSMGState, pAdresses);
+  private Map<String, Memory> allocateAddresses(
+      SMGState pSMGState, SMGState pPrevState, SMGObjectAddressMap pAdresses) {
+    PersistentMap<ConcreteAddress, Object> values =
+        createHeapValues(pSMGState, pPrevState, pAdresses);
     return ImmutableMap.of(MEMORY_NAME, new Memory(MEMORY_NAME, values));
   }
 
-  private Map<Address, Object> createHeapValues(SMGState pSMGState, SMGObjectAddressMap pAdresses) {
+  private PersistentSortedMap<ConcreteAddress, Object> createHeapValues(
+      SMGState pSMGState, SMGState pPrevState, SMGObjectAddressMap pAdresses) {
 
-    Map<Address, Object> result = new HashMap<>();
+    PersistentSortedMap<ConcreteAddress, Object> result = pPrevMap;
+    if (pPrevState == null) {
+      pPrevState = pSMGState.copyOf();
+      pPrevState.clearValues();
+    }
 
-    for (SMGEdgeHasValue hvEdge : pSMGState.getHeap().getHVEdges()) {
+    for (SMGEdgeHasValue hvEdge :
+        pSMGState.getHeap().getHVEdges().remove(pPrevState.getHeap().getHVEdges())) {
 
       SMGValue symbolicValue = hvEdge.getValue();
       BigInteger value = null;
@@ -191,21 +210,29 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
         continue;
       }
 
-      Address address =
+      ConcreteAddress address =
           pAdresses.calculateAddress(hvEdge.getObject(), hvEdge.getOffset(), pSMGState);
-      result.put(address, value);
+      result = result.putAndCopy(address, value);
     }
 
+    for (SMGEdgeHasValue hvEdge :
+        pPrevState.getHeap().getHVEdges().remove(pSMGState.getHeap().getHVEdges())) {
+      ConcreteAddress address =
+          pAdresses.calculateAddress(hvEdge.getObject(), hvEdge.getOffset(), pSMGState);
+      result = result.removeAndCopy(address);
+    }
+
+    pPrevMap = result;
     return result;
   }
 
   public static class SMGObjectAddressMap {
 
-    private final Map<SMGObject, Address> objectAddressMap = new HashMap<>();
-    private Address nextAlloc = Address.valueOf(BigInteger.valueOf(100));
-    private final Map<LeftHandSide, Address> variableAddressMap = new HashMap<>();
+    private final Map<SMGObject, ConcreteAddress> objectAddressMap = new HashMap<>();
+    private ConcreteAddress nextAlloc = ConcreteAddress.valueOf(BigInteger.valueOf(100));
+    private final Map<LeftHandSide, ConcreteAddress> variableAddressMap = new HashMap<>();
 
-    public Address calculateAddress(SMGObject pObject, long pOffset, SMGState pSMGState) {
+    public ConcreteAddress calculateAddress(SMGObject pObject, long pOffset, SMGState pSMGState) {
 
       // Create a new base address for the object if necessary
       if (!objectAddressMap.containsKey(pObject)) {

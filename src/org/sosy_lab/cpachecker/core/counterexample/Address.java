@@ -159,7 +159,7 @@ public abstract class Address {
     return UnknownAddress.getInstance();
   }
 
-  private static class ConcreteAddress extends Address {
+  public static class ConcreteAddress extends Address implements Comparable<ConcreteAddress> {
 
     private final BigInteger addressValue;
 
@@ -167,24 +167,23 @@ public abstract class Address {
       addressValue = pAddressValue;
     }
 
-    @Override
-    public Address addOffset(BigInteger pOffset) {
-      BigInteger newAddressValue = addressValue.add(pOffset);
-      return Address.valueOf(newAddressValue);
+    public static ConcreteAddress valueOf(BigInteger pAddressValue) {
+      return new ConcreteAddress(pAddressValue);
     }
 
     @Override
-    public Address addOffset(BigDecimal pOffset) {
+    public ConcreteAddress addOffset(BigInteger pOffset) {
+      BigInteger newAddressValue = addressValue.add(pOffset);
+      return ConcreteAddress.valueOf(newAddressValue);
+    }
+
+    @Override
+    public ConcreteAddress addOffset(BigDecimal pOffset) {
       BigInteger offset;
 
-      try {
-        offset = pOffset.toBigIntegerExact();
-      } catch (ArithmeticException e) {
-        return getUnknownAddress();
-      }
-
+      offset = pOffset.toBigIntegerExact();
       BigInteger newAddressValue = addressValue.add(offset);
-      return Address.valueOf(newAddressValue);
+      return ConcreteAddress.valueOf(newAddressValue);
     }
 
     @Override
@@ -230,6 +229,11 @@ public abstract class Address {
     @Override
     public String getCommentRepresentation() {
       return addressValue.toString();
+    }
+
+    @Override
+    public int compareTo(ConcreteAddress pConcreteAddress) {
+      return addressValue.compareTo(pConcreteAddress.addressValue);
     }
   }
 

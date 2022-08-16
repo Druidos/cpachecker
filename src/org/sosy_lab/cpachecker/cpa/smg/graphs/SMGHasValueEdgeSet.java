@@ -253,6 +253,27 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public Iterable<SMGEdgeHasValue> remove(SMGHasValueEdges pEdgesToRemove) {
+    SMGHasValueEdgeSet result = new SMGHasValueEdgeSet(map, sizesMap, size);
+    for (SMGObject object : map.keySet()) {
+      SMGHasValueEdgeSet originalEdges = getEdgesForObject(object);
+      SMGHasValueEdges edgesForObjectToRemove = pEdgesToRemove.getEdgesForObject(object);
+      if (!edgesForObjectToRemove.isEmpty()) {
+        if (originalEdges.equals(edgesForObjectToRemove)) {
+          result = result.removeAllEdgesOfObjectAndCopy(object);
+        } else {
+          for (SMGEdgeHasValue edge : originalEdges) {
+            if (edgesForObjectToRemove.contains(edge)) {
+              result = result.removeEdgeAndCopy(edge);
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  @Override
   public int hashCode() {
     return map.hashCode();
   }
