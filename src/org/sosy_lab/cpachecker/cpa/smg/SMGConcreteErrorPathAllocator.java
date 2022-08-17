@@ -259,6 +259,10 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
 
   private static IDExpression createIDExpression(UnmodifiableCLangSMG smg, SMGObject pObject) {
 
+    if (pObject.getKind() == SMGObjectKind.STRING_LITERAL) {
+      return null;
+    }
+
     if (smg.getGlobalObjects().containsValue(pObject)) {
       // TODO Breaks if label is changed
       return new IDExpression(pObject.getLabel());
