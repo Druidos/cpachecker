@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import org.sosy_lab.common.log.LogManager;
 
-class DDAlgorithm<Element>
-    extends DDMinAlgorithm<Element> {
+class DDAlgorithm<Element> extends AbstractDeltaDebuggingAlgorithm<Element> {
 
   public DDAlgorithm(
       LogManager pLogger,
@@ -71,26 +70,58 @@ class DDAlgorithm<Element>
   }
 
   @Override
-  protected void passesWithoutDelta() {
-    logger.log(
-        Level.INFO,
-        "The removed delta contains a minimal fail-inducing diference. The complement of",
-        elementsNotRemovedCurrently(),
-        elementManipulator.getElementTitle(),
-        "is safe by itself.");
-    markRemainingElementsAsSafe();
-    resetDeltaListWithHalvesOfCurrentDelta();
+  protected void testFailed(FunctionCFAsWithMetadata pCfa, DeltaDebuggingStage pStage) {
+    markRemovedElementsAsResolved();
+
+    switch (pStage) {
+      case REMOVE_COMPLEMENT:
+        // delta has the cause, complement is safe
+        logger.log(
+            Level.INFO,
+            "The remaining delta is a fail-inducing test. The removed complement is not restored.");
+        // remove complement from list, i.e. make list of one delta, and then split it.
+        resetDeltaListWithHalvesOfCurrentDelta();
+
+        break;
+      case REMOVE_DELTA:
+        // delta is safe, complement has the cause
+        logger.log(
+            Level.INFO,
+            "The remaining complement is a fail-inducing test. The removed delta is not restored.");
+        // remove delta from list
+        deltaIter.remove();
+
+        break;
+      default:
+        throw new AssertionError();
+    }
   }
 
   @Override
-  protected void passesWithoutComplement() {
-    logger.log(
-        Level.INFO,
-        "The removed complement contains a minimal fail-inducing diference. The delta of",
-        elementsNotRemovedCurrently(),
-        elementManipulator.getElementTitle(),
-        "is safe by itself.");
+  protected void testPassed(FunctionCFAsWithMetadata pCfa, DeltaDebuggingStage pStage) {
     markRemainingElementsAsSafe();
-    deltaIter.remove();
+
+    switch (pStage) {
+      case REMOVE_COMPLEMENT:
+        logger.log(
+            Level.INFO,
+            "The removed complement contains a fail-inducing difference. "
+                + "The remaining delta is safe by itself. Mutation is rollbacked.");
+        deltaIter.remove();
+        break;
+
+      case REMOVE_DELTA:
+        logger.log(
+            Level.INFO,
+            "The removed delta contains a fail-inducing difference. "
+                + "The remaining complement is safe by itself. Mutation is rollbacked.");
+        resetDeltaListWithHalvesOfCurrentDelta();
+        break;
+
+      default:
+        throw new AssertionError();
+    }
+
+    rollback(pCfa);
   }
 }
