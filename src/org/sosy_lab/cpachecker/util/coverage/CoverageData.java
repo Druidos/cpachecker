@@ -141,7 +141,7 @@ public final class CoverageData {
     collector.addAdditionalInfo(endingLine, pInfo);
   }
 
-  public void addCounterInfoOnEdge(final CFAEdge pEdge, Integer pCounter, TimeSpan pTimeSpan) {
+  public void addCounterInfoOnEdge(final CFAEdge pEdge, Long pCounter, TimeSpan pTimeSpan) {
     final FileLocation loc = pEdge.getFileLocation();
     if (loc.getStartingLineNumber() == 0) {
       // dummy location

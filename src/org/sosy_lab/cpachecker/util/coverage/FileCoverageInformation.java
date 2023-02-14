@@ -48,7 +48,7 @@ class FileCoverageInformation {
   final Set<AssumeEdge> visitedAssumes = new LinkedHashSet<>();
   PersistentMap<Integer, PersistentMultimap<String, SMGKnownExpValue>> additionalInfo =
       PathCopyingPersistentTreeMap.of();
-  PersistentMap<Integer, PersistentMultimap<Integer, Long>> counters =
+  PersistentMap<Integer, PersistentMultimap<Long, Long>> counters =
       PathCopyingPersistentTreeMap.of();
   PersistentMap<Integer, String> sourceCode = PathCopyingPersistentTreeMap.of();
 
@@ -114,11 +114,11 @@ class FileCoverageInformation {
   }
 
   public String getCounterInfo(Integer pLine) {
-    PersistentMultimap<Integer, Long> info = counters.get(pLine);
+    PersistentMultimap<Long, Long> info = counters.get(pLine);
     if (info != null) {
       long numStops = 0;
       long timeStops = 0;
-      for (Entry<Integer, ImmutableSet<Long>> entry : info.entries()) {
+      for (Entry<Long, ImmutableSet<Long>> entry : info.entries()) {
         numStops = numStops + entry.getKey();
         for (Long time : entry.getValue()) {
           timeStops = timeStops + time;
@@ -138,8 +138,8 @@ class FileCoverageInformation {
     additionalInfo = additionalInfo.putAndCopy(pLine, currentInfo);
   }
 
-  void addCounterInfo(int pLine, Integer counter, TimeSpan pTimeSpan) {
-    PersistentMultimap<Integer, Long> currentInfo = counters.get(pLine);
+  void addCounterInfo(int pLine, Long counter, TimeSpan pTimeSpan) {
+    PersistentMultimap<Long, Long> currentInfo = counters.get(pLine);
     if (currentInfo == null) {
       currentInfo = PersistentMultimap.of();
     }

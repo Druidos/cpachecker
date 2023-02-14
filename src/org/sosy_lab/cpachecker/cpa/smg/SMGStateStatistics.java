@@ -8,26 +8,36 @@
 
 package org.sosy_lab.cpachecker.cpa.smg;
 
+import org.sosy_lab.common.time.TimeSpan;
+import org.sosy_lab.common.time.Timer;
+
 public class SMGStateStatistics {
   // Counters for Allocated Memory
   private long heapAllocatedSize;
   private long stackAllocatedSize;
   private long externalAllocations;
   private long abstractions;
+  private long stops;
+
+  private TimeSpan stopTime;
 
   private SMGStateStatistics(
       long pHeapAllocatedSize,
       long pStackAllocatedSize,
       long pExternalAllocations,
-      long pAbstractions) {
+      long pAbstractions,
+      long pStops,
+      TimeSpan pStopTime) {
     heapAllocatedSize = pHeapAllocatedSize;
     stackAllocatedSize = pStackAllocatedSize;
     externalAllocations = pExternalAllocations;
     abstractions = pAbstractions;
+    stops = pStops;
+    stopTime = TimeSpan.ofMillis(pStopTime.asMillis());
   }
 
   public SMGStateStatistics() {
-    this(0, 0, 0, 0);
+    this(0, 0, 0, 0, 0, TimeSpan.ofMillis(0));
   }
 
   public void changeHeapAllocatedSize(long pDiffAllocatedSize) {
@@ -46,6 +56,14 @@ public class SMGStateStatistics {
     abstractions += pDiffAbstractions;
   }
 
+  public void changeStops(long pDiffStops) {
+    stops += pDiffStops;
+  }
+
+  public void changeStopTime(Timer pTimer) {
+    stopTime = TimeSpan.sum(stopTime, pTimer.getSumTime());
+  }
+
   public long getHeapAllocatedSize() {
     return heapAllocatedSize;
   }
@@ -62,8 +80,16 @@ public class SMGStateStatistics {
     return abstractions;
   }
 
+  public long getStops() {
+    return stops;
+  }
+
+  public TimeSpan getStopTime() {
+    return stopTime;
+  }
+
   public SMGStateStatistics copy() {
     return new SMGStateStatistics(
-        heapAllocatedSize, stackAllocatedSize, externalAllocations, abstractions);
+        heapAllocatedSize, stackAllocatedSize, externalAllocations, abstractions, stops, stopTime);
   }
 }

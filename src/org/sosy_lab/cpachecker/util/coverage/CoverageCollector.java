@@ -60,8 +60,8 @@ public abstract class CoverageCollector {
     if (argState != null && smgState != null) {
       PersistentMap<String, SMGValue> valueMessages = smgState.getReadValues();
       PersistentMultimap<String, SMGKnownExpValue> result = PersistentMultimap.of();
-      TimeSpan stopTime = smgState.getStopTime();
-      int stopCounter = smgState.getStopCounter();
+      TimeSpan stopTime = smgState.getMutableStateStatistics().getStopTime();
+      long stopCounter = smgState.getMutableStateStatistics().getStops();
       for (Entry<String, SMGValue> entry : valueMessages.entrySet()) {
         if (smgState.isExplicit(entry.getValue())) {
           result = result.putAndCopy(entry.getKey(), smgState.getExplicit(entry.getValue()));
