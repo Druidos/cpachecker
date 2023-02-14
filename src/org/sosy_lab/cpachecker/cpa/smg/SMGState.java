@@ -97,8 +97,9 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   private static final String HAS_LEAKS = "has-leaks";
   private static final String HAS_HEAP_OBJECTS = "has-heap-objects";
 
-  // Performance counters
+  // Performance counters and statistics. Mutable object
   private int stops = 0;
+  private SMGStateStatistics stateStatistics;
   private TimeSpan stopTime = TimeSpan.ofMillis(0);
 
   private static final Pattern externalAllocationRecursivePattern =
@@ -172,7 +173,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         id,
         explicitValues,
         errorInfo.withErrorMessage(pErrorDescription),
-        blockEnded);
+        blockEnded,
+        stateStatistics);
   }
 
   /**
@@ -189,7 +191,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         pOptions,
         new CLangSMG(pMachineModel),
         ID_COUNTER.getFreshId(),
-        PersistentBiMap.of());
+        PersistentBiMap.of(),
+        new SMGStateStatistics());
     explicitValues = explicitValues.putAndCopy(SMGZeroValue.INSTANCE, SMGZeroValue.INSTANCE);
   }
 
@@ -198,8 +201,17 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       SMGOptions pOptions,
       CLangSMG pHeap,
       int pPredId,
-      PersistentBiMap<SMGKnownSymbolicValue, SMGKnownExpValue> pMergedExplicitValues) {
-    this(pLogger, pOptions, pHeap, pPredId, pMergedExplicitValues, SMGErrorInfo.of(), false);
+      PersistentBiMap<SMGKnownSymbolicValue, SMGKnownExpValue> pMergedExplicitValues,
+      SMGStateStatistics pStateStatistics) {
+    this(
+        pLogger,
+        pOptions,
+        pHeap,
+        pPredId,
+        pMergedExplicitValues,
+        SMGErrorInfo.of(),
+        false,
+        pStateStatistics);
   }
 
   /** Copy constructor. */
@@ -210,7 +222,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       int pPredId,
       PersistentBiMap<SMGKnownSymbolicValue, SMGKnownExpValue> pExplicitValues,
       SMGErrorInfo pErrorInfo,
-      boolean pBlockEnded) {
+      boolean pBlockEnded,
+      SMGStateStatistics pStateStatistics) {
     options = pOptions;
     heap = pHeap;
     logger = pLogger;
@@ -221,6 +234,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     blockEnded = pBlockEnded;
     sizeOfVoidPointerInBits =
         heap.getMachineModel().getSizeofInBits(CPointerType.POINTER_TO_VOID).longValueExact();
+    stateStatistics = pStateStatistics.copy();
   }
 
   private SMGState(SMGState pOriginalState, Property pProperty) {
@@ -233,22 +247,25 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     blockEnded = pOriginalState.blockEnded;
     errorInfo = pOriginalState.errorInfo.withProperty(pProperty);
     sizeOfVoidPointerInBits = pOriginalState.sizeOfVoidPointerInBits;
+    stateStatistics = pOriginalState.stateStatistics.copy();
   }
 
   @Override
   public SMGState copyOf() {
-    return new SMGState(logger, options, heap.copyOf(), id, explicitValues, errorInfo, blockEnded);
+    return new SMGState(
+        logger, options, heap.copyOf(), id, explicitValues, errorInfo, blockEnded, stateStatistics);
   }
 
   @Override
   public SMGState copyWith(
       CLangSMG pSmg, PersistentBiMap<SMGKnownSymbolicValue, SMGKnownExpValue> pValues) {
-    return new SMGState(logger, options, pSmg, id, pValues, errorInfo, blockEnded);
+    return new SMGState(logger, options, pSmg, id, pValues, errorInfo, blockEnded, stateStatistics);
   }
 
   @Override
   public SMGState copyWithBlockEnd(boolean isBlockEnd) {
-    return new SMGState(logger, options, heap.copyOf(), id, explicitValues, errorInfo, isBlockEnd);
+    return new SMGState(
+        logger, options, heap.copyOf(), id, explicitValues, errorInfo, isBlockEnd, stateStatistics);
   }
 
   @Override
@@ -256,7 +273,9 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     if (errorInfo.equals(pOther.errorInfo)) {
       return this;
     }
-    SMGState result = new SMGState(logger, options, heap, ID_COUNTER.getFreshId(), explicitValues);
+    SMGState result =
+        new SMGState(
+            logger, options, heap, ID_COUNTER.getFreshId(), explicitValues, stateStatistics);
     result.errorInfo = result.errorInfo.mergeWith(pOther.errorInfo);
     return result;
   }
@@ -275,7 +294,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   public SMGRegion addGlobalVariable(long pTypeSize, String pVarName)
       throws SMGInconsistentException {
     SMGRegion new_object = new SMGRegion(pTypeSize, pVarName);
-
+    stateStatistics.changeStackAllocatedSize(pTypeSize);
     heap.addGlobalObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return new_object;
@@ -299,7 +318,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     }
 
     SMGRegion new_object = new SMGRegion(pTypeSize, pVarName);
-
+    stateStatistics.changeStackAllocatedSize(pTypeSize);
     heap.addStackObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return Optional.of(new_object);
@@ -346,6 +365,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     assert smgObject.getSize() == pTypeSize || smgObject.getSize() == heap.getSizeofPtrInBits();
 
     heap.addStackObject(smgObject);
+    stateStatistics.changeStackAllocatedSize(pTypeSize);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
   }
 
@@ -1504,7 +1524,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     CLangSMG destHeap = join.getJointSMG();
 
-    return new SMGState(logger, options, destHeap, predecessorId, join.getMergedExplicitValues());
+    return new SMGState(
+        logger, options, destHeap, predecessorId, join.getMergedExplicitValues(), stateStatistics);
   }
 
   /**
@@ -1666,6 +1687,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGEdgePointsTo pointsTo = new SMGEdgePointsTo(new_value, new_object, offset);
     heap.addPointsToEdge(pointsTo);
     heap.setExternallyAllocatedFlag(new_object, external);
+    stateStatistics.changeHeapAllocatedSize(size);
+    if (external) {
+      stateStatistics.changeExternalAllocations(1);
+    }
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return pointsTo;
   }
@@ -1690,6 +1715,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     }
     SMGEdgePointsTo pointsTo = new SMGEdgePointsTo(new_value, new_object, 0);
     heap.addPointsToEdge(pointsTo);
+    stateStatistics.changeStackAllocatedSize(pSize);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return pointsTo;
   }
@@ -1732,7 +1758,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    */
   protected SMGState free(Integer offset, SMGObject smgObject) throws SMGInconsistentException {
 
-    if (!heap.isHeapObject(smgObject) && !heap.isObjectExternallyAllocated(smgObject)) {
+    boolean objectExternallyAllocated = heap.isObjectExternallyAllocated(smgObject);
+    if (!heap.isHeapObject(smgObject) && !objectExternallyAllocated) {
       // You may not free any objects not on the heap.
       SMGState newState =
           withInvalidFree().withErrorDescription("Invalid free of unallocated object is found");
@@ -1747,7 +1774,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       return newState;
     }
 
-    if (offset != 0 && !heap.isObjectExternallyAllocated(smgObject)) {
+    if (offset != 0 && !objectExternallyAllocated) {
       // you may not invoke free on any address that you
       // didn't get through a malloc invocation.
       // TODO: externally allocated memory could be freed partially
@@ -1771,6 +1798,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       heap.removeHasValueEdge(edge);
     }
 
+    if (objectExternallyAllocated) {
+      stateStatistics.changeExternalAllocations(-1);
+    }
+    stateStatistics.changeHeapAllocatedSize(-smgObject.getSize());
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return this;
   }
@@ -1826,6 +1857,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   @Override
+  public SMGStateStatistics getMutableStateStatistics() {
+    return stateStatistics;
+  }
+
+  @Override
   public Collection<Object> getCurrentChain() {
     return Collections.unmodifiableList(errorInfo.getCurrentChain());
   }
@@ -1851,6 +1887,9 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
   /** Drop the stack frame representing the stack of the function with the given name */
   public void dropStackFrame() throws SMGInconsistentException {
+    for (SMGObject object : heap.getStackFrames().peek().getAllObjects()) {
+      stateStatistics.changeStackAllocatedSize(-object.getSize());
+    }
     heap.dropStackFrame();
     performConsistencyCheck(SMGRuntimeCheck.FULL);
   }

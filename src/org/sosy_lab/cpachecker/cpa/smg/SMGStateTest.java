@@ -161,7 +161,8 @@ public class SMGStateTest {
             new SMGOptions(Configuration.defaultConfiguration()),
             smg1,
             0,
-            PersistentBiMap.of());
+            PersistentBiMap.of(),
+            new SMGStateStatistics());
 
     SMGObject head = smg1State.addGlobalVariable(64, "head");
     smg1State.addPointsToEdge(head, 0, value5);
@@ -277,7 +278,8 @@ public class SMGStateTest {
             new SMGOptions(Configuration.defaultConfiguration()),
             heap,
             0,
-            PersistentBiMap.of());
+            PersistentBiMap.of(),
+            new SMGStateStatistics());
 
     smg1State.addStackFrame(CLangSMGTest.DUMMY_FUNCTION);
     SMGObject head = smg1State.addGlobalVariable(64, "head");
@@ -339,7 +341,8 @@ public class SMGStateTest {
     heap.addHasValueEdge(nextField);
 
     SMGOptions options = new SMGOptions(Configuration.defaultConfiguration());
-    SMGState smg1State = new SMGState(logger, options, heap, 0, PersistentBiMap.of());
+    SMGState smg1State =
+        new SMGState(logger, options, heap, 0, PersistentBiMap.of(), new SMGStateStatistics());
 
     smg1State.addStackFrame(CLangSMGTest.DUMMY_FUNCTION);
     SMGObject head = smg1State.addGlobalVariable(model32.getSizeofPtrInBits(), "head");
@@ -414,7 +417,8 @@ public class SMGStateTest {
     heap.addHasValueEdge(initialDataField);
 
     SMGOptions options = new SMGOptions(Configuration.defaultConfiguration());
-    SMGState smg1State = new SMGState(logger, options, heap, 0, PersistentBiMap.of());
+    SMGState smg1State =
+        new SMGState(logger, options, heap, 0, PersistentBiMap.of(), new SMGStateStatistics());
 
     smg1State.addStackFrame(CLangSMGTest.DUMMY_FUNCTION);
     SMGObject head = smg1State.addGlobalVariable(model32.getSizeofPtrInBits(), "head");

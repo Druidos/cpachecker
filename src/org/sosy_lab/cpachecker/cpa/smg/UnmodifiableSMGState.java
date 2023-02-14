@@ -109,6 +109,8 @@ public interface UnmodifiableSMGState extends LatticeAbstractState<UnmodifiableS
 
   PersistentMap<String, SMGReadParams> getReadParams();
 
+  SMGStateStatistics getMutableStateStatistics();
+
   SMGValue getReplacedValue(SMGValue fresh);
 
   /**

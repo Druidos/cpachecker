@@ -20,6 +20,7 @@ import org.sosy_lab.cpachecker.cfa.types.c.CPointerType;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
+import org.sosy_lab.cpachecker.cpa.smg.SMGStateStatistics;
 import org.sosy_lab.cpachecker.cpa.smg.SMGUtils;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
@@ -48,7 +49,8 @@ public class SMGJoinSubSMGsForAbstractionTest {
             new SMGOptions(Configuration.defaultConfiguration()),
             smg,
             0,
-            PersistentBiMap.of());
+            PersistentBiMap.of(),
+            new SMGStateStatistics());
 
     int NODE_SIZE = 64;
     int SEGMENT_LENGTH = 4;

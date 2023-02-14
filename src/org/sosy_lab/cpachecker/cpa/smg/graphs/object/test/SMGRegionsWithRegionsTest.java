@@ -26,6 +26,7 @@ import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.SMGOptions;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
+import org.sosy_lab.cpachecker.cpa.smg.SMGStateStatistics;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
@@ -77,7 +78,8 @@ public class SMGRegionsWithRegionsTest {
             new SMGOptions(Configuration.defaultConfiguration()),
             smg,
             0,
-            PersistentBiMap.of());
+            PersistentBiMap.of(),
+            new SMGStateStatistics());
 
     final int intSize =
         MACHINE_MODEL_FOR_TESTING.getSizeofInt() * MACHINE_MODEL_FOR_TESTING.getSizeofCharInBits();

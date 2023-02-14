@@ -964,6 +964,7 @@ public class SMGTransferRelation
           && cType.isIncomplete()
           && isExtern) {
         typeSize = options.getExternalAllocationSize();
+        pState.getMutableStateStatistics().changeExternalAllocations(1);
       }
       if (pVarDecl.isGlobal()) {
         newObject = pState.addGlobalVariable(typeSize, varName);
@@ -1003,6 +1004,7 @@ public class SMGTransferRelation
       if (pVarDecl.getCStorageClass().equals(CStorageClass.EXTERN)) {
         if (options.isHandleIncompleteExternalVariableAsExternalAllocation()) {
           pState.setExternallyAllocatedFlag(pObject);
+          pState.getMutableStateStatistics().changeExternalAllocations(1);
         }
       } else {
         // Global variables without initializer are nullified in C
