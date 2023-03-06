@@ -55,6 +55,8 @@ public class SMGBuiltins {
   private final SMGOptions options;
   private ImmutableList<Pattern> safeUnknownFunctionCompiledPatterns;
 
+  private ImmutableList<Pattern> externalAllocatedFunctionCompiledPatterns;
+
   public SMGBuiltins(
       SMGRightHandSideEvaluator pExpressionEvaluator,
       SMGOptions pOptions,
@@ -577,10 +579,11 @@ public class SMGBuiltins {
       builder.addAll(options.getMemoryAllocationFunctions());
       builder.addAll(options.getArrayAllocationFunctions());
       builder.addAll(options.getDeallocationFunctions());
-      builder.addAll(options.getExternalAllocationFunction());
       BUILTINS_FUNCTIONS = builder.build();
     }
-    return (BUILTINS_FUNCTIONS.contains(functionName) || isNondetBuiltin(functionName));
+    return (BUILTINS_FUNCTIONS.contains(functionName)
+        || isNondetBuiltin(functionName)
+        || isExternalAllocationFunction(functionName));
   }
 
   private static final String NONDET_PREFIX = "__VERIFIER_nondet_";
@@ -775,7 +778,7 @@ public class SMGBuiltins {
 
     String calledFunctionName = getFunctionName(cFCExpression);
 
-    if (options.getExternalAllocationFunction().contains(calledFunctionName)) {
+    if (isExternalAllocationFunction(calledFunctionName)) {
       return evaluateExternalAllocation(cFCExpression, newState);
     }
 
@@ -981,6 +984,23 @@ public class SMGBuiltins {
         throw new AssertionError(
             "Unhandled enum value in switch: " + options.getHandleUnknownFunctions());
     }
+  }
+
+  private boolean isExternalAllocationFunction(String pFunctionName) {
+    if (externalAllocatedFunctionCompiledPatterns == null) {
+      ImmutableList.Builder<Pattern> builder = new ImmutableList.Builder<>();
+      for (String externalAllocationFunctionPattern :
+          options.getExternalAllocationFunctionPatterns()) {
+        builder.add(Pattern.compile(externalAllocationFunctionPattern));
+      }
+      externalAllocatedFunctionCompiledPatterns = builder.build();
+    }
+    for (Pattern externalAllocationFunctionPattern : externalAllocatedFunctionCompiledPatterns) {
+      if (externalAllocationFunctionPattern.matcher(pFunctionName).matches()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isSafeFunction(String calledFunctionName) {

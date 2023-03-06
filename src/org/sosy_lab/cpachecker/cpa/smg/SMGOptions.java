@@ -122,7 +122,7 @@ public class SMGOptions {
   @Option(
       secure = true,
       name = "externalAllocationFunction",
-      description = "Functions which indicate on external allocated memory")
+      description = "Patterns for functions which indicate on external allocated memory")
   private ImmutableSet<String> externalAllocationFunction = ImmutableSet.of("ext_allocation");
 
   @Option(
@@ -321,7 +321,7 @@ public class SMGOptions {
     return deallocationFunctions;
   }
 
-  public ImmutableSet<String> getExternalAllocationFunction() {
+  public ImmutableSet<String> getExternalAllocationFunctionPatterns() {
     return externalAllocationFunction;
   }
 
