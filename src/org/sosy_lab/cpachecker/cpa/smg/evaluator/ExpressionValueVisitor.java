@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.cpa.smg.evaluator;
 import static java.util.Collections.singletonList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -620,8 +621,23 @@ class ExpressionValueVisitor
   public List<? extends SMGValueAndState> visit(CFunctionCallExpression pIastFunctionCallExpression)
       throws CPATransferException {
     if (!smgExpressionEvaluator.builtins.isABuiltIn(pIastFunctionCallExpression)) {
-      return smgExpressionEvaluator.builtins.handleUnknownFunction(
-          getCfaEdge(), pIastFunctionCallExpression, getInitialSmgState());
+      Builder<SMGValueAndState> resultBuilder = ImmutableList.builder();
+      // Evaluate function pointer to check NULL pointer execution or buffer overflow errors
+      ExpressionValueVisitor valueVisitor =
+          smgExpressionEvaluator.getExpressionValueVisitor(cfaEdge, getInitialSmgState());
+      List<? extends SMGValueAndState> smgValueAndStates =
+          pIastFunctionCallExpression.getFunctionNameExpression().accept(valueVisitor);
+      for (SMGValueAndState smgValueAndState : smgValueAndStates) {
+        resultBuilder.addAll(
+            smgExpressionEvaluator.builtins.handleUnknownFunction(
+                getCfaEdge(), pIastFunctionCallExpression, smgValueAndState.getSmgState()));
+      }
+      if (smgValueAndStates.isEmpty()) {
+        resultBuilder.addAll(
+            smgExpressionEvaluator.builtins.handleUnknownFunction(
+                getCfaEdge(), pIastFunctionCallExpression, getInitialSmgState()));
+      }
+      return resultBuilder.build();
     } else {
       return singletonList(SMGValueAndState.withUnknownValue(getInitialSmgState()));
     }
