@@ -1195,7 +1195,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         && !valueAndState.getSmgState().errorInfo.isInvalidRead()) {
       SMGStateEdgePair stateAndNewEdge;
       if (valueAndState.getSmgState().getHeap().isObjectExternallyAllocated(pObject)
-          && pType.getCanonicalType() instanceof CPointerType) {
+          && sizeInBits == sizeOfVoidPointerInBits) {
         SMGAddressValue new_address =
             SMGKnownAddressValue.valueOf(
                 valueAndState
@@ -1639,28 +1639,42 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   /** memory allocated in the heap has to be freed by the user, otherwise this is a memory-leak. */
   public SMGEdgePointsTo addNewHeapAllocation(int pSize, String pLabel)
       throws SMGInconsistentException {
-    return addHeapAllocation(pLabel, pSize, 0, false);
+    return addHeapAllocation(pLabel, SMGKnownSymValue.of(), pSize, 0, false);
   }
 
   /** memory externally allocated could be freed by the user */
   public SMGEdgePointsTo addExternalAllocation(String pLabel) throws SMGInconsistentException {
     return addHeapAllocation(
-        pLabel, options.getExternalAllocationSize(), options.getExternalAllocationSize() / 2, true);
+        pLabel,
+        SMGKnownSymValue.of(),
+        options.getExternalAllocationSize(),
+        options.getExternalAllocationSize() / 2,
+        true);
   }
 
-  private SMGEdgePointsTo addHeapAllocation(String label, int size, int offset, boolean external)
+  public SMGEdgePointsTo addExternalAllocation(String pLabel, SMGValue pValue)
+      throws SMGInconsistentException {
+    return addHeapAllocation(
+        pLabel,
+        pValue,
+        options.getExternalAllocationSize(),
+        options.getExternalAllocationSize() / 2,
+        true);
+  }
+
+  private SMGEdgePointsTo addHeapAllocation(
+      String label, SMGValue pValue, int size, int offset, boolean external)
       throws SMGInconsistentException {
     SMGRegion new_object = new SMGRegion(size, label);
-    SMGKnownSymbolicValue new_value = SMGKnownSymValue.of();
     heap.addHeapObject(new_object);
     heap.setValidity(new_object, true);
-    heap.addValue(new_value);
+    heap.addValue(pValue);
     for (SMGObject object : heap.getObjects()) {
       if (!SMGNullObject.INSTANCE.equals(object) && !heap.isObjectValid(object)) {
         heap.addPossibleEqualObjects(new_object, object);
       }
     }
-    SMGEdgePointsTo pointsTo = new SMGEdgePointsTo(new_value, new_object, offset);
+    SMGEdgePointsTo pointsTo = new SMGEdgePointsTo(pValue, new_object, offset);
     heap.addPointsToEdge(pointsTo);
     heap.setExternallyAllocatedFlag(new_object, external);
     getMutableStateStatistics().changeHeapAllocatedSize(size);
