@@ -107,31 +107,46 @@ public class CFACreationUtils {
    * Remove nodes from the CFA beginning at a certain node n until there is a node that is reachable
    * via some other path (not going through n). Useful for eliminating dead node, if node n is not
    * reachable.
+   *
+   * <p>XXX It actually removes only edges, nodes themselves are not touched. See <a
+   * href="https://gitlab.com/sosy-lab/software/cpachecker/-/issues/989">issue #989</a> for more
+   * information and a complete overview of the situation.
    */
   public static void removeChainOfNodesFromCFA(CFANode pNode) {
     Queue<CFANode> queue = new ArrayDeque<>();
-    if (pNode.getNumEnteringEdges() == 0) {
+    if (pNode.getNumEnteringEdges() == 0 && pNode.getEnteringSummaryEdge() == null) {
       queue.add(pNode);
     }
 
     while (!queue.isEmpty()) {
-      CFANode n = queue.poll();
-      for (int i = n.getNumLeavingEdges() - 1; i >= 0; i--) {
-        CFAEdge e = n.getLeavingEdge(i);
-        CFANode succ = e.getSuccessor();
+      CFANode node = queue.poll();
 
-        removeEdgeFromNodes(e);
-        if (succ.getNumEnteringEdges() == 0) {
+      // remove edges from array
+      for (int i = node.getNumLeavingEdges() - 1; i >= 0; i--) {
+        CFAEdge edge = node.getLeavingEdge(i);
+        CFANode succ = edge.getSuccessor();
+
+        node.removeLeavingEdge(edge);
+        succ.removeEnteringEdge(edge);
+
+        if (succ.getNumEnteringEdges() == 0 && succ.getEnteringSummaryEdge() == null) {
           queue.add(succ);
         }
       }
-    }
 
-    FunctionSummaryEdge lse = n.getLeavingSummaryEdge();
-    if (lse != null) {
-      n.removeLeavingSummaryEdge(lse);
-      lse.getSuccessor().removeEnteringSummaryEdge(lse);
-      removeChainOfNodesFromCFA(lse.getSuccessor());
+      // remove summary edge
+      FunctionSummaryEdge lse = node.getLeavingSummaryEdge();
+      if (lse == null) {
+        continue;
+      }
+      CFANode succ = lse.getSuccessor();
+
+      node.removeLeavingSummaryEdge(lse);
+      succ.removeEnteringSummaryEdge(lse);
+
+      if (succ.getNumEnteringEdges() == 0) {
+        queue.add(succ);
+      }
     }
   }
 
