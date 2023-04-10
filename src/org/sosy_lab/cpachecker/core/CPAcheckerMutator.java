@@ -421,27 +421,31 @@ public final class CPAcheckerMutator extends CPAchecker {
       thrown = pThrown;
     }
 
-    public AnalysisOutcome toAnalysisOutcome(AnalysisResult pOther) {
+    /** Map this to {@link AnalysisOutcome} wrt original result. */
+    public AnalysisOutcome toAnalysisOutcome(AnalysisResult pOriginal) {
       switch (getVerdict()) {
         case TRUE:
           return AnalysisOutcome.VERDICT_TRUE;
 
         case FALSE:
-          return pOther.getVerdict() == Result.FALSE && sameTargetDescription(pOther)
+          return pOriginal.getVerdict() == Result.FALSE && sameTargetDescription(pOriginal)
               ? AnalysisOutcome.SAME_VERDICT_FALSE
               : AnalysisOutcome.VERDICT_FALSE;
 
         case NOT_YET_STARTED:
         case UNKNOWN:
-          if (thrown instanceof InterruptedException) {
+          if (thrown == null) {
+            return AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN;
+
+          } else if (thrown instanceof InterruptedException) {
             return AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT;
-          }
-          if (sameException(pOther)) {
+
+          } else if (sameException(pOriginal)) {
             return AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION;
+
+          } else {
+            return AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
           }
-          return thrown == null
-              ? AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN
-              : AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
 
         default:
           throw new AssertionError();
