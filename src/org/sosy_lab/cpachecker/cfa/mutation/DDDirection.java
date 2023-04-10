@@ -9,6 +9,7 @@
 package org.sosy_lab.cpachecker.cfa.mutation;
 
 enum DDDirection {
+  NOT_SPECIFIED,
   /** Delta Debugging will minimize CFA for given criteria. */
   MINIMIZATION,
   /** Delta Debugging will maximize CFA for given criteria. */

@@ -204,10 +204,7 @@ public class ConfigurationFileChecks {
     @Option(
         secure = true,
         name = "cfaMutation",
-        description =
-            "Run multiple runs on mutated CFAs. For example, try to make CFA of the input program "
-                + "smaller when original analysis run throws an exception, i.e. minimize a "
-                + "failing test. See more in the Delta Debugging (dd) options below.")
+        description = "\nRun multiple analysis runs on mutated CFAs. See also Delta Debugging.\n")
     private boolean doCfaMutation = false;
 
     @Option(

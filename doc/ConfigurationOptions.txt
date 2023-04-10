@@ -892,10 +892,32 @@ cfa.variableClassification.printStatsOnStartup = false
 # Dump variable type mapping to a file.
 cfa.variableClassification.typeMapFile = "VariableTypeMapping.txt"
 
-# Run multiple runs on mutated CFAs. For example, try to make CFA of the
-# input program smaller when original analysis run throws an exception, i.e.
-# minimize a failing test. See more in the Delta Debugging (dd) options
-# below.
+#     Run multiple analysis runs on mutated CFAs. See also Delta Debugging.
+#     Consider analysis run as a test run. Some possible outcomes are FAIL
+# ('bad'), some are PASS ('good'), and all others are UNRESOLVED. We may want
+# to find a minimal fail-reproducing test, a maximal passing test, isolate a
+# difference (locate a 'cause') in test that makes test fail when present.
+#     By default, PASS (aka max-property) is {VERDICT_TRUE, VERDICT_FALSE}.
+#     By default, FAIL (aka min-property) is the original outcome, that is
+# 1. result must be of same category: True, False, exception, timeout, other
+# Unknown, and additionally,
+# 2. for FALSE the result has to have same target description,
+# 3. for exception the exception has to have same class and first stack
+# element.
+#     Specify what to do for each possible outcome in 'cfaMutation.if*'
+# options or specify both 'cfaMutation.dd.variant' and
+# 'cfaMutation.dd.direction'.
+#     You can specify other min/max properties in
+# 'cfaMutation.dd.{min,max}Property' options.
+#     Default behavior:
+# 1. If original analysis run throws an exception, try to make CFA of the
+# input program smaller, i.e. minimize a failing test.
+# 2. If timeout occurs, try mutate CFA until an error is found, that is
+# feasible wrt original program.
+# 3. If analysis produces True, False or other Unknown verdict, just return
+# it without any mutations.
+# 
+# Run multiple analysis runs on mutated CFAs. See also Delta Debugging.
 cfaMutation = false
 
 # Which model checker to use for verifying counterexample when an error is
@@ -921,8 +943,8 @@ cfaMutation.cex.timelimit = 60s
 # implementation of original (flat) DD; new implementation of original (flat)
 # DD; DD*, that iterates cause-isolating DD to minimize or maximize;
 # DDSearch, that iterates over optimums found by DD*; or hierarchical DD.
-cfaMutation.dd = DD
-  enum:     [OLD, DD, DDSTAR, DDSEARCH, HDD]
+cfaMutation.dd = NOT_SPECIFIED
+  enum:     [NOT_SPECIFIED, OLD, DD, DDSTAR, DDSEARCH, HDD]
 
 # Delta Debugging can minimize input program or maximize it while preserving
 # given property.Here properties are results of analysis run:
@@ -947,10 +969,10 @@ cfaMutation.dd = DD
 # minimization property should hold for original input program, and
 # maximization property should hold for 'empty' program `int main() {return
 # 0;}`.
-cfaMutation.dd.direction = MINIMIZATION
-  enum:     [MINIMIZATION, MAXIMIZATION, ISOLATION]
+cfaMutation.dd.direction = NOT_SPECIFIED
+  enum:     [NOT_SPECIFIED, MINIMIZATION, MAXIMIZATION, ISOLATION]
 cfaMutation.dd.maxProperty = {AnalysisOutcome.VERDICT_TRUE, AnalysisOutcome.VERDICT_FALSE}
-cfaMutation.dd.minProperty = {AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION}
+cfaMutation.dd.minProperty = no default value
 
 # which parts to remove? DD can remove deltas, complements, or both
 cfaMutation.dd.parts = DELTAS_AND_COMPLEMENTS
@@ -963,6 +985,39 @@ cfaMutation.dontExportLonger = 2s
 
 # directory to dump function CFAs with marked up structured blocks
 cfaMutation.exportBlocksDir = "cfa-structured-blocks"
+
+# What to do if original result is TRUE, FALSE, an exception, timeout,
+# UNKNOWN.
+# RETURN_ORIGINAL: just return original result;
+# MINIMIZE: find minimal CFA with same 'bad' result
+#     1. same exception by default has to be of the same class and with same
+#     first stack element;    2. same FALSE by default has to have same
+# target description;
+#     3. you can override outcomes allowed for the minimum in
+#     'cfaMutation.dd.minProperty';
+# MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;
+#     you can override outcomes allowed for the maximum in
+#     'cfaMutation.dd.maxProperty';
+# ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad'
+# result
+#     when present, and 'good' result is produced with it absent;
+# SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE)
+# that is    feasible on original program is found.
+cfaMutation.ifException = MINIMIZE
+  enum:     [RETURN_ORIGINAL, MINIMIZE, MAXIMIZE, ISOLATE_DIFFERENCE,
+             SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
+cfaMutation.ifFalse = RETURN_ORIGINAL
+  enum:     [RETURN_ORIGINAL, MINIMIZE, MAXIMIZE, ISOLATE_DIFFERENCE,
+             SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
+cfaMutation.ifOtherUnknown = RETURN_ORIGINAL
+  enum:     [RETURN_ORIGINAL, MINIMIZE, MAXIMIZE, ISOLATE_DIFFERENCE,
+             SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
+cfaMutation.ifTimeout = SEARCH_FOR_ERROR_MAX
+  enum:     [RETURN_ORIGINAL, MINIMIZE, MAXIMIZE, ISOLATE_DIFFERENCE,
+             SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
+cfaMutation.ifTrue = RETURN_ORIGINAL
+  enum:     [RETURN_ORIGINAL, MINIMIZE, MAXIMIZE, ISOLATE_DIFFERENCE,
+             SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
 
 # Create log file for every round with this logging level.
 # Use main file logging level if that is lower.

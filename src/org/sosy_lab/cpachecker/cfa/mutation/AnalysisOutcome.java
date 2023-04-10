@@ -16,4 +16,26 @@ public enum AnalysisOutcome {
   FAILURE_BECAUSE_OF_SAME_EXCEPTION,
   FAILURE_BECAUSE_OF_EXCEPTION,
   ANOTHER_VERDICT_UNKNOWN;
+
+  @Override
+  public String toString() {
+    switch (this) {
+      case ANOTHER_VERDICT_UNKNOWN:
+        return "verdict Unknown";
+      case FAILURE_BECAUSE_OF_EXCEPTION:
+        return "a thrown exception";
+      case FAILURE_BECAUSE_OF_SAME_EXCEPTION:
+        return "same thrown exception";
+      case SAME_VERDICT_FALSE:
+        return "same verdict False";
+      case VERDICT_FALSE:
+        return "verdict False";
+      case VERDICT_TRUE:
+        return "verdict True";
+      case VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT:
+        return "Timeout";
+      default:
+        throw new AssertionError();
+    }
+  }
 }

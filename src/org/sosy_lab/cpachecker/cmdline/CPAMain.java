@@ -301,11 +301,31 @@ public class CPAMain {
 
     @Option(
         secure = true,
-        name = "cfaMutation",
         description =
-            "Run multiple runs on mutated CFAs. For example, try to make CFA of the input program "
-                + "smaller when original analysis run throws an exception, i.e. minimize a "
-                + "failing test. See more in the Delta Debugging (dd) options below.")
+            "    Run multiple analysis runs on mutated CFAs. See also Delta Debugging.\n"
+                + "    Consider analysis run as a test run. Some possible outcomes are FAIL "
+                + "('bad'), some are PASS ('good'), and all others are UNRESOLVED. We may want to "
+                + "find a minimal fail-reproducing test, a maximal passing test, isolate a "
+                + "difference (locate a 'cause') in test that makes test fail when present.\n"
+                + "    By default, PASS (aka max-property) is {VERDICT_TRUE, VERDICT_FALSE}.\n"
+                + "    By default, FAIL (aka min-property) is the original outcome, that is\n"
+                + "1. result must be of same category: True, False, exception, timeout, other "
+                + "Unknown, and additionally,\n"
+                + "2. for FALSE the result has to have same target description,\n"
+                + "3. for exception the exception has to have same class and first stack "
+                + "element.\n"
+                + "    Specify what to do for each possible outcome in 'cfaMutation.if*' "
+                + "options or specify both 'cfaMutation.dd.variant' and "
+                + "'cfaMutation.dd.direction'.\n"
+                + "    You can specify other min/max properties in "
+                + "'cfaMutation.dd.{min,max}Property' options.\n"
+                + "    Default behavior:\n"
+                + "1. If original analysis run throws an exception, try to make CFA of the input "
+                + "program smaller, i.e. minimize a failing test.\n"
+                + "2. If timeout occurs, try mutate CFA until an error is found, that is "
+                + "feasible wrt original program.\n"
+                + "3. If analysis produces True, False or other Unknown verdict, just return it "
+                + "without any mutations.")
     private boolean cfaMutation = false;
   }
 

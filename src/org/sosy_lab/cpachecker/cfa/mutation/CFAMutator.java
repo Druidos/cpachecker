@@ -9,9 +9,13 @@
 package org.sosy_lab.cpachecker.cfa.mutation;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Verify;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -49,6 +53,135 @@ import org.sosy_lab.cpachecker.util.Pair;
 @Options(prefix = "cfaMutation")
 public class CFAMutator extends CFACreator implements StatisticsProvider {
 
+  private static enum CFAMutationBehavior {
+    RETURN_ORIGINAL,
+    MINIMIZE,
+    MAXIMIZE,
+    ISOLATE_DIFFERENCE,
+    SEARCH_FOR_ERROR_MIN,
+    SEARCH_FOR_ERROR_MAX;
+
+    @Override
+    public String toString() {
+      switch (this) {
+        case MAXIMIZE:
+          return "maximize CFA";
+        case MINIMIZE:
+          return "minimize CFA";
+        case ISOLATE_DIFFERENCE:
+          return "isolate a difference in CFA";
+        case RETURN_ORIGINAL:
+          return "return original result";
+        case SEARCH_FOR_ERROR_MAX:
+          return "search for feasible error along maxes";
+        case SEARCH_FOR_ERROR_MIN:
+          return "search for feasible error along mins";
+        default:
+          throw new AssertionError();
+      }
+    }
+  }
+
+  @Option(
+      secure = true,
+      description =
+          "What to do if original result is TRUE, FALSE, an exception, timeout, UNKNOWN.\n"
+              + "RETURN_ORIGINAL: just return original result;\n"
+              + "MINIMIZE: find minimal CFA with same 'bad' result\n"
+              + "    1. same exception by default has to be of the same class and with same\n"
+              + "    first stack element;"
+              + "    2. same FALSE by default has to have same target description;\n"
+              + "    3. you can override outcomes allowed for the minimum in\n"
+              + "    'cfaMutation.dd.minProperty';\n"
+              + "MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;\n"
+              + "    you can override outcomes allowed for the maximum in\n"
+              + "    'cfaMutation.dd.maxProperty';\n"
+              + "ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad' result\n"
+              + "    when present, and 'good' result is produced with it absent;\n"
+              + "SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE) that is"
+              + "    feasible on original program is found.")
+  private CFAMutationBehavior ifTrue = CFAMutationBehavior.RETURN_ORIGINAL;
+
+  @Option(
+      secure = true,
+      description =
+          "What to do if original result is TRUE, FALSE, an exception, timeout, UNKNOWN.\n"
+              + "RETURN_ORIGINAL: just return original result;\n"
+              + "MINIMIZE: find minimal CFA with same 'bad' result\n"
+              + "    1. same exception by default has to be of the same class and with same\n"
+              + "    first stack element;"
+              + "    2. same FALSE by default has to have same target description;\n"
+              + "    3. you can override outcomes allowed for the minimum in\n"
+              + "    'cfaMutation.dd.minProperty';\n"
+              + "MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;\n"
+              + "    you can override outcomes allowed for the maximum in\n"
+              + "    'cfaMutation.dd.maxProperty';\n"
+              + "ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad' result\n"
+              + "    when present, and 'good' result is produced with it absent;\n"
+              + "SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE) that is"
+              + "    feasible on original program is found.")
+  private CFAMutationBehavior ifFalse = CFAMutationBehavior.RETURN_ORIGINAL;
+
+  @Option(
+      secure = true,
+      description =
+          "What to do if original result is TRUE, FALSE, an exception, timeout, UNKNOWN.\n"
+              + "RETURN_ORIGINAL: just return original result;\n"
+              + "MINIMIZE: find minimal CFA with same 'bad' result\n"
+              + "    1. same exception by default has to be of the same class and with same\n"
+              + "    first stack element;"
+              + "    2. same FALSE by default has to have same target description;\n"
+              + "    3. you can override outcomes allowed for the minimum in\n"
+              + "    'cfaMutation.dd.minProperty';\n"
+              + "MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;\n"
+              + "    you can override outcomes allowed for the maximum in\n"
+              + "    'cfaMutation.dd.maxProperty';\n"
+              + "ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad' result\n"
+              + "    when present, and 'good' result is produced with it absent;\n"
+              + "SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE) that is"
+              + "    feasible on original program is found.")
+  private CFAMutationBehavior ifException = CFAMutationBehavior.MINIMIZE;
+
+  @Option(
+      secure = true,
+      description =
+          "What to do if original result is TRUE, FALSE, an exception, timeout, UNKNOWN.\n"
+              + "RETURN_ORIGINAL: just return original result;\n"
+              + "MINIMIZE: find minimal CFA with same 'bad' result\n"
+              + "    1. same exception by default has to be of the same class and with same\n"
+              + "    first stack element;"
+              + "    2. same FALSE by default has to have same target description;\n"
+              + "    3. you can override outcomes allowed for the minimum in\n"
+              + "    'cfaMutation.dd.minProperty';\n"
+              + "MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;\n"
+              + "    you can override outcomes allowed for the maximum in\n"
+              + "    'cfaMutation.dd.maxProperty';\n"
+              + "ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad' result\n"
+              + "    when present, and 'good' result is produced with it absent;\n"
+              + "SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE) that is"
+              + "    feasible on original program is found.")
+  private CFAMutationBehavior ifTimeout = CFAMutationBehavior.SEARCH_FOR_ERROR_MAX;
+
+  @Option(
+      secure = true,
+      description =
+          "What to do if original result is TRUE, FALSE, an exception, timeout, UNKNOWN.\n"
+              + "RETURN_ORIGINAL: just return original result;\n"
+              + "MINIMIZE: find minimal CFA with same 'bad' result\n"
+              + "    1. same exception by default has to be of the same class and with same\n"
+              + "    first stack element;"
+              + "    2. same FALSE by default has to have same target description;\n"
+              + "    3. you can override outcomes allowed for the minimum in\n"
+              + "    'cfaMutation.dd.minProperty';\n"
+              + "MAXIMIZE: find maximal CFA with 'good' result (TRUE or FALSE by default;\n"
+              + "    you can override outcomes allowed for the maximum in\n"
+              + "    'cfaMutation.dd.maxProperty';\n"
+              + "ISOLATE_DIFFERENCE: find a minimal difference in CFA, that causes 'bad' result\n"
+              + "    when present, and 'good' result is produced with it absent;\n"
+              + "SEARCH_FOR_ERROR: repeatedly find new min or max untill an error (FALSE) that is"
+              + "    feasible on original program is found.")
+  private CFAMutationBehavior ifOtherUnknown = CFAMutationBehavior.RETURN_ORIGINAL;
+
   @Option(
       secure = true,
       name = "dd.direction",
@@ -74,7 +207,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
               + "The two properties should be mutually exclusive (impossible together); minimization "
               + "property should hold for original input program, and maximization property should "
               + "hold for 'empty' program `int main() {return 0;}`.")
-  private DDDirection ddDirection = DDDirection.MINIMIZATION;
+  private DDDirection ddDirection = DDDirection.NOT_SPECIFIED;
 
   @Option(
       secure = true,
@@ -101,8 +234,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
               + "The two properties should be mutually exclusive (impossible together); minimization "
               + "property should hold for original input program, and maximization property should "
               + "hold for 'empty' program `int main() {return 0;}`.")
-  private ImmutableSet<AnalysisOutcome> ddMinProperty =
-      ImmutableSet.of(AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION);
+  private ImmutableSet<AnalysisOutcome> ddMinProperty;
 
   @Option(
       secure = true,
@@ -134,6 +266,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
   @SuppressWarnings("rawtypes")
   private enum DDVariant {
+    NOT_SPECIFIED(null),
     OLD(null),
     DD(FlatDeltaDebugging.class),
     DDSTAR(DDStar.class),
@@ -155,7 +288,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
               + "original (flat) DD; new implementation of original (flat) DD; DD*, that iterates "
               + "cause-isolating DD to minimize or maximize; DDSearch, that iterates over optimums "
               + "found by DD*; or hierarchical DD.")
-  private DDVariant ddVariant = DDVariant.DD;
+  private DDVariant ddVariant = DDVariant.NOT_SPECIFIED;
 
   @Option(
       secure = true,
@@ -201,7 +334,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   /** local CFA of functions before processing */
   private FunctionCFAsWithMetadata localCfa;
   /** Strategy that decides how to change the CFA and implements this change */
-  private final CFAMutationStrategy strategy;
+  private CFAMutationStrategy strategy;
 
   private final CFAMutatorStatistics mutatorStats;
 
@@ -217,6 +350,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier);
     config.inject(this, CFAMutator.class);
+    mutatorStats = new CFAMutatorStatistics(pLogger);
 
     if (ddVariant == DDVariant.OLD) {
       // use previous impl
@@ -224,30 +358,26 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
         throw new InvalidConfigurationException("No CFA mutation strategies were specified");
       }
       strategy = buildOldStrategies(pConfig, pLogger);
-
-    } else {
-      // new impl
-      ddMinProperty = normalize(ddMinProperty);
-      ddMaxProperty = normalize(ddMaxProperty);
-      if (!areMutuallyExclusive(ddMinProperty, ddMaxProperty)) {
-        throw new InvalidConfigurationException(
-            "Properties "
-                + toString(ddMinProperty)
-                + " and "
-                + toString(ddMaxProperty)
-                + " should not intersect");
-      }
-      if (ddDirection == DDDirection.ISOLATION
-          && (ddVariant == DDVariant.DDSTAR || ddVariant == DDVariant.DDSEARCH)) {
-        throw new InvalidConfigurationException("DD* and DD** cannot isolate cause");
-      }
-      strategy = buildNewStrategy();
+      return;
     }
 
-    mutatorStats = new CFAMutatorStatistics(pLogger);
+    // new impl
+    if (ddVariant != DDVariant.NOT_SPECIFIED && ddDirection != DDDirection.NOT_SPECIFIED) {
+      strategy = buildNewStrategy();
+    }
   }
 
   private CFAMutationStrategy buildNewStrategy() throws InvalidConfigurationException {
+    Preconditions.checkState(strategy == null, "Cannot build CFA mutation strategy twice");
+    Preconditions.checkState(
+        ddVariant != DDVariant.NOT_SPECIFIED && ddDirection != DDDirection.NOT_SPECIFIED,
+        "Cannot build CFA mutation strategy as DD variant is not set");
+
+    if (ddDirection == DDDirection.ISOLATION
+        && (ddVariant == DDVariant.DDSTAR || ddVariant == DDVariant.DDSEARCH)) {
+      throw new InvalidConfigurationException("DD* and DD** cannot isolate cause");
+    }
+
     CFAElementManipulator<?, ?> manipulator = null;
     try {
       manipulator =
@@ -452,15 +582,28 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
   public String getApproachName() {
     switch (ddDirection) {
+      case NOT_SPECIFIED:
+        Multimap<CFAMutationBehavior, String> what = HashMultimap.create();
+        what.put(ifTrue, "True");
+        what.put(ifFalse, "False");
+        what.put(ifException, "exception");
+        what.put(ifTimeout, "Timeout");
+        what.put(ifOtherUnknown, "other Unknown");
+
+        return Joiner.on(", ")
+            .join(
+                FluentIterable.from(what.keySet())
+                    .transform(k -> k.toString() + " for " + Joiner.on(", ").join(what.get(k))));
+
       case ISOLATION:
         return Joiner.on(' ')
-            .join("isolate what cause a change from", ddMaxProperty, "to", ddMinProperty);
+            .join("isolate what in CFA causes a change from", ddMaxProperty, "to", ddMinProperty);
 
       case MAXIMIZATION:
-        return "maximize for " + ddMaxProperty;
+        return "maximize CFA for " + ddMaxProperty;
 
       case MINIMIZATION:
-        return "minimize for " + ddMinProperty;
+        return "minimize CFA for " + ddMinProperty;
 
       default:
         throw new AssertionError();
@@ -541,14 +684,112 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     return result;
   }
 
-  public boolean shouldReturnWithoutMutation(AnalysisOutcome pOriginalOutcome) {
-    if (ddMaxProperty.contains(pOriginalOutcome)) {
-      logger.log(Level.WARNING, "CFA is not mutated.");
+  public boolean shouldReturnWithoutMutation(AnalysisOutcome pOriginalOutcome)
+      throws InvalidConfigurationException {
+    CFAMutationBehavior behave;
+
+    switch (pOriginalOutcome) {
+      case VERDICT_TRUE:
+        behave = ifTrue;
+        break;
+      case SAME_VERDICT_FALSE:
+        behave = ifFalse;
+        break;
+      case FAILURE_BECAUSE_OF_SAME_EXCEPTION:
+        behave = ifException;
+        break;
+      case VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT:
+        behave = ifTimeout;
+        break;
+      case ANOTHER_VERDICT_UNKNOWN:
+        behave = ifOtherUnknown;
+        break;
+      default:
+        throw new AssertionError();
+    }
+
+    logger.log(Level.INFO, behave, "for", pOriginalOutcome);
+    boolean result = behave == CFAMutationBehavior.RETURN_ORIGINAL;
+
+    if (result) {
       return true;
     }
 
-    verifyOutcome(pOriginalOutcome);
+    if (ddMinProperty == null) {
+      ddMinProperty = ImmutableSet.of(pOriginalOutcome);
+    } else {
+      ddMinProperty = normalize(ddMinProperty);
+    }
+    ddMaxProperty = normalize(ddMaxProperty);
+
+    if (ddMinProperty.isEmpty() && ddMaxProperty.isEmpty()) {
+      logger.log(
+          Level.SEVERE, "Properties", ddMinProperty, "and", ddMaxProperty, "must not be empty");
+      return true;
+    }
+
+    if (!areMutuallyExclusive(ddMinProperty, ddMaxProperty)) {
+      logger.log(
+          Level.SEVERE, "Properties", ddMinProperty, "and", ddMaxProperty, "must not intersect");
+      return true;
+    }
+
+    if (ddMaxProperty.contains(pOriginalOutcome)) {
+      logger.log(
+          Level.SEVERE,
+          "CFA is not mutated as original outcome",
+          pOriginalOutcome,
+          "is 'good' (in 'pass' maximization property).");
+      return true;
+    }
+
+    Verify.verify(
+        ddMinProperty.contains(pOriginalOutcome),
+        "min-property %s does not hold: %s",
+        ddMinProperty,
+        pOriginalOutcome);
+
+    if (ddVariant == DDVariant.NOT_SPECIFIED) {
+      chooseDDVariantAndBuildStrategy(behave);
+    }
     return false;
+  }
+
+  private void chooseDDVariantAndBuildStrategy(CFAMutationBehavior pBehave)
+      throws InvalidConfigurationException {
+    Preconditions.checkState(
+        ddVariant == DDVariant.NOT_SPECIFIED
+            && ddDirection == DDDirection.NOT_SPECIFIED
+            && strategy == null,
+        "CFA mutation strategy must not be overriden");
+
+    switch (pBehave) {
+      case ISOLATE_DIFFERENCE:
+        ddVariant = DDVariant.DD;
+        ddDirection = DDDirection.ISOLATION;
+        break;
+      case MAXIMIZE:
+        ddVariant = DDVariant.DD;
+        ddDirection = DDDirection.MAXIMIZATION;
+        break;
+      case MINIMIZE:
+        ddVariant = DDVariant.DD;
+        ddDirection = DDDirection.MINIMIZATION;
+        break;
+      case SEARCH_FOR_ERROR_MAX:
+        ddVariant = DDVariant.DDSEARCH;
+        ddDirection = DDDirection.MAXIMIZATION;
+        break;
+      case SEARCH_FOR_ERROR_MIN:
+        ddVariant = DDVariant.DDSEARCH;
+        ddDirection = DDDirection.MINIMIZATION;
+        break;
+      case RETURN_ORIGINAL:
+      default:
+        throw new AssertionError();
+    }
+
+    strategy = buildNewStrategy();
   }
 
   public CFA restoreCfa()

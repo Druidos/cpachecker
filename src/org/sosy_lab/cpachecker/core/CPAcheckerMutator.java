@@ -98,7 +98,7 @@ public final class CPAcheckerMutator extends CPAchecker {
     checkArgument(!programDenotation.isEmpty());
     logger.logf(
         Level.INFO,
-        "%s / CFA %s (%s) started",
+        "%s / %s (%s) started",
         getVersion(config),
         cfaMutator.getApproachName(),
         getJavaInformation());
