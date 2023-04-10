@@ -1484,11 +1484,17 @@ class WitnessFactory implements EdgeAppender {
     Preconditions.checkArgument(
         isEdgeIrrelevant(pEdge) || isEdgeIrrelevantByFaultLocalization(pEdge));
 
-    // Always merge into the predecessor, unless the successor is the sink
-    boolean intoPredecessor =
-        !nodeFlags.get(pEdge.getTarget()).equals(EnumSet.of(NodeFlag.ISSINKNODE));
-    final String nodeToKeep = intoPredecessor ? pEdge.getSource() : pEdge.getTarget();
-    final String nodeToRemove = intoPredecessor ? pEdge.getTarget() : pEdge.getSource();
+    // Always merge into the predecessor, unless the successor is the sink or entry
+    Predicate<String> isSinkOrEntry =
+        node ->
+            nodeFlags.get(node).contains(NodeFlag.ISSINKNODE)
+                || nodeFlags.get(node).contains(NodeFlag.ISENTRY);
+    boolean preserveSuccessor = isSinkOrEntry.test(pEdge.getTarget());
+    assert !preserveSuccessor || !isSinkOrEntry.test(pEdge.getSource())
+        : "cannot remove irrelevant edge " + pEdge + " between two sink|entry nodes";
+
+    final String nodeToKeep = preserveSuccessor ? pEdge.getTarget() : pEdge.getSource();
+    final String nodeToRemove = preserveSuccessor ? pEdge.getSource() : pEdge.getTarget();
 
     if (nodeToKeep.equals(nodeToRemove)) {
       removeEdge(pEdge);
