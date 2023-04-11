@@ -17,7 +17,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,12 +25,10 @@ import java.util.logging.Level;
 import org.sosy_lab.common.ShutdownNotifier;
 import org.sosy_lab.common.configuration.ClassOption;
 import org.sosy_lab.common.configuration.Configuration;
-import org.sosy_lab.common.configuration.FileOption;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.configuration.Option;
 import org.sosy_lab.common.configuration.Options;
 import org.sosy_lab.common.configuration.TimeSpanOption;
-import org.sosy_lab.common.configuration.converters.FileTypeConverter;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.cpachecker.cfa.CFA;
@@ -40,6 +37,7 @@ import org.sosy_lab.cpachecker.cfa.ParseResult;
 import org.sosy_lab.cpachecker.cfa.export.DOTBuilder2;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutationStrategy.MutationRollback;
+import org.sosy_lab.cpachecker.core.CFAMutationManager;
 import org.sosy_lab.cpachecker.core.interfaces.Statistics;
 import org.sosy_lab.cpachecker.core.interfaces.StatisticsProvider;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
@@ -346,9 +344,16 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
   private CanMutate strategyCanMutate = CanMutate.UNKNOWN;
 
-  public CFAMutator(Configuration pConfig, LogManager pLogger, ShutdownNotifier pShutdownNotifier)
+  private final CFAMutationManager manager;
+
+  public CFAMutator(
+      Configuration pConfig,
+      LogManager pLogger,
+      ShutdownNotifier pShutdownNotifier,
+      CFAMutationManager pCfaMutationManager)
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier);
+    manager = pCfaMutationManager;
     config.inject(this, CFAMutator.class);
     mutatorStats = new CFAMutatorStatistics(pLogger);
 
@@ -428,21 +433,16 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     }
   }
 
-  // current output directory changes every round
-  private Path getDirectory() {
-    return ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class))
-        .getOutputPath();
+  private boolean startExport() {
+    exportDirectory = manager.getCurrentExportDirectory();
+    if (exportDirectory == null || exportWasTooLong) {
+      return false;
+    }
+    mutatorStats.startExport();
+    return true;
   }
 
-  @Override
-  protected void exportCFA(CFA pCfa) {
-    if (exportWasTooLong) {
-      return;
-    }
-
-    exportDirectory = getDirectory();
-    mutatorStats.startExport();
-    super.exportCFA(pCfa);
+  private void stopExport() {
     mutatorStats.stopExport();
 
     if (exportTimelimit.compareTo(TimeSpan.empty()) > 0
@@ -453,24 +453,31 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
           exportTimelimit);
       exportWasTooLong = true;
     }
+  }
 
+  @Override
+  protected void exportCFA(CFA pCfa) {
+    if (!startExport()) {
+      return;
+    }
+    super.exportCFA(pCfa);
+    stopExport();
   }
 
   private CFA exportCreateExportCFA()
       throws InvalidConfigurationException, InterruptedException, ParserException {
 
-    if (!exportWasTooLong) {
-      mutatorStats.startExport();
+    if (startExport()) {
       try {
         new DOTBuilder2(localCfa)
-            .writeGraphs(getDirectory().resolve("function-cfas-before-processing"));
+            .writeGraphs(exportDirectory.resolve("function-cfas-before-processing"));
       } catch (IOException e) {
         logger.logUserException(
             Level.WARNING, e, "Could not write function CFAs before processing to dot files");
       }
       // new BlockToDotWriter(localCfa).dump(exportDirectory.resolve("function-cfa-blocks"),
       // logger);
-      mutatorStats.stopExport();
+      stopExport();
     }
 
     mutatorStats.setCfaStats(localCfa);
@@ -520,11 +527,10 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     strategyCanMutate = result ? CanMutate.CAN_MUTATE : CanMutate.CAN_NOT_MUTATE;
     mutatorStats.stopPreparations();
 
-    if (strategy instanceof AbstractDeltaDebuggingStrategy<?>) {
-      mutatorStats.startExport();
+    if (strategy instanceof AbstractDeltaDebuggingStrategy<?> && startExport()) {
       ((AbstractDeltaDebuggingStrategy<?>) strategy)
-          .exportGraph(getDirectory().resolve("strategy-export"));
-      mutatorStats.stopExport();
+          .exportGraph(exportDirectory.resolve("strategy-export"));
+      stopExport();
     }
 
     return result;
@@ -564,11 +570,6 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     CFA rollbackedCfa = super.createCFA(localCfa.copyAsParseResult(), localCfa.getMainFunction());
     mutatorStats.setCfaStats(rollbackedCfa);
 
-    exportDirectory =
-        exportDirectory.resolveSibling(
-            String.valueOf(mutatorStats.getRound())
-                + "-mutation-round-"
-                + (mutationRollback == MutationRollback.ROLLBACK ? "rollbacked" : "irregular"));
     exportCFA(rollbackedCfa);
 
     return mutationRollback == MutationRollback.ROLLBACK ? rollbackedCfa : null;

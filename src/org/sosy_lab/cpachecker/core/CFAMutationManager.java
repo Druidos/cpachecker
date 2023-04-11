@@ -71,9 +71,10 @@ import org.sosy_lab.cpachecker.util.resources.ResourceLimit;
 import org.sosy_lab.cpachecker.util.resources.ResourceLimitChecker;
 import org.sosy_lab.cpachecker.util.resources.ThreadCpuTimeLimit;
 import org.sosy_lab.cpachecker.util.resources.WalltimeLimit;
+import org.sosy_lab.cpachecker.util.statistics.StatisticsUtils;
 
 @Options(prefix = "cfaMutation")
-final class CFAMutationManager {
+public final class CFAMutationManager {
 
   @Option(
       secure = true,
@@ -201,26 +202,34 @@ final class CFAMutationManager {
   private final ShutdownManager shutdownManager;
 
   private Specification originalSpec;
-  private final CFAMutator cfaMutator;
 
   private ResourceLimitChecker currentLimits;
   private final Timer currentTimer = new Timer();
   private LogManager currentLogger;
 
+  private final String defaultOutputDirectory;
+  private int round = 0;
+  private Path currentOutputDirectory;
+  private boolean disableOutput = false;
+
+  @SuppressWarnings("deprecation")
   public CFAMutationManager(
       Configuration pConfig,
       LogManager pLogger,
       ShutdownManager pShutdownManager,
-      ResourceLimitChecker pLimits,
-      CFAMutator pCfaMutator)
+      ResourceLimitChecker pLimits)
       throws InvalidConfigurationException {
 
     config = Preconditions.checkNotNull(pConfig);
     logger = Preconditions.checkNotNull(pLogger);
     shutdownManager = Preconditions.checkNotNull(pShutdownManager);
-    cfaMutator = Preconditions.checkNotNull(pCfaMutator);
 
     config.inject(this, CFAMutationManager.class);
+    FileTypeConverter ftc =
+        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
+    defaultOutputDirectory = ftc.getOutputDirectory();
+    currentOutputDirectory = ftc.getOutputPath();
+    disableOutput = "true".equals(config.getProperty("output.disable")); // XXX better
 
     ParserOptions parserOptions = CParser.Factory.getOptions(pConfig);
     if (parserOptions.shouldCollectACSLAnnotations()) {
@@ -443,7 +452,7 @@ final class CFAMutationManager {
     LogManager result = LogManager.createNullLogManager();
 
     Path logFile = logOptions.getOutputFile();
-    if (logFile == null || logOptions.getFileLevel() == Level.OFF) {
+    if (logFile == null || logOptions.getFileLevel() == Level.OFF || disableOutput) {
       return result;
     }
 
@@ -530,8 +539,8 @@ final class CFAMutationManager {
     currentLimits.start();
   }
 
-  public CounterexampleChecker createCexCheckerAndStartLimits(AnalysisResult pResult)
-      throws InvalidConfigurationException {
+  public CounterexampleChecker createCexCheckerAndStartLimits(
+      AnalysisResult pResult, CFAMutator pCfaMutator) throws InvalidConfigurationException {
     assert pResult != null;
 
     Configuration checkConfig = createRoundConfig(AnalysisRun.FEASIBILITY_CHECK);
@@ -541,14 +550,15 @@ final class CFAMutationManager {
     ShutdownManager fMan = ShutdownManager.createWithParent(parentNotifier);
 
     startCheckLimits(checkLogger, fMan);
-    return createCexChecker(checkConfig, checkLogger, fMan, pResult);
+    return createCexChecker(checkConfig, checkLogger, fMan, pResult, pCfaMutator);
   }
 
   private CounterexampleChecker createCexChecker(
       Configuration checkConfig,
       LogManager checkLogger,
       ShutdownManager pShutdownManager,
-      AnalysisResult pResult)
+      AnalysisResult pResult,
+      CFAMutator pCfaMutator)
       throws InvalidConfigurationException, AssertionError {
 
     ConfigurableProgramAnalysis usedCpa = pResult.getCpa();
@@ -561,7 +571,7 @@ final class CFAMutationManager {
 
     CFA mutatedCfa = pResult.getCfa();
     return new DelegatingCheckerWithRestoredFunctions(
-        checkConfig, checkLogger, mutatedCfa, pShutdownManager, checkerType, cfaMutator);
+        checkConfig, checkLogger, mutatedCfa, pShutdownManager, checkerType, pCfaMutator);
   }
 
   public void cancelCheckLimits() {
@@ -573,12 +583,6 @@ final class CFAMutationManager {
 
   public LogManager getCurrentLogger() {
     return currentLogger;
-  }
-
-  public File getIntermediateStatisticsFile() {
-    FileTypeConverter fileConverter =
-        (FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class);
-    return fileConverter.getOutputPath().resolve(roundStatFile).toFile();
   }
 
   void printCfaNodeRank(PrintStream pOut, UnmodifiableReachedSet pReached) {
@@ -602,9 +606,11 @@ final class CFAMutationManager {
     }
     pOut.println();
 
-    FileTypeConverter fileConverter =
-        (FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class);
-    Path thisRoundRankedNodesFile = fileConverter.getOutputPath().resolve(rankedNodesFile);
+    if (currentOutputDirectory == null) {
+      return;
+    }
+
+    Path thisRoundRankedNodesFile = currentOutputDirectory.resolve(rankedNodesFile);
     try (Writer file = IO.openOutputFile(thisRoundRankedNodesFile, Charset.defaultCharset())) {
       int i = 0;
       for (Multiset.Entry<CFANode> p : rankedNodes) {
@@ -634,5 +640,67 @@ final class CFAMutationManager {
 
     return FluentIterable.from(nodes.entrySet())
         .toSortedList((p1, p2) -> p2.getCount() - p1.getCount());
+  }
+
+  public void resetExportDirectory(AnalysisRun pRun) throws InvalidConfigurationException {
+    String exportPath = defaultOutputDirectory + File.separatorChar;
+
+    switch (pRun) {
+      case ORIGINAL:
+        assert round == 0;
+        exportPath += "0-original-round";
+        break;
+
+      case AFTER_MUTATION:
+        exportPath += String.valueOf(++round) + "-mutation-round";
+        break;
+
+      case FEASIBILITY_CHECK:
+        exportPath += String.valueOf(round) + "-mutation-round-feasibility";
+        break;
+
+      case AFTER_ROLLBACK:
+        exportPath += String.valueOf(round) + "-mutation-round-rollback";
+        break;
+
+      default:
+        throw new AssertionError();
+    }
+
+    FileTypeConverter fileTypeConverter =
+        FileTypeConverter.create(
+            Configuration.builder()
+                .setOption("output.path", exportPath)
+                .setOption("output.disable", Boolean.toString(disableOutput))
+                .build());
+    Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
+    currentOutputDirectory = disableOutput ? null : fileTypeConverter.getOutputPath();
+  }
+
+  @SuppressWarnings("checkstyle:IllegalInstantiation") // ok for statistics
+  public void exportIntermediateStatistics(MainCPAStatistics pStats, CPAcheckerResult pResult) {
+    if (currentOutputDirectory == null) {
+      return;
+    }
+
+    try (PrintStream w =
+        new PrintStream(
+            currentOutputDirectory.resolve(roundStatFile).toFile(), Charset.defaultCharset())) {
+
+      StatisticsUtils.printStatistics(
+          pStats, w, currentLogger, pResult.getResult(), pResult.getReached());
+
+      StatisticsUtils.writeOutputFiles(
+          pStats, currentLogger, pResult.getResult(), pResult.getReached());
+
+      printCfaNodeRank(w, pResult.getReached());
+
+    } catch (IOException e) {
+      currentLogger.logUserException(Level.WARNING, e, "Cannot write intermediate statistics");
+    }
+  }
+
+  public Path getCurrentExportDirectory() {
+    return currentOutputDirectory;
   }
 }

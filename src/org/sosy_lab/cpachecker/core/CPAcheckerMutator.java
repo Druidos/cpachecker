@@ -16,10 +16,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.VerifyException;
 import com.google.common.collect.ImmutableSet;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,9 +25,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.MoreStrings;
 import org.sosy_lab.common.ShutdownManager;
 import org.sosy_lab.common.configuration.Configuration;
-import org.sosy_lab.common.configuration.FileOption;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
-import org.sosy_lab.common.configuration.converters.FileTypeConverter;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.CFA;
 import org.sosy_lab.cpachecker.cfa.mutation.AnalysisOutcome;
@@ -67,10 +62,6 @@ public final class CPAcheckerMutator extends CPAchecker {
 
   private final CFAMutator cfaMutator;
 
-  private final String defaultOutputDirectory;
-
-  private int round = 0;
-
   public CPAcheckerMutator(
       Configuration pConfiguration,
       LogManager pLogManager,
@@ -79,12 +70,9 @@ public final class CPAcheckerMutator extends CPAchecker {
       throws InvalidConfigurationException {
 
     super(pConfiguration, pLogManager, pShutdownManager);
-    cfaMutator = new CFAMutator(config, logger, shutdownNotifier);
     cfaMutationManager =
-        new CFAMutationManager(pConfiguration, pLogManager, pShutdownManager, pLimits, cfaMutator);
-    defaultOutputDirectory =
-        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class))
-            .getOutputDirectory();
+        new CFAMutationManager(pConfiguration, pLogManager, pShutdownManager, pLimits);
+    cfaMutator = new CFAMutator(config, logger, shutdownNotifier, cfaMutationManager);
 
     if (getSerializedCfaFile() != null) {
       throw new InvalidConfigurationException(
@@ -106,7 +94,7 @@ public final class CPAcheckerMutator extends CPAchecker {
     AnalysisResult lastResult = null;
 
     try {
-      resetExportDirectory(AnalysisRun.ORIGINAL);
+      cfaMutationManager.resetExportDirectory(AnalysisRun.ORIGINAL);
       parse(cfaMutator, programDenotation);
       totalStats.setCFACreatorStatistics(cfaMutator.getStatistics());
       cfaMutator.clearCreatorStats();
@@ -139,10 +127,10 @@ public final class CPAcheckerMutator extends CPAchecker {
       // so no need to pass CFA as argument in next calls
 
       int rollbacksInRow = 0;
-      for (round = 1; cfaMutator.canMutate(); round++) {
+      for (int round = 1; cfaMutator.canMutate(); round++) {
         logger.log(Level.INFO, "Mutation round", round);
 
-        resetExportDirectory(AnalysisRun.AFTER_MUTATION);
+        cfaMutationManager.resetExportDirectory(AnalysisRun.AFTER_MUTATION);
         CFA mutated = cfaMutator.mutate();
         lastResult =
             analysisRound(mutated, totalStats.afterMutations, AnalysisRun.AFTER_MUTATION);
@@ -158,7 +146,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
           logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
 
-          resetExportDirectory(AnalysisRun.FEASIBILITY_CHECK);
+          cfaMutationManager.resetExportDirectory(AnalysisRun.FEASIBILITY_CHECK);
           boolean errorIsFeasible = false;
           try {
             totalStats.feasibilityCheck.start();
@@ -177,7 +165,7 @@ public final class CPAcheckerMutator extends CPAchecker {
           logger.log(Level.INFO, lastOutcome);
         }
 
-        resetExportDirectory(AnalysisRun.AFTER_ROLLBACK);
+        cfaMutationManager.resetExportDirectory(AnalysisRun.AFTER_ROLLBACK);
         CFA rollbacked = cfaMutator.setResult(lastOutcome);
 
         if (cfaMutationManager.exceedsLimitsForAnalysis(
@@ -244,35 +232,6 @@ public final class CPAcheckerMutator extends CPAchecker {
     return lastResult.asMutatorResult(Result.DONE, cfaMutator, totalStats);
   }
 
-  public void resetExportDirectory(AnalysisRun pRun) throws InvalidConfigurationException {
-    String exportPath = defaultOutputDirectory + File.separatorChar;
-
-    switch (pRun) {
-      case ORIGINAL:
-        assert round == 0;
-        exportPath += "0-original-round";
-        break;
-
-      case AFTER_MUTATION:
-        exportPath += String.valueOf(round) + "-mutation-round";
-        break;
-
-      case FEASIBILITY_CHECK:
-        exportPath += String.valueOf(round) + "-mutation-round-feasibility";
-        break;
-
-      case AFTER_ROLLBACK:
-        exportPath += String.valueOf(round) + "-mutation-round-rollback";
-        break;
-
-      default:
-        throw new AssertionError();
-    }
-
-    FileTypeConverter fileTypeConverter = FileTypeConverter.create(Configuration.builder().setOption("output.path", exportPath).build());
-    Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
-  }
-
   @SuppressFBWarnings("DCN_NULLPOINTER_EXCEPTION")
   // run analysis, but for already stored CFA, and catch its errors
   private AnalysisResult analysisRound(CFA pCfa, StatTimer pTimer, AnalysisRun pRun)
@@ -333,26 +292,15 @@ public final class CPAcheckerMutator extends CPAchecker {
       // exception was already logged
     }
 
-    try (@SuppressWarnings("checkstyle:IllegalInstantiation") // ok for statistics
-        PrintStream w =
-            new PrintStream(
-                cfaMutationManager.getIntermediateStatisticsFile(), Charset.defaultCharset())) {
-      MainCPAStatistics curStats = cpachecker.getStats();
-      StatisticsUtils.printStatistics(curStats, w, curLogger, cur.getResult(), cur.getReached());
-      StatisticsUtils.writeOutputFiles(curStats, curLogger, cur.getResult(), cur.getReached());
-      cfaMutationManager.printCfaNodeRank(w, cur.getReached());
-
-    } catch (IOException e) {
-      logger.logUserException(Level.WARNING, e, "Cannot write intermediate statistics");
-    }
-
+    cfaMutationManager.exportIntermediateStatistics(cpachecker.getStats(), cur);
     return new AnalysisResult(cur, t);
   }
 
   /** Mostly copied from {@link CounterexampleCheckAlgorithm} */
   private boolean isFeasible(AnalysisResult pResult) throws InvalidConfigurationException {
 
-    CounterexampleChecker cexChecker = cfaMutationManager.createCexCheckerAndStartLimits(pResult);
+    CounterexampleChecker cexChecker =
+        cfaMutationManager.createCexCheckerAndStartLimits(pResult, cfaMutator);
     LogManager curLogger = cfaMutationManager.getCurrentLogger();
     ReachedSet reached = pResult.result.getReached();
     assert ARGUtils.checkARG(reached);
