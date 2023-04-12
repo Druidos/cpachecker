@@ -414,11 +414,16 @@ public final class CPAcheckerMutator extends CPAchecker {
 
     public CPAcheckerResult asMutatorResult(
         Result pResult, CFAMutator pCfaMutator, MainCFAMutationStatistics pTotalStats) {
+
       Preconditions.checkNotNull(pCfaMutator);
       Preconditions.checkNotNull(pTotalStats);
+
       pCfaMutator.collectStatistics(pTotalStats.subStats);
+      MainCPAStatistics lastMainStats = getStats();
+      lastMainStats.getSubStatistics().add(pTotalStats);
+
       String desc = getVerdict() == Result.FALSE ? result.getTargetDescription() : "";
-      return new CPAcheckerResult(pResult, desc, result.getReached(), result.getCfa(), pTotalStats);
+      return new CPAcheckerResult(pResult, desc, result.getReached(), getCfa(), lastMainStats);
     }
 
     public Result getVerdict() {
