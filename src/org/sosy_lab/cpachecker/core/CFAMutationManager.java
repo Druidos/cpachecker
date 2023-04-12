@@ -229,6 +229,7 @@ public final class CFAMutationManager {
         ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
     defaultOutputDirectory = ftc.getOutputDirectory();
     currentOutputDirectory = ftc.getOutputPath();
+    // XXX is cleared
     disableOutput = "true".equals(config.getProperty("output.disable")); // XXX better
 
     ParserOptions parserOptions = CParser.Factory.getOptions(pConfig);
@@ -451,27 +452,21 @@ public final class CFAMutationManager {
     LoggingOptions logOptions = new LoggingOptions(pConfig);
     LogManager result = LogManager.createNullLogManager();
 
+    // XXX file is set in round config and converted, but file level is not set
     Path logFile = logOptions.getOutputFile();
-    if (logFile == null || logOptions.getFileLevel() == Level.OFF || disableOutput) {
+    if (logFile == null || fileLogLevel == Level.OFF) {
       return result;
     }
-
-    // create logger to given file
-    Level fileLevel =
-        fileLogLevel.intValue() <= logOptions.getFileLevel().intValue()
-            ? fileLogLevel
-            : logOptions.getFileLevel();
 
     try {
       MoreFiles.createParentDirectories(logFile);
       Handler outfileHandler = new FileHandler(logFile.toAbsolutePath().toString(), false);
       outfileHandler.setFilter(null);
       outfileHandler.setFormatter(TimestampedLogFormatter.withoutColors());
-      outfileHandler.setLevel(fileLevel);
+      outfileHandler.setLevel(fileLogLevel);
       result = BasicLogManager.createWithHandler(outfileHandler);
 
     } catch (IOException e) {
-      // redirect log messages to console
       logger.logUserException(Level.WARNING, e, "Can not log to file");
     }
 
@@ -661,6 +656,9 @@ public final class CFAMutationManager {
 
       case AFTER_ROLLBACK:
         exportPath += String.valueOf(round) + "-mutation-round-rollback";
+        break;
+
+      case DEFAULT:
         break;
 
       default:

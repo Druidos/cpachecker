@@ -56,6 +56,7 @@ public final class CPAcheckerMutator extends CPAchecker {
     AFTER_MUTATION,
     FEASIBILITY_CHECK,
     AFTER_ROLLBACK,
+    DEFAULT,
   }
 
   private CFAMutationManager cfaMutationManager;
@@ -102,7 +103,7 @@ public final class CPAcheckerMutator extends CPAchecker {
       CFA originalCfa = getCfa();
       if (originalCfa == null) {
         // invalid input files
-        return produceResult();
+        return asMutatorResult(null, Result.NOT_YET_STARTED, totalStats);
       }
 
       Specification originalSpec = getSpecification(originalCfa);
@@ -112,6 +113,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
       AnalysisOutcome originalOutcome = originalResult.toAnalysisOutcome(originalResult);
       if (cfaMutator.shouldReturnWithoutMutation(originalOutcome)) {
+        cfaMutationManager.resetExportDirectory(AnalysisRun.DEFAULT);
         return originalResult.result;
       }
 
@@ -119,8 +121,8 @@ public final class CPAcheckerMutator extends CPAchecker {
       cfaMutationManager.setOriginalTime(totalStats.originalTime.getConsumedTime());
 
       if (cfaMutationManager.exceedsLimitsForAnalysis(
-          "CFA mutation interrupted before it started to mutate the CFA:")) {
-        return originalResult.asMutatorResult(Result.NOT_YET_STARTED, cfaMutator, totalStats);
+          "CFA mutation interrupted before it started to mutate the CFA")) {
+        return asMutatorResult(originalResult, Result.NOT_YET_STARTED, totalStats);
       }
 
       // CFAMutator stores needed info from #parse,
@@ -141,7 +143,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
         if (cfaMutator.shouldCheckFeasibiblity(lastOutcome)) {
           if (cfaMutationManager.exceedsLimitsForFeasibility()) {
-            return lastResult.asMutatorResult(Result.FALSE, cfaMutator, totalStats);
+            return asMutatorResult(lastResult, Result.UNKNOWN, totalStats);
           }
 
           logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
@@ -158,7 +160,7 @@ public final class CPAcheckerMutator extends CPAchecker {
           if (errorIsFeasible) {
             logger.log(
                 Level.INFO, "Found feasible error:", lastResult.result.getTargetDescription());
-            return lastResult.asMutatorResult(Result.FALSE, cfaMutator, totalStats);
+            return asMutatorResult(lastResult, Result.FALSE, totalStats);
           }
         }
 
@@ -167,7 +169,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
         if (cfaMutationManager.exceedsLimitsForAnalysis(
             String.format("CFA mutation interrupted after %s. analysis round", round))) {
-          return lastResult.asMutatorResult(Result.DONE, cfaMutator, totalStats);
+          return asMutatorResult(lastResult, Result.DONE, totalStats);
         }
 
         // Check that property is still preserved after rollback
@@ -192,18 +194,18 @@ public final class CPAcheckerMutator extends CPAchecker {
           if (cfaMutationManager.exceedsLimitsForAnalysis(
               String.format(
                   "CFA mutation interrupted after rollback after %s. analysis round", round))) {
-            return lastResult.asMutatorResult(Result.DONE, cfaMutator, totalStats);
+            return asMutatorResult(lastResult, Result.DONE, totalStats);
           }
         }
       }
 
       if (lastResult == null) {
         logger.log(Level.INFO, "There are no possible mutations for the CFA of the given program.");
-        return originalResult.asMutatorResult(Result.NOT_YET_STARTED, cfaMutator, totalStats);
+        return asMutatorResult(originalResult, Result.NOT_YET_STARTED, totalStats);
       }
 
       logger.log(Level.INFO, "CFA mutation ended, as no more minimizatins can be found");
-      return lastResult.asMutatorResult(Result.DONE, cfaMutator, totalStats);
+      return asMutatorResult(lastResult, Result.DONE, totalStats);
 
     } catch (InvalidConfigurationException e) {
       logger.logUserException(Level.SEVERE, e, "Invalid configuration");
@@ -224,9 +226,9 @@ public final class CPAcheckerMutator extends CPAchecker {
     }
 
     if (lastResult == null) {
-      return new CPAcheckerResult(Result.NOT_YET_STARTED, "", null, null, null);
+      return asMutatorResult(null, Result.NOT_YET_STARTED, totalStats);
     }
-    return lastResult.asMutatorResult(Result.DONE, cfaMutator, totalStats);
+    return asMutatorResult(lastResult, Result.DONE, totalStats);
   }
 
   @SuppressFBWarnings("DCN_NULLPOINTER_EXCEPTION")
@@ -410,20 +412,6 @@ public final class CPAcheckerMutator extends CPAchecker {
               || pOther.thrown.getStackTrace()[0].equals(thrown.getStackTrace()[0]));
     }
 
-    public CPAcheckerResult asMutatorResult(
-        Result pResult, CFAMutator pCfaMutator, MainCFAMutationStatistics pTotalStats) {
-
-      Preconditions.checkNotNull(pCfaMutator);
-      Preconditions.checkNotNull(pTotalStats);
-
-      pCfaMutator.collectStatistics(pTotalStats.subStats);
-      MainCPAStatistics lastMainStats = getStats();
-      lastMainStats.getSubStatistics().add(pTotalStats);
-
-      String desc = getVerdict() == Result.FALSE ? result.getTargetDescription() : "";
-      return new CPAcheckerResult(pResult, desc, result.getReached(), getCfa(), lastMainStats);
-    }
-
     public Result getVerdict() {
       return result.getResult();
     }
@@ -439,6 +427,36 @@ public final class CPAcheckerMutator extends CPAchecker {
     public ConfigurableProgramAnalysis getCpa() {
       return result.getReached().getCPA();
     }
+  }
+
+  public CPAcheckerResult asMutatorResult(
+      @Nullable AnalysisResult pAnalysisResult,
+      Result pVerdict,
+      MainCFAMutationStatistics pTotalStats) {
+
+    Preconditions.checkNotNull(pTotalStats);
+    try {
+      cfaMutationManager.resetExportDirectory(AnalysisRun.DEFAULT);
+    } catch (InvalidConfigurationException e) {
+      logger.logUserException(Level.WARNING, e, "Cannot reset output directory");
+    }
+
+    cfaMutator.collectStatistics(pTotalStats.subStats);
+    MainCPAStatistics lastMainStats = pAnalysisResult.getStats();
+    Statistics stats = lastMainStats;
+    if (stats != null) {
+      lastMainStats.getSubStatistics().add(pTotalStats);
+    } else {
+      stats = pTotalStats;
+    }
+
+    String desc =
+        pAnalysisResult.getVerdict() == Result.FALSE
+            ? pAnalysisResult.result.getTargetDescription()
+            : "";
+
+    return new CPAcheckerResult(
+        pVerdict, desc, pAnalysisResult.result.getReached(), pAnalysisResult.getCfa(), stats);
   }
 
   class MainCFAMutationStatistics implements Statistics {
