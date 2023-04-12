@@ -160,9 +160,6 @@ public final class CPAcheckerMutator extends CPAchecker {
                 Level.INFO, "Found feasible error:", lastResult.result.getTargetDescription());
             return lastResult.asMutatorResult(Result.FALSE, cfaMutator, totalStats);
           }
-
-        } else {
-          logger.log(Level.INFO, lastOutcome);
         }
 
         cfaMutationManager.resetExportDirectory(AnalysisRun.AFTER_ROLLBACK);
@@ -255,7 +252,7 @@ public final class CPAcheckerMutator extends CPAchecker {
     } catch (InterruptedException e) {
       // this round was too long
       t = e;
-      logger.logUserException(Level.WARNING, e, "Analysis round interrupted");
+      logger.log(Level.INFO, "Timeout:", e.getMessage());
       curLogger.logException(Level.WARNING, e, "Analysis round interrupted");
 
     } catch (AssertionError
@@ -272,10 +269,10 @@ public final class CPAcheckerMutator extends CPAchecker {
       t = e;
       if (e.getStackTrace().length == 0) {
         // too many same exceptions were thrown, it's JVM optimization
-        logger.logf(Level.WARNING, "Recurring %s (no stack trace)", e.getClass());
+        logger.logf(Level.INFO, "Recurring %s (no stack trace)", e.getClass());
         curLogger.logf(Level.WARNING, "Recurring %s (no stack trace)", e.getClass());
       } else {
-        logger.logUserException(Level.WARNING, e, null);
+        logger.logf(Level.INFO, "Exception %s: %s", e.getClass().getSimpleName(), e.getMessage());
         curLogger.logException(Level.WARNING, e, null);
       }
 
@@ -287,6 +284,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
     CPAcheckerResult cur = cpachecker.produceResult();
     if (t == null) {
+      logger.log(Level.INFO, cur.getResultString());
       curLogger.log(Level.INFO, cur.getResultString());
     } else {
       // exception was already logged

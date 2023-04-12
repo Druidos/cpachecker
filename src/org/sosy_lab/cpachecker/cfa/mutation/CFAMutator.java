@@ -12,8 +12,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Verify;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
@@ -584,13 +584,13 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   public String getApproachName() {
     switch (ddDirection) {
       case NOT_SPECIFIED:
-        Multimap<CFAMutationBehavior, String> what = HashMultimap.create();
-        what.put(ifTrue, "True");
-        what.put(ifFalse, "False");
-        what.put(ifException, "exception");
-        what.put(ifTimeout, "Timeout");
-        what.put(ifOtherUnknown, "other Unknown");
-
+        Multimap<CFAMutationBehavior, AnalysisOutcome> what =
+            ImmutableMultimap.of(
+                ifTrue, AnalysisOutcome.VERDICT_TRUE,
+                ifFalse, AnalysisOutcome.VERDICT_FALSE,
+                ifException, AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION,
+                ifTimeout, AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT,
+                ifOtherUnknown, AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN);
         return Joiner.on(", ")
             .join(
                 FluentIterable.from(what.keySet())
