@@ -190,7 +190,7 @@ public class CFACreator {
   private boolean exportToDot = true;
 
   @Option(secure = true, name = "cfa.file", description = "export program as CFA in .dot format")
-  private Path exportDotFile = Path.of("cfa.dot");
+  private String exportDotFile = "cfa.dot";
 
   @Option(
       secure = true,
@@ -202,8 +202,9 @@ public class CFACreator {
       secure = true,
       name = "cfa.exportPerFunction.directory",
       description =
-          "subdirectory in CFA export subdirectory to export individual CFAs for function as .dot files")
-  private Path exportFunctionsSubdir = Path.of("cfa");
+          "subdirectory in CFA export subdirectory to export "
+              + "individual CFAs for function as .dot files")
+  private String exportFunctionsSubdir = "cfa";
 
   @Option(
       secure = true,
@@ -215,7 +216,7 @@ public class CFACreator {
       secure = true,
       name = "cfa.exportToC.file",
       description = "export program CFA as C source file")
-  private Path exportCFile = Path.of("cfa.c");
+  private String exportCFile = "cfa.c";
 
   @Option(
       secure = true,
@@ -235,13 +236,13 @@ public class CFACreator {
       secure = true,
       name = "cfa.callgraph.file",
       description = "dump graphs of all function calls and used functions calls in .dot format")
-  private Path exportFunctionCallsFile = Path.of("functionCalls.dot");
+  private String exportFunctionCallsFile = "functionCalls.dot";
 
   @Option(
       secure = true,
       name = "cfa.callgraph.fileUsed",
       description = "dump graphs of all function calls and used functions calls in .dot format")
-  private Path exportFunctionCallsUsedFile = Path.of("functionCallsUsed.dot");
+  private String exportFunctionCallsUsedFile = "functionCallsUsed.dot";
 
   @Option(
       secure = true,
@@ -253,7 +254,7 @@ public class CFACreator {
       secure = true,
       name = "cfa.serializeFile",
       description = "export CFA as .ser file (dump Java objects)")
-  private Path serializeCfaFile = Path.of("cfa.ser.gz");
+  private String serializeCfaFile = "cfa.ser.gz";
 
   @Option(
       secure = true,
@@ -269,7 +270,7 @@ public class CFACreator {
       description =
           "Export CFA as pixel graphic to the given file name. The suffix is added"
               + " corresponding to the value of option pixelgraphic.export.format")
-  private Path exportPixelGraphicFile = Path.of("cfaPixel");
+  private String exportPixelGraphicFile = "cfaPixel";
 
   @Option(
       secure = true,
