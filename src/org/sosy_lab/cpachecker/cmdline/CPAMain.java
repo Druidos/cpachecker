@@ -582,7 +582,6 @@ public class CPAMain {
           .clearOption("memorycleanup.config")
           .clearOption("overflow.config")
           .clearOption("termination.config")
-          .clearOption("output.disable")
           .clearOption("output.path")
           .clearOption("rootDirectory")
           .clearOption("witness.validation.file")

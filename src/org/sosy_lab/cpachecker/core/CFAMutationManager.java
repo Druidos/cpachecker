@@ -19,7 +19,6 @@ import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.TreeMultiset;
 import com.google.common.io.MoreFiles;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
@@ -37,6 +36,7 @@ import org.sosy_lab.common.ShutdownNotifier;
 import org.sosy_lab.common.configuration.Configuration;
 import org.sosy_lab.common.configuration.ConfigurationBuilder;
 import org.sosy_lab.common.configuration.FileOption;
+import org.sosy_lab.common.configuration.FileOption.Type;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.configuration.Option;
 import org.sosy_lab.common.configuration.Options;
@@ -82,28 +82,26 @@ public final class CFAMutationManager {
       description =
           "Create log file for every round with this logging level.\n"
               + "Use main file logging level if that is lower.")
-  private Level fileLogLevel = Level.FINE;
+  private Level logFileLevel = Level.FINE;
 
   @Option(
       secure = true,
-      name = "logFile",
       description =
           "Create log file for every round with this logging level.\n"
               + "Use main file logging level if that is lower.")
-  private String roundLogFile = "this-round.log";
+  @FileOption(Type.OUTPUT_FILE)
+  private Path logFile = Path.of("this-round.log");
+
+  @Option(secure = true, description = "File to dump statistics of current round to")
+  @FileOption(Type.OUTPUT_FILE)
+  private Path statFile = Path.of("this-round-stats.txt");
 
   @Option(
       secure = true,
-      name = "roundStatFile",
-      description = "File to dump statistics of current round to")
-  private String roundStatFile = "this-round-stats.txt";
-
-  @Option(
-      secure = true,
-      name = "rankedNodesFile",
       description =
           "File to write how frequent CFA node is among resulted reached set states' locations.")
-  private String rankedNodesFile = "this-round-ranked-nodes.txt";
+  @FileOption(Type.OUTPUT_FILE)
+  private Path rankedNodesFile = Path.of("this-round-ranked-nodes.txt");
 
   @Option(
       secure = true,
@@ -207,10 +205,10 @@ public final class CFAMutationManager {
   private final Timer currentTimer = new Timer();
   private LogManager currentLogger;
 
-  private final String defaultOutputDirectory;
+  private final Path defaultOutputDirectory;
   private int round = 0;
   private Path currentOutputDirectory;
-  private boolean disableOutput = false;
+  private boolean disableOutput;
 
   @SuppressWarnings("deprecation")
   public CFAMutationManager(
@@ -225,12 +223,16 @@ public final class CFAMutationManager {
     shutdownManager = Preconditions.checkNotNull(pShutdownManager);
 
     config.inject(this, CFAMutationManager.class);
+
     FileTypeConverter ftc =
         ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
-    defaultOutputDirectory = ftc.getOutputDirectory();
-    currentOutputDirectory = ftc.getOutputPath();
-    // XXX is cleared
+    currentOutputDirectory = defaultOutputDirectory = ftc.getOutputPath();
     disableOutput = "true".equals(config.getProperty("output.disable")); // XXX better
+    // undo resolving files from default directory, but keep whether they are null
+    logFile = logFile == null ? null : defaultOutputDirectory.relativize(logFile);
+    statFile = statFile == null ? null : defaultOutputDirectory.relativize(statFile);
+    rankedNodesFile =
+        rankedNodesFile == null ? null : defaultOutputDirectory.relativize(rankedNodesFile);
 
     ParserOptions parserOptions = CParser.Factory.getOptions(pConfig);
     if (parserOptions.shouldCollectACSLAnnotations()) {
@@ -371,8 +373,13 @@ public final class CFAMutationManager {
   }
 
   public Configuration createRoundConfig(AnalysisRun pRun) throws InvalidConfigurationException {
-    ConfigurationBuilder builder =
-        Configuration.builder().copyFrom(config).setOption("log.file", roundLogFile.toString());
+    ConfigurationBuilder builder = Configuration.builder().copyFrom(config);
+
+    if (logFile != null) {
+      builder.setOption("log.file", logFile.toString());
+    } else {
+      builder.clearOption("log.file");
+    }
 
     if (pRun == AnalysisRun.FEASIBILITY_CHECK) {
       builder.setOption("counterexample.checker", checkerType.name());
@@ -453,17 +460,17 @@ public final class CFAMutationManager {
     LogManager result = LogManager.createNullLogManager();
 
     // XXX file is set in round config and converted, but file level is not set
-    Path logFile = logOptions.getOutputFile();
-    if (logFile == null || fileLogLevel == Level.OFF) {
+    Path logFilePath = logOptions.getOutputFile();
+    if (logFilePath == null || logFileLevel == Level.OFF) {
       return result;
     }
 
     try {
-      MoreFiles.createParentDirectories(logFile);
-      Handler outfileHandler = new FileHandler(logFile.toAbsolutePath().toString(), false);
+      MoreFiles.createParentDirectories(logFilePath);
+      Handler outfileHandler = new FileHandler(logFilePath.toAbsolutePath().toString(), false);
       outfileHandler.setFilter(null);
       outfileHandler.setFormatter(TimestampedLogFormatter.withoutColors());
-      outfileHandler.setLevel(fileLogLevel);
+      outfileHandler.setLevel(logFileLevel);
       result = BasicLogManager.createWithHandler(outfileHandler);
 
     } catch (IOException e) {
@@ -601,7 +608,7 @@ public final class CFAMutationManager {
     }
     pOut.println();
 
-    if (currentOutputDirectory == null) {
+    if (rankedNodesFile == null) {
       return;
     }
 
@@ -638,27 +645,29 @@ public final class CFAMutationManager {
   }
 
   public void resetExportDirectory(AnalysisRun pRun) throws InvalidConfigurationException {
-    String exportPath = defaultOutputDirectory + File.separatorChar;
-
     switch (pRun) {
       case ORIGINAL:
         assert round == 0;
-        exportPath += "0-original-round";
+        currentOutputDirectory = defaultOutputDirectory.resolve("0-original-round");
         break;
 
       case AFTER_MUTATION:
-        exportPath += String.valueOf(++round) + "-mutation-round";
+        currentOutputDirectory =
+            defaultOutputDirectory.resolve(String.valueOf(++round) + "-mutation-round");
         break;
 
       case FEASIBILITY_CHECK:
-        exportPath += String.valueOf(round) + "-mutation-round-feasibility";
+        currentOutputDirectory =
+            defaultOutputDirectory.resolve(String.valueOf(round) + "-mutation-round-feasibility");
         break;
 
       case AFTER_ROLLBACK:
-        exportPath += String.valueOf(round) + "-mutation-round-rollback";
+        currentOutputDirectory =
+            defaultOutputDirectory.resolve(String.valueOf(round) + "-mutation-round-rollback");
         break;
 
       case DEFAULT:
+        currentOutputDirectory = defaultOutputDirectory;
         break;
 
       default:
@@ -668,22 +677,21 @@ public final class CFAMutationManager {
     FileTypeConverter fileTypeConverter =
         FileTypeConverter.create(
             Configuration.builder()
-                .setOption("output.path", exportPath)
+                .setOption("output.path", currentOutputDirectory.toString())
                 .setOption("output.disable", Boolean.toString(disableOutput))
                 .build());
     Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
-    currentOutputDirectory = disableOutput ? null : fileTypeConverter.getOutputPath();
   }
 
   @SuppressWarnings("checkstyle:IllegalInstantiation") // ok for statistics
   public void exportIntermediateStatistics(MainCPAStatistics pStats, CPAcheckerResult pResult) {
-    if (currentOutputDirectory == null) {
+    if (statFile == null) {
       return;
     }
 
     try (PrintStream w =
         new PrintStream(
-            currentOutputDirectory.resolve(roundStatFile).toFile(), Charset.defaultCharset())) {
+            currentOutputDirectory.resolve(statFile).toFile(), Charset.defaultCharset())) {
 
       StatisticsUtils.printStatistics(
           pStats, w, currentLogger, pResult.getResult(), pResult.getReached());
@@ -699,6 +707,6 @@ public final class CFAMutationManager {
   }
 
   public Path getCurrentExportDirectory() {
-    return currentOutputDirectory;
+    return disableOutput ? null : currentOutputDirectory;
   }
 }
