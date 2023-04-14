@@ -189,7 +189,7 @@ public final class CFAMutationManager {
           "Limit time for countrexample feasibility check. This option is used only if CFA "
               + "mutations are used to find a feasible error. As with analysis timelimit, "
               + "timelimits with respect to global time limits' types are produced.")
-  private TimeSpan timeForCex = TimeSpan.ofSeconds(60);
+  private TimeSpan timeForCex = TimeSpan.ofSeconds(100);
 
   private TimeSpan originalRun;
 

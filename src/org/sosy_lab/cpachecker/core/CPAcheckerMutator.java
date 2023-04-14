@@ -206,7 +206,7 @@ public final class CPAcheckerMutator extends CPAchecker {
         return asMutatorResult(originalResult, Result.NOT_YET_STARTED, totalStats);
       }
 
-      logger.log(Level.INFO, "CFA mutation ended, as no more minimizatins can be found");
+      logger.log(Level.INFO, "CFA mutation ended, as all possible mutations were tried.");
       return asMutatorResult(lastResult, Result.DONE, totalStats);
 
     } catch (InvalidConfigurationException e) {
