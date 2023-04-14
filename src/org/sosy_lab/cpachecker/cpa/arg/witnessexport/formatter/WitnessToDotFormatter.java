@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.core.interfaces.Targetable.TargetInformation;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.Edge;
@@ -70,6 +71,7 @@ public class WitnessToDotFormatter extends WitnessToOutputFormatter<String> {
   private static String eq(Object o1, Object o2) {
     // escape more complex labels
     String o2str = o2.toString();
+    o2str = o2str.replaceAll("\"", Matcher.quoteReplacement("\\\""));
     if (o2str.contains(" ")) {
       o2str = "\\\"" + o2str + "\\\"";
     }
