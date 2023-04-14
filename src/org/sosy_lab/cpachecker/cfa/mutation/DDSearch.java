@@ -170,6 +170,11 @@ public class DDSearch<Element> extends DDStar<Element> {
     if (!getListOfCauses().isEmpty()) {
       listOfListsOfCauses.add(getListOfCauses());
     }
+    // no cause to iterate over
+    if (listOfListsOfCauses.isEmpty()) {
+      logInfo("There are no causes to find new optimums");
+      return;
+    }
 
     if (forcedCauses.isEmpty()) {
       // no cause was forced out of CFA
