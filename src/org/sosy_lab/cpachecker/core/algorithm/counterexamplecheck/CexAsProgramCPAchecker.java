@@ -8,7 +8,6 @@
 
 package org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck;
 
-import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -28,7 +27,8 @@ import org.sosy_lab.common.io.TempFile;
 import org.sosy_lab.common.io.TempFile.TempFileBuilder;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.core.CPAchecker;
-import org.sosy_lab.cpachecker.core.CPAcheckerResult;
+import org.sosy_lab.cpachecker.core.CPAcheckerMutator;
+import org.sosy_lab.cpachecker.core.CPAcheckerMutator.AnalysisResult;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.util.cwriter.PathToCTranslator;
@@ -55,9 +55,9 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
       ARGState pRootState, ARGState pErrorState, Set<ARGState> pErrorPathStates, Path cFile)
       throws CounterexampleAnalysisFailed, InterruptedException {
 
-    CPAcheckerResult result = cpachecker.run(ImmutableList.of(cFile.toString()));
+    AnalysisResult result = CPAcheckerMutator.analysisRound(cpachecker, cFile.toString());
 
-    switch (result.getResult()) {
+    switch (result.getVerdict()) {
       case FALSE:
         return true;
 
@@ -65,17 +65,14 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
         return false;
 
       case NOT_YET_STARTED:
-        throw new CounterexampleAnalysisFailed("Cannot analyze given counterexample: " + result);
-
       case UNKNOWN:
-        throw new CounterexampleAnalysisFailed(
-            "Cannot analyze given counterexample: " + result.getResultString());
+        throw new CounterexampleAnalysisFailed(result.getDescription(), result.getThrown());
 
       case DONE:
         throw new CounterexampleAnalysisFailed("Counterexample was not analyzed");
 
       default:
-        throw new AssertionError("Unexpected result case: " + result.getResult());
+        throw new AssertionError("Unexpected result case: " + result.getVerdict());
     }
   }
 

@@ -14,6 +14,7 @@ import static com.google.common.collect.FluentIterable.from;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.VerifyException;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.PrintStream;
@@ -28,6 +29,7 @@ import org.sosy_lab.common.configuration.Configuration;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.CFA;
+import org.sosy_lab.cpachecker.cfa.CFACreator;
 import org.sosy_lab.cpachecker.cfa.mutation.AnalysisOutcome;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutator;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
@@ -280,7 +282,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
     } finally {
       cfaMutationManager.cancelAnalysisLimits();
-      cpachecker.closeCPAsIfPossible();
+      cpachecker.close();
       pTimer.stop();
     }
 
@@ -360,7 +362,7 @@ public final class CPAcheckerMutator extends CPAchecker {
   }
 
   // keep last result and thrown error
-  static class AnalysisResult {
+  public static class AnalysisResult {
     private final CPAcheckerResult result;
     private final @Nullable Throwable thrown;
 
@@ -426,6 +428,17 @@ public final class CPAcheckerMutator extends CPAchecker {
 
     public ConfigurableProgramAnalysis getCpa() {
       return result.getReached().getCPA();
+    }
+
+    public Throwable getThrown() {
+      return thrown;
+    }
+
+    public String getDescription() {
+      if (thrown == null) {
+        return result.getResultString();
+      }
+      return result.getResult().toString() + ". " + thrown.getMessage();
     }
   }
 
@@ -517,5 +530,47 @@ public final class CPAcheckerMutator extends CPAchecker {
     public void writeOutputFiles(Result pResult, UnmodifiableReachedSet pReached) {
       subStats.forEach(s -> StatisticsUtils.writeOutputFiles(s, logger, pResult, pReached));
     }
+  }
+
+  public static AnalysisResult analysisRound(CPAchecker pCpachecker, String pProgramFileName) {
+    pCpachecker.logger.logf(
+        Level.INFO, "%s (%s) started", getVersion(pCpachecker.config), getJavaInformation());
+    Throwable t = null;
+
+    try {
+      pCpachecker.setupMainStats();
+      CFACreator cfaCreator =
+          new CFACreator(pCpachecker.config, pCpachecker.logger, pCpachecker.shutdownNotifier);
+      pCpachecker.parse(cfaCreator, ImmutableList.of(pProgramFileName));
+      pCpachecker.getStats().setCFACreatorStatistics(cfaCreator.getStatistics());
+      assert pCpachecker.getCfa() != null;
+
+      try {
+        pCpachecker.setupAnalysis();
+      } finally {
+        pCpachecker.stopMainStatsCreationTimer();
+      }
+      pCpachecker.runAnalysis();
+
+    } catch (InvalidConfigurationException e) {
+      pCpachecker.logger.logUserException(Level.SEVERE, e, "Invalid configuration");
+      t = e;
+
+    } catch (InterruptedException e) {
+      // CPAchecker must exit because it was asked to
+      // we return normally instead of propagating the exception
+      // so we can return the partial result we have so far
+      pCpachecker.logger.logUserException(Level.WARNING, e, "Analysis interrupted");
+      t = e;
+
+    } catch (CPAException e) {
+      pCpachecker.logger.logUserException(Level.SEVERE, e, null);
+      t = e;
+
+    } finally {
+      pCpachecker.close();
+    }
+
+    return new AnalysisResult(pCpachecker.produceResult(), t);
   }
 }

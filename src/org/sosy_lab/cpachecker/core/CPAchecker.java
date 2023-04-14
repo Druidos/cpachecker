@@ -310,8 +310,10 @@ public class CPAchecker {
     return new CPAcheckerResult(result, targetDescription, reached, cfa, stats);
   }
 
-  protected void closeCPAsIfPossible() {
+  /** close CPAs if possible and unregister shutdown request listener */
+  protected void close() {
     CPAs.closeIfPossible(algorithm, logger);
+    shutdownNotifier.unregister(interruptThreadOnShutdown);
   }
 
   protected Path getSerializedCfaFile() {
@@ -466,8 +468,7 @@ public class CPAchecker {
       logger.logUserException(Level.SEVERE, e, null);
 
     } finally {
-      closeCPAsIfPossible();
-      shutdownNotifier.unregister(interruptThreadOnShutdown);
+      close();
     }
 
     return produceResult();
