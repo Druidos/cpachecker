@@ -23,15 +23,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.stream.Stream;
 import javax.management.JMException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.ShutdownManager;
@@ -105,6 +102,9 @@ public final class CFAMutationManager {
           "File to write how frequent CFA node is among resulted reached set states' locations.")
   @FileOption(Type.OUTPUT_FILE)
   private Path rankedNodesFile = Path.of("this-round-ranked-nodes.txt");
+
+  @Option(secure = true, description = "Whether to export each round in different subdirectories.")
+  private boolean writeRoundsToDifferentDirectories = false;
 
   @Option(
       secure = true,
@@ -648,6 +648,10 @@ public final class CFAMutationManager {
   }
 
   public void resetExportDirectory(AnalysisRun pRun) throws InvalidConfigurationException {
+    if (!writeRoundsToDifferentDirectories) {
+      return;
+    }
+
     switch (pRun) {
       case ORIGINAL:
         assert round == 0;
@@ -670,20 +674,6 @@ public final class CFAMutationManager {
         break;
 
       case DEFAULT:
-        // traverse current directory, skip it itself
-        try (Stream<Path> stream = Files.walk(currentOutputDirectory)) {
-          ImmutableList<Path> list = stream.skip(1).collect(ImmutableList.toImmutableList());
-          for (Path path : list) {
-            Files.copy(
-                path,
-                defaultOutputDirectory.resolve(path),
-                StandardCopyOption.COPY_ATTRIBUTES,
-                StandardCopyOption.REPLACE_EXISTING);
-          }
-        } catch (IOException e) {
-          logger.logUserException(
-              Level.WARNING, e, "Cannot copy files from last round to default directory");
-        }
         currentOutputDirectory = defaultOutputDirectory;
         break;
 
