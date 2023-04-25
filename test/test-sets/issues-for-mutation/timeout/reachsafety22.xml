@@ -16,10 +16,10 @@ Mutate CFA so analysis can find an error that is present in original program.
 -->
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
-<benchmark tool="cpachecker" walltimelimit="2100">
-  <option name="-setprop">limits.time.cpu=2000</option>
-  <option name="-setprop">cfaMutation.dd.minProperty=VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT</option>
-  <propertyfile>../../../../config/specification/sv-comp-reachability.spc</propertyfile>
+<benchmark tool="cpachecker" walltimelimit="155min">
+  <option name="-benchmark"/>
+  <option name="-setprop">limits.time.cpu=150min</option>
+  <option name="-heap">10000M</option>
 
   <rundefinition name="bare-analysis">
     <option name="-config">test/config/svcomp22-without-timelimit.properties</option>
@@ -37,37 +37,52 @@ Mutate CFA so analysis can find an error that is present in original program.
     <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
   </rundefinition>
 
-  <tasks name="true">
-    <include>../../../programs/benchmarks/array-cav19/array_doub_access_init_const.c</include>
-    <include>../../../programs/benchmarks/array-crafted/bAnd1.i</include>
-    <include>../../../programs/benchmarks/array-fpi/brs1.c</include>
-    <include>../../../programs/benchmarks/array-lopstr16/base_case.i</include>
-    <include>../../../programs/benchmarks/array-multidimensional/add-2-n-u.c</include>
-    <include>../../../programs/benchmarks/array-patterns/array10_pattern.c</include>
-    <include>../../../programs/benchmarks/combinations/Problem05_label42+token_ring.05.cil-1.c</include>
-    <include>../../../programs/benchmarks/eca-rers2012/Problem17_label39.c</include>
+  <tasks name="ReachSafety-Arrays">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Arrays.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
   </tasks>
-  <tasks name="false">
-    <include>../../../programs/benchmarks/array-examples/data_structures_set_multi_proc_ground-1.i</include>
-    <include>../../../programs/benchmarks/array-industry-pattern/array_assert_loop_dep.i</include>
-    <include>../../../programs/benchmarks/array-programs/copysome1-2.i</include>
-    <include>../../../programs/benchmarks/array-tiling/mlceu.c</include>
-    <include>../../../programs/benchmarks/bitvector-loops/overflow_1-2.c</include>
-    <include>../../../programs/benchmarks/bitvector/sum02-1.c</include>
-    <include>../../../programs/benchmarks/combinations/gcd_1+newton_3_8.i</include>
-    <include>../../../programs/benchmarks/combinations/pals_lcr.3.ufo.BOUNDED-6.pals+Problem12_label00.c</include>
-    <include>../../../programs/benchmarks/combinations/pc_sfifo_1.cil-2+token_ring.10.cil-1.c</include>
-    <include>../../../programs/benchmarks/eca-programs/Problem101_label00.c</include>
-    <include>../../../programs/benchmarks/eca-rers2012/Problem07_label03.c</include>
-    <include>../../../programs/benchmarks/floats-cdfpl/newton_3_6.i</include>
-    <include>../../../programs/benchmarks/floats-esbmc-regression/digits_bad_for.c</include>
-    <include>../../../programs/benchmarks/heap-manipulation/bubble_sort_linux-2.i</include>
-    <include>../../../programs/benchmarks/list-ext3-properties/sll_of_sll_nondet_append-2.i</include>
-    <include>../../../programs/benchmarks/loop-simple/deep-nested.c</include>
-    <include>../../../programs/benchmarks/nla-digbench-scaling/bresenham-ll_unwindbound10.c</include>
-    <include>../../../programs/benchmarks/recursive-simple/fibo_15-2.c</include>
-    <include>../../../programs/benchmarks/recursive-simple/fibo_2calls_15-1.c</include>
-    <include>../../../programs/benchmarks/reducercommutativity/rangesum.i</include>
-    <include>../../../programs/benchmarks/seq-mthreaded/pals_floodmax.3_overflow.ufo.UNBOUNDED.pals.c</include>
+  <tasks name="ReachSafety-BitVectors">
+    <includesfile>../../../programs/benchmarks/ReachSafety-BitVectors.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-ControlFlow">
+    <includesfile>../../../programs/benchmarks/ReachSafety-ControlFlow.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-ECA">
+    <includesfile>../../../programs/benchmarks/ReachSafety-ECA.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Floats">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Floats.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Heap">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Heap.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Loops">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Loops.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-ProductLines">
+    <includesfile>../../../programs/benchmarks/ReachSafety-ProductLines.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Recursive">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Recursive.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Sequentialized">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Sequentialized.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-XCSP">
+    <includesfile>../../../programs/benchmarks/ReachSafety-XCSP.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
+  </tasks>
+  <tasks name="ReachSafety-Combinations">
+    <includesfile>../../../programs/benchmarks/ReachSafety-Combinations.set</includesfile>
+    <propertyfile>../../../programs/benchmarks/properties/unreach-call.prp</propertyfile>
   </tasks>
 </benchmark>
