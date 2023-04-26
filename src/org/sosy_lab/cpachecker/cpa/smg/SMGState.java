@@ -2048,8 +2048,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     if (!pKnownVal1.isZero() && heap.isPointer(pKnownVal1)) {
       SMGObject objectPointedBy1 = heap.getObjectPointedBy(pKnownVal1);
-      if (!heap.isObjectValid(objectPointedBy1)) {
-        heap.removePointsToEdge(pKnownVal1);
+      boolean isExternal1 = heap.isObjectExternallyAllocated(objectPointedBy1);
+      boolean isValid1 = heap.isObjectValid(objectPointedBy1);
+      if (!isValid1 || isExternal1) {
+        if (!isValid1) {
+          heap.removePointsToEdge(pKnownVal1);
+        }
         SMGKnownSymbolicValue tmp = pKnownVal1;
         pKnownVal1 = pKnownVal2;
         pKnownVal2 = tmp;
@@ -2248,11 +2252,24 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     } else if (heap.isPointer(pValue1) && heap.isPointer(pValue2)) {
       SMGObject object1 = heap.getObjectPointedBy(pValue1);
       SMGObject object2 = heap.getObjectPointedBy(pValue2);
+      if (comparisonAgainstExternalMemory(object1, object2)) {
+        return false;
+      }
       if (!object1.equals(object2)) {
         return !heap.arePossibleEquals(object1, object2);
       }
     }
     return heap.haveNeqRelation(pValue1, pValue2);
+  }
+
+  @Override
+  public boolean comparisonAgainstExternalMemory(SMGObject pObject1, SMGObject pObject2) {
+    return (pObject2.equals(SMGNullObject.INSTANCE)
+        && heap.isObjectExternallyAllocated(pObject1)
+        && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty())
+        || (pObject1.equals(SMGNullObject.INSTANCE)
+        && heap.isObjectExternallyAllocated(pObject2)
+        && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty());
   }
 
   @Override

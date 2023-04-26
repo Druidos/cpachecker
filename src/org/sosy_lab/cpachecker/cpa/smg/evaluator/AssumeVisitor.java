@@ -25,6 +25,7 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddressValue;
@@ -195,6 +196,8 @@ public class AssumeVisitor extends ExpressionValueVisitor {
         default:
           throw new AssertionError("Impossible case thrown");
       }
+    } else if (getInitialSmgState().comparisonAgainstExternalMemory(object1, object2)) {
+      return true;
     } else if (pOp == BinaryOperator.NOT_EQUALS
         && (getInitialSmgState().getHeap().isObjectValid(object1)
             || SMGNullObject.INSTANCE.equals(object1))
@@ -319,9 +322,9 @@ public class AssumeVisitor extends ExpressionValueVisitor {
             pV2);
     relations.put(pNewState, relationResult);
 
-    if (isTrue) {
+    if (isTrue && !isFalse) {
       return SMGValueAndState.of(pNewState, SMGKnownSymValue.TRUE);
-    } else if (isFalse) {
+    } else if (isFalse && !isTrue) {
       return SMGValueAndState.of(pNewState, SMGZeroValue.INSTANCE);
     } else {
       return SMGValueAndState.withUnknownValue(pNewState);
