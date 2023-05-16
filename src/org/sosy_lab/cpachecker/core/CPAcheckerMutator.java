@@ -33,6 +33,7 @@ import org.sosy_lab.cpachecker.cfa.CFACreator;
 import org.sosy_lab.cpachecker.cfa.mutation.AnalysisOutcome;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutator;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
+import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CexAsProgramCPAchecker;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CounterexampleCheckAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CounterexampleChecker;
 import org.sosy_lab.cpachecker.core.interfaces.ConfigurableProgramAnalysis;
@@ -151,7 +152,7 @@ public final class CPAcheckerMutator extends CPAchecker {
           logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
 
           cfaMutationManager.resetExportDirectory(AnalysisRun.FEASIBILITY_CHECK);
-          boolean errorIsFeasible = false;
+          Feasibility errorIsFeasible = Feasibility.noFeasibleErrorFound();
           try {
             totalStats.feasibilityCheck.start();
             errorIsFeasible = isFeasible(lastResult);
@@ -159,7 +160,11 @@ public final class CPAcheckerMutator extends CPAchecker {
             totalStats.feasibilityCheck.stop();
           }
 
-          if (errorIsFeasible) {
+          if (errorIsFeasible.isFeasible) {
+            if (errorIsFeasible.foundFalse != null) {
+              lastResult = errorIsFeasible.foundFalse;
+            }
+
             logger.log(
                 Level.INFO, "Found feasible error:", lastResult.result.getTargetDescription());
             return asMutatorResult(lastResult, Result.FALSE, totalStats);
@@ -298,8 +303,30 @@ public final class CPAcheckerMutator extends CPAchecker {
     return new AnalysisResult(cur, t);
   }
 
+  private static class Feasibility {
+    private final boolean isFeasible;
+    private final AnalysisResult foundFalse;
+
+    private Feasibility(boolean pFeasible, AnalysisResult pFalse) {
+      isFeasible = pFeasible;
+      foundFalse = pFalse;
+    }
+
+    static Feasibility withRestoredCex(AnalysisResult pFalse) {
+      return new Feasibility(true, pFalse);
+    }
+
+    static Feasibility withoutRestoredCex() {
+      return new Feasibility(true, null);
+    }
+
+    static Feasibility noFeasibleErrorFound() {
+      return new Feasibility(false, null);
+    }
+  }
+
   /** Mostly copied from {@link CounterexampleCheckAlgorithm} */
-  private boolean isFeasible(AnalysisResult pResult) throws InvalidConfigurationException {
+  private Feasibility isFeasible(AnalysisResult pResult) throws InvalidConfigurationException {
 
     CounterexampleChecker cexChecker =
         cfaMutationManager.createCexCheckerAndStartLimits(pResult, cfaMutator);
@@ -341,7 +368,10 @@ public final class CPAcheckerMutator extends CPAchecker {
       try {
         if (cexChecker.checkCounterexample(rootState, errorState, statesOnErrorPath)) {
           logger.log(Level.INFO, "Error path confirmed by counterexample check");
-          return true;
+          if (cexChecker instanceof CexAsProgramCPAchecker) {
+            return Feasibility.withRestoredCex(((CexAsProgramCPAchecker) cexChecker).getFoundFalse());
+          }
+          return Feasibility.withoutRestoredCex();
         }
 
         curLogger.log(Level.FINE, "This error path identified as infeasible.");
@@ -358,7 +388,7 @@ public final class CPAcheckerMutator extends CPAchecker {
 
     cfaMutationManager.cancelCheckLimits();
     logger.log(Level.INFO, "No feasible error path found");
-    return false;
+    return Feasibility.noFeasibleErrorFound();
   }
 
   // keep last result and thrown error
@@ -571,6 +601,9 @@ public final class CPAcheckerMutator extends CPAchecker {
       pCpachecker.close();
     }
 
-    return new AnalysisResult(pCpachecker.produceResult(), t);
+    CPAcheckerResult cpaResult = pCpachecker.produceResult();
+    StatisticsUtils.writeOutputFiles(
+        pCpachecker.getStats(), pCpachecker.logger, cpaResult.getResult(), cpaResult.getReached());
+    return new AnalysisResult(cpaResult, t);
   }
 }

@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck;
 
+import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -37,6 +38,7 @@ import org.sosy_lab.cpachecker.util.cwriter.PathToCTranslator;
 @Options(prefix = "cfaMutation.cex.checker")
 public class CexAsProgramCPAchecker extends CounterexampleChecker {
   private final CPAchecker cpachecker;
+  private AnalysisResult foundFalse;
 
   @Option(secure = true, name = "file", description = "file to dump counterexample to")
   @FileOption(FileOption.Type.OUTPUT_FILE)
@@ -59,6 +61,7 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
 
     switch (result.getVerdict()) {
       case FALSE:
+        foundFalse = result;
         return true;
 
       case TRUE:
@@ -106,5 +109,10 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
   @Override
   protected @Nullable PathTemplate getCexFileTemplate() {
     return fileTemplate;
+  }
+
+  public AnalysisResult getFoundFalse() {
+    Preconditions.checkState(foundFalse != null);
+    return foundFalse;
   }
 }
