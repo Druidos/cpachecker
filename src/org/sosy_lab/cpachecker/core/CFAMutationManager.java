@@ -18,7 +18,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.TreeMultiset;
-import com.google.common.io.MoreFiles;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
@@ -26,8 +25,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import javax.management.JMException;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -45,8 +42,6 @@ import org.sosy_lab.common.configuration.converters.FileTypeConverter;
 import org.sosy_lab.common.io.IO;
 import org.sosy_lab.common.log.BasicLogManager;
 import org.sosy_lab.common.log.LogManager;
-import org.sosy_lab.common.log.LoggingOptions;
-import org.sosy_lab.common.log.TimestampedLogFormatter;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.common.time.Timer;
 import org.sosy_lab.cpachecker.cfa.CFA;
@@ -75,6 +70,12 @@ import org.sosy_lab.cpachecker.util.statistics.StatisticsUtils;
 
 @Options(prefix = "cfaMutation")
 public final class CFAMutationManager {
+
+  @Option(
+      secure = true,
+      name = "log.consoleLevel",
+      description = "Log to console every round with this logging level.")
+  private Level logConsoleLevel = Level.OFF;
 
   @Option(
       secure = true,
@@ -378,6 +379,11 @@ public final class CFAMutationManager {
   public Configuration createRoundConfig(AnalysisRun pRun) throws InvalidConfigurationException {
     ConfigurationBuilder builder = Configuration.builder().copyFrom(config);
 
+    builder.setOption("log.consoleLevel", logConsoleLevel.toString());
+    builder.setOption("log.consoleExclude", "");
+    builder.setOption("log.level", logFileLevel.toString());
+    builder.setOption("log.fileExclude", "");
+
     if (logFile != null) {
       builder.setOption("log.file", logFile.toString());
     } else {
@@ -458,31 +464,6 @@ public final class CFAMutationManager {
     return result.buildOrThrow();
   }
 
-  public LogManager createRoundLogger(Configuration pConfig) throws InvalidConfigurationException {
-    LoggingOptions logOptions = new LoggingOptions(pConfig);
-    LogManager result = LogManager.createNullLogManager();
-
-    // XXX file is set in round config and converted, but file level is not set
-    Path logFilePath = logOptions.getOutputFile();
-    if (logFilePath == null || logFileLevel == Level.OFF) {
-      return result;
-    }
-
-    try {
-      MoreFiles.createParentDirectories(logFilePath);
-      Handler outfileHandler = new FileHandler(logFilePath.toAbsolutePath().toString(), false);
-      outfileHandler.setFilter(null);
-      outfileHandler.setFormatter(TimestampedLogFormatter.withoutColors());
-      outfileHandler.setLevel(logFileLevel);
-      result = BasicLogManager.createWithHandler(outfileHandler);
-
-    } catch (IOException e) {
-      logger.logUserException(Level.WARNING, e, "Can not log to file");
-    }
-
-    return result;
-  }
-
   private void startAnalysisLimits(LogManager roundLogger, ShutdownManager pShutdownManager) {
     currentLogger = roundLogger;
     currentTimer.start();
@@ -507,7 +488,7 @@ public final class CFAMutationManager {
   public CPAchecker createCpacheckerAndStartLimits(AnalysisRun pRun)
       throws InvalidConfigurationException {
     Configuration roundConfig = createRoundConfig(pRun);
-    LogManager roundLogger = createRoundLogger(roundConfig);
+    LogManager roundLogger = BasicLogManager.create(roundConfig);
 
     ShutdownNotifier parentNotifier = shutdownManager.getNotifier();
     ShutdownManager roundShutdownManager = ShutdownManager.createWithParent(parentNotifier);
@@ -549,7 +530,7 @@ public final class CFAMutationManager {
     assert pResult != null;
 
     Configuration checkConfig = createRoundConfig(AnalysisRun.FEASIBILITY_CHECK);
-    LogManager checkLogger = createRoundLogger(checkConfig);
+    LogManager checkLogger = BasicLogManager.create(checkConfig);
 
     ShutdownNotifier parentNotifier = shutdownManager.getNotifier();
     ShutdownManager fMan = ShutdownManager.createWithParent(parentNotifier);
