@@ -46,14 +46,12 @@ Mutate CFA so analysis can find an error that is present in original program.
   </rundefinition>
 
   <rundefinition name="DD+Min+">
-    <option name="-cfaMutation-smg-ldv"/>
-    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MIN</option>
+    <option name="-cfaMutation-smg-ldv-min"/>
     <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
   </rundefinition>
 
   <rundefinition name="DD+Max+">
-    <option name="-cfaMutation-smg-ldv"/>
-    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MAX</option>
+    <option name="-cfaMutation-smg-ldv-max"/>
     <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
   </rundefinition>
 
