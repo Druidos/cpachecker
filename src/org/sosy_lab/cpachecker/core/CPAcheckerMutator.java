@@ -573,7 +573,8 @@ public final class CPAcheckerMutator extends CPAchecker {
           new CFACreator(pCpachecker.config, pCpachecker.logger, pCpachecker.shutdownNotifier);
       pCpachecker.parse(cfaCreator, ImmutableList.of(pProgramFileName));
       pCpachecker.getStats().setCFACreatorStatistics(cfaCreator.getStatistics());
-      assert pCpachecker.getCfa() != null;
+      assert pCpachecker.getCfa() != null
+          : "Parsing error occured, see log of this feasibility round";
 
       try {
         pCpachecker.setupAnalysis();

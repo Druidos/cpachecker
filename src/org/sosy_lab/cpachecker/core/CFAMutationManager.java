@@ -380,9 +380,9 @@ public final class CFAMutationManager {
     ConfigurationBuilder builder = Configuration.builder().copyFrom(config);
 
     builder.setOption("log.consoleLevel", logConsoleLevel.toString());
-    builder.setOption("log.consoleExclude", "");
+    // builder.setOption("log.consoleExclude", "");
     builder.setOption("log.level", logFileLevel.toString());
-    builder.setOption("log.fileExclude", "");
+    // builder.setOption("log.fileExclude", "");
 
     if (logFile != null) {
       builder.setOption("log.file", logFile.toString());

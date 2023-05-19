@@ -495,6 +495,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   @Override
   protected CFA createCFA(ParseResult pParseResult, FunctionEntryNode pMainFunction)
       throws InvalidConfigurationException, InterruptedException, ParserException {
+    logger.log(Level.FINE, "Creating original CFA...");
     localCfa =
         FunctionCFAsWithMetadata.fromParseResult(
             pParseResult, machineModel, pMainFunction, language);
@@ -518,6 +519,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     }
 
     // clear processings before first #canMutate and after rollbacks
+    logger.log(Level.FINE, "Preparing CFA of functions for mutation...");
     mutatorStats.startCfaReset();
     localCfa.resetEdgesInNodes();
     mutatorStats.stopCfaReset();
@@ -538,6 +540,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
   /** Apply some mutation to the CFA */
   public CFA mutate() throws InterruptedException, InvalidConfigurationException, ParserException {
+    logger.log(Level.FINE, "Mutating CFA...");
     mutatorStats.startMutation();
     strategyCanMutate = CanMutate.UNKNOWN;
     strategy.mutate(localCfa);
@@ -552,6 +555,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
     // XXX write result?
     // undo createCFA before possible mutation rollback
+    logger.log(Level.FINE, "Preparing CFA of functions for possible rollback...");
     mutatorStats.startCfaReset();
     localCfa.resetEdgesInNodes();
     mutatorStats.stopCfaReset();
