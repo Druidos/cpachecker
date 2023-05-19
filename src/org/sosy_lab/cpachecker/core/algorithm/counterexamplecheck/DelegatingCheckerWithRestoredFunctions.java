@@ -40,6 +40,7 @@ import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
+import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.LiveVariables;
 import org.sosy_lab.cpachecker.util.LoopStructure;
 import org.sosy_lab.cpachecker.util.cwriter.CFAToCTranslator;
@@ -52,7 +53,6 @@ import org.sosy_lab.cpachecker.util.variableclassification.VariableClassificatio
  */
 public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecker {
   private final CounterexampleChecker delegate;
-  private final NavigableSet<String> alreadyPresentFunctions;
   private final TranslatorConfig transConfig;
   private final CFAMutator cfaMutator;
 
@@ -66,7 +66,6 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
       throws InvalidConfigurationException {
 
     cfaMutator = pCfaMutator;
-    alreadyPresentFunctions = pMutatedCfa.getAllFunctionNames();
 
     transConfig = new TranslatorConfig(pConfig);
     transConfig.setIncludeHeader(false);
@@ -104,6 +103,10 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
       ARGState pRootState, ARGState pErrorState, Set<ARGState> pErrorPathStates, Path pFile)
       throws CounterexampleAnalysisFailed, InterruptedException {
     delegate.writeCexFile(pRootState, pErrorState, pErrorPathStates, pFile);
+    ImmutableSet<String> alreadyPresentFunctions =
+        AbstractStates.extractLocations(pErrorPathStates)
+            .transform(CFANode::getFunctionName)
+            .toSet();
     writeRestoredFunctions(pFile, alreadyPresentFunctions);
   }
 
@@ -119,7 +122,7 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
    *     removed when the counterexample was found will be added to this file.
    * @param pAlreadyPresentFunctions Names of functions that were present during CEX export.
    */
-  private void writeRestoredFunctions(Path pCFile, NavigableSet<String> pAlreadyPresentFunctions)
+  private void writeRestoredFunctions(Path pCFile, ImmutableSet<String> pAlreadyPresentFunctions)
       throws CounterexampleAnalysisFailed {
     CFA restoredPart;
     try {
@@ -152,7 +155,7 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
     private final CFA delegate;
     private final NavigableMap<String, FunctionEntryNode> functions = new TreeMap<>();
 
-    AdditionalFunctionsCFA(CFA pRestoredCfa, NavigableSet<String> pAlreadyPresentFunctions) {
+    AdditionalFunctionsCFA(CFA pRestoredCfa, ImmutableSet<String> pAlreadyPresentFunctions) {
       assert pRestoredCfa.getAllFunctionNames().containsAll(pAlreadyPresentFunctions);
       delegate = pRestoredCfa;
       functions.putAll(pRestoredCfa.getAllFunctions());
