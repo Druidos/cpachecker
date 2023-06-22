@@ -2270,7 +2270,7 @@ class ASTConverter {
         int cur;
         try {
           String arg = getAttributeString(attribute.getArgumentClause().getTokenCharImage());
-          cur = Integer.valueOf(arg);
+          cur = Integer.parseInt(arg);
         } catch (NullPointerException | NumberFormatException e) {
           // default (biggest) alignment as clause was not specified
           // XXX is empty clause always the same as BIGGEST_ALIGNMENT?

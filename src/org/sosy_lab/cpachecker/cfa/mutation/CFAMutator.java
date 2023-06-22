@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Verify;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
@@ -589,7 +589,7 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     switch (ddDirection) {
       case NOT_SPECIFIED:
         Multimap<CFAMutationBehavior, AnalysisOutcome> what =
-            ImmutableMultimap.of(
+            ImmutableListMultimap.of(
                 ifTrue, AnalysisOutcome.VERDICT_TRUE,
                 ifFalse, AnalysisOutcome.VERDICT_FALSE,
                 ifException, AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION,
