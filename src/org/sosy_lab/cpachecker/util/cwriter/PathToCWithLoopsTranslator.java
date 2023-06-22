@@ -99,7 +99,7 @@ public class PathToCWithLoopsTranslator extends PathTranslator {
    */
   public static Appender translateSinglePath(ARGPath pPath, CFA cfa, Configuration config)
       throws InvalidConfigurationException {
-    PathToCTranslator translator = new PathToCTranslator();
+    PathToCForCbmcTranslator translator = new PathToCForCbmcTranslator();
 
     // at first we fetch all loops that we want to uproll
     LoopCollectingEdgeVisitor loopCollectingVisitor =

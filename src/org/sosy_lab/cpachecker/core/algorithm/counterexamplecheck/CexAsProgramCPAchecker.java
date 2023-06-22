@@ -32,7 +32,7 @@ import org.sosy_lab.cpachecker.core.CPAcheckerMutator;
 import org.sosy_lab.cpachecker.core.CPAcheckerMutator.AnalysisResult;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
-import org.sosy_lab.cpachecker.util.cwriter.PathToCTranslator;
+import org.sosy_lab.cpachecker.util.cwriter.PathToCForCpacheckerTranslator;
 
 /** Exports C code as for CBMC, checks the program as usual CPAchecker. */
 @Options(prefix = "cfaMutation.cex.checker")
@@ -86,14 +86,12 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
       throws CounterexampleAnalysisFailed, InterruptedException {
     assert pFile != null;
 
-    Appender pathProgram = PathToCTranslator.translatePaths(pRootState, pErrorPathStates);
+    Appender pathProgram =
+        PathToCForCpacheckerTranslator.translatePaths(pRootState, pErrorPathStates);
 
     // write program to disk
     try (Writer w = IO.openOutputFile(pFile, Charset.defaultCharset())) {
       pathProgram.appendTo(w);
-      // add default assume and entry functions
-      w.append("\nvoid __CPROVER_assume(int cond) { __VERIFIER_assume(cond); }\n");
-      w.append("int main() { main_0(); }\n");
 
     } catch (IOException e) {
       throw new CounterexampleAnalysisFailed(

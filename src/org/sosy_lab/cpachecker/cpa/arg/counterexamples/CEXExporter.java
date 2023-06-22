@@ -57,7 +57,7 @@ import org.sosy_lab.cpachecker.util.coverage.AdditionalCoverageReportLcov;
 import org.sosy_lab.cpachecker.util.coverage.CoverageCollector;
 import org.sosy_lab.cpachecker.util.coverage.CoverageReportGcov;
 import org.sosy_lab.cpachecker.util.coverage.CoverageReportLcov;
-import org.sosy_lab.cpachecker.util.cwriter.PathToCTranslator;
+import org.sosy_lab.cpachecker.util.cwriter.PathToCForCbmcTranslator;
 import org.sosy_lab.cpachecker.util.cwriter.PathToConcreteProgramTranslator;
 import org.sosy_lab.cpachecker.util.harness.HarnessExporter;
 import org.sosy_lab.cpachecker.util.testcase.TestCaseExporter;
@@ -251,7 +251,7 @@ public class CEXExporter {
                     targetPath, counterexample.getCFAPathWithAssignments());
             break;
           case CBMC:
-            pathProgram = PathToCTranslator.translateSinglePath(targetPath);
+            pathProgram = PathToCForCbmcTranslator.translateSinglePath(targetPath);
             break;
           default:
             throw new AssertionError("Unhandled case statement: " + codeStyle);
@@ -275,9 +275,9 @@ public class CEXExporter {
           case CBMC:
             // "translatePaths" does not work if the ARG branches without assume edge
             if (ARGUtils.hasAmbiguousBranching(rootState, pathElements)) {
-              pathProgram = PathToCTranslator.translateSinglePath(targetPath);
+              pathProgram = PathToCForCbmcTranslator.translateSinglePath(targetPath);
             } else {
-              pathProgram = PathToCTranslator.translatePaths(rootState, pathElements);
+              pathProgram = PathToCForCbmcTranslator.translatePaths(rootState, pathElements);
             }
             break;
           default:

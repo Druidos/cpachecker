@@ -13,9 +13,9 @@ import org.sosy_lab.common.Appender;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.cpa.arg.path.ARGPath;
 
-public class PathToCTranslator extends PathTranslator {
+public class PathToCForCbmcTranslator extends PathTranslator {
 
-  PathToCTranslator() {}
+  protected PathToCForCbmcTranslator() {}
 
   /**
    * Transform a single linear path into C code. The path needs to be loop free.
@@ -27,7 +27,7 @@ public class PathToCTranslator extends PathTranslator {
    * @return An appender that generates C code.
    */
   public static Appender translateSinglePath(ARGPath pPath) {
-    PathToCTranslator translator = new PathToCTranslator();
+    PathToCForCbmcTranslator translator = new PathToCForCbmcTranslator();
 
     translator.translateSinglePath0(pPath, new DefaultEdgeVisitor(translator));
 
@@ -46,7 +46,7 @@ public class PathToCTranslator extends PathTranslator {
    * @return An appender that generates C code.
    */
   public static Appender translatePaths(ARGState argRoot, Set<ARGState> elementsOnErrorPath) {
-    PathToCTranslator translator = new PathToCTranslator();
+    PathToCForCbmcTranslator translator = new PathToCForCbmcTranslator();
 
     translator.translatePaths0(argRoot, elementsOnErrorPath, new DefaultEdgeVisitor(translator));
 

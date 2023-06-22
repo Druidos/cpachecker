@@ -46,7 +46,7 @@ import org.sosy_lab.cpachecker.core.reachedset.UnmodifiableReachedSet;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.util.CBMCExecutor;
-import org.sosy_lab.cpachecker.util.cwriter.PathToCTranslator;
+import org.sosy_lab.cpachecker.util.cwriter.PathToCForCbmcTranslator;
 
 /** Counterexample checker that creates a C program for the counterexample and calls CBMC on it. */
 @Options
@@ -111,7 +111,7 @@ public class CBMCChecker extends CounterexampleChecker implements Statistics {
       throws CounterexampleAnalysisFailed {
     assert cFile != null;
 
-    Appender pathProgram = PathToCTranslator.translatePaths(pRootState, pErrorPathStates);
+    Appender pathProgram = PathToCForCbmcTranslator.translatePaths(pRootState, pErrorPathStates);
 
     // write program to disk
     try (Writer w = IO.openOutputFile(cFile, Charset.defaultCharset())) {
