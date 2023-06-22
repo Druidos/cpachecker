@@ -15,6 +15,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -115,7 +116,7 @@ public final class CElaboratedType implements CComplexType {
   @Override
   public String toASTString(String pDeclarator) {
     checkNotNull(pDeclarator);
-    ArrayList<String> parts = new ArrayList<>();
+    List<String> parts = new ArrayList<>();
     parts.add(Strings.emptyToNull(alignment.stringAlignas()));
     if (isConst()) {
       parts.add("const");
