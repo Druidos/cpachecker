@@ -553,7 +553,7 @@ class ASTTypeConverter {
    */
   private CPointerType handleTypeAlignment(CPointerType type, IASTPointer p) {
     // apparantly CDT loses attributes attached to a pointer operator
-    int aligned = converter.getAlignmentFromAttributes(p.getAttributes());
+    int aligned = converter.getAlignmentFromAttributes(p);
     if (aligned == Alignment.NO_SPECIFIER) {
       return type;
     }

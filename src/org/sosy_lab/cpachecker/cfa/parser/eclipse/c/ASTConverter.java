@@ -36,6 +36,7 @@ import org.eclipse.cdt.core.dom.ast.IASTArrayDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTArrayModifier;
 import org.eclipse.cdt.core.dom.ast.IASTArraySubscriptExpression;
 import org.eclipse.cdt.core.dom.ast.IASTAttribute;
+import org.eclipse.cdt.core.dom.ast.IASTAttributeOwner;
 import org.eclipse.cdt.core.dom.ast.IASTBinaryExpression;
 import org.eclipse.cdt.core.dom.ast.IASTCastExpression;
 import org.eclipse.cdt.core.dom.ast.IASTCompositeTypeSpecifier;
@@ -72,6 +73,7 @@ import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStandardFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
+import org.eclipse.cdt.core.dom.ast.IASTToken;
 import org.eclipse.cdt.core.dom.ast.IASTTypeId;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdInitializerExpression;
@@ -2168,12 +2170,12 @@ class ASTConverter {
       if (type instanceof CComplexType) {
         specifiersForCompositeTypes.add(specifier);
       }
-      aligned = getAlignmentFromAttributes(specifier.getAttributes());
+      aligned = getAlignmentFromAttributes(specifier);
     } else if (specifiersForCompositeTypes.contains(specifier)) {
-      aligned = getAlignmentFromAttributes(declarator.getAttributes());
+      aligned = getAlignmentFromAttributes(declarator);
     } else {
-      aligned = getAlignmentFromAttributes(specifier.getAttributes());
-      aligned = getBiggerAlignmentFromAttributes(declarator.getAttributes(), aligned);
+      aligned = getAlignmentFromAttributes(specifier);
+      aligned = getBiggerAlignmentFromAttributes(declarator, aligned);
     }
 
     // members of not packed structs or unions can not be
@@ -2259,26 +2261,47 @@ class ASTConverter {
     return type;
   }
 
-  int getAlignmentFromAttributes(IASTAttribute[] attributeArray) {
-    return getBiggerAlignmentFromAttributes(attributeArray, Alignment.NO_SPECIFIER);
+  int getAlignmentFromAttributes(IASTAttributeOwner pDeclaratorOrSpecifier) {
+    return getBiggerAlignmentFromAttributes(pDeclaratorOrSpecifier, Alignment.NO_SPECIFIER);
   }
 
-  int getBiggerAlignmentFromAttributes(IASTAttribute[] attributeArray, int aligned) {
+  int getBiggerAlignmentFromAttributes(IASTAttributeOwner pDeclaratorOrSpecifier, int aligned) {
+    IASTAttribute[] attributeArray = pDeclaratorOrSpecifier.getAttributes();
     for (IASTAttribute attribute : attributeArray) {
       String name = getAttributeString(attribute.getName());
-      if (name.equals("aligned")) {
-        int cur;
-        try {
-          String arg = getAttributeString(attribute.getArgumentClause().getTokenCharImage());
-          cur = Integer.parseInt(arg);
-        } catch (NullPointerException | NumberFormatException e) {
-          // default (biggest) alignment as clause was not specified
-          // XXX is empty clause always the same as BIGGEST_ALIGNMENT?
-          cur = machinemodel.getMaxAlign();
-        }
+      if (!name.equals("aligned")) {
+        continue;
+      }
+
+      // default (biggest) alignment as clause was not specified
+      // XXX is empty clause always the same as BIGGEST_ALIGNMENT?
+
+      IASTToken argumentClause = attribute.getArgumentClause();
+      if (argumentClause == null) { // __attribute__((__aligned__))
+        aligned = machinemodel.getMaxAlign();
+        continue;
+      }
+
+      char[] tokenChars = argumentClause.getTokenCharImage();
+      if (tokenChars == null) { // __attribute__((__aligned__()))
+        aligned = machinemodel.getMaxAlign();
+        continue;
+      }
+
+      String alignString = getAttributeString(tokenChars);
+      if (alignString.isEmpty() || alignString.contains("BIGGEST_ALIGNMENT")) {
+        aligned = machinemodel.getMaxAlign();
+        continue;
+      }
+
+      try {
+        int cur = Integer.parseInt(alignString);
         if (aligned < cur) {
           aligned = cur;
         }
+      } catch (NumberFormatException e) {
+        parseContext.parseError(
+            "Cannot parse argument of alignment attribute", pDeclaratorOrSpecifier);
       }
     }
     return aligned;
