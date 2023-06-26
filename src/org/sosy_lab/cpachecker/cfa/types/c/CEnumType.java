@@ -134,6 +134,10 @@ public final class CEnumType implements CComplexType {
 
   @Override
   public String toASTString(String pDeclarator) {
+    return toASTString(pDeclarator, true);
+  }
+
+  public String toASTString(String pDeclarator, boolean withMembers) {
     checkNotNull(pDeclarator);
     List<String> parts = new ArrayList<>();
     parts.add(Strings.emptyToNull(alignment.stringAlignas()));
@@ -146,7 +150,7 @@ public final class CEnumType implements CComplexType {
     parts.add("enum");
     parts.add(name);
 
-    if (!pDeclarator.isEmpty()) {
+    if (withMembers) {
       parts.add(
           "{\n  "
               + Joiner.on(",\n  ").join(transform(enumerators, CEnumerator::toASTString))
@@ -165,7 +169,7 @@ public final class CEnumType implements CComplexType {
 
   @Override
   public String toString() {
-    return toASTString("");
+    return toASTString("", false);
   }
 
   public static final class CEnumerator extends AbstractSimpleDeclaration
