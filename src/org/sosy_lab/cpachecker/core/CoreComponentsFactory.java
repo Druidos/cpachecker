@@ -474,7 +474,6 @@ public class CoreComponentsFactory {
       logger.log(Level.INFO, "Using Proof Check Algorithm");
       algorithm =
           new ProofCheckAlgorithm(cpa, config, logger, shutdownNotifier, cfa, specification);
-
     } else if (useProofCheckAndExtractCIRequirementsAlgorithm) {
       logger.log(Level.INFO, "Using Proof Check Algorithm");
       algorithm =
@@ -493,22 +492,22 @@ public class CoreComponentsFactory {
     } else if (useCompositionAlgorithm) {
       logger.log(Level.INFO, "Using Composition Algorithm");
       algorithm = new CompositionAlgorithm(config, logger, shutdownNotifier, specification, cfa);
-
     } else if (useImpactAlgorithm) {
+      logger.log(Level.INFO, "Using Impact Algorithm");
       algorithm = new ImpactAlgorithm(config, logger, shutdownNotifier, cpa, cfa);
-
     } else if (useParallelAlgorithm) {
+      logger.log(Level.INFO, "Using Parallel Algorithm");
       algorithm =
           new ParallelAlgorithm(
               config, logger, shutdownNotifier, specification, cfa, aggregatedReachedSets);
-
     } else if (useWitnessToACSLAlgorithm) {
+      logger.log(Level.INFO, "Using Witness-to-ACSL Algorithm");
       algorithm = new WitnessToACSLAlgorithm(config, logger, shutdownNotifier, cfa);
-
     } else if (useMPIProcessAlgorithm) {
+      logger.log(Level.INFO, "Using MPI-portfolio Algorithm");
       algorithm = new MPIPortfolioAlgorithm(config, logger, shutdownNotifier, specification);
-
     } else if (useWitnessToInvariantAlgorithm) {
+      logger.log(Level.INFO, "Using Witness-to-Invariant Algorithm");
       try {
         algorithm =
             new WitnessToInvariantWitnessAlgorithm(
@@ -517,6 +516,7 @@ public class CoreComponentsFactory {
         throw new CPAException("could not instantiate invariant witness writer", e);
       }
     } else if (useInvariantExportAlgorithm) {
+      logger.log(Level.INFO, "Using Invariant Export Algorithm");
       algorithm =
           new InvariantExportAlgorithm(
               config,
@@ -528,23 +528,30 @@ public class CoreComponentsFactory {
               new CachingTargetLocationProvider(shutdownNotifier, logger, cfa),
               aggregatedReachedSets);
     } else if (useFaultLocalizationWithDistanceMetrics) {
+      logger.log(
+          Level.INFO, "Using Explainer (fault localization with distance metrics) Algorithm");
       algorithm = new Explainer(config, logger, shutdownNotifier, specification, cfa);
     } else if (useArrayAbstraction) {
+      logger.log(Level.INFO, "Using Array Abstraction Algorithm");
       algorithm =
           new ArrayAbstractionAlgorithm(config, logger, shutdownNotifier, specification, cfa);
     } else if (useRandomTestCaseGeneratorAlgorithm) {
+      logger.log(Level.INFO, "Using Random Testcase Generator Algorithm");
       algorithm =
           new RandomTestGeneratorAlgorithm(config, logger, shutdownNotifier, cfa, specification);
     } else {
+      logger.log(Level.INFO, "Using CPA Algorithm");
       algorithm = CPAAlgorithm.create(cpa, logger, config, shutdownNotifier);
 
       if (testGoalConverter) {
+        logger.log(Level.INFO, "with Test Goal to Condition Converter");
         algorithm =
             new TestGoalToConditionConverterAlgorithm(
                 config, logger, shutdownNotifier, cfa, algorithm, cpa);
       }
 
       if (constructResidualProgram) {
+        logger.log(Level.INFO, "with Residual Program Construction");
         algorithm =
             new ResidualProgramConstructionAlgorithm(
                 cfa, config, logger, shutdownNotifier, specification, cpa, algorithm);
@@ -559,22 +566,26 @@ public class CoreComponentsFactory {
       }
 
       if (useParallelBAM) {
+        logger.log(Level.INFO, "Using Parallel BAM Algorithm");
         algorithm = new ParallelBAMAlgorithm(cpa, config, logger, shutdownNotifier);
       }
 
       if (useAnalysisWithEnablerCPAAlgorithm) {
+        logger.log(Level.INFO, "with Refinable Enabler");
         algorithm =
             new AnalysisWithRefinableEnablerCPAAlgorithm(
                 algorithm, cpa, cfa, logger, config, shutdownNotifier);
       }
 
       if (useCEGAR) {
+        logger.log(Level.INFO, "with CEGAR (Counterexample Guided Abstraction Refinement)");
         algorithm =
             new CEGARAlgorithmFactory(algorithm, cpa, logger, config, shutdownNotifier)
                 .newInstance();
       }
 
       if (usePDR) {
+        logger.log(Level.INFO, "with PDR");
         algorithm =
             new PdrAlgorithm(
                 algorithm,
@@ -589,6 +600,7 @@ public class CoreComponentsFactory {
       }
 
       if (useBMC) {
+        logger.log(Level.INFO, "with Bounded Model Checking");
         verifyNotNull(shutdownManager);
         algorithm =
             new BMCAlgorithm(
@@ -604,6 +616,7 @@ public class CoreComponentsFactory {
       }
 
       if (useIMC) {
+        logger.log(Level.INFO, "with IMC");
         verifyNotNull(shutdownManager);
         algorithm =
             new IMCAlgorithm(
@@ -619,6 +632,7 @@ public class CoreComponentsFactory {
       }
 
       if (useISMC) {
+        logger.log(Level.INFO, "with ISMC");
         verifyNotNull(shutdownManager);
         algorithm =
             new ISMCAlgorithm(
@@ -635,44 +649,53 @@ public class CoreComponentsFactory {
 
       if (checkCounterexamples) {
         if (cpa instanceof BAMCPA) {
+          logger.log(Level.INFO, "with BAM Counterexample Check");
           algorithm =
               new BAMCounterexampleCheckAlgorithm(
                   algorithm, cpa, config, logger, shutdownNotifier, specification, cfa);
         } else {
+          logger.log(Level.INFO, "with Counterexample Check");
           algorithm =
               new CounterexampleCheckAlgorithm(
                   algorithm, cpa, config, specification, logger, shutdownNotifier, cfa);
         }
       }
 
+      logger.log(Level.INFO, "with Exception Handling");
       algorithm =
           ExceptionHandlingAlgorithm.create(
               config, algorithm, cpa, logger, shutdownNotifier, checkCounterexamples, useCEGAR);
 
       if (checkCounterexamplesWithBDDCPARestriction) {
+        logger.log(Level.INFO, "with BDD CPA Restriction");
         algorithm = new BDDCPARestrictionAlgorithm(algorithm, cpa, config, logger);
       }
 
       if (useTestCaseGeneratorAlgorithm) {
+        logger.log(Level.INFO, "with Testcase Generator");
         algorithm =
             new TestCaseGeneratorAlgorithm(
                 algorithm, cfa, config, cpa, logger, shutdownNotifier, specification);
       }
 
       if (collectAssumptions) {
+        logger.log(Level.INFO, "with Assumption Collector");
         algorithm =
             new AssumptionCollectorAlgorithm(algorithm, cpa, config, logger, cfa, shutdownNotifier);
       }
 
       if (useAdjustableConditions) {
+        logger.log(Level.INFO, "with Restart With Conditions");
         algorithm = new RestartWithConditionsAlgorithm(algorithm, cpa, config, logger);
       }
 
       if (splitProgram) {
+        logger.log(Level.INFO, "with Program Split");
         algorithm = new ProgramSplitAlgorithm(algorithm, cpa, config, logger, shutdownNotifier);
       }
 
       if (usePropertyCheckingAlgorithm) {
+        logger.log(Level.INFO, "with Property Check");
         if (!(cpa instanceof PropertyCheckerCPA)) {
           throw new InvalidConfigurationException(
               "Property checking algorithm requires CPAWithPropertyChecker as Top CPA");
@@ -681,27 +704,32 @@ public class CoreComponentsFactory {
       }
 
       if (useResultCheckAlgorithm) {
+        logger.log(Level.INFO, "with Result Check");
         algorithm =
             new ResultCheckAlgorithm(
                 algorithm, cfa, config, logger, shutdownNotifier, specification);
       }
       if (useCustomInstructionRequirementExtraction) {
+        logger.log(Level.INFO, "with Custom Instruction Requirements Extraction");
         algorithm =
             new CustomInstructionRequirementsExtractingAlgorithm(
                 algorithm, cpa, config, logger, shutdownNotifier, cfa);
       }
 
       if (unexploredPathsAsProgram) {
+        logger.log(Level.INFO, "with unexplored paths as Residual Programs");
         algorithm =
             new ResidualProgramConstructionAfterAnalysisAlgorithm(
                 cfa, algorithm, config, logger, shutdownNotifier, specification);
       }
 
       if (unknownIfUnrestrictedProgram) {
+        logger.log(Level.INFO, "with RestrictedProgramDomain (unknown if unrestricted program)");
         algorithm = new RestrictedProgramDomainAlgorithm(algorithm, cfa);
       }
 
       if (useTerminationAlgorithm) {
+        logger.log(Level.INFO, "with Termination");
         algorithm =
             new TerminationAlgorithm(
                 config,
@@ -715,18 +743,23 @@ public class CoreComponentsFactory {
       }
 
       if (cpa instanceof ARGCPA && forceCexStore) {
+        logger.log(Level.INFO, "with Counterexample Store");
         algorithm =
             new CounterexampleStoreAlgorithm(algorithm, cpa, config, logger, cfa.getMachineModel());
       }
 
       if (useMPV) {
+        logger.log(Level.INFO, "using MPV Algorithm");
         algorithm = new MPVAlgorithm(cpa, config, logger, shutdownNotifier, specification, cfa);
       }
 
       if (useFaultLocalizationWithCoverage) {
+        logger.log(Level.INFO, "with Fault Localization With Coverage");
         algorithm = new FaultLocalizationWithCoverage(algorithm, shutdownNotifier, logger, config);
       }
+
       if (useFaultLocalizationWithTraceFormulas) {
+        logger.log(Level.INFO, "with Fault Localization With Trace Formula");
         algorithm =
             new FaultLocalizationWithTraceFormula(algorithm, config, logger, cfa, shutdownNotifier);
       }
