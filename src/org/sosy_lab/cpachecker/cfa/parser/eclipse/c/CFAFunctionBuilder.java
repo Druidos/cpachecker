@@ -182,6 +182,8 @@ class CFAFunctionBuilder extends ASTVisitor {
 
   private boolean encounteredAsm = false;
 
+  private static int defaultSwitchLabelCounter = 0;
+
   public CFAFunctionBuilder(
       EclipseCParserOptions pOptions,
       LogManagerWithoutDuplicates pLogger,
@@ -2061,9 +2063,11 @@ class CFAFunctionBuilder extends ASTVisitor {
       final IASTDefaultStatement statement, FileLocation fileLocation) {
 
     // hack: use label node to mark node as reachable
-    // (otherwise the following edges won't get added because it has
-    // no incoming edges
-    CFALabelNode caseNode = new CFALabelNode(cfa.getFunction(), "__switch__default__");
+    // (otherwise the following edges won't get added because it has no incoming edges)
+    // added counter so two labels in one function don't cause problems
+    CFALabelNode caseNode =
+        new CFALabelNode(
+            cfa.getFunction(), "__switch__default__" + defaultSwitchLabelCounter++ + "__");
 
     // Update switchDefaultStack with the new node
     final CFANode oldDefaultNode = switchDefaultStack.pop();
