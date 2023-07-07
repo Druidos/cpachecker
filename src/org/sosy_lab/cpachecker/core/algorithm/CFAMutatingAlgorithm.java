@@ -924,6 +924,19 @@ final class AnalysisResult {
 
     targetDescription = Joiner.on(", ").join(pReached.getTargetInformation());
 
+    if (thrown != null) {
+      verdict = Result.UNKNOWN;
+      if (thrown instanceof InterruptedException) {
+        // XXX if (pReached.wasTargetReached()) { verdict = Result.FALSE; outcome = FALSE; }
+        outcome = AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT;
+      } else if (sameExceptionAsOriginal(pThrown)) {
+        outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION;
+      } else {
+        outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
+      }
+      return;
+    }
+
     if (pReached.wasTargetReached()) {
       verdict = status.isPrecise() ? Result.FALSE : Result.UNKNOWN;
     } else if (pReached instanceof ResultProviderReachedSet) {
@@ -941,14 +954,9 @@ final class AnalysisResult {
           original.verdict == Result.FALSE && original.targetDescription.equals(targetDescription)
               ? AnalysisOutcome.SAME_VERDICT_FALSE
               : AnalysisOutcome.VERDICT_FALSE;
-    } else if (thrown == null) {
-      outcome = AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN;
-    } else if (thrown instanceof InterruptedException) {
-      outcome = AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT;
-    } else if (sameExceptionAsOriginal(pThrown)) {
-      outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION;
     } else {
-      outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
+      // assert thrown == null;
+      outcome = AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN;
     }
   }
 
