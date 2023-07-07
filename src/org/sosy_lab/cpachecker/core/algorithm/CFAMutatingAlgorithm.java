@@ -596,13 +596,23 @@ final class TimeManager {
     pConfig.inject(this, TimeManager.class);
     lowercap = hardcap;
 
-    JMException t = null;
+    Throwable t = null;
     try {
       ProcessCpuTime.read();
     } catch (JMException e) {
       t = e;
-      globalLogger.log(Level.INFO, "Cannot use CPU time limits");
+      globalLogger.log(Level.INFO, "Cannot use CPU time limits.");
     }
+    /*
+     * Google App Engine does not allow to use classes from the package java.lang.management.
+     * Therefore it throws a NoClassDefFoundError if this is attempted regardless. To prevent
+     * CPAchecker from crashing in this case we catch the error and log the event.
+     */
+    catch (NoClassDefFoundError e) {
+      t = e;
+      globalLogger.log(Level.INFO, "Cannot use CPU time limits in Google App Engine.");
+    }
+
     useCpuTimeLimit = t == null;
   }
 
