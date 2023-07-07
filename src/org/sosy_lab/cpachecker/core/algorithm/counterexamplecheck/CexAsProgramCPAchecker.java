@@ -8,7 +8,7 @@
 
 package org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck;
 
-import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -28,8 +28,7 @@ import org.sosy_lab.common.io.TempFile;
 import org.sosy_lab.common.io.TempFile.TempFileBuilder;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.core.CPAchecker;
-import org.sosy_lab.cpachecker.core.CPAcheckerMutator;
-import org.sosy_lab.cpachecker.core.CPAcheckerMutator.AnalysisResult;
+import org.sosy_lab.cpachecker.core.CPAcheckerResult;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.util.cwriter.PathToCForCpacheckerTranslator;
@@ -38,7 +37,6 @@ import org.sosy_lab.cpachecker.util.cwriter.PathToCForCpacheckerTranslator;
 @Options(prefix = "cfaMutation.cex.checker")
 public class CexAsProgramCPAchecker extends CounterexampleChecker {
   private final CPAchecker cpachecker;
-  private AnalysisResult foundFalse;
 
   @Option(secure = true, name = "file", description = "file to dump counterexample to")
   @FileOption(FileOption.Type.OUTPUT_FILE)
@@ -57,11 +55,10 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
       ARGState pRootState, ARGState pErrorState, Set<ARGState> pErrorPathStates, Path cFile)
       throws CounterexampleAnalysisFailed, InterruptedException {
 
-    AnalysisResult result = CPAcheckerMutator.analysisRound(cpachecker, cFile.toString());
+    CPAcheckerResult cpacheckerResult = cpachecker.run(ImmutableList.of(cFile.toString()));
 
-    switch (result.getVerdict()) {
+    switch (cpacheckerResult.getResult()) {
       case FALSE:
-        foundFalse = result;
         return true;
 
       case TRUE:
@@ -69,13 +66,17 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
 
       case NOT_YET_STARTED:
       case UNKNOWN:
-        throw new CounterexampleAnalysisFailed(result.getDescription(), result.getThrown());
+        Throwable t = cpacheckerResult.getThrown();
+        if (t != null) {
+          throw new CounterexampleAnalysisFailed("Restored mutated CEX has a problem", t);
+        }
+        throw new CounterexampleAnalysisFailed("Mutated CEX feasibility is unknown");
 
       case DONE:
         throw new CounterexampleAnalysisFailed("Counterexample was not analyzed");
 
       default:
-        throw new AssertionError("Unexpected result case: " + result.getVerdict());
+        throw new AssertionError("Unexpected result case: " + cpacheckerResult.getResult());
     }
   }
 
@@ -107,10 +108,5 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
   @Override
   protected @Nullable PathTemplate getCexFileTemplate() {
     return fileTemplate;
-  }
-
-  public AnalysisResult getFoundFalse() {
-    Preconditions.checkState(foundFalse != null);
-    return foundFalse;
   }
 }

@@ -15,7 +15,7 @@ import org.sosy_lab.cpachecker.core.interfaces.StatisticsProvider;
  * separate list of global declarations. Main function entry, language, and machine model are also
  * supplied.
  */
-interface CFAMutationStrategy extends StatisticsProvider {
+public interface CFAMutationStrategy extends StatisticsProvider {
   public enum MutationRollback {
     ROLLBACK,
     NO_ROLLBACK,

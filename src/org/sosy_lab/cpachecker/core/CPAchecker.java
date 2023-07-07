@@ -48,10 +48,12 @@ import org.sosy_lab.cpachecker.cfa.CFACheck;
 import org.sosy_lab.cpachecker.cfa.CFACreator;
 import org.sosy_lab.cpachecker.cfa.model.CFANode;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
+import org.sosy_lab.cpachecker.cfa.mutation.CFAMutator;
 import org.sosy_lab.cpachecker.cmdline.CPAMain;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.algorithm.Algorithm;
 import org.sosy_lab.cpachecker.core.algorithm.Algorithm.AlgorithmStatus;
+import org.sosy_lab.cpachecker.core.algorithm.CFAMutatingAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.impact.ImpactAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.mpv.MPVAlgorithm;
 import org.sosy_lab.cpachecker.core.interfaces.AbstractState;
@@ -189,11 +191,41 @@ public class CPAchecker {
       description = "Maximum number of counterexamples to be created.")
   private int cexLimit = 0;
 
+  @Option(
+      secure = true,
+      description =
+          "    Run multiple analysis runs on mutated CFAs. See also Delta Debugging.\n"
+              + "    Consider analysis run as a test run. Some possible outcomes are FAIL "
+              + "('bad'), some are PASS ('good'), and all others are UNRESOLVED. We may want to "
+              + "find a minimal fail-reproducing test, a maximal passing test, isolate a "
+              + "difference (locate a 'cause') in test that makes test fail when present.\n"
+              + "    By default, PASS (aka max-property) is {VERDICT_TRUE, VERDICT_FALSE}.\n"
+              + "    By default, FAIL (aka min-property) is the original outcome, that is\n"
+              + "1. result must be of same category: True, False, exception, timeout, other "
+              + "Unknown, and additionally,\n"
+              + "2. for FALSE the result has to have same target description,\n"
+              + "3. for exception the exception has to have same class and first stack "
+              + "element.\n"
+              + "    Specify what to do for each possible outcome in 'cfaMutation.if*' "
+              + "options or specify both 'cfaMutation.dd.variant' and "
+              + "'cfaMutation.dd.direction'.\n"
+              + "    You can specify other min/max properties in "
+              + "'cfaMutation.dd.{min,max}Property' options.\n"
+              + "    Default behavior:\n"
+              + "1. If original analysis run throws an exception, try to make CFA of the input "
+              + "program smaller, i.e. minimize a failing test.\n"
+              + "2. If timeout occurs, try mutate CFA until an error is found, that is "
+              + "feasible wrt original program.\n"
+              + "3. If analysis produces True, False or other Unknown verdict, just return it "
+              + "without any mutations.")
+  private boolean cfaMutation = false;
+
   protected final LogManager logger;
   protected final Configuration config;
   private final ShutdownManager shutdownManager;
   protected final ShutdownNotifier shutdownNotifier;
   private final CoreComponentsFactory factory;
+
 
   // The content of this String is read from a file that is created by the
   // ant task "init".
@@ -295,6 +327,15 @@ public class CPAchecker {
     factory =
         new CoreComponentsFactory(
             pConfiguration, pLogManager, shutdownNotifier, AggregatedReachedSets.empty());
+
+    if (cfaMutation) {
+      if (serializedCfaFile != null) {
+        throw new InvalidConfigurationException("Cannot mutate CFA after deserialization");
+      }
+      cfaCreator = new CFAMutator(config, logger, shutdownNotifier);
+    } else {
+      cfaCreator = new CFACreator(config, logger, shutdownNotifier);
+    }
   }
 
   protected Specification getSpecification(CFA pCfa)
@@ -307,7 +348,7 @@ public class CPAchecker {
   }
 
   protected CPAcheckerResult produceResult() {
-    return new CPAcheckerResult(result, targetDescription, reached, cfa, stats);
+    return new CPAcheckerResult(result, targetDescription, reached, cfa, stats, thrown);
   }
 
   /** close CPAs if possible and unregister shutdown request listener */
@@ -340,6 +381,9 @@ public class CPAchecker {
   private String targetDescription = "";
   private Specification specification = null;
   private final ShutdownRequestListener interruptThreadOnShutdown;
+  private Throwable thrown = null;
+
+  private CFACreator cfaCreator;
 
   protected void setupAnalysis()
       throws InvalidConfigurationException, InterruptedException, CPAException {
@@ -374,6 +418,10 @@ public class CPAchecker {
     GlobalInfo.getInstance().setUpInfoFromCPA(cpa);
 
     algorithm = factory.createAlgorithm(cpa, cfa, specification);
+
+    if (algorithm instanceof CFAMutatingAlgorithm) {
+      ((CFAMutatingAlgorithm) algorithm).setCfaMutator((CFAMutator) cfaCreator);
+    }
 
     if (algorithm instanceof MPVAlgorithm && !stopAfterError) {
       // sanity check
@@ -437,13 +485,11 @@ public class CPAchecker {
 
     try {
       setupMainStats();
-      if (serializedCfaFile == null) {
-        CFACreator cfaCreator = new CFACreator(config, logger, shutdownNotifier);
+      if (serializedCfaFile != null) {
+        loadCFA();
+      } else {
         parse(cfaCreator, programDenotation);
         stats.setCFACreatorStatistics(cfaCreator.getStatistics());
-
-      } else {
-        loadCFA();
       }
 
       if (cfa != null) {
@@ -456,15 +502,18 @@ public class CPAchecker {
       }
 
     } catch (InvalidConfigurationException e) {
+      thrown = e;
       logger.logUserException(Level.SEVERE, e, "Invalid configuration");
 
     } catch (InterruptedException e) {
       // CPAchecker must exit because it was asked to
       // we return normally instead of propagating the exception
       // so we can return the partial result we have so far
+      thrown = e;
       logger.logUserException(Level.WARNING, e, "Analysis interrupted");
 
     } catch (CPAException e) {
+      thrown = e;
       logger.logUserException(Level.SEVERE, e, null);
 
     } finally {
@@ -593,10 +642,11 @@ public class CPAchecker {
                           .transform(ARGState::getCounterexampleInformation))
                   .size();
         }
-        // either run only once (if stopAfterError == true)
+        // either run only once (if stopAfterError == true or cfaMutation == true)
         // or until the waitlist is empty
         // or until maximum number of counterexamples is reached
       } while (!stopAfterError
+          && !cfaMutation
           && reached.hasWaitingState()
           && (cexLimit == 0 || cexLimit > counterExampleCount));
 

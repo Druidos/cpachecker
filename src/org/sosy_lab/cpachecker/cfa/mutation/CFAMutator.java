@@ -17,6 +17,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +26,12 @@ import java.util.logging.Level;
 import org.sosy_lab.common.ShutdownNotifier;
 import org.sosy_lab.common.configuration.ClassOption;
 import org.sosy_lab.common.configuration.Configuration;
+import org.sosy_lab.common.configuration.FileOption;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.configuration.Option;
 import org.sosy_lab.common.configuration.Options;
 import org.sosy_lab.common.configuration.TimeSpanOption;
+import org.sosy_lab.common.configuration.converters.FileTypeConverter;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.cpachecker.cfa.CFA;
@@ -37,7 +40,6 @@ import org.sosy_lab.cpachecker.cfa.ParseResult;
 import org.sosy_lab.cpachecker.cfa.export.DOTBuilder2;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutationStrategy.MutationRollback;
-import org.sosy_lab.cpachecker.core.CFAMutationManager;
 import org.sosy_lab.cpachecker.core.interfaces.Statistics;
 import org.sosy_lab.cpachecker.core.interfaces.StatisticsProvider;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
@@ -344,16 +346,9 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
 
   private CanMutate strategyCanMutate = CanMutate.UNKNOWN;
 
-  private final CFAMutationManager manager;
-
-  public CFAMutator(
-      Configuration pConfig,
-      LogManager pLogger,
-      ShutdownNotifier pShutdownNotifier,
-      CFAMutationManager pCfaMutationManager)
+  public CFAMutator(Configuration pConfig, LogManager pLogger, ShutdownNotifier pShutdownNotifier)
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier);
-    manager = pCfaMutationManager;
     config.inject(this, CFAMutator.class);
     mutatorStats = new CFAMutatorStatistics(pLogger);
 
@@ -434,12 +429,18 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   }
 
   private boolean startExport() {
-    exportDirectory = manager.getCurrentExportDirectory();
+    exportDirectory = getCurrentExportDirectory();
     if (exportDirectory == null || exportWasTooLong) {
       return false;
     }
     mutatorStats.startExport();
     return true;
+  }
+
+  private Path getCurrentExportDirectory() {
+    FileTypeConverter ftc =
+        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
+    return ftc.getOutputPath();
   }
 
   private void stopExport() {
@@ -582,7 +583,9 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   @Override
   public void collectStatistics(Collection<Statistics> pStatsCollection) {
     pStatsCollection.add(mutatorStats);
-    strategy.collectStatistics(pStatsCollection);
+    if (strategy != null) {
+      strategy.collectStatistics(pStatsCollection);
+    }
   }
 
   public String getApproachName() {
@@ -687,6 +690,10 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
             && (pLastOutcome == AnalysisOutcome.VERDICT_FALSE
                 || pLastOutcome == AnalysisOutcome.SAME_VERDICT_FALSE);
     return result;
+  }
+
+  public boolean isSearchingForError() {
+    return ddVariant == DDVariant.DDSEARCH;
   }
 
   public boolean shouldReturnWithoutMutation(AnalysisOutcome pOriginalOutcome)

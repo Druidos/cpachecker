@@ -97,7 +97,8 @@ public abstract class NestingAlgorithm implements Algorithm, StatisticsProvider 
     return Triple.of(algorithm, cpa, reached);
   }
 
-  private Configuration buildSubConfig(Path singleConfigFileName, Collection<String> ignoreOptions)
+  protected Configuration buildSubConfig(
+      Path singleConfigFileName, Collection<String> ignoreOptions)
       throws IOException, InvalidConfigurationException {
 
     ConfigurationBuilder singleConfigBuilder = Configuration.builder();
@@ -175,7 +176,7 @@ public abstract class NestingAlgorithm implements Algorithm, StatisticsProvider 
   }
 
   /** get an iterable data structure from configuration options. Sadly there is no nicer way. */
-  private static Map<String, String> configToMap(Configuration config) {
+  protected static Map<String, String> configToMap(Configuration config) {
     Map<String, String> mp = new LinkedHashMap<>();
     for (String option : Splitter.on("\n").omitEmptyStrings().split(config.asPropertiesString())) {
       List<String> split = Splitter.on(" = ").splitToList(option);

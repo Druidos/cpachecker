@@ -48,6 +48,8 @@ public class CPAcheckerResult {
 
   private final @Nullable Statistics stats;
 
+  private final @Nullable Throwable thrown;
+
   private @Nullable Statistics proofGeneratorStats = null;
 
   CPAcheckerResult(
@@ -55,12 +57,14 @@ public class CPAcheckerResult {
       String targetDescription,
       @Nullable ReachedSet reached,
       @Nullable CFA cfa,
-      @Nullable Statistics stats) {
+      @Nullable Statistics stats,
+      @Nullable Throwable thrown) {
     this.targetDescription = checkNotNull(targetDescription);
     this.result = checkNotNull(result);
     this.reached = reached;
     this.cfa = cfa;
     this.stats = stats;
+    this.thrown = thrown;
   }
 
   private CPAcheckerResult(Result result) {
@@ -68,7 +72,7 @@ public class CPAcheckerResult {
   }
 
   private CPAcheckerResult(Result result, String targetDescription) {
-    this(result, targetDescription, null, null, null);
+    this(result, targetDescription, null, null, null, null);
   }
 
   /** Return the result of the analysis. */
@@ -182,5 +186,9 @@ public class CPAcheckerResult {
 
   public Statistics getStatistics() {
     return stats;
+  }
+
+  public @Nullable Throwable getThrown() {
+    return thrown;
   }
 }

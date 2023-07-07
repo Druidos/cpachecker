@@ -67,9 +67,7 @@ import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.cpachecker.cfa.Language;
 import org.sosy_lab.cpachecker.core.CPAchecker;
-import org.sosy_lab.cpachecker.core.CPAcheckerMutator;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult;
-import org.sosy_lab.cpachecker.util.resources.ResourceLimitChecker;
 import org.sosy_lab.cpachecker.util.test.TestDataTools;
 
 /** Test that the bundled configuration files are all valid. */
@@ -200,12 +198,6 @@ public class ConfigurationFileChecks {
                 + " of the first analysis returning in time. All other mpi-processes will get"
                 + " aborted.")
     private boolean useMPIProcessAlgorithm = false;
-
-    @Option(
-        secure = true,
-        name = "cfaMutation",
-        description = "\nRun multiple analysis runs on mutated CFAs. See also Delta Debugging.\n")
-    private boolean doCfaMutation = false;
 
     @Option(
         secure = true,
@@ -483,13 +475,7 @@ public class ConfigurationFileChecks {
 
     final CPAchecker cpachecker;
     try {
-      if (options.doCfaMutation) {
-        ResourceLimitChecker limits =
-            new ResourceLimitChecker(shMan, ImmutableList.of());
-        cpachecker = new CPAcheckerMutator(config, logger, shMan, limits);
-      } else {
-        cpachecker = new CPAchecker(config, logger, shMan);
-      }
+      cpachecker = new CPAchecker(config, logger, shMan);
     } catch (InvalidConfigurationException e) {
       assertWithMessage(
               "Invalid configuration in configuration file %s : %s", configFile, e.getMessage())

@@ -57,7 +57,6 @@ import org.sosy_lab.common.log.LoggingOptions;
 import org.sosy_lab.cpachecker.cfa.Language;
 import org.sosy_lab.cpachecker.cmdline.CmdLineArguments.InvalidCmdlineArgumentException;
 import org.sosy_lab.cpachecker.core.CPAchecker;
-import org.sosy_lab.cpachecker.core.CPAcheckerMutator;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.algorithm.pcc.ProofGenerator;
@@ -144,11 +143,8 @@ public class CPAMain {
       limits = ResourceLimitChecker.fromConfiguration(cpaConfig, logManager, shutdownManager);
       limits.start();
 
-      if (options.cfaMutation) {
-        cpachecker = new CPAcheckerMutator(cpaConfig, logManager, shutdownManager, limits);
-      } else {
-        cpachecker = new CPAchecker(cpaConfig, logManager, shutdownManager);
-      }
+      cpachecker = new CPAchecker(cpaConfig, logManager, shutdownManager);
+
       if (options.doPCC) {
         proofGenerator = new ProofGenerator(cpaConfig, logManager, shutdownNotifier);
       }
@@ -298,35 +294,6 @@ public class CPAMain {
         name = "shutdown.timeout",
         description = "Termination timeout before force exit in seconds")
     private int shutdownTimeout = 10;
-
-    @Option(
-        secure = true,
-        description =
-            "    Run multiple analysis runs on mutated CFAs. See also Delta Debugging.\n"
-                + "    Consider analysis run as a test run. Some possible outcomes are FAIL "
-                + "('bad'), some are PASS ('good'), and all others are UNRESOLVED. We may want to "
-                + "find a minimal fail-reproducing test, a maximal passing test, isolate a "
-                + "difference (locate a 'cause') in test that makes test fail when present.\n"
-                + "    By default, PASS (aka max-property) is {VERDICT_TRUE, VERDICT_FALSE}.\n"
-                + "    By default, FAIL (aka min-property) is the original outcome, that is\n"
-                + "1. result must be of same category: True, False, exception, timeout, other "
-                + "Unknown, and additionally,\n"
-                + "2. for FALSE the result has to have same target description,\n"
-                + "3. for exception the exception has to have same class and first stack "
-                + "element.\n"
-                + "    Specify what to do for each possible outcome in 'cfaMutation.if*' "
-                + "options or specify both 'cfaMutation.dd.variant' and "
-                + "'cfaMutation.dd.direction'.\n"
-                + "    You can specify other min/max properties in "
-                + "'cfaMutation.dd.{min,max}Property' options.\n"
-                + "    Default behavior:\n"
-                + "1. If original analysis run throws an exception, try to make CFA of the input "
-                + "program smaller, i.e. minimize a failing test.\n"
-                + "2. If timeout occurs, try mutate CFA until an error is found, that is "
-                + "feasible wrt original program.\n"
-                + "3. If analysis produces True, False or other Unknown verdict, just return it "
-                + "without any mutations.")
-    private boolean cfaMutation = false;
   }
 
   private static void dumpConfiguration(

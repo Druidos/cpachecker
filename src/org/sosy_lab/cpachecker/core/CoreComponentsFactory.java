@@ -27,6 +27,7 @@ import org.sosy_lab.cpachecker.core.algorithm.ArrayAbstractionAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.AssumptionCollectorAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.BDDCPARestrictionAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CEGARAlgorithm.CEGARAlgorithmFactory;
+import org.sosy_lab.cpachecker.core.algorithm.CFAMutatingAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CPAAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CounterexampleStoreAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CustomInstructionRequirementsExtractingAlgorithm;
@@ -88,7 +89,7 @@ import org.sosy_lab.cpachecker.util.automaton.CachingTargetLocationProvider;
 
 /** Factory class for the three core components of CPAchecker: algorithm, cpa and reached set. */
 @Options(prefix = "analysis")
-public class CoreComponentsFactory {
+public final class CoreComponentsFactory {
 
   @Option(
       secure = true,
@@ -388,6 +389,44 @@ public class CoreComponentsFactory {
   @Option(secure = true, description = "Enable converting test goals to conditions.")
   private boolean testGoalConverter;
 
+  @Options
+  private static final class CfaMutationOption {
+    @Option(
+        secure = true,
+        description =
+            "    Run multiple analysis runs on mutated CFAs. See also Delta Debugging.\n"
+                + "    Consider analysis run as a test run. Some possible outcomes are FAIL "
+                + "('bad'), some are PASS ('good'), and all others are UNRESOLVED. We may want to "
+                + "find a minimal fail-reproducing test, a maximal passing test, isolate a "
+                + "difference (locate a 'cause') in test that makes test fail when present.\n"
+                + "    By default, PASS (aka max-property) is {VERDICT_TRUE, VERDICT_FALSE}.\n"
+                + "    By default, FAIL (aka min-property) is the original outcome, that is\n"
+                + "1. result must be of same category: True, False, exception, timeout, other "
+                + "Unknown, and additionally,\n"
+                + "2. for FALSE the result has to have same target description,\n"
+                + "3. for exception the exception has to have same class and first stack "
+                + "element.\n"
+                + "    Specify what to do for each possible outcome in 'cfaMutation.if*' "
+                + "options or specify both 'cfaMutation.dd.variant' and "
+                + "'cfaMutation.dd.direction'.\n"
+                + "    You can specify other min/max properties in "
+                + "'cfaMutation.dd.{min,max}Property' options.\n"
+                + "    Default behavior:\n"
+                + "1. If original analysis run throws an exception, try to make CFA of the input "
+                + "program smaller, i.e. minimize a failing test.\n"
+                + "2. If timeout occurs, try mutate CFA until an error is found, that is "
+                + "feasible wrt original program.\n"
+                + "3. If analysis produces True, False or other Unknown verdict, just return it "
+                + "without any mutations.")
+    private boolean cfaMutation = false;
+
+    public CfaMutationOption(Configuration pConfig) throws InvalidConfigurationException {
+      pConfig.inject(this, CfaMutationOption.class);
+    }
+  }
+
+  private final boolean useCfaMutation;
+
   private final Configuration config;
   private final LogManager logger;
   private final @Nullable ShutdownManager shutdownManager;
@@ -407,7 +446,9 @@ public class CoreComponentsFactory {
     config = pConfig;
     logger = pLogger;
 
-    config.inject(this);
+    config.inject(this, CoreComponentsFactory.class);
+    CfaMutationOption withoutPrefix = new CfaMutationOption(config);
+    useCfaMutation = withoutPrefix.cfaMutation;
 
     if (analysisNeedsShutdownManager()) {
       shutdownManager = ShutdownManager.createWithParent(pShutdownNotifier);
@@ -457,7 +498,10 @@ public class CoreComponentsFactory {
 
     Algorithm algorithm;
 
-    if (useUndefinedFunctionCollector) {
+    if (useCfaMutation) {
+      logger.log(Level.INFO, "Repeating analysis on mutated CFAs");
+      algorithm = new CFAMutatingAlgorithm(config, logger, shutdownNotifier, specification, cfa);
+    } else if (useUndefinedFunctionCollector) {
       logger.log(Level.INFO, "Using undefined function collector");
       algorithm = new UndefinedFunctionCollectorAlgorithm(config, logger, shutdownNotifier, cfa);
     } else if (useNonTerminationWitnessValidation) {

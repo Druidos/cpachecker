@@ -916,14 +916,12 @@ cfa.variableClassification.typeMapFile = "VariableTypeMapping.txt"
 # feasible wrt original program.
 # 3. If analysis produces True, False or other Unknown verdict, just return
 # it without any mutations.
-# 
-# Run multiple analysis runs on mutated CFAs. See also Delta Debugging.
 cfaMutation = false
 
 # Which model checker to use for verifying counterexample when an error is
 # found using CFA mutations. Currently CBMC, CPAchecker with same or
 # different config, or the concrete execution checker can be used.
-cfaMutation.cex.checker = CBMC
+cfaMutation.cex.checker = no default value
   enum:     [CBMC, CPACHECKER, CONCRETE_EXECUTION]
 
 # If CPAchecker is used as CEX-checker, it uses this configuration file or
@@ -937,7 +935,7 @@ cfaMutation.cex.checker.file = "counterexample-with-restored-functions.%d.c"
 # CFA mutations are used to find a feasible error. As with analysis
 # timelimit, timelimits with respect to global time limits' types are
 # produced.
-cfaMutation.cex.timelimit = 100s
+cfaMutation.cex.timelimit = no default value
 
 # which DD algorithm implementation to use to mutate CFA: my previous
 # implementation of original (flat) DD; new implementation of original (flat)
@@ -1020,12 +1018,12 @@ cfaMutation.ifTrue = RETURN_ORIGINAL
              SEARCH_FOR_ERROR_MIN, SEARCH_FOR_ERROR_MAX]
 
 # Log to console every round with this logging level.
-cfaMutation.log.consoleLevel = Level.OFF
+cfaMutation.log.consoleLevel = no default value
 
 # Create log file for every round with this logging level.
 # Use main file logging level if that is lower.
-cfaMutation.logFile = "this-round.log"
-cfaMutation.logFile.level = Level.FINE
+cfaMutation.logFile = no default value
+cfaMutation.logFile.level = no default value
 
 # which elements to remove from CFA (one manipulator class)
 cfaMutation.manipulator = no default value
@@ -1042,7 +1040,7 @@ cfaMutation.oldStrategies = [
 
 # File to write how frequent CFA node is among resulted reached set states'
 # locations.
-cfaMutation.rankedNodesFile = "this-round-ranked-nodes.txt"
+cfaMutation.rankedNodesFile = no default value
 
 # If a mutation round is unsuccessfull (i.e. sought-for bug does not occur),
 # the mutation is rollbacked. If this count of rollbacks occur in row, check
@@ -1052,10 +1050,10 @@ cfaMutation.rankedNodesFile = "this-round-ranked-nodes.txt"
 # If set to 2, check every other one that occurs immediately after another
 # one, so if 5 rollbacks occur in a row, 2nd and 4th will be checked. And so
 # on.
-cfaMutation.rollbacksInRowCheck = 5
+cfaMutation.rollbacksInRowCheck = no default value
 
 # File to dump statistics of current round to
-cfaMutation.statFile = "this-round-stats.txt"
+cfaMutation.statFile = no default value
 
 # Sometimes analysis run can be unpredictably long. To run many runs
 # successfully, CFA mutator hard-caps time for every run (200s by default),
@@ -1067,12 +1065,12 @@ cfaMutation.statFile = "this-round-stats.txt"
 # timelimit for every type of present global timelimit will be produced.
 # E.g., if both CPU and walltime limits specified, every analysis round gets
 # two timelimits (of CPU and walltime type) with same time span.
-cfaMutation.timelimit.add = 5s
-cfaMutation.timelimit.factor = 2.0
-cfaMutation.timelimit.hardcap = 200s
+cfaMutation.timelimit.add = no default value
+cfaMutation.timelimit.factor = no default value
+cfaMutation.timelimit.hardcap = no default value
 
 # Whether to export each round in different subdirectories.
-cfaMutation.writeRoundsToDifferentDirectories = false
+cfaMutation.writeRoundsToDifferentDirectories = no default value
 
 # Output an input file, with invariants embedded as assume constraints.
 cinvariants.export = false

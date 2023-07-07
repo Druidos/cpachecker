@@ -18,13 +18,16 @@ import org.sosy_lab.cpachecker.cfa.model.CFANode;
 import org.sosy_lab.cpachecker.cfa.model.FunctionExitNode;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.defaults.MultiStatistics;
+import org.sosy_lab.cpachecker.core.interfaces.Statistics;
 import org.sosy_lab.cpachecker.core.reachedset.UnmodifiableReachedSet;
 import org.sosy_lab.cpachecker.util.statistics.StatCounter;
 import org.sosy_lab.cpachecker.util.statistics.StatInt;
 import org.sosy_lab.cpachecker.util.statistics.StatKind;
+import org.sosy_lab.cpachecker.util.statistics.StatTimer;
 import org.sosy_lab.cpachecker.util.statistics.StatTimerWithMoreOutput;
+import org.sosy_lab.cpachecker.util.statistics.StatisticsUtils;
 
-class CFAMutatorStatistics extends MultiStatistics {
+public class CFAMutatorStatistics extends MultiStatistics {
   private static class FirstLastStatInt extends StatInt {
     private int first;
     private int last;
@@ -91,17 +94,54 @@ class CFAMutatorStatistics extends MultiStatistics {
       new StatTimerWithMoreOutput("time for reverting CFA to function CFAs");
   private StatTimerWithMoreOutput exportTimer = new StatTimerWithMoreOutput("time for CFA export");
 
-  CFAMutatorStatistics(LogManager pLogger) {
-    super(pLogger);
+  private Statistics cfaCreatorStats = null;
+
+  final StatTimer originalTime = new StatTimer("time for original analysis run");
+  final StatTimerWithMoreOutput afterMutations =
+      new StatTimerWithMoreOutput("total time for analysis after mutations");
+  final StatTimerWithMoreOutput afterRollbacks =
+      new StatTimerWithMoreOutput("total time for analysis after rollbacks");
+  public final StatTimerWithMoreOutput feasibilityCheck =
+      new StatTimerWithMoreOutput("total time for feasibility check after verdict FALSE");
+
+  public void setCFACreatorStatistics(Statistics pStats) {
+    cfaCreatorStats = pStats;
   }
 
   @Override
   public @Nullable String getName() {
-    return "CFA mutator";
+    return "CFA mutation";
+  }
+
+  public CFAMutatorStatistics(LogManager pLogger) {
+    super(pLogger);
   }
 
   @Override
   public void printStatistics(PrintStream pOut, Result pResult, UnmodifiableReachedSet pReached) {
+    if (cfaCreatorStats != null) {
+      pOut.println("CFA creation statistics");
+      pOut.println("=======================");
+      StatisticsUtils.printStatistics(cfaCreatorStats, pOut, logger, pResult, pReached);
+      StatisticsUtils.writeOutputFiles(cfaCreatorStats, logger, pResult, pReached);
+      pOut.println();
+    }
+
+    pOut.println("CFA mutation statistics");
+    pOut.println("=======================");
+    if (originalTime.getUpdateCount() > 0) {
+      pOut.println("Time for analysis");
+      pOut.println("-----------------");
+      put(pOut, 1, originalTime);
+      put(pOut, 1, afterMutations);
+      if (afterRollbacks.getUpdateCount() > 0) {
+        put(pOut, 1, afterRollbacks);
+      }
+      if (feasibilityCheck.getUpdateCount() > 0) {
+        put(pOut, 1, feasibilityCheck);
+      }
+    }
+
     put(pOut, 0, totalRounds);
     put(pOut, 1, failRounds);
     put(pOut, 1, passRounds);
