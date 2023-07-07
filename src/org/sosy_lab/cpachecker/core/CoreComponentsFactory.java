@@ -826,7 +826,8 @@ public final class CoreComponentsFactory {
         || useParallelAlgorithm
         || asConditionalVerifier
         || useFaultLocalizationWithDistanceMetrics
-        || useArrayAbstraction) {
+        || useArrayAbstraction
+        || useCfaMutation) {
       // this algorithm needs an indirection so that it can change
       // the actual reached set instance on the fly
       if (memorizeReachedAfterRestart) {
