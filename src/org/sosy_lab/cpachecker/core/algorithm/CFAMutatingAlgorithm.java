@@ -173,6 +173,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     ForwardingReachedSet forwardingReachedSet = (ForwardingReachedSet) pReachedSet;
     AggregatedReachedSets aggregatedReachedSet = AggregatedReachedSets.singleton(pReachedSet);
 
+    logger.log(Level.INFO, cfaMutator.getApproachName());
+
     try {
       // run analysis of the original cfa
       runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSet, originalCfa);
@@ -185,7 +187,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     try {
       // if should return the result got
-      if (cfaMutator.shouldReturnWithoutMutation(AnalysisResult.original.getOutcome())) {
+      if (cfaMutator.shouldReturnOriginalResultAlsoBuildStrategy(AnalysisResult.original.getOutcome())) {
         configManager.resetExportDirectoryToDefault();
         return AnalysisResult.original.getStatus();
       }
@@ -276,13 +278,14 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     // check mutated CEX against original CFA
     logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
     configManager.resetExportDirectoryToFeasibilityCheckAfterRound(round);
-    statistics.feasibilityCheck.start();
+    statistics.startFeasilityCheck();
     DelegatingCheckerWithRestoredFunctions cexChecker;
 
     try {
       cexChecker = createCexCheckerAndStartLimits(pCpa, pCfa);
     } catch (InvalidConfigurationException e) {
       timeManager.cancelLimits();
+      statistics.stopFeasibilityCheck();
       roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
       logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
       return Optional.empty();
@@ -299,8 +302,19 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     assert !errorStates.isEmpty() : "no error states while CEX check";
 
+    boolean isFeasible = false;
     for (ARGState errorState : errorStates) {
-      if (checkFeasibilityOfErrorState(cexChecker, rootState, errorState)) {
+      try {
+        isFeasible = checkFeasibilityOfErrorState(cexChecker, rootState, errorState);
+      } catch (InterruptedException e) {
+        statistics.stopFeasibilityCheck();
+        assert shutdownNotifier.shouldShutdown()
+            : "Feasibility check interrupted, expected global timeout";
+        throw e;
+      }
+
+      if (isFeasible) {
+        statistics.stopFeasibilityCheck();
         timeManager.cancelLimits();
         if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
           CPAcheckerResult cexCheckResult =
@@ -314,7 +328,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     timeManager.cancelLimits();
-    statistics.feasibilityCheck.stop();
+    statistics.stopFeasibilityCheck();
     logger.log(Level.INFO, "No feasible error path found");
     return Optional.empty();
   }
@@ -379,6 +393,9 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           Level.WARNING, e, "Counterexample found, but feasibility could not be verified");
 
     } catch (InterruptedException e) {
+      if (shutdownNotifier.shouldShutdown()) {
+        throw e;
+      }
       // this feasibility check was too long
       logger.log(Level.INFO, "Feasibility check interrupted:", e.getMessage());
       roundLogger.logException(Level.WARNING, e, "Feasibility check interrupted");

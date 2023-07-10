@@ -18,8 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -40,8 +38,6 @@ import org.sosy_lab.cpachecker.cfa.ParseResult;
 import org.sosy_lab.cpachecker.cfa.export.DOTBuilder2;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutationStrategy.MutationRollback;
-import org.sosy_lab.cpachecker.core.interfaces.Statistics;
-import org.sosy_lab.cpachecker.core.interfaces.StatisticsProvider;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
 import org.sosy_lab.cpachecker.util.Pair;
 
@@ -51,7 +47,7 @@ import org.sosy_lab.cpachecker.util.Pair;
  * to get proper CFA for analysis run.
  */
 @Options(prefix = "cfaMutation")
-public class CFAMutator extends CFACreator implements StatisticsProvider {
+public class CFAMutator extends CFACreator {
 
   private static enum CFAMutationBehavior {
     RETURN_ORIGINAL,
@@ -580,16 +576,6 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     return mutationRollback == MutationRollback.ROLLBACK ? rollbackedCfa : null;
   }
 
-  @Override
-  public void collectStatistics(Collection<Statistics> pStatsCollection) {
-    pStatsCollection.add(mutatorStats);
-    if (strategy == null) {
-      logger.log(Level.INFO, "No CFAMutator strategy statistics as no strategy was build.");
-    } else {
-      strategy.collectStatistics(pStatsCollection);
-    }
-  }
-
   public CFAMutatorStatistics getCfaMutationStatistics() {
     return mutatorStats;
   }
@@ -610,14 +596,20 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
                     .transform(k -> k.toString() + " for " + Joiner.on(", ").join(what.get(k))));
 
       case ISOLATION:
+        assert ddMaxProperty != null
+            : "Maximization property should be explicitly set for isolating cause";
         return Joiner.on(' ')
-            .join("isolate what in CFA causes a change from", ddMaxProperty, "to", ddMinProperty);
+            .join(
+                "isolate what in CFA causes a change from",
+                ddMaxProperty,
+                "to",
+                ddMinProperty == null ? "original result" : ddMinProperty);
 
       case MAXIMIZATION:
-        return "maximize CFA for " + ddMaxProperty;
+        return "maximize CFA for " + (ddMaxProperty == null ? "original result" : ddMaxProperty);
 
       case MINIMIZATION:
-        return "minimize CFA for " + ddMinProperty;
+        return "minimize CFA for " + (ddMinProperty == null ? "original result" : ddMinProperty);
 
       default:
         throw new AssertionError();
@@ -673,36 +665,11 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
     return !pLeft.stream().anyMatch(outcome -> pRight.contains(outcome));
   }
 
-  public String toString(ImmutableSet<AnalysisOutcome> pOutcomes) {
-    List<String> parts = new ArrayList<>();
-    for (AnalysisOutcome outcome : pOutcomes) {
-      if (outcome == AnalysisOutcome.SAME_VERDICT_FALSE
-          && pOutcomes.contains(AnalysisOutcome.VERDICT_FALSE)) {
-        continue;
-      }
-      if (outcome == AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION
-          && pOutcomes.contains(AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION)) {
-        continue;
-      }
-
-      parts.add(outcome.name().toLowerCase().replace('_', ' '));
-    }
-    return Joiner.on(' ').join(parts);
-  }
-
-  public boolean shouldCheckFeasibiblity(AnalysisOutcome pLastOutcome) {
-    boolean result =
-        ddVariant == DDVariant.DDSEARCH
-            && (pLastOutcome == AnalysisOutcome.VERDICT_FALSE
-                || pLastOutcome == AnalysisOutcome.SAME_VERDICT_FALSE);
-    return result;
-  }
-
   public boolean isSearchingForError() {
     return ddVariant == DDVariant.DDSEARCH;
   }
 
-  public boolean shouldReturnWithoutMutation(AnalysisOutcome pOriginalOutcome)
+  public boolean shouldReturnOriginalResultAlsoBuildStrategy(AnalysisOutcome pOriginalOutcome)
       throws InvalidConfigurationException {
     CFAMutationBehavior behave;
 

@@ -56,50 +56,53 @@ public class CFAMutatorStatistics extends MultiStatistics {
     }
   }
 
-  private StatCounter totalRounds = new StatCounter("total count of mutation rounds");
-  private StatCounter failRounds = new StatCounter("successful mutations (sought-for error)");
-  private StatCounter passRounds = new StatCounter("unsuccessfull mutations (no error)");
-  private StatCounter unresRounds = new StatCounter("unsuccessfull mutations (other problems)");
+  private final StatCounter totalRounds = new StatCounter("total count of mutation rounds");
+  private final StatCounter failRounds = new StatCounter("successful mutations (sought-for error)");
+  private final StatCounter passRounds = new StatCounter("unsuccessfull mutations (no error)");
+  private final StatCounter unresRounds =
+      new StatCounter("unsuccessfull mutations (other problems)");
 
-  private FirstLastStatInt globalDeclsCount =
+  private final FirstLastStatInt globalDeclsCount =
       new FirstLastStatInt(StatKind.AVG, "count of global declarations");
-  private FirstLastStatInt localNodesCount =
+  private final FirstLastStatInt localNodesCount =
       new FirstLastStatInt(StatKind.AVG, "count of nodes in function CFAs");
-  private FirstLastStatInt localEdgesCount =
+  private final FirstLastStatInt localEdgesCount =
       new FirstLastStatInt(StatKind.AVG, "count of edges in function CFAs");
-  private FirstLastStatInt localFunctionsCount =
+  private final FirstLastStatInt localFunctionsCount =
       new FirstLastStatInt(StatKind.AVG, "count of functions in function CFAs");
-  private FirstLastStatInt localCyclomatic =
+  private final FirstLastStatInt localCyclomatic =
       new FirstLastStatInt(StatKind.AVG, "cyclomatic complexity of function CFAs");
 
-  private FirstLastStatInt fullNodesCount =
+  private final FirstLastStatInt fullNodesCount =
       new FirstLastStatInt(StatKind.AVG, "count of nodes in full CFA");
-  private FirstLastStatInt fullEdgesCount =
+  private final FirstLastStatInt fullEdgesCount =
       new FirstLastStatInt(StatKind.AVG, "count of edges in full CFA");
-  private FirstLastStatInt fullFunctionsCount =
+  private final FirstLastStatInt fullFunctionsCount =
       new FirstLastStatInt(StatKind.AVG, "count of functions in full CFA");
-  private FirstLastStatInt fullCyclomatic =
+  private final FirstLastStatInt fullCyclomatic =
       new FirstLastStatInt(StatKind.AVG, "cyclomatic complexity of full CFA");
 
-  private StatTimerWithMoreOutput preparationTimer =
+  private final StatTimerWithMoreOutput preparationTimer =
       new StatTimerWithMoreOutput("time for preparations");
-  private StatTimerWithMoreOutput mutationTimer = new StatTimerWithMoreOutput("time for mutations");
-  private StatTimerWithMoreOutput aftermathTimer =
+  private final StatTimerWithMoreOutput mutationTimer =
+      new StatTimerWithMoreOutput("time for mutations");
+  private final StatTimerWithMoreOutput aftermathTimer =
       new StatTimerWithMoreOutput("time for rollbacks");
-  private StatTimerWithMoreOutput totalMutatorTimer =
+  private final StatTimerWithMoreOutput totalMutatorTimer =
       new StatTimerWithMoreOutput("total time for CFA mutator");
-  private StatTimerWithMoreOutput processCfaTimer =
+  private final StatTimerWithMoreOutput processCfaTimer =
       new StatTimerWithMoreOutput("time for CFA creation from function CFAs");
-  private StatTimerWithMoreOutput resetCfaTimer =
+  private final StatTimerWithMoreOutput resetCfaTimer =
       new StatTimerWithMoreOutput("time for reverting CFA to function CFAs");
-  private StatTimerWithMoreOutput exportTimer = new StatTimerWithMoreOutput("time for CFA export");
+  private final StatTimerWithMoreOutput exportTimer =
+      new StatTimerWithMoreOutput("time for CFA export");
 
-  final StatTimer originalTime = new StatTimer("time for original analysis run");
-  final StatTimerWithMoreOutput afterMutations =
+  private final StatTimer originalTime = new StatTimer("time for original analysis run");
+  private final StatTimerWithMoreOutput afterMutations =
       new StatTimerWithMoreOutput("total time for analysis after mutations");
-  final StatTimerWithMoreOutput afterRollbacks =
+  private final StatTimerWithMoreOutput afterRollbacks =
       new StatTimerWithMoreOutput("total time for analysis after rollbacks");
-  public final StatTimerWithMoreOutput feasibilityCheck =
+  private final StatTimerWithMoreOutput feasibilityCheck =
       new StatTimerWithMoreOutput("total time for feasibility check after verdict FALSE");
 
   private Statistics lastRoundStats = null;
@@ -298,7 +301,11 @@ public class CFAMutatorStatistics extends MultiStatistics {
     totalMutatorTimer.stop();
   }
 
-  public long getRound() {
-    return totalRounds.getValue();
+  public void startFeasilityCheck() {
+    feasibilityCheck.start();
+  }
+
+  public void stopFeasibilityCheck() {
+    feasibilityCheck.stop();
   }
 }
