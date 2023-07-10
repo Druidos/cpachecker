@@ -244,4 +244,8 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
       return delegate.getFileNames();
     }
   }
+
+  public CounterexampleChecker getDelegate() {
+    return delegate;
+  }
 }

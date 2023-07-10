@@ -94,8 +94,6 @@ public class CFAMutatorStatistics extends MultiStatistics {
       new StatTimerWithMoreOutput("time for reverting CFA to function CFAs");
   private StatTimerWithMoreOutput exportTimer = new StatTimerWithMoreOutput("time for CFA export");
 
-  private Statistics cfaCreatorStats = null;
-
   final StatTimer originalTime = new StatTimer("time for original analysis run");
   final StatTimerWithMoreOutput afterMutations =
       new StatTimerWithMoreOutput("total time for analysis after mutations");
@@ -104,13 +102,17 @@ public class CFAMutatorStatistics extends MultiStatistics {
   public final StatTimerWithMoreOutput feasibilityCheck =
       new StatTimerWithMoreOutput("total time for feasibility check after verdict FALSE");
 
-  public void setCFACreatorStatistics(Statistics pStats) {
-    cfaCreatorStats = pStats;
+  private Statistics lastRoundStats = null;
+  private boolean lastRoundIsOriginalRound;
+
+  public void setLastRoundStatistics(Statistics pStats, boolean pOriginalRound) {
+    lastRoundStats = pStats;
+    lastRoundIsOriginalRound = pOriginalRound;
   }
 
   @Override
   public @Nullable String getName() {
-    return "CFA mutation";
+    return null;
   }
 
   public CFAMutatorStatistics(LogManager pLogger) {
@@ -119,12 +121,21 @@ public class CFAMutatorStatistics extends MultiStatistics {
 
   @Override
   public void printStatistics(PrintStream pOut, Result pResult, UnmodifiableReachedSet pReached) {
-    if (cfaCreatorStats != null) {
-      pOut.println("CFA creation statistics");
-      pOut.println("=======================");
-      StatisticsUtils.printStatistics(cfaCreatorStats, pOut, logger, pResult, pReached);
-      StatisticsUtils.writeOutputFiles(cfaCreatorStats, logger, pResult, pReached);
+    if (lastRoundStats != null) {
+      if (!lastRoundIsOriginalRound) {
+        pOut.println("Statistics for last round");
+        pOut.println("=========================");
+      }
+      StatisticsUtils.printStatistics(lastRoundStats, pOut, logger, pResult, pReached);
+      StatisticsUtils.writeOutputFiles(lastRoundStats, logger, pResult, pReached);
       pOut.println();
+    } else {
+      pOut.print("[ Last round provided no statistics. ]");
+    }
+
+    if (lastRoundIsOriginalRound) {
+      // nothing was mutated -- nothing useful to print
+      return;
     }
 
     pOut.println("CFA mutation statistics");

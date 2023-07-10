@@ -43,6 +43,8 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
   private PathTemplate fileTemplate =
       PathTemplate.ofFormatString("counterexample-with-restored-functions.%d.c");
 
+  private CPAcheckerResult cpacheckerResult;
+
   public CexAsProgramCPAchecker(
       Configuration pConfig, LogManager pLogger, ShutdownManager pShutdownManager)
       throws InvalidConfigurationException {
@@ -50,12 +52,16 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
     cpachecker = new CPAchecker(pConfig, pLogger, pShutdownManager);
   }
 
+  public CPAcheckerResult getResult() {
+    return cpacheckerResult;
+  }
+
   @Override
   protected boolean checkCounterexample0(
       ARGState pRootState, ARGState pErrorState, Set<ARGState> pErrorPathStates, Path cFile)
       throws CounterexampleAnalysisFailed, InterruptedException {
 
-    CPAcheckerResult cpacheckerResult = cpachecker.run(ImmutableList.of(cFile.toString()));
+    cpacheckerResult = cpachecker.run(ImmutableList.of(cFile.toString()));
 
     switch (cpacheckerResult.getResult()) {
       case FALSE:

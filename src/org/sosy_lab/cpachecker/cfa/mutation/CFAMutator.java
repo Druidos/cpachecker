@@ -583,9 +583,15 @@ public class CFAMutator extends CFACreator implements StatisticsProvider {
   @Override
   public void collectStatistics(Collection<Statistics> pStatsCollection) {
     pStatsCollection.add(mutatorStats);
-    if (strategy != null) {
+    if (strategy == null) {
+      logger.log(Level.INFO, "No CFAMutator strategy statistics as no strategy was build.");
+    } else {
       strategy.collectStatistics(pStatsCollection);
     }
+  }
+
+  public CFAMutatorStatistics getCfaMutationStatistics() {
+    return mutatorStats;
   }
 
   public String getApproachName() {

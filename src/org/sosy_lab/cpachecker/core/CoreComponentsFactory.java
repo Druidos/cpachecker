@@ -859,7 +859,8 @@ public final class CoreComponentsFactory {
         || constructProgramSlice
         || useFaultLocalizationWithDistanceMetrics
         || useArrayAbstraction
-        || useRandomTestCaseGeneratorAlgorithm) {
+        || useRandomTestCaseGeneratorAlgorithm
+        || useCfaMutation) {
       // hard-coded dummy CPA
       return LocationCPA.factory().set(cfa, CFA.class).setConfiguration(config).createInstance();
     }

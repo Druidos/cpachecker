@@ -53,10 +53,11 @@ import org.sosy_lab.cpachecker.cfa.mutation.CFAMutatorStatistics;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.CoreComponentsFactory;
-import org.sosy_lab.cpachecker.core.algorithm.Algorithm.AlgorithmStatus;
+import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CexAsProgramCPAchecker;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CounterexampleCheckAlgorithm.CounterexampleCheckerType;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CounterexampleChecker;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.DelegatingCheckerWithRestoredFunctions;
+import org.sosy_lab.cpachecker.core.defaults.MultiStatistics;
 import org.sosy_lab.cpachecker.core.interfaces.AbstractState;
 import org.sosy_lab.cpachecker.core.interfaces.ConfigurableProgramAnalysis;
 import org.sosy_lab.cpachecker.core.interfaces.Precision;
@@ -119,8 +120,9 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       description = "Maximum number of counterexamples to be created.")
   private int cexLimit = 0;
 
-  private final CFAMutatorStatistics statistics;
   private CFAMutator cfaMutator;
+  private CFAMutatorStatistics statistics;
+
   private final FileAndConfigManager configManager;
   private TimeManager timeManager;
   private CFA cfa;
@@ -143,7 +145,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier, pSpecification);
     cfa = pCfa;
-    statistics = new CFAMutatorStatistics(pLogger);
     configManager = new FileAndConfigManager(pConfig, pLogger);
     timeManager = new TimeManager(globalConfig, logger);
   }
@@ -152,6 +153,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     Preconditions.checkState(cfaMutator == null);
     Preconditions.checkArgument(pCfaMutator != null);
     cfaMutator = pCfaMutator;
+    statistics = cfaMutator.getCfaMutationStatistics();
+    cfaMutator.clearCreatorStats();
   }
 
   @Override
@@ -223,7 +226,9 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       return originalResult.getStatus();
     } else {
       logger.log(Level.INFO, "CFA mutation ended, as all possible mutations were tried.");
-      return AlgorithmStatus.UNSOUND_AND_IMPRECISE; // XXX
+      return cfaMutator.isSearchingForError()
+          ? AlgorithmStatus.UNSOUND_AND_IMPRECISE
+          : AlgorithmStatus.NO_PROPERTY_CHECKED;
     }
   }
 
@@ -243,7 +248,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
     configManager.resetExportDirectoryToFeasibilityCheckAfterRound(round);
     statistics.feasibilityCheck.start();
-    CounterexampleChecker cexChecker;
+    DelegatingCheckerWithRestoredFunctions cexChecker;
 
     try {
       cexChecker = createCexCheckerAndStartLimits();
@@ -268,6 +273,11 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     for (ARGState errorState : errorStates) {
       if (checkFeasibilityOfErrorState(cexChecker, rootState, errorState)) {
         timeManager.cancelLimits();
+        if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
+          Statistics mainCpaStatisticsOfFeasibilityCheck =
+              ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult().getStatistics();
+          statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
+        }
         return AlgorithmStatus.UNSOUND_AND_PRECISE;
       }
     }
@@ -278,7 +288,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     return AlgorithmStatus.NO_PROPERTY_CHECKED;
   }
 
-  private CounterexampleChecker createCexCheckerAndStartLimits()
+  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits()
       throws InvalidConfigurationException {
 
     roundConfig = configManager.createRoundConfig(round, timeManager.createFeasibilityCheckOptions());
@@ -453,7 +463,12 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         logger.logf(Level.INFO, "Recurring %s (no stack trace)", e.getClass());
         roundLogger.logf(Level.WARNING, "Recurring %s (no stack trace)", e.getClass());
       } else {
-        logger.logf(Level.INFO, "Exception %s: %s", e.getClass().getSimpleName(), e.getMessage());
+        // so benchexec wont say EXCEPTION in the results table just because an exception occured
+        String exceptionClassName = e.getClass().getSimpleName();
+        exceptionClassName = exceptionClassName.replace("Exception", " exception");
+        exceptionClassName = exceptionClassName.replace("Error", " error");
+
+        logger.logf(Level.INFO, "%s: %s", exceptionClassName, e.getMessage());
         roundLogger.logException(Level.WARNING, e, null);
       }
     } finally {
@@ -487,12 +502,23 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     reached = coreComponents.createReachedSet(cpa);
     reached.add(initialState, initialPrecision);
 
+    // stash statistics of current run, then collect it if it was last run
+    MultiStatistics stats =
+        new MultiStatistics(logger) {
+          @Override
+          public @Nullable String getName() {
+            return null; // header is added in CFAMutatorStatistics
+          }
+        };
+
     if (cpa instanceof StatisticsProvider) {
-      ((StatisticsProvider) cpa).collectStatistics(statistics.getSubStatistics());
+      ((StatisticsProvider) cpa).collectStatistics(stats.getSubStatistics());
     }
     if (algorithm instanceof StatisticsProvider) {
-      ((StatisticsProvider) algorithm).collectStatistics(statistics.getSubStatistics());
+      ((StatisticsProvider) algorithm).collectStatistics(stats.getSubStatistics());
     }
+
+    statistics.setLastRoundStatistics(stats, round == 0);
   }
 
   @Override
