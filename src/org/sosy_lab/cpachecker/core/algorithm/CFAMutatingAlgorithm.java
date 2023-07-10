@@ -499,484 +499,482 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
   public void collectStatistics(Collection<Statistics> pStatsCollection) {
     pStatsCollection.add(statistics);
   }
-}
 
-@Options(prefix = "cfaMutation")
-final class TimeManager {
+  @Options(prefix = "cfaMutation")
+  static final class TimeManager {
 
-  @Option(
-      secure = true,
-      name = "timelimit.factor",
-      description =
-          "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
-              + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
-              + "time for the runs after original by multiplying used time by the factor and "
-              + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
-              + "run gets hard-cap time limit, all others get the lower between the two.\n"
-              + "For every global timelimit specified for whole mutation process, a timelimit for "
-              + "every type of present global timelimit will be produced. E.g., if both CPU and "
-              + "walltime limits specified, every analysis round gets two timelimits (of CPU and "
-              + "walltime type) with same time span.")
-  private double timelimitFactor = 2.0;
+    @Option(
+        secure = true,
+        name = "timelimit.factor",
+        description =
+            "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
+                + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
+                + "time for the runs after original by multiplying used time by the factor and "
+                + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
+                + "run gets hard-cap time limit, all others get the lower between the two.\n"
+                + "Wall and (if possible) CPU time limits will be produced with same time span.")
+    private double timelimitFactor = 2.0;
 
-  @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 0)
-  @Option(
-      secure = true,
-      name = "timelimit.add",
-      description =
-          "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
-              + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
-              + "time for the runs after original by multiplying used time by the factor and "
-              + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
-              + "run gets hard-cap time limit, all others get the lower between the two.\n"
-              + "For every global timelimit specified for whole mutation process, a timelimit for "
-              + "every type of present global timelimit will be produced. E.g., if both CPU and "
-              + "walltime limits specified, every analysis round gets two timelimits (of CPU and "
-              + "walltime type) with same time span.")
-  private TimeSpan timelimitBias = TimeSpan.ofSeconds(5);
+    @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 0)
+    @Option(
+        secure = true,
+        name = "timelimit.add",
+        description =
+            "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
+                + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
+                + "time for the runs after original by multiplying used time by the factor and "
+                + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
+                + "run gets hard-cap time limit, all others get the lower between the two.\n"
+                + "Wall and (if possible) CPU time limits will be produced with same time span.")
+    private TimeSpan timelimitBias = TimeSpan.ofSeconds(5);
 
-  @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 10)
-  @Option(
-      secure = true,
-      name = "timelimit.hardcap",
-      description =
-          "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
-              + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
-              + "time for the runs after original by multiplying used time by the factor and "
-              + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
-              + "run gets hard-cap time limit, all others get the lower between the two.\n"
-              + "For every global timelimit specified for whole mutation process, a timelimit for "
-              + "every type of present global timelimit will be produced. E.g., if both CPU and "
-              + "walltime limits specified, every analysis round gets two timelimits (of CPU and "
-              + "walltime type) with same time span.")
-  private TimeSpan hardcap = TimeSpan.ofSeconds(200);
+    @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 10)
+    @Option(
+        secure = true,
+        name = "timelimit.hardcap",
+        description =
+            "Sometimes analysis run can be unpredictably long. To run many runs successfully, "
+                + "CFA mutator hard-caps time for every run (200s by default), and also soft-caps "
+                + "time for the runs after original by multiplying used time by the factor and "
+                + "adding the bias. By default soft cap is orig.time * 2.0 + 5s. Original (first) "
+                + "run gets hard-cap time limit, all others get the lower between the two.\n"
+                + "Wall and (if possible) CPU time limits will be produced with same time span.")
+    private TimeSpan hardcap = TimeSpan.ofSeconds(200);
 
-  @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 10)
-  @Option(
-      secure = true,
-      name = "cex.timelimit",
-      description =
-          "Limit time for countrexample feasibility check. This option is used only if CFA "
-              + "mutations are used to find a feasible error. As with analysis timelimit, "
-              + "timelimits with respect to global time limits' types are produced.")
-  private TimeSpan timeForCex = TimeSpan.ofSeconds(100);
+    @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 10)
+    @Option(
+        secure = true,
+        name = "cex.timelimit",
+        description =
+            "Limit time for countrexample feasibility check. This option is used only if CFA "
+                + "mutations are used to find a feasible error. As with analysis timelimit, "
+                + "wall and (if possible) CPU time limits will be produced with same time span.")
+    private TimeSpan timeForCex = TimeSpan.ofSeconds(100);
 
-  @Option(
-      secure = true,
-      name = "cex.checker",
-      description =
-          "Which model checker to use for verifying counterexample when an error is found using "
-              + "CFA mutations. Currently CBMC, CPAchecker with same or different config, or the "
-              + "concrete execution checker can be used.")
-  private CounterexampleCheckerType checkerType = CounterexampleCheckerType.CBMC;
+    @Option(
+        secure = true,
+        name = "cex.checker",
+        description =
+            "Which model checker to use for verifying counterexample when an error is found using "
+                + "CFA mutations. Currently CBMC, CPAchecker with same or different config, or the "
+                + "concrete execution checker can be used.")
+    private CounterexampleCheckerType checkerType = CounterexampleCheckerType.CPACHECKER;
 
-  @Option(
-      secure = true,
-      name = "cex.checker.config",
-      description =
-          "If CPAchecker is used as CEX-checker, it uses this configuration file or "
-              + "defaults to same configuration that found CEX.")
-  private @Nullable String cpacheckerConfigFile;
+    @Option(
+        secure = true,
+        name = "cex.checker.config",
+        description =
+            "If CPAchecker is used as CEX-checker, it uses this configuration file or "
+                + "defaults to same configuration that found CEX.")
+    private @Nullable String cpacheckerConfigFile;
 
-  private final LogManager globalLogger;
+    private final LogManager globalLogger;
 
-  private TimeSpan originalRun;
-  private TimeSpan lowercap;
+    private TimeSpan originalRun;
+    private TimeSpan lowercap;
 
-  // XXX {@link RestartingAlgorithm} forgets running limits, is it ok?
-  // i need this field to be able to cancel them
-  private ResourceLimitChecker roundLimits;
-  private boolean roundLimitsWereStarted = false;
+    // XXX {@link RestartingAlgorithm} forgets running limits, is it ok?
+    // i need this field to be able to cancel them
+    private ResourceLimitChecker roundLimits;
+    private boolean roundLimitsWereStarted = false;
 
-  private final boolean useCpuTimeLimit;
+    private final boolean useCpuTimeLimit;
 
-  TimeManager(Configuration pConfig, LogManager pLogger) throws InvalidConfigurationException {
-    globalLogger = pLogger;
+    TimeManager(Configuration pConfig, LogManager pLogger) throws InvalidConfigurationException {
+      globalLogger = pLogger;
 
-    pConfig.inject(this, TimeManager.class);
-    lowercap = hardcap;
+      pConfig.inject(this, TimeManager.class);
+      lowercap = hardcap;
 
-    Throwable t = null;
-    try {
-      ProcessCpuTime.read();
-    } catch (JMException e) {
-      t = e;
-      globalLogger.log(Level.INFO, "Cannot use CPU time limits.");
-    }
-    /*
-     * Google App Engine does not allow to use classes from the package java.lang.management.
-     * Therefore it throws a NoClassDefFoundError if this is attempted regardless. To prevent
-     * CPAchecker from crashing in this case we catch the error and log the event.
-     */
-    catch (NoClassDefFoundError e) {
-      t = e;
-      globalLogger.log(Level.INFO, "Cannot use CPU time limits in Google App Engine.");
-    }
-
-    useCpuTimeLimit = t == null;
-  }
-
-  CounterexampleCheckerType getCheckerType() {
-    return checkerType;
-  }
-
-  void setOriginalTime(TimeSpan pConsumedTime) {
-    Preconditions.checkState(originalRun == null);
-    originalRun = pConsumedTime;
-
-    double softcap = originalRun.asMillis() * timelimitFactor + timelimitBias.asMillis();
-    if (softcap < hardcap.asMillis()) {
-      lowercap = TimeSpan.ofMillis((long) softcap);
-    }
-
-    globalLogger.log(
-        Level.INFO,
-        "Using",
-        Joiner.on(", ")
-            .join(Iterables.transform(produceLimitsFromNowOn(lowercap), ResourceLimit::getName)),
-        "for the following rounds");
-  }
-
-  private ImmutableList<ResourceLimit> produceLimitsFromNowOn(TimeSpan pTime) {
-    ImmutableList.Builder<ResourceLimit> result = ImmutableList.builder();
-    result.add(WalltimeLimit.fromNowOn(pTime));
-    if (useCpuTimeLimit) {
+      Throwable t = null;
       try {
-        result.add(ProcessCpuTimeLimit.fromNowOn(pTime));
+        ProcessCpuTime.read();
       } catch (JMException e) {
-        throw new AssertionError(e);
+        t = e;
+        globalLogger.log(Level.INFO, "Cannot use CPU time limits.");
       }
+      /*
+       * Google App Engine does not allow to use classes from the package java.lang.management.
+       * Therefore it throws a NoClassDefFoundError if this is attempted regardless. To prevent
+       * CPAchecker from crashing in this case we catch the error and log the event.
+       */
+      catch (NoClassDefFoundError e) {
+        t = e;
+        globalLogger.log(Level.INFO, "Cannot use CPU time limits in Google App Engine.");
+      }
+
+      useCpuTimeLimit = t == null;
     }
 
-    return result.build();
-  }
-
-  Map<String, String> getRoundLimitOptionsForAnalysis() {
-    ImmutableMap.Builder<String, String> result = ImmutableMap.builder();
-    result.put("limits.time.wall", lowercap.toString());
-    if (useCpuTimeLimit) {
-      result.put("limits.time.cpu", lowercap.toString());
+    CounterexampleCheckerType getCheckerType() {
+      return checkerType;
     }
-    return result.buildOrThrow();
-  }
 
-  Map<String, String> createFeasibilityCheckOptions() throws InvalidConfigurationException {
-    ImmutableMap.Builder<String, String> result = ImmutableMap.builder();
+    void setOriginalTime(TimeSpan pConsumedTime) {
+      Preconditions.checkState(originalRun == null);
+      originalRun = pConsumedTime;
 
-    result.put("counterexample.checker", checkerType.name());
+      double softcap = originalRun.asMillis() * timelimitFactor + timelimitBias.asMillis();
+      if (softcap < hardcap.asMillis()) {
+        lowercap = TimeSpan.ofMillis((long) softcap);
+      }
 
-    switch (checkerType) {
-      case CBMC:
-        result.put("cbmc.timelimit", timeForCex.toString());
-        break;
+      globalLogger.log(
+          Level.INFO,
+          "Using",
+          Joiner.on(", ")
+              .join(Iterables.transform(produceLimitsFromNowOn(lowercap), ResourceLimit::getName)),
+          "for the following rounds");
+    }
 
-      case CONCRETE_EXECUTION:
-        result.put("counterexample.concrete.timelimit", timeForCex.toString());
-        break;
+    private ImmutableList<ResourceLimit> produceLimitsFromNowOn(TimeSpan pTime) {
+      ImmutableList.Builder<ResourceLimit> result = ImmutableList.builder();
+      result.add(WalltimeLimit.fromNowOn(pTime));
+      if (useCpuTimeLimit) {
+        try {
+          result.add(ProcessCpuTimeLimit.fromNowOn(pTime));
+        } catch (JMException e) {
+          throw new AssertionError(e);
+        }
+      }
 
-      case CPACHECKER:
-        if (!Strings.isNullOrEmpty(cpacheckerConfigFile)) {
-          try {
-            NestingAlgorithm.configToMap(
-                Configuration.builder().loadFromFile(cpacheckerConfigFile).build());
-          } catch (IOException e) {
-            throw new InvalidConfigurationException(
-                "Cannot read configuraton for counterexmple check from file: " + e.getMessage(), e);
+      return result.build();
+    }
+
+    Map<String, String> getRoundLimitOptionsForAnalysis() {
+      ImmutableMap.Builder<String, String> result = ImmutableMap.builder();
+      result.put("limits.time.wall", lowercap.toString());
+      if (useCpuTimeLimit) {
+        result.put("limits.time.cpu", lowercap.toString());
+      }
+      return result.buildOrThrow();
+    }
+
+    Map<String, String> createFeasibilityCheckOptions() throws InvalidConfigurationException {
+      ImmutableMap.Builder<String, String> result = ImmutableMap.builder();
+
+      result.put("counterexample.checker", checkerType.name());
+
+      switch (checkerType) {
+        case CBMC:
+          result.put("cbmc.timelimit", timeForCex.toString());
+          break;
+
+        case CONCRETE_EXECUTION:
+          result.put("counterexample.concrete.timelimit", timeForCex.toString());
+          break;
+
+        case CPACHECKER:
+          if (!Strings.isNullOrEmpty(cpacheckerConfigFile)) {
+            try {
+              NestingAlgorithm.configToMap(
+                  Configuration.builder().loadFromFile(cpacheckerConfigFile).build());
+            } catch (IOException e) {
+              throw new InvalidConfigurationException(
+                  "Cannot read configuraton for counterexmple check from file: " + e.getMessage(),
+                  e);
+            }
           }
-        }
 
-        // other checkers use only one time limit (XXX cpu or wall)
-        result.put("limits.time.wall", timeForCex.toString());
-        if (useCpuTimeLimit) {
-          result.put("limits.time.cpu", timeForCex.toString());
-        }
-        break;
+          // other checkers use only one time limit (XXX cpu or wall)
+          result.put("limits.time.wall", timeForCex.toString());
+          if (useCpuTimeLimit) {
+            result.put("limits.time.cpu", timeForCex.toString());
+          }
+          break;
 
-      default:
-        throw new AssertionError("unexpected CEX checker type " + checkerType);
-    }
-
-    return result.buildOrThrow();
-  }
-
-  void startAnalysisLimits(ShutdownManager pShutdownManager, LogManager pLogger) {
-    ImmutableList<ResourceLimit> timeSpans = produceLimitsFromNowOn(lowercap);
-    roundLimits = new ResourceLimitChecker(pShutdownManager, timeSpans);
-
-    if (timeSpans.isEmpty()) {
-      pLogger.log(Level.INFO, "No resource limits for analysis round specified");
-
-    } else {
-      pLogger.log(
-          Level.INFO,
-          "Using",
-          Joiner.on(", ").join(Iterables.transform(timeSpans, ResourceLimit::getName)),
-          "for analysis round");
-    }
-
-    roundLimitsWereStarted = true;
-    roundLimits.start();
-  }
-
-  void startCheckLimits(LogManager pLogger, ShutdownManager pShutdownManager) {
-    ImmutableList<ResourceLimit> timeSpans = produceLimitsFromNowOn(timeForCex);
-    roundLimits = new ResourceLimitChecker(pShutdownManager, timeSpans);
-
-    if (timeSpans.isEmpty()) {
-      pLogger.log(Level.INFO, "No resource limits for analysis round specified");
-
-    } else {
-      pLogger.log(
-          Level.INFO,
-          "Using",
-          Joiner.on(", ").join(Iterables.transform(timeSpans, ResourceLimit::getName)),
-          "for analysis round");
-    }
-
-    roundLimitsWereStarted = true;
-    roundLimits.start();
-  }
-
-  void cancelLimits() {
-    if (roundLimitsWereStarted) {
-      roundLimitsWereStarted = false;
-      roundLimits.cancel();
-    }
-  }
-}
-
-@Options(prefix = "cfaMutation")
-final class FileAndConfigManager {
-
-  @Option(
-      secure = true,
-      name = "log.consoleLevel",
-      description = "Log to console every round with this logging level.")
-  private Level logConsoleLevel = Level.OFF;
-
-  @Option(
-      secure = true,
-      name = "logFile.level",
-      description =
-          "Create log file for every round with this logging level.\n"
-              + "Use main file logging level if that is lower.")
-  private Level logFileLevel = Level.FINE;
-
-  @Option(
-      secure = true,
-      description =
-          "Create log file for every round with this logging level.\n"
-              + "Use main file logging level if that is lower.")
-  @FileOption(Type.OUTPUT_FILE)
-  private Path logFile = Path.of("this-round.log");
-
-  @Option(secure = true, description = "File to dump statistics of current round to")
-  @FileOption(Type.OUTPUT_FILE)
-  private Path statFile = Path.of("this-round-stats.txt");
-
-  @Option(
-      secure = true,
-      description =
-          "File to write how frequent CFA node is among resulted reached set states' locations.")
-  @FileOption(Type.OUTPUT_FILE)
-  private Path rankedNodesFile = Path.of("this-round-ranked-nodes.txt");
-
-  @Option(secure = true, description = "Whether to export each round in different subdirectories.")
-  private boolean writeRoundsToDifferentDirectories = false;
-
-  @Option(
-      secure = true,
-      name = "rollbacksInRowCheck",
-      description =
-          "If a mutation round is unsuccessfull (i.e. sought-for bug does not occur), "
-              + "the mutation is rollbacked. If this count of rollbacks occur in row, "
-              + "check that rollbacked CFA produces the sought-for bug.\n"
-              + "If set to 0, do not check any rollbacks.\n"
-              + "If set to 1, check that bug occurs after every rollback.\n"
-              + "If set to 2, check every other one that occurs immediately after "
-              + "another one, so if 5 rollbacks occur in a row, 2nd and 4th "
-              + "will be checked. And so on.")
-  private int checkAfterRollbacks = 5;
-
-  private final Configuration globalConfig;
-  private final LogManager globalLogger;
-  private final Path defaultOutputDirectory;
-  private Path currentOutputDirectory;
-  private final boolean disableOutput;
-
-  @SuppressWarnings("deprecation")
-  FileAndConfigManager(Configuration pConfig, LogManager pLogger) throws InvalidConfigurationException {
-    globalConfig = pConfig;
-    globalLogger = pLogger;
-    globalConfig.inject(this, FileAndConfigManager.class);
-
-    FileTypeConverter ftc =
-        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
-    currentOutputDirectory = defaultOutputDirectory = ftc.getOutputPath();
-    disableOutput = "true".equals(globalConfig.getProperty("output.disable")); // XXX better
-    // undo resolving files from default directory, but keep whether they are null
-    logFile = logFile == null ? null : defaultOutputDirectory.relativize(logFile);
-    statFile = statFile == null ? null : defaultOutputDirectory.relativize(statFile);
-    rankedNodesFile =
-        rankedNodesFile == null ? null : defaultOutputDirectory.relativize(rankedNodesFile);
-  }
-
-  int getCheckAfterRollbacks() {
-    return checkAfterRollbacks;
-  }
-
-  void resetExportDirectoryToDefault() {
-    resetExportDirectory("");
-  }
-
-  void resetExportDirectoryToOriginalRound() {
-    resetExportDirectory("0-original-round");
-  }
-
-  void resetExportDirectoryToMutationRound(int round) {
-    resetExportDirectory(String.valueOf(round) + "-mutation-round");
-  }
-
-  void resetExportDirectoryToRollbackAfterRound(int round) {
-    resetExportDirectory(String.valueOf(round) + "-mutation-round-rollback");
-  }
-
-  void resetExportDirectoryToFeasibilityCheckAfterRound(int round) {
-    resetExportDirectory(String.valueOf(round) + "-mutation-round-feasibility");
-  }
-
-  void resetExportDirectory(String pResolution) {
-    if (!writeRoundsToDifferentDirectories && !pResolution.isEmpty()) {
-      return;
-    }
-    currentOutputDirectory = defaultOutputDirectory.resolve(pResolution);
-    try {
-      FileTypeConverter fileTypeConverter =
-          FileTypeConverter.create(
-              Configuration.builder()
-                  .setOption("output.path", currentOutputDirectory.toString())
-                  .setOption("output.disable", Boolean.toString(disableOutput))
-                  .build());
-      Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
-    } catch (InvalidConfigurationException e) {
-      globalLogger.logUserException(Level.WARNING, e, "Cannot reset output directory:");
-      writeRoundsToDifferentDirectories = false;
-    }
-  }
-
-  Configuration createRoundConfig(int pRound, Map<String, String> pLimits)
-      throws InvalidConfigurationException {
-
-    ConfigurationBuilder builder = Configuration.builder().copyFrom(globalConfig);
-
-    Map<String, String> configAsMap = NestingAlgorithm.configToMap(globalConfig);
-    for (String key : configAsMap.keySet()) {
-      if (key.startsWith("cfaMutation")) {
-        builder.clearOption(key);
+        default:
+          throw new AssertionError("unexpected CEX checker type " + checkerType);
       }
+
+      return result.buildOrThrow();
     }
 
-    builder.setOption("log.consoleLevel", logConsoleLevel.toString());
-    // builder.setOption("log.consoleExclude", "");
-    builder.setOption("log.level", logFileLevel.toString());
-    // builder.setOption("log.fileExclude", "");
+    void startAnalysisLimits(ShutdownManager pShutdownManager, LogManager pLogger) {
+      ImmutableList<ResourceLimit> timeSpans = produceLimitsFromNowOn(lowercap);
+      roundLimits = new ResourceLimitChecker(pShutdownManager, timeSpans);
 
-    if (logFile != null) {
-      builder.setOption("log.file", logFile.toString());
-    } else {
-      builder.clearOption("log.file");
-    }
+      if (timeSpans.isEmpty()) {
+        pLogger.log(Level.INFO, "No resource limits for analysis round specified");
 
-    builder.setOptions(pLimits);
-
-    builder.addConverter(
-        FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
-    Configuration result = builder.build();
-    NestingAlgorithm.checkConfigs( // yes, path here is used just as a string actually
-        globalConfig, result, Path.of(String.format("Config for %d. round", pRound)), globalLogger);
-    return result;
-  }
-}
-
-// keep last result and thrown error
-final class AnalysisResult {
-  private static AnalysisResult original;
-
-  private final AlgorithmStatus status;
-  private final @Nullable Throwable thrown;
-  private final CPAcheckerResult.Result verdict;
-  private final String targetDescription;
-  private final AnalysisOutcome outcome;
-
-  public AnalysisResult(
-      AlgorithmStatus pStatus,
-      @Nullable Throwable pThrown,
-      ReachedSet pReached,
-      boolean pUnknownAsTrue) {
-    status = pStatus;
-    thrown = pThrown;
-
-    assert pStatus.wasPropertyChecked() : "It is expected that property was checked";
-
-    if (original == null) {
-      original = this;
-    }
-
-    targetDescription = Joiner.on(", ").join(pReached.getTargetInformation());
-
-    if (thrown != null) {
-      verdict = Result.UNKNOWN;
-      if (thrown instanceof InterruptedException) {
-        // XXX if (pReached.wasTargetReached()) { verdict = Result.FALSE; outcome = FALSE; }
-        outcome = AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT;
-      } else if (sameExceptionAsOriginal(pThrown)) {
-        outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION;
       } else {
-        outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
+        pLogger.log(
+            Level.INFO,
+            "Using",
+            Joiner.on(", ").join(Iterables.transform(timeSpans, ResourceLimit::getName)),
+            "for analysis round");
       }
-      return;
+
+      roundLimitsWereStarted = true;
+      roundLimits.start();
     }
 
-    if (pReached.wasTargetReached()) {
-      verdict = status.isPrecise() ? Result.FALSE : Result.UNKNOWN;
-    } else if (pReached instanceof ResultProviderReachedSet) {
-      verdict = ((ResultProviderReachedSet) pReached).getOverallResult();
-    } else if (pReached.hasWaitingState() || !status.isSound()) {
-      verdict = pUnknownAsTrue ? Result.TRUE : Result.UNKNOWN;
-    } else {
-      verdict = Result.TRUE;
+    void startCheckLimits(LogManager pLogger, ShutdownManager pShutdownManager) {
+      ImmutableList<ResourceLimit> timeSpans = produceLimitsFromNowOn(timeForCex);
+      roundLimits = new ResourceLimitChecker(pShutdownManager, timeSpans);
+
+      if (timeSpans.isEmpty()) {
+        pLogger.log(Level.INFO, "No resource limits for analysis round specified");
+
+      } else {
+        pLogger.log(
+            Level.INFO,
+            "Using",
+            Joiner.on(", ").join(Iterables.transform(timeSpans, ResourceLimit::getName)),
+            "for analysis round");
+      }
+
+      roundLimitsWereStarted = true;
+      roundLimits.start();
     }
 
-    if (verdict == Result.TRUE) {
-      outcome = AnalysisOutcome.VERDICT_TRUE;
-    } else if (verdict == Result.FALSE) {
-      outcome =
-          original.verdict == Result.FALSE && original.targetDescription.equals(targetDescription)
-              ? AnalysisOutcome.SAME_VERDICT_FALSE
-              : AnalysisOutcome.VERDICT_FALSE;
-    } else {
-      // assert thrown == null;
-      outcome = AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN;
+    void cancelLimits() {
+      if (roundLimitsWereStarted) {
+        roundLimitsWereStarted = false;
+        roundLimits.cancel();
+      }
     }
   }
 
-  private static boolean sameExceptionAsOriginal(Throwable pThrown) {
-    return pThrown != null
-        && original.thrown != null
-        && original.thrown.getClass().equals(pThrown.getClass())
-        && (pThrown.getStackTrace().length == 0 // optimized by JVM if many exceptions
-            || original.thrown.getStackTrace()[0].equals(pThrown.getStackTrace()[0]));
+  @Options(prefix = "cfaMutation")
+  static final class FileAndConfigManager {
+
+    @Option(
+        secure = true,
+        name = "log.consoleLevel",
+        description = "Log to console every round with this logging level.")
+    private Level logConsoleLevel = Level.OFF;
+
+    @Option(
+        secure = true,
+        name = "logFile.level",
+        description =
+            "Create log file for every round with this logging level.\n"
+                + "Use main file logging level if that is lower.")
+    private Level logFileLevel = Level.FINE;
+
+    @Option(
+        secure = true,
+        description =
+            "Create log file for every round with this logging level.\n"
+                + "Use main file logging level if that is lower.")
+    @FileOption(Type.OUTPUT_FILE)
+    private Path logFile = Path.of("this-round.log");
+
+    @Option(secure = true, description = "File to dump statistics of current round to")
+    @FileOption(Type.OUTPUT_FILE)
+    private Path statFile = Path.of("this-round-stats.txt");
+
+    @Option(
+        secure = true,
+        description =
+            "File to write how frequent CFA node is among resulted reached set states' locations.")
+    @FileOption(Type.OUTPUT_FILE)
+    private Path rankedNodesFile = Path.of("this-round-ranked-nodes.txt");
+
+    @Option(
+        secure = true,
+        description = "Whether to export each round in different subdirectories.")
+    private boolean writeRoundsToDifferentDirectories = false;
+
+    @Option(
+        secure = true,
+        name = "rollbacksInRowCheck",
+        description =
+            "If a mutation round is unsuccessfull (i.e. sought-for bug does not occur), "
+                + "the mutation is rollbacked. If this count of rollbacks occur in row, "
+                + "check that rollbacked CFA produces the sought-for bug.\n"
+                + "If set to 0, do not check any rollbacks.\n"
+                + "If set to 1, check that bug occurs after every rollback.\n"
+                + "If set to 2, check every other one that occurs immediately after "
+                + "another one, so if 5 rollbacks occur in a row, 2nd and 4th "
+                + "will be checked. And so on.")
+    private int checkAfterRollbacks = 5;
+
+    private final Configuration globalConfig;
+    private final LogManager globalLogger;
+    private final Path defaultOutputDirectory;
+    private Path currentOutputDirectory;
+    private final boolean disableOutput;
+
+    @SuppressWarnings("deprecation")
+    FileAndConfigManager(Configuration pConfig, LogManager pLogger)
+        throws InvalidConfigurationException {
+      globalConfig = pConfig;
+      globalLogger = pLogger;
+      globalConfig.inject(this, FileAndConfigManager.class);
+
+      FileTypeConverter ftc =
+          ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
+      currentOutputDirectory = defaultOutputDirectory = ftc.getOutputPath();
+      disableOutput = "true".equals(globalConfig.getProperty("output.disable")); // XXX better
+      // undo resolving files from default directory, but keep whether they are null
+      logFile = logFile == null ? null : defaultOutputDirectory.relativize(logFile);
+      statFile = statFile == null ? null : defaultOutputDirectory.relativize(statFile);
+      rankedNodesFile =
+          rankedNodesFile == null ? null : defaultOutputDirectory.relativize(rankedNodesFile);
+    }
+
+    int getCheckAfterRollbacks() {
+      return checkAfterRollbacks;
+    }
+
+    void resetExportDirectoryToDefault() {
+      resetExportDirectory("");
+    }
+
+    void resetExportDirectoryToOriginalRound() {
+      resetExportDirectory("0-original-round");
+    }
+
+    void resetExportDirectoryToMutationRound(int round) {
+      resetExportDirectory(String.valueOf(round) + "-mutation-round");
+    }
+
+    void resetExportDirectoryToRollbackAfterRound(int round) {
+      resetExportDirectory(String.valueOf(round) + "-mutation-round-rollback");
+    }
+
+    void resetExportDirectoryToFeasibilityCheckAfterRound(int round) {
+      resetExportDirectory(String.valueOf(round) + "-mutation-round-feasibility");
+    }
+
+    void resetExportDirectory(String pResolution) {
+      if (!writeRoundsToDifferentDirectories && !pResolution.isEmpty()) {
+        return;
+      }
+      currentOutputDirectory = defaultOutputDirectory.resolve(pResolution);
+      try {
+        FileTypeConverter fileTypeConverter =
+            FileTypeConverter.create(
+                Configuration.builder()
+                    .setOption("output.path", currentOutputDirectory.toString())
+                    .setOption("output.disable", Boolean.toString(disableOutput))
+                    .build());
+        Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
+      } catch (InvalidConfigurationException e) {
+        globalLogger.logUserException(Level.WARNING, e, "Cannot reset output directory:");
+        writeRoundsToDifferentDirectories = false;
+      }
+    }
+
+    Configuration createRoundConfig(int pRound, Map<String, String> pLimits)
+        throws InvalidConfigurationException {
+
+      ConfigurationBuilder builder = Configuration.builder().copyFrom(globalConfig);
+
+      Map<String, String> configAsMap = NestingAlgorithm.configToMap(globalConfig);
+      for (String key : configAsMap.keySet()) {
+        if (key.startsWith("cfaMutation")) {
+          builder.clearOption(key);
+        }
+      }
+
+      builder.setOption("log.consoleLevel", logConsoleLevel.toString());
+      // builder.setOption("log.consoleExclude", "");
+      builder.setOption("log.level", logFileLevel.toString());
+      // builder.setOption("log.fileExclude", "");
+
+      if (logFile != null) {
+        builder.setOption("log.file", logFile.toString());
+      } else {
+        builder.clearOption("log.file");
+      }
+
+      builder.setOptions(pLimits);
+
+      builder.addConverter(
+          FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
+      Configuration result = builder.build();
+      NestingAlgorithm.checkConfigs( // yes, path here is used just as a string actually
+          globalConfig,
+          result,
+          Path.of(String.format("Config for %d. round", pRound)),
+          globalLogger);
+      return result;
+    }
   }
 
-  public Throwable getThrown() {
-    return thrown;
-  }
+  // keep last result and thrown error
+  static final class AnalysisResult {
+    private static AnalysisResult original;
 
-  public AlgorithmStatus getStatus() {
-    return status;
-  }
+    private final AlgorithmStatus status;
+    private final @Nullable Throwable thrown;
+    private final CPAcheckerResult.Result verdict;
+    private final String targetDescription;
+    private final AnalysisOutcome outcome;
 
-  public AnalysisOutcome getOutcome() {
-    return outcome;
+    public AnalysisResult(
+        AlgorithmStatus pStatus,
+        @Nullable Throwable pThrown,
+        ReachedSet pReached,
+        boolean pUnknownAsTrue) {
+      status = pStatus;
+      thrown = pThrown;
+
+      assert pStatus.wasPropertyChecked() : "It is expected that property was checked";
+
+      if (original == null) {
+        original = this;
+      }
+
+      targetDescription = Joiner.on(", ").join(pReached.getTargetInformation());
+
+      if (thrown != null) {
+        verdict = Result.UNKNOWN;
+        if (thrown instanceof InterruptedException) {
+          // XXX if (pReached.wasTargetReached()) { verdict = Result.FALSE; outcome = FALSE; }
+          outcome = AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT;
+        } else if (sameExceptionAsOriginal(pThrown)) {
+          outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION;
+        } else {
+          outcome = AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION;
+        }
+        return;
+      }
+
+      if (pReached.wasTargetReached()) {
+        verdict = status.isPrecise() ? Result.FALSE : Result.UNKNOWN;
+      } else if (pReached instanceof ResultProviderReachedSet) {
+        verdict = ((ResultProviderReachedSet) pReached).getOverallResult();
+      } else if (pReached.hasWaitingState() || !status.isSound()) {
+        verdict = pUnknownAsTrue ? Result.TRUE : Result.UNKNOWN;
+      } else {
+        verdict = Result.TRUE;
+      }
+
+      if (verdict == Result.TRUE) {
+        outcome = AnalysisOutcome.VERDICT_TRUE;
+      } else if (verdict == Result.FALSE) {
+        outcome =
+            original.verdict == Result.FALSE && original.targetDescription.equals(targetDescription)
+                ? AnalysisOutcome.SAME_VERDICT_FALSE
+                : AnalysisOutcome.VERDICT_FALSE;
+      } else {
+        // assert thrown == null;
+        outcome = AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN;
+      }
+    }
+
+    private static boolean sameExceptionAsOriginal(Throwable pThrown) {
+      return pThrown != null
+          && original.thrown != null
+          && original.thrown.getClass().equals(pThrown.getClass())
+          && (pThrown.getStackTrace().length == 0 // optimized by JVM if many exceptions
+              || original.thrown.getStackTrace()[0].equals(pThrown.getStackTrace()[0]));
+    }
+
+    public Throwable getThrown() {
+      return thrown;
+    }
+
+    public AlgorithmStatus getStatus() {
+      return status;
+    }
+
+    public AnalysisOutcome getOutcome() {
+      return outcome;
+    }
   }
 }
