@@ -19,12 +19,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.management.JMException;
@@ -77,6 +79,7 @@ import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.CPAs;
+import org.sosy_lab.cpachecker.util.Triple;
 import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
 import org.sosy_lab.cpachecker.util.resources.ProcessCpuTime;
 import org.sosy_lab.cpachecker.util.resources.ProcessCpuTimeLimit;
@@ -122,19 +125,15 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
   private CFAMutator cfaMutator;
   private CFAMutatorStatistics statistics;
+  private AlgorithmStatus statusDoneOrUnknown;
 
   private final FileAndConfigManager configManager;
   private TimeManager timeManager;
-  private CFA cfa;
+  private CFA originalCfa;
   private int round = 0;
   private int rollbacksInRow = 0;
 
-  private AnalysisResult originalResult;
-  private Configuration roundConfig;
   private LogManager roundLogger;
-  private Algorithm algorithm;
-  private ConfigurableProgramAnalysis cpa;
-  private ReachedSet reached;
 
   public CFAMutatingAlgorithm(
       Configuration pConfig,
@@ -144,7 +143,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       CFA pCfa)
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier, pSpecification);
-    cfa = pCfa;
+    originalCfa = pCfa;
     configManager = new FileAndConfigManager(pConfig, pLogger);
     timeManager = new TimeManager(globalConfig, logger);
   }
@@ -155,10 +154,14 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     cfaMutator = pCfaMutator;
     statistics = cfaMutator.getCfaMutationStatistics();
     cfaMutator.clearCreatorStats();
+    statusDoneOrUnknown =
+        cfaMutator.isSearchingForError()
+            ? AlgorithmStatus.UNSOUND_AND_IMPRECISE
+            : AlgorithmStatus.NO_PROPERTY_CHECKED;
   }
 
   @Override
-  public AlgorithmStatus run(ReachedSet pReachedSet) throws CPAException, InterruptedException {
+  public AlgorithmStatus run(ReachedSet pReachedSet) throws CPAException {
     checkArgument(
         pReachedSet instanceof ForwardingReachedSet,
         "CFAMutatingAlgorithm needs ForwardingReachedSet");
@@ -167,79 +170,105 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         pReachedSet.size() <= 1,
         "CFAMutatingAlgorithm does not support being called several times with the same reached set");
 
-    ForwardingReachedSet forwardingReached = (ForwardingReachedSet) pReachedSet;
-    AggregatedReachedSets aggregatedReached = AggregatedReachedSets.singleton(pReachedSet);
-    AnalysisResult delegateResult = null;
+    ForwardingReachedSet forwardingReachedSet = (ForwardingReachedSet) pReachedSet;
+    AggregatedReachedSets aggregatedReachedSet = AggregatedReachedSets.singleton(pReachedSet);
 
-    // run analysis of the original cfa
-    originalResult = runDelegateAnalysis(forwardingReached, aggregatedReached);
+    try {
+      // run analysis of the original cfa
+      runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSet, originalCfa);
+      originalCfa = null; // no need to store it anymore
+    } catch (InterruptedException e) {
+      // originalResult == null
+      // no time even for one run
+      return statusDoneOrUnknown;
+    }
 
     try {
       // if should return the result got
-      if (cfaMutator.shouldReturnWithoutMutation(originalResult.getOutcome())
-          || shutdownNotifier.shouldShutdown()) {
+      if (cfaMutator.shouldReturnWithoutMutation(AnalysisResult.original.getOutcome())) {
         configManager.resetExportDirectoryToDefault();
-        return originalResult.getStatus();
+        return AnalysisResult.original.getStatus();
       }
 
     } catch (InvalidConfigurationException e) {
-      logger.logUserException(
-          Level.SEVERE, e, "Cannot build CFA mutation strategy or change export directory");
-      return originalResult.getStatus();
+      logger.logUserException(Level.SEVERE, e, "Cannot build CFA mutation strategy");
+      configManager.resetExportDirectoryToDefault();
+      return AnalysisResult.original.getStatus();
+    }
+
+    if (shutdownNotifier.shouldShutdown()) {
+      configManager.resetExportDirectoryToDefault();
+      return AnalysisResult.original.getStatus();
     }
 
     // CFAMutator stores needed info from #parse,
     // so no need to pass CFA as argument in next calls
 
-    while (cfaMutator.canMutate()) {
-      // if no time for an analysis round -- stop now
-      shutdownNotifier.shutdownIfNecessary();
-
-      round++;
-      logger.log(Level.INFO, "Mutation round", round);
-      configManager.resetExportDirectoryToMutationRound(round);
-      try {
-        cfa = cfaMutator.mutate();
-      } catch (InterruptedException | InvalidConfigurationException | ParserException e) {
-        logger.logUserException(Level.SEVERE, e, "Cannot mutate CFA");
-        return AlgorithmStatus.UNSOUND_AND_IMPRECISE;
-      }
-      // run analysis on a mutated cfa
-      delegateResult = runDelegateAnalysis(forwardingReached, aggregatedReached);
-      // TODO export intermediate results
-      // XXX it is incorrect to save intermediate stats, as reached is updated?
-
-      AlgorithmStatus feasibilityResult = checkFeasibilityIfNeeded();
-      if (feasibilityResult != AlgorithmStatus.NO_PROPERTY_CHECKED) {
-        return feasibilityResult;
-      } // else just continue
-
-      AlgorithmStatus rollbackResult =
-          rollbackIfNeeded(delegateResult.getOutcome(), forwardingReached, aggregatedReached);
-      if (rollbackResult != AlgorithmStatus.NO_PROPERTY_CHECKED) {
-        return rollbackResult;
-      } // else just continue
-    }
-
-    if (delegateResult == null) {
+    if (!cfaMutator.canMutate()) {
       logger.log(Level.INFO, "There are no possible mutations for the CFA of the given program.");
-      return originalResult.getStatus();
-    } else {
-      logger.log(Level.INFO, "CFA mutation ended, as all possible mutations were tried.");
-      return cfaMutator.isSearchingForError()
-          ? AlgorithmStatus.UNSOUND_AND_IMPRECISE
-          : AlgorithmStatus.NO_PROPERTY_CHECKED;
+      configManager.resetExportDirectoryToDefault();
+      return AnalysisResult.original.getStatus();
     }
+
+    try {
+      while (cfaMutator.canMutate()) {
+        Optional<AlgorithmStatus> roundStatus =
+            mutateAnalyzeCheckRollback(forwardingReachedSet, aggregatedReachedSet);
+        if (roundStatus.isPresent()) {
+          return roundStatus.get();
+        }
+      }
+
+    } catch (InterruptedException e) {
+      return statusDoneOrUnknown;
+
+    } catch (InvalidConfigurationException | ParserException e) {
+      logger.logUserException(Level.SEVERE, e, "Cannot mutate or rollback CFA");
+      throw new CPAException(e.getMessage());
+    }
+
+    logger.log(Level.INFO, "CFA mutation ended, as all possible mutations were tried.");
+    return statusDoneOrUnknown;
+  }
+
+  private Optional<AlgorithmStatus> mutateAnalyzeCheckRollback(
+      ForwardingReachedSet pForwardingReachedSet, AggregatedReachedSets pAggregatedReachedSet)
+      throws InterruptedException, InvalidConfigurationException, ParserException {
+
+    shutdownNotifier.shutdownIfNecessary();
+
+    round++;
+    logger.log(Level.INFO, "Mutation round", round);
+    configManager.resetExportDirectoryToMutationRound(round);
+
+    CFA cfa = cfaMutator.mutate();
+
+    // run analysis on a mutated cfa
+    AnalysisResult delegateResult =
+        runDelegateAnalysis(pForwardingReachedSet, pAggregatedReachedSet, cfa);
+    // TODO export intermediate results
+    // XXX it is incorrect to save intermediate stats, as reached is updated?
+
+    Optional<AlgorithmStatus> feasibilityResult =
+        checkFeasibilityIfNeeded(delegateResult.getCpa(), pForwardingReachedSet, cfa);
+    if (feasibilityResult.isPresent()) {
+      return feasibilityResult;
+    } // else just continue
+
+    rollbackIfNeeded(pForwardingReachedSet, pAggregatedReachedSet, delegateResult.getOutcome());
+    return Optional.empty();
   }
 
   /** Check feasibility of found CEX against original program, if we are searching for errors. */
   // TODO replace with mutCEX -> automaton -> spec -> analysis via algorithm
   // instead of running {@link CexAsProgramCPAchecker}
-  private AlgorithmStatus checkFeasibilityIfNeeded() throws InterruptedException {
-    if (!reached.wasTargetReached() || !cfaMutator.isSearchingForError()) {
+  private Optional<AlgorithmStatus> checkFeasibilityIfNeeded(
+      ConfigurableProgramAnalysis pCpa, ForwardingReachedSet pForwardingReachedSet, CFA pCfa)
+      throws InterruptedException {
+    if (!pForwardingReachedSet.wasTargetReached() || !cfaMutator.isSearchingForError()) {
       // no false -- nothing to check
       // or not caring for false
-      return AlgorithmStatus.NO_PROPERTY_CHECKED;
+      return Optional.empty();
     }
 
     shutdownNotifier.shutdownIfNecessary();
@@ -251,19 +280,19 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     DelegatingCheckerWithRestoredFunctions cexChecker;
 
     try {
-      cexChecker = createCexCheckerAndStartLimits();
+      cexChecker = createCexCheckerAndStartLimits(pCpa, pCfa);
     } catch (InvalidConfigurationException e) {
       timeManager.cancelLimits();
       roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
       logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
-      return AlgorithmStatus.NO_PROPERTY_CHECKED;
+      return Optional.empty();
     }
 
-    assert ARGUtils.checkARG(reached); // XXX
-    ARGState rootState = (ARGState) reached.getFirstState();
+    assert ARGUtils.checkARG(pForwardingReachedSet); // XXX
+    ARGState rootState = (ARGState) pForwardingReachedSet.getFirstState();
 
     final List<ARGState> errorStates =
-        from(reached)
+        from(pForwardingReachedSet)
             .transform(AbstractStates.toState(ARGState.class))
             .filter(AbstractStates::isTargetState)
             .toList();
@@ -274,37 +303,40 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       if (checkFeasibilityOfErrorState(cexChecker, rootState, errorState)) {
         timeManager.cancelLimits();
         if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
-          Statistics mainCpaStatisticsOfFeasibilityCheck =
-              ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult().getStatistics();
+          CPAcheckerResult cexCheckResult =
+              ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
+          pForwardingReachedSet.setDelegate(cexCheckResult.getReached());
+          Statistics mainCpaStatisticsOfFeasibilityCheck = cexCheckResult.getStatistics();
           statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
         }
-        return AlgorithmStatus.UNSOUND_AND_PRECISE;
+        return Optional.of(AlgorithmStatus.UNSOUND_AND_PRECISE);
       }
     }
 
     timeManager.cancelLimits();
     statistics.feasibilityCheck.stop();
     logger.log(Level.INFO, "No feasible error path found");
-    return AlgorithmStatus.NO_PROPERTY_CHECKED;
+    return Optional.empty();
   }
 
-  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits()
-      throws InvalidConfigurationException {
+  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits(
+      ConfigurableProgramAnalysis pCpa, CFA pCfa) throws InvalidConfigurationException {
 
-    roundConfig = configManager.createRoundConfig(round, timeManager.createFeasibilityCheckOptions());
+    Configuration roundConfig =
+        configManager.createRoundConfig(round, timeManager.createFeasibilityCheckOptions());
     roundLogger = BasicLogManager.create(roundConfig);
     ShutdownManager fMan = ShutdownManager.createWithParent(shutdownNotifier);
     timeManager.startCheckLimits(roundLogger, fMan);
 
-    ARGCPA argCpa = CPAs.retrieveCPA(cpa, ARGCPA.class);
+    ARGCPA argCpa = CPAs.retrieveCPA(pCpa, ARGCPA.class);
     if (argCpa == null) {
       throw new InvalidConfigurationException(
           "Counterexample check after CFA mutation expected ARG CPA, but got "
-              + CPAs.asIterable(cpa).transform(subcpa -> subcpa.getClass().getSimpleName()));
+              + CPAs.asIterable(pCpa).transform(subcpa -> subcpa.getClass().getSimpleName()));
     }
 
     return new DelegatingCheckerWithRestoredFunctions(
-        roundConfig, roundLogger, cfa, fMan, timeManager.getCheckerType(), cfaMutator);
+        roundConfig, roundLogger, pCfa, fMan, timeManager.getCheckerType(), cfaMutator);
   }
 
   private boolean checkFeasibilityOfErrorState(
@@ -355,55 +387,74 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     return false;
   }
 
-  private AlgorithmStatus rollbackIfNeeded(
-      AnalysisOutcome pOutcome,
-      ForwardingReachedSet pForwardingReached,
-      AggregatedReachedSets pAggregatedReached)
-      throws InterruptedException {
+  private void rollbackIfNeeded(
+      ForwardingReachedSet forwardingReachedSet,
+      AggregatedReachedSets aggregatedReachedSets,
+      AnalysisOutcome pOutcome)
+      throws InterruptedException, InvalidConfigurationException, ParserException {
 
     shutdownNotifier.shutdownIfNecessary();
     configManager.resetExportDirectoryToRollbackAfterRound(round);
 
-    try {
-      cfa = cfaMutator.setResult(pOutcome);
-    } catch (InvalidConfigurationException | InterruptedException | ParserException e) {
-      logger.logUserException(Level.SEVERE, e, "Cannot rollback last CFA mutation");
-      return AlgorithmStatus.UNSOUND_AND_IMPRECISE;
-    }
+    CFA cfa = cfaMutator.setResult(pOutcome);
 
-    if (cfa == null || configManager.getCheckAfterRollbacks() == 0) {
-      return AlgorithmStatus.NO_PROPERTY_CHECKED;
-    }
-
-    if (++rollbacksInRow % configManager.getCheckAfterRollbacks() != 0) {
-      return AlgorithmStatus.NO_PROPERTY_CHECKED;
+    if (cfa == null
+        || configManager.getCheckAfterRollbacks() == 0
+        || ++rollbacksInRow % configManager.getCheckAfterRollbacks() != 0) {
+      return;
     }
 
     logger.log(Level.INFO, "Running analysis after", rollbacksInRow, "mutation rollback in row");
     // Check that property is still preserved after rollback
-    AnalysisResult delegateResult = runDelegateAnalysis(pForwardingReached, pAggregatedReached);
+    AnalysisResult delegateResult =
+        runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSets, cfa);
     // If analysis ended because of a global shutdown, the result may be TIMEOUT
     // otherwise, check it is expected one
     if (!shutdownNotifier.shouldShutdown()
         || delegateResult.getOutcome() != AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT) {
       cfaMutator.verifyOutcome(delegateResult.getOutcome());
     }
-
-    return AlgorithmStatus.NO_PROPERTY_CHECKED;
   }
 
+  /**
+   * Run original analysis on original or mutated CFA.
+   *
+   * @throws InterruptedException only if global time exceeded. Timeout for current round is
+   *     returned as a corresponding {@linkplain AnalysisResult}.
+   */
+  // we catch CPAchecker bugs
+  @SuppressFBWarnings("DCN_NULLPOINTER_EXCEPTION")
   private AnalysisResult runDelegateAnalysis(
-      ForwardingReachedSet pForwardingReached, AggregatedReachedSets pAggregatedReached)
+      ForwardingReachedSet pForwardingreachedSet,
+      AggregatedReachedSets pAggregatedReachedSets,
+      CFA pCfa)
       throws InterruptedException {
 
+    ConfigurableProgramAnalysis cpa = null;
+    Algorithm algorithm = null;
+    ReachedSet reached = null;
     AlgorithmStatus status = AlgorithmStatus.SOUND_AND_PRECISE;
     Throwable t = null;
     shutdownNotifier.shutdownIfNecessary();
 
     try {
-      roundConfig = configManager.createRoundConfig(round, timeManager.getRoundLimitOptionsForAnalysis());
+      Configuration roundConfig =
+          configManager.createRoundConfig(round, timeManager.getRoundLimitOptionsForAnalysis());
       roundLogger = BasicLogManager.create(roundConfig);
-      createAlgorithmCpaAndReachedAndStartLimits(pAggregatedReached);
+
+      ShutdownManager roundShutdownManager = ShutdownManager.createWithParent(shutdownNotifier);
+      timeManager.startAnalysisLimits(roundShutdownManager, roundLogger);
+
+      CoreComponentsFactory factory =
+          new CoreComponentsFactory(
+              roundConfig, roundLogger, roundShutdownManager.getNotifier(), pAggregatedReachedSets);
+
+      Triple<ConfigurableProgramAnalysis, Algorithm, ReachedSet> triple =
+          createAlgorithmCpaAndReachedAndStartLimits(factory, pCfa);
+      cpa = triple.getFirst();
+      algorithm = triple.getSecond();
+      reached = triple.getThird();
+
       roundLogger.log(Level.INFO, "Starting analysis ...");
       int counterExampleCount = 0;
 
@@ -429,7 +480,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           && (cexLimit == 0 || cexLimit > counterExampleCount));
 
       roundLogger.log(Level.INFO, "Stopping analysis ...");
-      pForwardingReached.setDelegate(reached);
 
     } catch (InvalidConfigurationException e) {
       t = e;
@@ -438,6 +488,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     } catch (InterruptedException e) {
       if (shutdownNotifier.shouldShutdown()) {
+        pForwardingreachedSet.setDelegate(reached);
         throw e;
       }
 
@@ -475,31 +526,26 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       timeManager.cancelLimits();
     }
 
-    return new AnalysisResult(status, t, reached, unknownAsTrue);
+    pForwardingreachedSet.setDelegate(reached);
+    return new AnalysisResult(status, t, reached, unknownAsTrue, cpa);
   }
 
-  private void createAlgorithmCpaAndReachedAndStartLimits(AggregatedReachedSets pAggregated)
-      throws InvalidConfigurationException, CPAException, InterruptedException {
+  private Triple<ConfigurableProgramAnalysis, Algorithm, ReachedSet>
+      createAlgorithmCpaAndReachedAndStartLimits(CoreComponentsFactory pFactory, CFA pCfa)
+          throws InvalidConfigurationException, CPAException, InterruptedException {
 
-    ShutdownManager roundShutdownManager = ShutdownManager.createWithParent(shutdownNotifier);
-    timeManager.startAnalysisLimits(roundShutdownManager, roundLogger);
-
-    CoreComponentsFactory coreComponents =
-        new CoreComponentsFactory(
-            roundConfig, roundLogger, roundShutdownManager.getNotifier(), pAggregated);
-
-    cpa = coreComponents.createCPA(cfa, specification);
+    ConfigurableProgramAnalysis cpa = pFactory.createCPA(pCfa, specification);
     GlobalInfo.getInstance().setUpInfoFromCPA(cpa);
-    algorithm = coreComponents.createAlgorithm(cpa, cfa, specification);
+    Algorithm algorithm = pFactory.createAlgorithm(cpa, pCfa, specification);
 
     roundLogger.log(Level.FINE, "Creating initial reached set");
 
     AbstractState initialState =
-        cpa.getInitialState(cfa.getMainFunction(), StateSpacePartition.getDefaultPartition());
+        cpa.getInitialState(pCfa.getMainFunction(), StateSpacePartition.getDefaultPartition());
     Precision initialPrecision =
-        cpa.getInitialPrecision(cfa.getMainFunction(), StateSpacePartition.getDefaultPartition());
+        cpa.getInitialPrecision(pCfa.getMainFunction(), StateSpacePartition.getDefaultPartition());
 
-    reached = coreComponents.createReachedSet(cpa);
+    ReachedSet reached = pFactory.createReachedSet(cpa);
     reached.add(initialState, initialPrecision);
 
     // stash statistics of current run, then collect it if it was last run
@@ -519,6 +565,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     statistics.setLastRoundStatistics(stats, round == 0);
+
+    return Triple.of(cpa, algorithm, reached);
   }
 
   @Override
@@ -931,11 +979,17 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     private final String targetDescription;
     private final AnalysisOutcome outcome;
 
+    private final ConfigurableProgramAnalysis cpa;
+
     public AnalysisResult(
         AlgorithmStatus pStatus,
         @Nullable Throwable pThrown,
         ReachedSet pReached,
-        boolean pUnknownAsTrue) {
+        boolean pUnknownAsTrue,
+        ConfigurableProgramAnalysis pCpa) {
+
+      cpa = pCpa;
+
       status = pStatus;
       thrown = pThrown;
 
@@ -1001,6 +1055,10 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     public AnalysisOutcome getOutcome() {
       return outcome;
+    }
+
+    public ConfigurableProgramAnalysis getCpa() {
+      return cpa;
     }
   }
 }
