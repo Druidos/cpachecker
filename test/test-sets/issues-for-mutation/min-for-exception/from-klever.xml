@@ -14,7 +14,7 @@ These programs are used to test CFA mutator when it tries to make minimal failin
 -->
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
-<benchmark tool="cpachecker" walltimelimit="2100s">
+<benchmark tool="cpachecker" walltimelimit="2120s">
 
 	<option name="-setprop">cpa.callstack.unsupportedFunctions=__VERIFIER_nonexisting_dummy_function</option>
 	<option name="-setprop">cpa.predicate.allowedUnsupportedFunctions=memset,memcpy,__builtin_add_overflow,__builtin_mul_overflow,__builtin_va_arg</option>
@@ -26,7 +26,7 @@ These programs are used to test CFA mutator when it tries to make minimal failin
 	<option name="-setprop">counterexample.export.exportCounterexampleCoverage=true</option>
 	<option name="-setprop">counterexample.export.prefixAdditionalCoverageFile=Counterexample.%d.additionalCoverage.info</option>
 	<option name="-setprop">additionalCoverage.file=additionalCoverage.info</option>
-	<option name="-setprop">shutdown.timeout=100</option>
+	<option name="-setprop">shutdown.timeout=90</option>
 	<option name="-heap">4000m</option>
 	<option name="-64"/>
 	<option name="-smg-ldv"/>
@@ -36,8 +36,7 @@ These programs are used to test CFA mutator when it tries to make minimal failin
 	<option name="-setprop">cpa.smg.memsetFunctions=__VERIFIER_memset</option>
 
 	<option name="-setprop">cfaMutation=true</option>
-	<option name="-setprop">limits.time.wall=2000</option>
-	<option name="-setprop">limits.time.cpu=-1ns</option>
+	<option name="-setprop">limits.time.cpu=2000s</option>
 
 	<option name="-setprop">output.disable=false</option>
 	<option name="-setprop">cfa.export=true</option>
@@ -147,42 +146,50 @@ These programs are used to test CFA mutator when it tries to make minimal failin
 	</rundefinition>
 
 
-	<tasks>
+	<tasks name="from-klever">
 		<include>../../../programs/issues-for-mutation/drivers|hwmon|asus-ec-sensors.ko.i</include>
 		<include>../../../programs/issues-for-mutation/drivers|media|i2c|adp1653.ko.i</include>
 		<include>../../../programs/issues-for-mutation/drivers|mtd|nand|raw|oxnas_nand.ko.i</include>
 		<include>../../../programs/issues-for-mutation/drivers|platform|x86|amd_hsmp.ko.i</include>
 		<include>../../../programs/issues-for-mutation/drivers|platform|x86|sony-laptop.ko.i</include>
-		<!-- timeout <include>../../../programs/issues-for-mutation/drivers|video|fbdev|udlfb.ko.i</include> -->
+		<include>../../../programs/issues-for-mutation/drivers|video|fbdev|udlfb.ko.i</include>
+	</tasks>
+
+	<tasks name="issue-779">
+		<include>../../../programs/issues-for-mutation/issue-779.cil.i</include>
+	</tasks>
+
+	<tasks name="issue-777">
+		<include>../../../programs/issues-for-mutation/issue-777.cil.i</include>
 	</tasks>
 
 	<propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
 
 	<columns>
 		<column title="total rounds">total count of mutation rounds</column>
-<!--		<column title="rounds with same error">successful mutations (sought-for error)</column>-->
-<!--		<column title="rounds with no error">unsuccessfull mutations (no error)</column>-->
-<!--		<column title="rounds with other problem">unsuccessfull mutations (other problems)</column>-->
+		<column title="rounds with same error">successful mutations (sought-for error)</column>
+		<column title="rounds with no error">unsuccessfull mutations (no error)</column>
+		<column title="rounds with other problem">unsuccessfull mutations (other problems)</column>
 
 		<column title="local nodes before">count of nodes in function CFAs before mutations</column>
 		<column title="local nodes after">count of nodes in function CFAs after mutations</column>
-<!--		<column title="local edges before">count of edges in function CFAs before mutations</column>-->
-<!--		<column title="local edges after">count of edges in function CFAs after mutations</column>-->
-<!--		<column title="global decls before">count of global declarations before mutations</column>-->
-<!--		<column title="global decls after">count of global declarations after mutations</column>-->
-<!--		<column title="functions before">count of functions in function CFAs before mutations</column>-->
-<!--		<column title="functions after">count of functions in function CFAs after mutations</column>-->
+		<column title="local edges before">count of edges in function CFAs before mutations</column>
+		<column title="local edges after">count of edges in function CFAs after mutations</column>
+		<column title="global decls before">count of global declarations before mutations</column>
+		<column title="global decls after">count of global declarations after mutations</column>
+		<column title="functions before">count of functions in function CFAs before mutations</column>
+		<column title="functions after">count of functions in function CFAs after mutations</column>
 		<column title="CFAs CC sum before">cyclomatic complexity of function CFAs before mutations</column>
 		<column title="CFAs CC sum after">cyclomatic complexity of function CFAs after mutations</column>
 
-<!--		<column title="full nodes before">count of nodes in full CFA before mutations</column>-->
-<!--		<column title="full nodes after">count of nodes in full CFA after mutations</column>-->
-<!--		<column title="full edges before">count of edges in full CFA before mutations</column>-->
-<!--		<column title="full edges after">count of edges in full CFA after mutations</column>-->
-<!--		<column title="full functions before">count of functions in full CFA before mutations</column>-->
-<!--		<column title="full functions after">count of functions in full CFA after mutations</column>-->
-<!--		<column title="CC of full CFA before">cyclomatic complexity of full CFA before mutations</column>-->
-<!--		<column title="CC of full CFA after">cyclomatic complexity of full CFA after mutations</column>-->
+		<column title="full nodes before">count of nodes in full CFA before mutations</column>
+		<column title="full nodes after">count of nodes in full CFA after mutations</column>
+		<column title="full edges before">count of edges in full CFA before mutations</column>
+		<column title="full edges after">count of edges in full CFA after mutations</column>
+		<column title="full functions before">count of functions in full CFA before mutations</column>
+		<column title="full functions after">count of functions in full CFA after mutations</column>
+		<column title="CC of full CFA before">cyclomatic complexity of full CFA before mutations</column>
+		<column title="CC of full CFA after">cyclomatic complexity of full CFA after mutations</column>
 
 		<column title="original time">time for original analysis run</column>
 		<column title="time after mutations">time for analysis after mutations</column>
