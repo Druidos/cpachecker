@@ -557,9 +557,9 @@ public class CFAMutator extends CFACreator {
     localCfa.resetEdgesInNodes();
     mutatorStats.stopCfaReset();
 
-    mutatorStats.startAftermath(pLastOutcome);
-    MutationRollback mutationRollback =
-        strategy.setResult(localCfa, outcomeToDDResult(pLastOutcome));
+    DDResultOfARun ddResult = outcomeToDDResult(pLastOutcome);
+    mutatorStats.startAftermath(pLastOutcome, ddResult);
+    MutationRollback mutationRollback = strategy.setResult(localCfa, ddResult);
     mutatorStats.stopAftermath();
 
     if (mutationRollback == MutationRollback.NO_ROLLBACK) {

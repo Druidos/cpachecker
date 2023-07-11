@@ -9,6 +9,9 @@
 package org.sosy_lab.cpachecker.cfa.mutation;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import java.io.PrintStream;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.log.LogManager;
@@ -56,11 +59,7 @@ public class CFAMutatorStatistics extends MultiStatistics {
     }
   }
 
-  private final StatCounter totalRounds = new StatCounter("total count of mutation rounds");
-  private final StatCounter failRounds = new StatCounter("successful mutations (sought-for error)");
-  private final StatCounter passRounds = new StatCounter("unsuccessfull mutations (no error)");
-  private final StatCounter unresRounds =
-      new StatCounter("unsuccessfull mutations (other problems)");
+  private final StatCounter totalRounds = new StatCounter("Total count of mutation rounds");
 
   private final FirstLastStatInt globalDeclsCount =
       new FirstLastStatInt(StatKind.AVG, "count of global declarations");
@@ -89,13 +88,13 @@ public class CFAMutatorStatistics extends MultiStatistics {
   private final StatTimerWithMoreOutput aftermathTimer =
       new StatTimerWithMoreOutput("time for rollbacks");
   private final StatTimerWithMoreOutput totalMutatorTimer =
-      new StatTimerWithMoreOutput("total time for CFA mutator");
+      new StatTimerWithMoreOutput("Total time for CFA mutator");
   private final StatTimerWithMoreOutput processCfaTimer =
       new StatTimerWithMoreOutput("time for CFA creation from function CFAs");
   private final StatTimerWithMoreOutput resetCfaTimer =
       new StatTimerWithMoreOutput("time for reverting CFA to function CFAs");
   private final StatTimerWithMoreOutput exportTimer =
-      new StatTimerWithMoreOutput("time for CFA export");
+      new StatTimerWithMoreOutput("additionally, time for CFA export");
 
   private final StatTimer originalTime = new StatTimer("time for original analysis run");
   private final StatTimerWithMoreOutput afterMutations =
@@ -104,6 +103,40 @@ public class CFAMutatorStatistics extends MultiStatistics {
       new StatTimerWithMoreOutput("total time for analysis after rollbacks");
   private final StatTimerWithMoreOutput feasibilityCheck =
       new StatTimerWithMoreOutput("total time for feasibility check after verdict FALSE");
+
+  private final ImmutableMap<AnalysisOutcome, StatCounter> outcomesCounters =
+      ImmutableMap.of(
+          AnalysisOutcome.VERDICT_TRUE,
+          new StatCounter("count of True"),
+          AnalysisOutcome.VERDICT_FALSE,
+          new StatCounter("count of False"),
+          AnalysisOutcome.SAME_VERDICT_FALSE,
+          new StatCounter("  count of original False"),
+          AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION,
+          new StatCounter("count of exceptions"),
+          AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION,
+          new StatCounter("  count of original exceptions"),
+          AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT,
+          new StatCounter("count of timeouts"),
+          AnalysisOutcome.ANOTHER_VERDICT_UNKNOWN,
+          new StatCounter("count of other unknowns"));
+  private final ImmutableMap<DDResultOfARun, StatCounter> ddResultsCounters =
+      ImmutableMap.of(
+          DDResultOfARun.MAXIMIZATION_PROPERTY_HOLDS,
+          new StatCounter("count of good outcomes (passes)"),
+          DDResultOfARun.MINIMIZATION_PROPERTY_HOLDS,
+          new StatCounter("count of bad outcomes (fails)"),
+          DDResultOfARun.NEITHER_PROPERTY_HOLDS,
+          new StatCounter("count of unresolved outcomes"));
+  private final ImmutableMap<DDResultOfARun, ImmutableSet.Builder<AnalysisOutcome>>
+      ddResultsToOccuredOutcomes =
+          ImmutableMap.of(
+              DDResultOfARun.MAXIMIZATION_PROPERTY_HOLDS,
+              new ImmutableSet.Builder<AnalysisOutcome>(),
+              DDResultOfARun.MINIMIZATION_PROPERTY_HOLDS,
+              new ImmutableSet.Builder<AnalysisOutcome>(),
+              DDResultOfARun.NEITHER_PROPERTY_HOLDS,
+              new ImmutableSet.Builder<AnalysisOutcome>());
 
   private Statistics lastRoundStats = null;
   private boolean lastRoundIsOriginalRound;
@@ -144,8 +177,6 @@ public class CFAMutatorStatistics extends MultiStatistics {
     pOut.println("CFA mutation statistics");
     pOut.println("=======================");
     if (originalTime.getUpdateCount() > 0) {
-      pOut.println("Time for analysis");
-      pOut.println("-----------------");
       put(pOut, 1, originalTime);
       put(pOut, 1, afterMutations);
       if (afterRollbacks.getUpdateCount() > 0) {
@@ -157,35 +188,43 @@ public class CFAMutatorStatistics extends MultiStatistics {
     }
 
     put(pOut, 0, totalRounds);
-    put(pOut, 1, failRounds);
-    put(pOut, 1, passRounds);
-    put(pOut, 1, unresRounds);
+    for (DDResultOfARun ddResult :
+        ImmutableList.of(
+            DDResultOfARun.MINIMIZATION_PROPERTY_HOLDS,
+            DDResultOfARun.MAXIMIZATION_PROPERTY_HOLDS,
+            DDResultOfARun.NEITHER_PROPERTY_HOLDS)) {
+      put(pOut, 1, ddResultsCounters.get(ddResult));
+      ddResultsToOccuredOutcomes
+          .get(ddResult)
+          .build()
+          .forEach(outcome -> put(pOut, 2, outcomesCounters.get(outcome)));
+    }
 
     put(pOut, 0, totalMutatorTimer);
     put(pOut, 1, preparationTimer);
-    put(pOut, 1, mutationTimer);
-    put(pOut, 1, aftermathTimer);
-    pOut.println("Additionally,");
+    pOut.println("  additionally,");
     put(pOut, 2, processCfaTimer);
     put(pOut, 2, resetCfaTimer);
+    put(pOut, 1, mutationTimer);
+    put(pOut, 1, aftermathTimer);
     put(pOut, 0, exportTimer);
     pOut.println();
 
     pOut.println("Statistics for function CFAs");
     pOut.println("----------------------------");
-    put(pOut, 1, localNodesCount);
-    put(pOut, 1, localEdgesCount);
-    put(pOut, 1, globalDeclsCount);
-    put(pOut, 1, localFunctionsCount);
-    put(pOut, 1, localCyclomatic);
+    put(pOut, 0, localNodesCount);
+    put(pOut, 0, localEdgesCount);
+    put(pOut, 0, globalDeclsCount);
+    put(pOut, 0, localFunctionsCount);
+    put(pOut, 0, localCyclomatic);
     pOut.println();
 
     pOut.println("Statistics for full CFA");
     pOut.println("-----------------------");
-    put(pOut, 1, fullNodesCount);
-    put(pOut, 1, fullEdgesCount);
-    put(pOut, 1, fullFunctionsCount);
-    put(pOut, 1, fullCyclomatic);
+    put(pOut, 0, fullNodesCount);
+    put(pOut, 0, fullEdgesCount);
+    put(pOut, 0, fullFunctionsCount);
+    put(pOut, 0, fullCyclomatic);
 
     super.printStatistics(pOut, pResult, pReached);
   }
@@ -290,10 +329,21 @@ public class CFAMutatorStatistics extends MultiStatistics {
     totalMutatorTimer.stop();
   }
 
-  public void startAftermath(@SuppressWarnings("unused") AnalysisOutcome pLastOutcome) {
+  public void startAftermath(AnalysisOutcome pOutcome, DDResultOfARun pDdResult) {
     totalMutatorTimer.start();
     aftermathTimer.start();
-    // TODO stats on result
+
+    ddResultsToOccuredOutcomes.get(pDdResult).add(pOutcome);
+    ddResultsCounters.get(pDdResult).inc();
+
+    outcomesCounters.get(pOutcome).inc();
+
+    if (pOutcome == AnalysisOutcome.SAME_VERDICT_FALSE) {
+      outcomesCounters.get(AnalysisOutcome.VERDICT_FALSE).inc();
+
+    } else if (pOutcome == AnalysisOutcome.FAILURE_BECAUSE_OF_SAME_EXCEPTION) {
+      outcomesCounters.get(AnalysisOutcome.FAILURE_BECAUSE_OF_EXCEPTION).inc();
+    }
   }
 
   public void stopAftermath() {
@@ -307,5 +357,33 @@ public class CFAMutatorStatistics extends MultiStatistics {
 
   public void stopFeasibilityCheck() {
     feasibilityCheck.stop();
+  }
+
+  public void startOriginalTime() {
+    originalTime.start();
+  }
+
+  public void stopOriginalTime() {
+    originalTime.stop();
+  }
+
+  public TimeSpan getOriginalTime() {
+    return originalTime.getConsumedTime();
+  }
+
+  public void startTimeAfterMutations() {
+    afterMutations.start();
+  }
+
+  public void stopTimeAfterMutations() {
+    afterMutations.stop();
+  }
+
+  public void startTimeAfterRollback() {
+    afterRollbacks.start();
+  }
+
+  public void stopTimeAfterRollback() {
+    afterRollbacks.stop();
   }
 }

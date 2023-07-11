@@ -177,12 +177,16 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     try {
       // run analysis of the original cfa
+      statistics.startOriginalTime();
+      configManager.resetExportDirectoryToOriginalRound();
       runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSet, originalCfa);
       originalCfa = null; // no need to store it anymore
     } catch (InterruptedException e) {
       // originalResult == null
-      // no time even for one run
+      // not enough time even for one run
       return statusDoneOrUnknown;
+    } finally {
+      statistics.stopOriginalTime();
     }
 
     try {
@@ -211,6 +215,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       configManager.resetExportDirectoryToDefault();
       return AnalysisResult.original.getStatus();
     }
+
+    timeManager.setOriginalTime(statistics.getOriginalTime());
 
     try {
       while (cfaMutator.canMutate()) {
@@ -244,12 +250,18 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     configManager.resetExportDirectoryToMutationRound(round);
 
     CFA cfa = cfaMutator.mutate();
+    AnalysisResult delegateResult = null;
 
-    // run analysis on a mutated cfa
-    AnalysisResult delegateResult =
-        runDelegateAnalysis(pForwardingReachedSet, pAggregatedReachedSet, cfa);
-    // TODO export intermediate results
-    // XXX it is incorrect to save intermediate stats, as reached is updated?
+    try {
+      // run analysis on a mutated cfa
+      statistics.startTimeAfterMutations();
+      delegateResult = runDelegateAnalysis(pForwardingReachedSet, pAggregatedReachedSet, cfa);
+      // TODO export intermediate results
+      // XXX it is incorrect to save intermediate stats, as reached is updated?
+    } finally {
+      timeManager.cancelLimits();
+      statistics.stopTimeAfterMutations();
+    }
 
     Optional<AlgorithmStatus> feasibilityResult =
         checkFeasibilityIfNeeded(delegateResult.getCpa(), pForwardingReachedSet, cfa);
@@ -274,63 +286,63 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     shutdownNotifier.shutdownIfNecessary();
-
-    // check mutated CEX against original CFA
-    logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
-    configManager.resetExportDirectoryToFeasibilityCheckAfterRound(round);
     statistics.startFeasilityCheck();
-    DelegatingCheckerWithRestoredFunctions cexChecker;
 
     try {
-      cexChecker = createCexCheckerAndStartLimits(pCpa, pCfa);
-    } catch (InvalidConfigurationException e) {
-      timeManager.cancelLimits();
-      statistics.stopFeasibilityCheck();
-      roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
-      logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
-      return Optional.empty();
-    }
+      // check mutated CEX against original CFA
+      logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
+      configManager.resetExportDirectoryToFeasibilityCheckAfterRound(round);
+      DelegatingCheckerWithRestoredFunctions cexChecker;
 
-    assert ARGUtils.checkARG(pForwardingReachedSet); // XXX
-    ARGState rootState = (ARGState) pForwardingReachedSet.getFirstState();
-
-    final List<ARGState> errorStates =
-        from(pForwardingReachedSet)
-            .transform(AbstractStates.toState(ARGState.class))
-            .filter(AbstractStates::isTargetState)
-            .toList();
-
-    assert !errorStates.isEmpty() : "no error states while CEX check";
-
-    boolean isFeasible = false;
-    for (ARGState errorState : errorStates) {
       try {
-        isFeasible = checkFeasibilityOfErrorState(cexChecker, rootState, errorState);
-      } catch (InterruptedException e) {
-        statistics.stopFeasibilityCheck();
-        assert shutdownNotifier.shouldShutdown()
-            : "Feasibility check interrupted, expected global timeout";
-        throw e;
+        cexChecker = createCexCheckerAndStartLimits(pCpa, pCfa);
+      } catch (InvalidConfigurationException e) {
+        roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
+        logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
+        return Optional.empty();
       }
 
-      if (isFeasible) {
-        statistics.stopFeasibilityCheck();
-        timeManager.cancelLimits();
-        if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
-          CPAcheckerResult cexCheckResult =
-              ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
-          pForwardingReachedSet.setDelegate(cexCheckResult.getReached());
-          Statistics mainCpaStatisticsOfFeasibilityCheck = cexCheckResult.getStatistics();
-          statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
+      assert ARGUtils.checkARG(pForwardingReachedSet) : "incorrect ARG"; // XXX
+      ARGState rootState = (ARGState) pForwardingReachedSet.getFirstState();
+
+      final List<ARGState> errorStates =
+          from(pForwardingReachedSet)
+              .transform(AbstractStates.toState(ARGState.class))
+              .filter(AbstractStates::isTargetState)
+              .toList();
+
+      assert !errorStates.isEmpty() : "no error states while CEX check";
+
+      boolean isFeasible = false;
+      for (ARGState errorState : errorStates) {
+        try {
+          isFeasible = checkFeasibilityOfErrorState(cexChecker, rootState, errorState);
+        } catch (InterruptedException e) {
+          assert shutdownNotifier.shouldShutdown()
+              : "Feasibility check interrupted, expected global timeout";
+          throw e;
         }
-        return Optional.of(AlgorithmStatus.UNSOUND_AND_PRECISE);
-      }
-    }
 
-    timeManager.cancelLimits();
-    statistics.stopFeasibilityCheck();
-    logger.log(Level.INFO, "No feasible error path found");
-    return Optional.empty();
+        if (isFeasible) {
+          statistics.stopFeasibilityCheck();
+          if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
+            CPAcheckerResult cexCheckResult =
+                ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
+            pForwardingReachedSet.setDelegate(cexCheckResult.getReached());
+            Statistics mainCpaStatisticsOfFeasibilityCheck = cexCheckResult.getStatistics();
+            statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
+          }
+          return Optional.of(AlgorithmStatus.UNSOUND_AND_PRECISE);
+        }
+      }
+
+      logger.log(Level.INFO, "No feasible error path found");
+      return Optional.empty();
+
+    } finally {
+      timeManager.cancelLimits();
+      statistics.stopTimeAfterRollback();
+    }
   }
 
   private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits(
@@ -421,15 +433,22 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       return;
     }
 
-    logger.log(Level.INFO, "Running analysis after", rollbacksInRow, "mutation rollback in row");
-    // Check that property is still preserved after rollback
-    AnalysisResult delegateResult =
-        runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSets, cfa);
-    // If analysis ended because of a global shutdown, the result may be TIMEOUT
-    // otherwise, check it is expected one
-    if (!shutdownNotifier.shouldShutdown()
-        || delegateResult.getOutcome() != AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT) {
-      cfaMutator.verifyOutcome(delegateResult.getOutcome());
+    try {
+      statistics.stopTimeAfterRollback();
+      logger.log(Level.INFO, "Running analysis after", rollbacksInRow, "mutation rollback in row");
+      // Check that property is still preserved after rollback
+      AnalysisResult delegateResult =
+          runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSets, cfa);
+      // If analysis ended because of a global shutdown, the result may be TIMEOUT
+      // otherwise, check it is expected one
+      if (!shutdownNotifier.shouldShutdown()
+          || delegateResult.getOutcome() != AnalysisOutcome.VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT) {
+        cfaMutator.verifyOutcome(delegateResult.getOutcome());
+      }
+
+    } finally {
+      timeManager.cancelLimits();
+      statistics.stopTimeAfterRollback();
     }
   }
 
@@ -1064,10 +1083,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           && original.thrown.getClass().equals(pThrown.getClass())
           && (pThrown.getStackTrace().length == 0 // optimized by JVM if many exceptions
               || original.thrown.getStackTrace()[0].equals(pThrown.getStackTrace()[0]));
-    }
-
-    public Throwable getThrown() {
-      return thrown;
     }
 
     public AlgorithmStatus getStatus() {
