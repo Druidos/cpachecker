@@ -536,7 +536,11 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         exceptionClassName = exceptionClassName.replace("Exception", " exception");
         exceptionClassName = exceptionClassName.replace("Error", " error");
 
-        logger.logf(Level.INFO, "%s: %s", exceptionClassName, e.getMessage());
+        if (e.getMessage() == null) {
+          logger.log(Level.INFO, exceptionClassName, "(no message)");
+        } else {
+          logger.logf(Level.INFO, "%s: %s", exceptionClassName, e.getMessage());
+        }
         roundLogger.logException(Level.WARNING, e, null);
       }
     } finally {
