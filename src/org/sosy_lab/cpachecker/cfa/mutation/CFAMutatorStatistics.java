@@ -94,7 +94,7 @@ public class CFAMutatorStatistics extends MultiStatistics {
   private final StatTimerWithMoreOutput resetCfaTimer =
       new StatTimerWithMoreOutput("time for reverting CFA to function CFAs");
   private final StatTimerWithMoreOutput exportTimer =
-      new StatTimerWithMoreOutput("additionally, time for CFA export");
+      new StatTimerWithMoreOutput("time for CFA export");
 
   private final StatTimer originalTime = new StatTimer("time for original analysis run");
   private final StatTimerWithMoreOutput afterMutations =
@@ -176,16 +176,6 @@ public class CFAMutatorStatistics extends MultiStatistics {
 
     pOut.println("CFA mutation statistics");
     pOut.println("=======================");
-    if (originalTime.getUpdateCount() > 0) {
-      put(pOut, 1, originalTime);
-      put(pOut, 1, afterMutations);
-      if (afterRollbacks.getUpdateCount() > 0) {
-        put(pOut, 1, afterRollbacks);
-      }
-      if (feasibilityCheck.getUpdateCount() > 0) {
-        put(pOut, 1, feasibilityCheck);
-      }
-    }
 
     put(pOut, 0, totalRounds);
     for (DDResultOfARun ddResult :
@@ -203,11 +193,22 @@ public class CFAMutatorStatistics extends MultiStatistics {
     put(pOut, 0, totalMutatorTimer);
     put(pOut, 1, preparationTimer);
     pOut.println("  additionally,");
-    put(pOut, 2, processCfaTimer);
-    put(pOut, 2, resetCfaTimer);
     put(pOut, 1, mutationTimer);
     put(pOut, 1, aftermathTimer);
-    put(pOut, 0, exportTimer);
+    pOut.println("Time outside CFAMutator:");
+    if (originalTime.getUpdateCount() > 0) {
+      put(pOut, 1, originalTime);
+      put(pOut, 1, afterMutations);
+      if (afterRollbacks.getUpdateCount() > 0) {
+        put(pOut, 1, afterRollbacks);
+      }
+      if (feasibilityCheck.getUpdateCount() > 0) {
+        put(pOut, 1, feasibilityCheck);
+      }
+    }
+    put(pOut, 1, processCfaTimer);
+    put(pOut, 1, resetCfaTimer);
+    put(pOut, 1, exportTimer);
     pOut.println();
 
     pOut.println("Statistics for function CFAs");
