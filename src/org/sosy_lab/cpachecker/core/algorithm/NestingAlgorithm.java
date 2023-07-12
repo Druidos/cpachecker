@@ -134,7 +134,7 @@ public abstract class NestingAlgorithm implements Algorithm, StatisticsProvider 
     return reached;
   }
 
-  static void checkConfigs(
+  protected static void checkConfigs(
       Configuration pGlobalConfig,
       Configuration pSingleConfig,
       Path pSingleConfigFileName,

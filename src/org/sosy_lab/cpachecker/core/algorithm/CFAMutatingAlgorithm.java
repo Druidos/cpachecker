@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -71,15 +72,13 @@ import org.sosy_lab.cpachecker.core.reachedset.ForwardingReachedSet;
 import org.sosy_lab.cpachecker.core.reachedset.ReachedSet;
 import org.sosy_lab.cpachecker.core.reachedset.ResultProviderReachedSet;
 import org.sosy_lab.cpachecker.core.specification.Specification;
-import org.sosy_lab.cpachecker.cpa.arg.ARGCPA;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.cpa.arg.ARGUtils;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
-import org.sosy_lab.cpachecker.util.CPAs;
-import org.sosy_lab.cpachecker.util.Triple;
+import org.sosy_lab.cpachecker.util.Pair;
 import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
 import org.sosy_lab.cpachecker.util.resources.ProcessCpuTime;
 import org.sosy_lab.cpachecker.util.resources.ProcessCpuTimeLimit;
@@ -264,7 +263,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     Optional<AlgorithmStatus> feasibilityResult =
-        checkFeasibilityIfNeeded(delegateResult.getCpa(), pForwardingReachedSet, cfa);
+        checkFeasibilityIfNeeded(pForwardingReachedSet, cfa);
     if (feasibilityResult.isPresent()) {
       return feasibilityResult;
     } // else just continue
@@ -277,8 +276,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
   // TODO replace with mutCEX -> automaton -> spec -> analysis via algorithm
   // instead of running {@link CexAsProgramCPAchecker}
   private Optional<AlgorithmStatus> checkFeasibilityIfNeeded(
-      ConfigurableProgramAnalysis pCpa, ForwardingReachedSet pForwardingReachedSet, CFA pCfa)
-      throws InterruptedException {
+      ForwardingReachedSet pForwardingReachedSet, CFA pCfa) throws InterruptedException {
     if (!pForwardingReachedSet.wasTargetReached() || !cfaMutator.isSearchingForError()) {
       // no false -- nothing to check
       // or not caring for false
@@ -295,7 +293,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       DelegatingCheckerWithRestoredFunctions cexChecker;
 
       try {
-        cexChecker = createCexCheckerAndStartLimits(pCpa, pCfa);
+        cexChecker = createCexCheckerAndStartLimits(pCfa);
       } catch (InvalidConfigurationException e) {
         roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
         logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
@@ -344,21 +342,14 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
   }
 
-  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits(
-      ConfigurableProgramAnalysis pCpa, CFA pCfa) throws InvalidConfigurationException {
+  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits(CFA pCfa)
+      throws InvalidConfigurationException {
 
     Configuration roundConfig =
         configManager.createRoundConfig(round, timeManager.createFeasibilityCheckOptions());
     roundLogger = BasicLogManager.create(roundConfig);
     ShutdownManager fMan = ShutdownManager.createWithParent(shutdownNotifier);
     timeManager.startCheckLimits(roundLogger, fMan);
-
-    ARGCPA argCpa = CPAs.retrieveCPA(pCpa, ARGCPA.class);
-    if (argCpa == null) {
-      throw new InvalidConfigurationException(
-          "Counterexample check after CFA mutation expected ARG CPA, but got "
-              + CPAs.asIterable(pCpa).transform(subcpa -> subcpa.getClass().getSimpleName()));
-    }
 
     return new DelegatingCheckerWithRestoredFunctions(
         roundConfig, roundLogger, pCfa, fMan, timeManager.getCheckerType(), cfaMutator);
@@ -465,8 +456,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       CFA pCfa)
       throws InterruptedException {
 
-    ConfigurableProgramAnalysis cpa = null;
-    Algorithm algorithm = null;
     ReachedSet reached = null;
     AlgorithmStatus status = AlgorithmStatus.SOUND_AND_PRECISE;
     Throwable t = null;
@@ -484,11 +473,9 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           new CoreComponentsFactory(
               roundConfig, roundLogger, roundShutdownManager.getNotifier(), pAggregatedReachedSets);
 
-      Triple<ConfigurableProgramAnalysis, Algorithm, ReachedSet> triple =
-          createAlgorithmCpaAndReachedAndStartLimits(factory, pCfa);
-      cpa = triple.getFirst();
-      algorithm = triple.getSecond();
-      reached = triple.getThird();
+      Pair<Algorithm, ReachedSet> pair = createAlgorithmCpaAndReachedAndStartLimits(factory, pCfa);
+      Algorithm algorithm = pair.getFirst();
+      reached = pair.getSecond();
 
       roundLogger.log(Level.INFO, "Starting analysis ...");
       int counterExampleCount = 0;
@@ -566,12 +553,18 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     pForwardingreachedSet.setDelegate(reached);
-    return new AnalysisResult(status, t, reached, unknownAsTrue, cpa);
+    AnalysisResult delegateResult =
+        new AnalysisResult(status, t, reached, unknownAsTrue);
+    if (t == null) { // exception was already logged
+      logger.log(Level.INFO, delegateResult.getDescription());
+      roundLogger.log(Level.INFO, delegateResult.getDescription());
+    }
+    return delegateResult;
   }
 
-  private Triple<ConfigurableProgramAnalysis, Algorithm, ReachedSet>
-      createAlgorithmCpaAndReachedAndStartLimits(CoreComponentsFactory pFactory, CFA pCfa)
-          throws InvalidConfigurationException, CPAException, InterruptedException {
+  private Pair<Algorithm, ReachedSet> createAlgorithmCpaAndReachedAndStartLimits(
+      CoreComponentsFactory pFactory, CFA pCfa)
+      throws InvalidConfigurationException, CPAException, InterruptedException {
 
     ConfigurableProgramAnalysis cpa = pFactory.createCPA(pCfa, specification);
     GlobalInfo.getInstance().setUpInfoFromCPA(cpa);
@@ -605,7 +598,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     statistics.setLastRoundStatistics(stats, round == 0);
 
-    return Triple.of(cpa, algorithm, reached);
+    return Pair.of(algorithm, reached);
   }
 
   @Override
@@ -614,7 +607,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
   }
 
   @Options(prefix = "cfaMutation")
-  static final class TimeManager {
+  private static final class TimeManager {
 
     @Option(
         secure = true,
@@ -850,7 +843,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
   }
 
   @Options(prefix = "cfaMutation")
-  static final class FileAndConfigManager {
+  private static final class FileAndConfigManager {
 
     @Option(
         secure = true,
@@ -999,17 +992,53 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       builder.addConverter(
           FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
       Configuration result = builder.build();
-      NestingAlgorithm.checkConfigs( // yes, path here is used just as a string actually
-          globalConfig,
-          result,
-          Path.of(String.format("Config for %d. round", pRound)),
-          globalLogger);
+      checkConfigs(globalConfig, result, pRound, globalLogger);
       return result;
+    }
+
+    private static void checkConfigs(
+        Configuration pGlobalConfig, Configuration pSingleConfig, int pRound, LogManager pLogger)
+        throws InvalidConfigurationException {
+      Map<String, String> global = configToMap(pGlobalConfig);
+      Map<String, String> single = configToMap(pSingleConfig);
+      for (Entry<String, String> entry : global.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        if (single.containsKey(key) && !value.equals(single.get(key))) {
+          pLogger.logf(
+              ImmutableSet.of("limits.time.cpu", "limits.time.wall", "log.level").contains(key)
+                  ? Level.FINE
+                  : Level.INFO,
+              "Mismatch of configuration options for %s. round: "
+                  + "'%s' has two values '%s' and '%s'. Using '%s'.",
+              pRound,
+              key,
+              value,
+              single.get(key),
+              single.get(key));
+        }
+      }
+
+      // "cfa.*"-options of a subconfig are effectively ignored because the CFA gets only generated
+      // once for the NestingAlgorithm, so we check whether all "cfa.*"-options that are set in the
+      // subconfig are also present and with the same value in the global config:
+      for (Entry<String, String> entry : single.entrySet()) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        if (key.startsWith("cfa.") && !(global.containsKey(key) && value.equals(global.get(key)))) {
+          throw new InvalidConfigurationException(
+              "CFA option of a nested sub-configuration must also be present in the outer"
+                  + " configuration!\n"
+                  + String.format(
+                      "inner config: \"%s = %s\" ; outer config: \"%s = %s\" ",
+                      key, value, key, global.get(key)));
+        }
+      }
     }
   }
 
   // keep last result and thrown error
-  static final class AnalysisResult {
+  private static final class AnalysisResult {
     private static AnalysisResult original;
 
     private final AlgorithmStatus status;
@@ -1018,16 +1047,11 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     private final String targetDescription;
     private final AnalysisOutcome outcome;
 
-    private final ConfigurableProgramAnalysis cpa;
-
     public AnalysisResult(
         AlgorithmStatus pStatus,
         @Nullable Throwable pThrown,
         ReachedSet pReached,
-        boolean pUnknownAsTrue,
-        ConfigurableProgramAnalysis pCpa) {
-
-      cpa = pCpa;
+        boolean pUnknownAsTrue) {
 
       status = pStatus;
       thrown = pThrown;
@@ -1088,12 +1112,27 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       return status;
     }
 
-    public AnalysisOutcome getOutcome() {
-      return outcome;
+    public String getDescription() {
+      StringBuilder sb = new StringBuilder();
+      sb.append(verdict);
+      sb.append(". ");
+      if (verdict == Result.FALSE) {
+        sb.append(targetDescription.isEmpty() ? "no target description" : targetDescription);
+        sb.append(". ");
+      }
+      if (thrown != null) {
+        sb.append(thrown.getClass().getSimpleName());
+        sb.append(". ");
+        sb.append(thrown.getMessage());
+        sb.append(". ");
+      }
+      sb.append(outcome);
+      sb.append(".");
+      return sb.toString();
     }
 
-    public ConfigurableProgramAnalysis getCpa() {
-      return cpa;
+    public AnalysisOutcome getOutcome() {
+      return outcome;
     }
   }
 }
