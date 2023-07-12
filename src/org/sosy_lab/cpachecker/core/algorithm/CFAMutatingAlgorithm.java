@@ -324,7 +324,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         }
 
         if (isFeasible) {
-          statistics.stopFeasibilityCheck();
           if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
             CPAcheckerResult cexCheckResult =
                 ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
@@ -341,7 +340,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     } finally {
       timeManager.cancelLimits();
-      statistics.stopTimeAfterRollback();
+      statistics.stopFeasibilityCheck();
     }
   }
 
@@ -434,7 +433,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     try {
-      statistics.stopTimeAfterRollback();
+      statistics.startTimeAfterRollback();
       logger.log(Level.INFO, "Running analysis after", rollbacksInRow, "mutation rollback in row");
       // Check that property is still preserved after rollback
       AnalysisResult delegateResult =
