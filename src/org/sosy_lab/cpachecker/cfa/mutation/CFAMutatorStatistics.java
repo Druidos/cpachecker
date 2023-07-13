@@ -192,7 +192,6 @@ public class CFAMutatorStatistics extends MultiStatistics {
 
     put(pOut, 0, totalMutatorTimer);
     put(pOut, 1, preparationTimer);
-    pOut.println("  additionally,");
     put(pOut, 1, mutationTimer);
     put(pOut, 1, aftermathTimer);
     pOut.println("Time outside CFAMutator:");
