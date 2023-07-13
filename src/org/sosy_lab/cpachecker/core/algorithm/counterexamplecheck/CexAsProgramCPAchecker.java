@@ -49,7 +49,19 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
       Configuration pConfig, LogManager pLogger, ShutdownManager pShutdownManager)
       throws InvalidConfigurationException {
     pConfig.inject(this, CexAsProgramCPAchecker.class);
-    cpachecker = new CPAchecker(pConfig, pLogger, pShutdownManager);
+    cpachecker =
+        new CPAchecker(pConfig, pLogger, pShutdownManager) {
+          @Override
+          protected CPAcheckerBean registerNewMBean() {
+            return new CPAcheckerBean(null, LogManager.createNullLogManager(), null) {
+              @Override
+              public void register() {}
+
+              @Override
+              public void unregister() {}
+            };
+          }
+        };
   }
 
   public CPAcheckerResult getResult() {

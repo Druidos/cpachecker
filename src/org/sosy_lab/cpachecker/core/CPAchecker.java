@@ -84,7 +84,7 @@ public class CPAchecker {
     void stop();
   }
 
-  private static class CPAcheckerBean extends AbstractMBean implements CPAcheckerMXBean {
+  protected static class CPAcheckerBean extends AbstractMBean implements CPAcheckerMXBean {
 
     private final ReachedSet reached;
     private final ShutdownManager shutdownManager;
@@ -624,8 +624,7 @@ public class CPAchecker {
     AlgorithmStatus status = AlgorithmStatus.SOUND_AND_PRECISE;
 
     // register management interface for CPAchecker
-    CPAcheckerBean mxbean = new CPAcheckerBean(reached, logger, shutdownManager);
-    mxbean.register();
+    CPAcheckerBean mxbean = registerNewMBean();
 
     stats.startAnalysisTimer();
     try {
@@ -659,6 +658,12 @@ public class CPAchecker {
       // unregister management interface for CPAchecker
       mxbean.unregister();
     }
+  }
+
+  protected CPAcheckerBean registerNewMBean() {
+    CPAcheckerBean mxbean = new CPAcheckerBean(reached, logger, shutdownManager);
+    mxbean.register();
+    return mxbean;
   }
 
   private Result analyzeResult(boolean isSound) {
