@@ -976,6 +976,14 @@ cfaMutation.dd.minProperty = no default value
 cfaMutation.dd.parts = DELTAS_AND_COMPLEMENTS
   enum:     [ONLY_DELTAS, ONLY_COMPLEMENTS, DELTAS_AND_COMPLEMENTS]
 
+# subdirectory template for subsequent mutation rounds
+cfaMutation.directoryAfterRollback = "%d-mutation-round-rollback"
+cfaMutation.directoryForFeasibilityCheck = "%d-mutation-round-feasibility"
+cfaMutation.directoryForMutationRound = "%d-mutation-round"
+
+# subdirectory of the original analysis round
+cfaMutation.directoryForOriginalRound = "0-original-round"
+
 # Time limit for exporting a CFA. If an export exceeds this limit, CFA
 # exports are disabled for the following rounds. This time limit is not
 # checked if this option is set to zero.
@@ -1050,7 +1058,7 @@ cfaMutation.rankedNodesFile = "this-round-ranked-nodes.txt"
 # If set to 2, check every other one that occurs immediately after another
 # one, so if 5 rollbacks occur in a row, 2nd and 4th will be checked. And so
 # on.
-cfaMutation.rollbacksInRowCheck = 5
+cfaMutation.rollbacksInRowCheck = 0
 
 # File to dump statistics of current round to
 cfaMutation.statFile = "this-round-stats.txt"
@@ -1068,7 +1076,7 @@ cfaMutation.timelimit.factor = 2.0
 cfaMutation.timelimit.hardcap = 200s
 
 # Whether to export each round in different subdirectories.
-cfaMutation.writeRoundsToDifferentDirectories = false
+cfaMutation.useDifferentDirectories = false
 
 # Output an input file, with invariants embedded as assume constraints.
 cinvariants.export = false

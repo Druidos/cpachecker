@@ -122,6 +122,20 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       description = "Maximum number of counterexamples to be created.")
   private int cexLimit = 0;
 
+  @Option(
+      secure = true,
+      name = "cfaMutation.rollbacksInRowCheck",
+      description =
+          "If a mutation round is unsuccessfull (i.e. sought-for bug does not occur), "
+              + "the mutation is rollbacked. If this count of rollbacks occur in row, "
+              + "check that rollbacked CFA produces the sought-for bug.\n"
+              + "If set to 0, do not check any rollbacks.\n"
+              + "If set to 1, check that bug occurs after every rollback.\n"
+              + "If set to 2, check every other one that occurs immediately after "
+              + "another one, so if 5 rollbacks occur in a row, 2nd and 4th "
+              + "will be checked. And so on.")
+  private int checkAfterRollbacks = 0;
+
   private CFAMutator cfaMutator;
   private CFAMutatorStatistics statistics;
   private AlgorithmStatus statusDoneOrUnknown;
@@ -132,7 +146,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
   private int round = 0;
   private int rollbacksInRow = 0;
 
-  private LogManager roundLogger;
+  private Configuration subroundConfig;
+  private LogManager subroundLogger;
 
   public CFAMutatingAlgorithm(
       Configuration pConfig,
@@ -143,8 +158,8 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier, pSpecification);
     originalCfa = pCfa;
-    configManager = new FileAndConfigManager(pConfig, pLogger);
     timeManager = new TimeManager(globalConfig, logger);
+    configManager = new FileAndConfigManager(globalConfig, logger, timeManager);
   }
 
   public void setCfaMutator(CFAMutator pCfaMutator) {
@@ -175,15 +190,22 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     logger.log(Level.INFO, cfaMutator.getApproachName());
 
     try {
+      subroundConfig = configManager.getConfigBeforeMutations();
+      subroundLogger = BasicLogManager.create(subroundConfig);
+      cfaMutator.setLogger(subroundLogger);
       // run analysis of the original cfa
       statistics.startOriginalTime();
-      configManager.resetExportDirectoryToOriginalRound();
       runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSet, originalCfa);
       originalCfa = null; // no need to store it anymore
+
     } catch (InterruptedException e) {
       // originalResult == null
       // not enough time even for one run
       return statusDoneOrUnknown;
+
+    } catch (InvalidConfigurationException e) {
+      throw new CPAException("Invalid configuration", e);
+
     } finally {
       statistics.stopOriginalTime();
     }
@@ -218,12 +240,18 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     timeManager.setOriginalTime(statistics.getOriginalTime());
 
     try {
+      resetToNextRound();
+
       while (cfaMutator.canMutate()) {
+
         Optional<AlgorithmStatus> roundStatus =
-            mutateAnalyzeCheckRollback(forwardingReachedSet, aggregatedReachedSet);
+            doRound(forwardingReachedSet, aggregatedReachedSet);
+
         if (roundStatus.isPresent()) {
           return roundStatus.get();
         }
+
+        resetToNextRound();
       }
 
     } catch (InterruptedException e) {
@@ -238,15 +266,19 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     return statusDoneOrUnknown;
   }
 
-  private Optional<AlgorithmStatus> mutateAnalyzeCheckRollback(
+  private void resetToNextRound() throws InvalidConfigurationException {
+    round++;
+    logger.log(Level.INFO, "Mutation round", round);
+    subroundConfig = configManager.getConfigAfterMutation(round);
+    subroundLogger = BasicLogManager.create(subroundConfig);
+    cfaMutator.setLogger(subroundLogger);
+  }
+
+  private Optional<AlgorithmStatus> doRound(
       ForwardingReachedSet pForwardingReachedSet, AggregatedReachedSets pAggregatedReachedSet)
       throws InterruptedException, InvalidConfigurationException, ParserException {
 
     shutdownNotifier.shutdownIfNecessary();
-
-    round++;
-    logger.log(Level.INFO, "Mutation round", round);
-    configManager.resetExportDirectoryToMutationRound(round);
 
     CFA cfa = cfaMutator.mutate();
     AnalysisResult delegateResult = null;
@@ -288,14 +320,28 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     try {
       // check mutated CEX against original CFA
-      logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
-      configManager.resetExportDirectoryToFeasibilityCheckAfterRound(round);
       DelegatingCheckerWithRestoredFunctions cexChecker;
 
       try {
-        cexChecker = createCexCheckerAndStartLimits(pCfa);
+        logger.log(Level.INFO, "Found a counterexample. Checking it on original program.");
+        subroundConfig = configManager.getConfigForCexFeasibilityCheck(round);
+        subroundLogger = BasicLogManager.create(subroundConfig);
+        cfaMutator.setLogger(subroundLogger);
+
+        ShutdownManager fMan = ShutdownManager.createWithParent(shutdownNotifier);
+        timeManager.startCheckLimits(subroundLogger, fMan);
+
+        cexChecker =
+            new DelegatingCheckerWithRestoredFunctions(
+                subroundConfig,
+                subroundLogger,
+                pCfa,
+                fMan,
+                timeManager.getCheckerType(),
+                cfaMutator);
+
       } catch (InvalidConfigurationException e) {
-        roundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
+        subroundLogger.logException(Level.WARNING, e, "Cannot create CEX checker");
         logger.logUserException(Level.WARNING, e, "Cannot check feasibility");
         return Optional.empty();
       }
@@ -342,25 +388,12 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
   }
 
-  private DelegatingCheckerWithRestoredFunctions createCexCheckerAndStartLimits(CFA pCfa)
-      throws InvalidConfigurationException {
-
-    Configuration roundConfig =
-        configManager.createRoundConfig(round, timeManager.createFeasibilityCheckOptions());
-    roundLogger = BasicLogManager.create(roundConfig);
-    ShutdownManager fMan = ShutdownManager.createWithParent(shutdownNotifier);
-    timeManager.startCheckLimits(roundLogger, fMan);
-
-    return new DelegatingCheckerWithRestoredFunctions(
-        roundConfig, roundLogger, pCfa, fMan, timeManager.getCheckerType(), cfaMutator);
-  }
-
   private boolean checkFeasibilityOfErrorState(
       CounterexampleChecker pCexChecker, ARGState pRootState, ARGState pErrorState)
       throws InterruptedException {
 
     shutdownNotifier.shutdownIfNecessary();
-    roundLogger.log(
+    subroundLogger.log(
         Level.FINE,
         "Path to error state",
         pErrorState.getClass().getSimpleName(),
@@ -374,7 +407,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     // if (ambigiousARG) {
     // statesOnErrorPath = SlicingAbstractionsUtils.getStatesOnErrorPath(errorState);
     ImmutableSet<ARGState> statesOnErrorPath = ARGUtils.getAllStatesOnPathsTo(pErrorState);
-    roundLogger.log(
+    subroundLogger.log(
         Level.FINE,
         "Paths include states ",
         MoreStrings.lazyString(
@@ -383,15 +416,15 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     try {
       if (pCexChecker.checkCounterexample(pRootState, pErrorState, statesOnErrorPath)) {
         logger.log(Level.INFO, "Error path confirmed by counterexample check");
-        roundLogger.log(Level.INFO, "Error path confirmed by counterexample check");
+        subroundLogger.log(Level.INFO, "Error path confirmed by counterexample check");
         return true;
       }
-      roundLogger.log(Level.FINE, "This error path identified as infeasible.");
+      subroundLogger.log(Level.FINE, "This error path identified as infeasible.");
 
     } catch (CounterexampleAnalysisFailed e) {
       logger.logUserException(
           Level.WARNING, e, "Counterexample found, but feasibility could not be verified");
-      roundLogger.logException(
+      subroundLogger.logException(
           Level.WARNING, e, "Counterexample found, but feasibility could not be verified");
 
     } catch (InterruptedException e) {
@@ -400,7 +433,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       }
       // this feasibility check was too long
       logger.log(Level.INFO, "Feasibility check interrupted:", e.getMessage());
-      roundLogger.logException(Level.WARNING, e, "Feasibility check interrupted");
+      subroundLogger.logException(Level.WARNING, e, "Feasibility check interrupted");
     }
 
     return false;
@@ -413,19 +446,20 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       throws InterruptedException, InvalidConfigurationException, ParserException {
 
     shutdownNotifier.shutdownIfNecessary();
-    configManager.resetExportDirectoryToRollbackAfterRound(round);
+    subroundConfig = configManager.getConfigAfterRollback(round);
+    subroundLogger = BasicLogManager.create(subroundConfig);
+    cfaMutator.setLogger(subroundLogger);
 
     CFA cfa = cfaMutator.setResult(pOutcome);
 
-    if (cfa == null
-        || configManager.getCheckAfterRollbacks() == 0
-        || ++rollbacksInRow % configManager.getCheckAfterRollbacks() != 0) {
+    if (cfa == null || checkAfterRollbacks == 0 || ++rollbacksInRow % checkAfterRollbacks != 0) {
       return;
     }
 
     try {
-      statistics.startTimeAfterRollback();
       logger.log(Level.INFO, "Running analysis after", rollbacksInRow, "mutation rollback in row");
+      statistics.startTimeAfterRollback();
+
       // Check that property is still preserved after rollback
       AnalysisResult delegateResult =
           runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSets, cfa);
@@ -462,22 +496,18 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     shutdownNotifier.shutdownIfNecessary();
 
     try {
-      Configuration roundConfig =
-          configManager.createRoundConfig(round, timeManager.getRoundLimitOptionsForAnalysis());
-      roundLogger = BasicLogManager.create(roundConfig);
-
       ShutdownManager roundShutdownManager = ShutdownManager.createWithParent(shutdownNotifier);
-      timeManager.startAnalysisLimits(roundShutdownManager, roundLogger);
+      timeManager.startAnalysisLimits(roundShutdownManager, subroundLogger);
 
       CoreComponentsFactory factory =
           new CoreComponentsFactory(
-              roundConfig, roundLogger, roundShutdownManager.getNotifier(), pAggregatedReachedSets);
+              subroundConfig, subroundLogger, roundShutdownManager.getNotifier(), pAggregatedReachedSets);
 
       Pair<Algorithm, ReachedSet> pair = createAlgorithmCpaAndReachedAndStartLimits(factory, pCfa);
       Algorithm algorithm = pair.getFirst();
       reached = pair.getSecond();
 
-      roundLogger.log(Level.INFO, "Starting analysis ...");
+      subroundLogger.log(Level.INFO, "Starting analysis ...");
       int counterExampleCount = 0;
 
       do {
@@ -501,12 +531,12 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           && reached.hasWaitingState()
           && (cexLimit == 0 || cexLimit > counterExampleCount));
 
-      roundLogger.log(Level.INFO, "Stopping analysis ...");
+      subroundLogger.log(Level.INFO, "Stopping analysis ...");
 
     } catch (InvalidConfigurationException e) {
       t = e;
       logger.log(Level.INFO, "Cannot create delegate algorithm:", e.getMessage());
-      roundLogger.logException(Level.WARNING, e, "Cannot create delegate algorithm");
+      subroundLogger.logException(Level.WARNING, e, "Cannot create delegate algorithm");
 
     } catch (InterruptedException e) {
       if (shutdownNotifier.shouldShutdown()) {
@@ -517,7 +547,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       // this round was too long
       t = e;
       logger.log(Level.INFO, "Timeout:", e.getMessage());
-      roundLogger.logException(Level.WARNING, e, "Analysis round interrupted");
+      subroundLogger.logException(Level.WARNING, e, "Analysis round interrupted");
 
     } catch (AssertionError
         | IllegalArgumentException
@@ -534,7 +564,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       if (e.getStackTrace().length == 0) {
         // too many same exceptions were thrown, it's JVM optimization
         logger.logf(Level.INFO, "Recurring %s (no stack trace)", e.getClass());
-        roundLogger.logf(Level.WARNING, "Recurring %s (no stack trace)", e.getClass());
+        subroundLogger.logf(Level.WARNING, "Recurring %s (no stack trace)", e.getClass());
       } else {
         // so benchexec wont say EXCEPTION in the results table just because an exception occured
         String exceptionClassName = e.getClass().getSimpleName();
@@ -546,7 +576,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         } else {
           logger.logf(Level.INFO, "%s: %s", exceptionClassName, e.getMessage());
         }
-        roundLogger.logException(Level.WARNING, e, null);
+        subroundLogger.logException(Level.WARNING, e, null);
       }
     } finally {
       timeManager.cancelLimits();
@@ -557,7 +587,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         new AnalysisResult(status, t, reached, unknownAsTrue);
     if (t == null) { // exception was already logged
       logger.log(Level.INFO, delegateResult.getDescription());
-      roundLogger.log(Level.INFO, delegateResult.getDescription());
+      subroundLogger.log(Level.INFO, delegateResult.getDescription());
     }
     return delegateResult;
   }
@@ -570,7 +600,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     GlobalInfo.getInstance().setUpInfoFromCPA(cpa);
     Algorithm algorithm = pFactory.createAlgorithm(cpa, pCfa, specification);
 
-    roundLogger.log(Level.FINE, "Creating initial reached set");
+    subroundLogger.log(Level.FINE, "Creating initial reached set");
 
     AbstractState initialState =
         cpa.getInitialState(pCfa.getMainFunction(), StateSpacePartition.getDefaultPartition());
@@ -881,33 +911,37 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     @Option(
         secure = true,
         description = "Whether to export each round in different subdirectories.")
-    private boolean writeRoundsToDifferentDirectories = false;
+    private boolean useDifferentDirectories = false;
 
-    @Option(
-        secure = true,
-        name = "rollbacksInRowCheck",
-        description =
-            "If a mutation round is unsuccessfull (i.e. sought-for bug does not occur), "
-                + "the mutation is rollbacked. If this count of rollbacks occur in row, "
-                + "check that rollbacked CFA produces the sought-for bug.\n"
-                + "If set to 0, do not check any rollbacks.\n"
-                + "If set to 1, check that bug occurs after every rollback.\n"
-                + "If set to 2, check every other one that occurs immediately after "
-                + "another one, so if 5 rollbacks occur in a row, 2nd and 4th "
-                + "will be checked. And so on.")
-    private int checkAfterRollbacks = 5;
+    @Option(description = "subdirectory of the original analysis round")
+    private String directoryForOriginalRound = "0-original-round";
+
+    @Option(description = "subdirectory template for subsequent mutation rounds")
+    private String directoryForMutationRound = "%d-mutation-round";
+
+    @Option(description = "subdirectory template for subsequent mutation rounds")
+    private String directoryForFeasibilityCheck = "%d-mutation-round-feasibility";
+
+    @Option(description = "subdirectory template for subsequent mutation rounds")
+    private String directoryAfterRollback = "%d-mutation-round-rollback";
 
     private final Configuration globalConfig;
     private final LogManager globalLogger;
+    private final TimeManager timeManager;
+
     private final Path defaultOutputDirectory;
     private Path currentOutputDirectory;
     private final boolean disableOutput;
 
+    private Configuration configAfterMutation;
+    private Configuration configForCexCheck;
+
     @SuppressWarnings("deprecation")
-    FileAndConfigManager(Configuration pConfig, LogManager pLogger)
+    FileAndConfigManager(Configuration pConfig, LogManager pLogger, TimeManager pTimeManager)
         throws InvalidConfigurationException {
       globalConfig = pConfig;
       globalLogger = pLogger;
+      timeManager = pTimeManager;
       globalConfig.inject(this, FileAndConfigManager.class);
 
       FileTypeConverter ftc =
@@ -921,32 +955,12 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           rankedNodesFile == null ? null : defaultOutputDirectory.relativize(rankedNodesFile);
     }
 
-    int getCheckAfterRollbacks() {
-      return checkAfterRollbacks;
-    }
-
     void resetExportDirectoryToDefault() {
       resetExportDirectory("");
     }
 
-    void resetExportDirectoryToOriginalRound() {
-      resetExportDirectory("0-original-round");
-    }
-
-    void resetExportDirectoryToMutationRound(int round) {
-      resetExportDirectory(String.valueOf(round) + "-mutation-round");
-    }
-
-    void resetExportDirectoryToRollbackAfterRound(int round) {
-      resetExportDirectory(String.valueOf(round) + "-mutation-round-rollback");
-    }
-
-    void resetExportDirectoryToFeasibilityCheckAfterRound(int round) {
-      resetExportDirectory(String.valueOf(round) + "-mutation-round-feasibility");
-    }
-
-    void resetExportDirectory(String pResolution) {
-      if (!writeRoundsToDifferentDirectories && !pResolution.isEmpty()) {
+    private void resetExportDirectory(String pResolution) {
+      if (!useDifferentDirectories && !pResolution.isEmpty()) {
         return;
       }
       currentOutputDirectory = defaultOutputDirectory.resolve(pResolution);
@@ -960,11 +974,54 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         Configuration.getDefaultConverters().put(FileOption.class, fileTypeConverter);
       } catch (InvalidConfigurationException e) {
         globalLogger.logUserException(Level.WARNING, e, "Cannot reset output directory:");
-        writeRoundsToDifferentDirectories = false;
+        useDifferentDirectories = false;
       }
     }
 
-    Configuration createRoundConfig(int pRound, Map<String, String> pLimits)
+    Configuration getConfigBeforeMutations() throws InvalidConfigurationException {
+      resetExportDirectory(directoryForOriginalRound);
+      return createRoundConfig(0, timeManager.getRoundLimitOptionsForAnalysis());
+    }
+
+    Configuration getConfigAfterMutation(int pRound) throws InvalidConfigurationException {
+      resetExportDirectory(String.format(directoryForMutationRound, pRound));
+
+      if (configAfterMutation != null) {
+        ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
+        builder.addConverter(
+            FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
+        return builder.build();
+      }
+
+      configAfterMutation =
+          createRoundConfig(pRound, timeManager.getRoundLimitOptionsForAnalysis());
+      return configAfterMutation;
+    }
+
+    Configuration getConfigAfterRollback(int pRound) throws InvalidConfigurationException {
+      resetExportDirectory(String.format(directoryAfterRollback, pRound));
+
+      ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
+      builder.addConverter(
+          FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
+      return builder.build();
+    }
+
+    Configuration getConfigForCexFeasibilityCheck(int pRound) throws InvalidConfigurationException {
+      resetExportDirectory(String.format(directoryForFeasibilityCheck, pRound));
+
+      if (configForCexCheck != null) {
+        ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
+        builder.addConverter(
+            FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
+        return builder.build();
+      }
+
+      configForCexCheck = createRoundConfig(pRound, timeManager.createFeasibilityCheckOptions());
+      return configForCexCheck;
+    }
+
+    private Configuration createRoundConfig(int pRound, Map<String, String> pLimits)
         throws InvalidConfigurationException {
 
       ConfigurationBuilder builder = Configuration.builder().copyFrom(globalConfig);

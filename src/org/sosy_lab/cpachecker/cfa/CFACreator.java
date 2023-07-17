@@ -345,7 +345,7 @@ public class CFACreator {
   private final Parser parser;
   protected CFACreatorStatistics stats;
   protected final Configuration config;
-  protected final LogManager logger;
+  protected LogManager logger;
   protected final ShutdownNotifier shutdownNotifier;
 
   private static final String EXAMPLE_JAVA_METHOD_NAME =

@@ -325,6 +325,15 @@ public class CFAMutator extends CFACreator {
   @TimeSpanOption(codeUnit = TimeUnit.SECONDS, defaultUserUnit = TimeUnit.SECONDS, min = 0)
   private TimeSpan exportTimelimit = TimeSpan.ofSeconds(2);
 
+  @Option(secure = true, description = "Whether to export each round in different subdirectories.")
+  private boolean useDifferentDirectories = false;
+
+  @Option(description = "subdirectory of the original analysis round")
+  private String directoryForOriginalRound = "0-original-round";
+
+  private final Path mainExportDirectory;
+  private final String cfaExportSubdirectory;
+
   boolean exportWasTooLong = false;
 
   /** local CFA of functions before processing */
@@ -335,18 +344,32 @@ public class CFAMutator extends CFACreator {
   private final CFAMutatorStatistics mutatorStats;
 
   private enum CanMutate {
+    NEVER_MUTATED,
     CAN_MUTATE,
     CAN_NOT_MUTATE,
     UNKNOWN;
   }
 
-  private CanMutate strategyCanMutate = CanMutate.UNKNOWN;
+  private CanMutate strategyCanMutate = CanMutate.NEVER_MUTATED;
 
   public CFAMutator(Configuration pConfig, LogManager pLogger, ShutdownNotifier pShutdownNotifier)
       throws InvalidConfigurationException {
     super(pConfig, pLogger, pShutdownNotifier);
     config.inject(this, CFAMutator.class);
     mutatorStats = new CFAMutatorStatistics(pLogger);
+
+    FileTypeConverter ftc =
+        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
+    mainExportDirectory = ftc.getOutputPath();
+
+    if (exportDirectory != null) {
+      cfaExportSubdirectory = exportDirectory.relativize(mainExportDirectory).toString();
+      if (useDifferentDirectories) {
+        exportDirectory = mainExportDirectory.resolve(directoryForOriginalRound);
+      }
+    } else {
+      cfaExportSubdirectory = null;
+    }
 
     if (ddVariant == DDVariant.OLD) {
       // use previous impl
@@ -424,19 +447,22 @@ public class CFAMutator extends CFACreator {
     }
   }
 
-  private boolean startExport() {
-    exportDirectory = getCurrentExportDirectory();
-    if (exportDirectory == null || exportWasTooLong) {
-      return false;
-    }
-    mutatorStats.startExport();
-    return true;
+  public void setLogger(LogManager pLogger) {
+    logger = pLogger;
   }
 
-  private Path getCurrentExportDirectory() {
-    FileTypeConverter ftc =
-        ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
-    return ftc.getOutputPath();
+  private boolean startExport() {
+    if (strategyCanMutate != CanMutate.NEVER_MUTATED) {
+      exportDirectory =
+          ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class))
+              .getOutputPath();
+    }
+    if (exportDirectory == null || cfaExportSubdirectory == null || exportWasTooLong) {
+      return false;
+    }
+    exportDirectory = exportDirectory.resolve(cfaExportSubdirectory);
+    mutatorStats.startExport();
+    return true;
   }
 
   private void stopExport() {
@@ -511,8 +537,10 @@ public class CFAMutator extends CFACreator {
   }
 
   public boolean canMutate() {
-    if (strategyCanMutate != CanMutate.UNKNOWN) {
-      return strategyCanMutate == CanMutate.CAN_MUTATE;
+    if (strategyCanMutate == CanMutate.CAN_MUTATE) {
+      return true;
+    } else if (strategyCanMutate == CanMutate.CAN_NOT_MUTATE) {
+      return false;
     }
 
     // clear processings before first #canMutate and after rollbacks
