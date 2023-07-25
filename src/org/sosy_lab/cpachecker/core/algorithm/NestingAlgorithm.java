@@ -110,6 +110,7 @@ public abstract class NestingAlgorithm implements Algorithm, StatisticsProvider 
     // TODO next line overrides existing options with options loaded from file.
     // Perhaps we want to keep some global options like 'specification'?
     singleConfigBuilder.loadFromFile(singleConfigFileName);
+    singleConfigBuilder.copyOptionFromIfPresent(globalConfig, "specification");
 
     Configuration singleConfig = singleConfigBuilder.build();
     checkConfigs(globalConfig, singleConfig, singleConfigFileName, logger);
