@@ -13,6 +13,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.io.PrintStream;
+import javax.management.JMException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.time.TimeSpan;
@@ -23,6 +24,7 @@ import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.defaults.MultiStatistics;
 import org.sosy_lab.cpachecker.core.interfaces.Statistics;
 import org.sosy_lab.cpachecker.core.reachedset.UnmodifiableReachedSet;
+import org.sosy_lab.cpachecker.util.resources.ProcessCpuTime;
 import org.sosy_lab.cpachecker.util.statistics.StatCounter;
 import org.sosy_lab.cpachecker.util.statistics.StatInt;
 import org.sosy_lab.cpachecker.util.statistics.StatKind;
@@ -140,6 +142,8 @@ public class CFAMutatorStatistics extends MultiStatistics {
 
   private Statistics lastRoundStats = null;
   private boolean lastRoundIsOriginalRound;
+
+  private long originalCpuTime;
 
   public void setLastRoundStatistics(Statistics pStats, boolean pOriginalRound) {
     lastRoundStats = pStats;
@@ -359,16 +363,38 @@ public class CFAMutatorStatistics extends MultiStatistics {
     feasibilityCheck.stop();
   }
 
-  public void startOriginalTime() {
+  public void startOriginalTime(boolean pWithCpuTime) {
     originalTime.start();
+    if (!pWithCpuTime) {
+      originalCpuTime = -1;
+      return;
+    }
+    try {
+      originalCpuTime = ProcessCpuTime.read();
+    } catch (JMException e) {
+      throw new AssertionError("CPU time expected to work properly", e);
+    }
   }
 
   public void stopOriginalTime() {
     originalTime.stop();
+    if (originalCpuTime == -1) {
+      return;
+    }
+    try {
+      originalCpuTime = ProcessCpuTime.read() - originalCpuTime;
+    } catch (JMException e) {
+      throw new AssertionError("CPU time expected to work properly", e);
+    }
   }
 
-  public TimeSpan getOriginalTime() {
+  public TimeSpan getOriginalWalltime() {
     return originalTime.getConsumedTime();
+  }
+
+  public TimeSpan getOriginalCpuTime() {
+    assert originalCpuTime > 0 : "CPU time was not measured";
+    return TimeSpan.ofNanos(originalCpuTime);
   }
 
   public void startTimeAfterMutations() {

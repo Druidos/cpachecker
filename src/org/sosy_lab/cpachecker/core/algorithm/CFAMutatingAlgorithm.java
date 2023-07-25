@@ -194,7 +194,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       subroundLogger = BasicLogManager.create(subroundConfig);
       cfaMutator.setLogger(subroundLogger);
       // run analysis of the original cfa
-      statistics.startOriginalTime();
+      statistics.startOriginalTime(timeManager.doUseCpuTimeLimit());
       runDelegateAnalysis(forwardingReachedSet, aggregatedReachedSet, originalCfa);
       originalCfa = null; // no need to store it anymore
 
@@ -237,7 +237,7 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       return AnalysisResult.original.getStatus();
     }
 
-    timeManager.setOriginalTime(statistics.getOriginalTime());
+    timeManager.setOriginalTime(statistics);
 
     try {
       resetToNextRound();
@@ -706,7 +706,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     private final LogManager globalLogger;
 
-    private TimeSpan originalRun;
     private TimeSpan lowercap;
 
     // XXX {@link RestartingAlgorithm} forgets running limits, is it ok?
@@ -742,15 +741,25 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       useCpuTimeLimit = t == null;
     }
 
+    boolean doUseCpuTimeLimit() {
+      return useCpuTimeLimit;
+    }
+
     CounterexampleCheckerType getCheckerType() {
       return checkerType;
     }
 
-    void setOriginalTime(TimeSpan pConsumedTime) {
-      Preconditions.checkState(originalRun == null);
-      originalRun = pConsumedTime;
+    void setOriginalTime(CFAMutatorStatistics pStatistics) {
+      TimeSpan originalTime = pStatistics.getOriginalWalltime();
+      if (useCpuTimeLimit) {
+        TimeSpan originalCpuTime = pStatistics.getOriginalCpuTime();
+        if (originalTime.compareTo(originalCpuTime) <= 0) {
+          originalTime = originalCpuTime;
+        }
+      }
 
-      double softcap = originalRun.asMillis() * timelimitFactor + timelimitBias.asMillis();
+      double softcap = originalTime.asMillis() * timelimitFactor + timelimitBias.asMillis();
+
       if (softcap < hardcap.asMillis()) {
         lowercap = TimeSpan.ofMillis((long) softcap);
       }
