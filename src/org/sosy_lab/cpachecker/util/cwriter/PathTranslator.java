@@ -187,10 +187,6 @@ public abstract class PathTranslator {
   void processEdge(ARGState childElement, CFAEdge edge, Deque<FunctionBody> functionStack) {
     FunctionBody currentFunction = functionStack.peek();
 
-    if (childElement.isTarget()) {
-      currentFunction.write(getTargetState());
-    }
-
     // handle the edge
 
     if (edge instanceof CFunctionCallEdge) {
@@ -208,6 +204,13 @@ public abstract class PathTranslator {
 
     } else {
       currentFunction.write(processSimpleEdge(edge, currentFunction.getCurrentBlock()));
+    }
+
+    // target is after the edge
+    // it can be after function return (e.g. local memory leak)
+    if (childElement.isTarget()) {
+      currentFunction = functionStack.peek();
+      currentFunction.write(getTargetState());
     }
   }
 
