@@ -72,12 +72,14 @@ import org.sosy_lab.cpachecker.core.reachedset.ForwardingReachedSet;
 import org.sosy_lab.cpachecker.core.reachedset.ReachedSet;
 import org.sosy_lab.cpachecker.core.reachedset.ResultProviderReachedSet;
 import org.sosy_lab.cpachecker.core.specification.Specification;
+import org.sosy_lab.cpachecker.cpa.arg.ARGCPA;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.cpa.arg.ARGUtils;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
+import org.sosy_lab.cpachecker.util.CPAs;
 import org.sosy_lab.cpachecker.util.Pair;
 import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
 import org.sosy_lab.cpachecker.util.resources.ProcessCpuTime;
@@ -316,6 +318,15 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
     }
 
     shutdownNotifier.shutdownIfNecessary();
+
+    @Nullable ARGCPA argCpa = CPAs.retrieveCPA(pForwardingReachedSet.getCPA(), ARGCPA.class);
+    if (argCpa == null) {
+      logger.log(Level.WARNING, "Cannot export found False, as ARG CPA is not in the CPAs");
+    } else {
+      logger.log(Level.INFO, "Exporting ARG for the mutated CFA after found False");
+      argCpa.getARGExporter().writeOutputFiles(Result.FALSE, pForwardingReachedSet);
+    }
+
     statistics.startFeasilityCheck();
 
     try {
@@ -362,21 +373,25 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         try {
           isFeasible = checkFeasibilityOfErrorState(cexChecker, rootState, errorState);
         } catch (InterruptedException e) {
-          assert shutdownNotifier.shouldShutdown()
-              : "Feasibility check interrupted, expected global timeout";
-          throw e;
+          if (shutdownNotifier.shouldShutdown()) {
+            throw e;
+          }
+          logger.log(Level.INFO, "Feasibility check interrupted:", e.getMessage());
+          return Optional.empty();
         }
 
-        if (isFeasible) {
-          if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
-            CPAcheckerResult cexCheckResult =
-                ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
-            pForwardingReachedSet.setDelegate(cexCheckResult.getReached());
-            Statistics mainCpaStatisticsOfFeasibilityCheck = cexCheckResult.getStatistics();
-            statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
-          }
-          return Optional.of(AlgorithmStatus.UNSOUND_AND_PRECISE);
+        if (!isFeasible) {
+          continue;
         }
+
+        if (cexChecker.getDelegate() instanceof CexAsProgramCPAchecker) {
+          CPAcheckerResult cexCheckResult =
+              ((CexAsProgramCPAchecker) cexChecker.getDelegate()).getResult();
+          pForwardingReachedSet.setDelegate(cexCheckResult.getReached());
+          Statistics mainCpaStatisticsOfFeasibilityCheck = cexCheckResult.getStatistics();
+          statistics.setLastRoundStatistics(mainCpaStatisticsOfFeasibilityCheck, false);
+        }
+        return Optional.of(AlgorithmStatus.UNSOUND_AND_PRECISE);
       }
 
       logger.log(Level.INFO, "No feasible error path found");

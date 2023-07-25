@@ -34,11 +34,14 @@ import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.util.cwriter.PathToCForCpacheckerTranslator;
 
 /** Exports C code as for CBMC, checks the program as usual CPAchecker. */
-@Options(prefix = "cfaMutation.cex.checker")
+@Options
 public class CexAsProgramCPAchecker extends CounterexampleChecker {
   private final CPAchecker cpachecker;
 
-  @Option(secure = true, name = "file", description = "file to dump counterexample to")
+  @Option(
+      secure = true,
+      name = "counterexample.checker.restoredCexFileFromMutatedCfa",
+      description = "file to dump counterexample to")
   @FileOption(FileOption.Type.OUTPUT_FILE)
   private PathTemplate fileTemplate =
       PathTemplate.ofFormatString("counterexample-with-restored-functions.%d.c");
@@ -85,13 +88,16 @@ public class CexAsProgramCPAchecker extends CounterexampleChecker {
       case NOT_YET_STARTED:
       case UNKNOWN:
         Throwable t = cpacheckerResult.getThrown();
-        if (t != null) {
+        if (t == null) {
+          throw new CounterexampleAnalysisFailed("Mutated CEX feasibility is unknown");
+        } else if (t instanceof InterruptedException) {
+          throw (InterruptedException) t;
+        } else {
           throw new CounterexampleAnalysisFailed("Restored mutated CEX has a problem", t);
         }
-        throw new CounterexampleAnalysisFailed("Mutated CEX feasibility is unknown");
 
       case DONE:
-        throw new CounterexampleAnalysisFailed("Counterexample was not analyzed");
+        throw new CounterexampleAnalysisFailed("Properties of the counterexample were not checked");
 
       default:
         throw new AssertionError("Unexpected result case: " + cpacheckerResult.getResult());

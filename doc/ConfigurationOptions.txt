@@ -928,9 +928,6 @@ cfaMutation.cex.checker = CPACHECKER
 # defaults to same configuration that found CEX.
 cfaMutation.cex.checker.config = no default value
 
-# file to dump counterexample to
-cfaMutation.cex.checker.file = "counterexample-with-restored-functions.%d.c"
-
 # Limit time for countrexample feasibility check. This option is used only if
 # CFA mutations are used to find a feasible error. As with analysis
 # timelimit, wall and (if possible) CPU time limits will be produced with
@@ -1183,6 +1180,9 @@ counterexample.checker.forceCEXChange = false
 # for the counterexample check. A temporary file is used if this is
 # unspecified.
 counterexample.checker.path.file = no default value
+
+# file to dump counterexample to
+counterexample.checker.restoredCexFileFromMutatedCfa = "counterexample-with-restored-functions.%d.c"
 
 # The file in which the generated C code is saved. Specify a path template
 # with %d to save a file for each CEX checked: %d will be replaced with CEX
