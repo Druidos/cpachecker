@@ -650,6 +650,16 @@ public class CPAchecker {
           && (cexLimit == 0 || cexLimit > counterExampleCount));
 
       logger.log(Level.INFO, "Stopping analysis ...");
+      if (counterExampleCount > 0) {
+        logger.logf(Level.FINE, "%d counterexamples were found.", counterExampleCount);
+      }
+      if (!reached.hasWaitingState()) {
+        logger.log(Level.FINE, "All states were covered.");
+      } else if (cfaMutation) {
+        logger.log(Level.FINE, "Run once due to cfaMutation=true.");
+      } else if (stopAfterError) {
+        logger.log(Level.FINE, "Run once due to stopAfterError=true.");
+      }
       return status;
 
     } finally {
