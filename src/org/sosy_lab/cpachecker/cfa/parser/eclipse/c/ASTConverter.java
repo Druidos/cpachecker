@@ -1515,7 +1515,18 @@ class ASTConverter {
 
           // In case of pointers inside field references that refer to inner fields
           // the CDT type is not as we want it, thus we resolve the type on our own.
+
           CType type = operandType;
+          if (type instanceof CProblemType) {
+            logger.logf(
+                Level.WARNING,
+                "%s: Dereferencing of CProblemType in expression %s",
+                fileLoc,
+                e.getRawSignature());
+            type = typeConverter.convert(e.getExpressionType());
+            return simplifyUnaryPointerExpression(operand, fileLoc, type);
+          }
+
           int typeAligned = type.getAlignment().getTypeAligned();
           while (type instanceof CTypedefType) {
             type = ((CTypedefType) type).getRealType();
