@@ -20,6 +20,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.model.c.CFunctionCallEdge;
+import org.sosy_lab.cpachecker.core.counterexample.CFAPathWithAdditionalInfo;
 import org.sosy_lab.cpachecker.core.counterexample.CounterexampleInfo;
 import org.sosy_lab.cpachecker.core.interfaces.ConfigurableProgramAnalysis;
 import org.sosy_lab.cpachecker.core.interfaces.Refiner;
@@ -63,7 +64,7 @@ public class AbstractARGBasedRefiner implements Refiner, StatisticsProvider {
   public static Refiner create(ConfigurableProgramAnalysis pCpa)
       throws InvalidConfigurationException {
     return AbstractARGBasedRefiner.forARGBasedRefiner(
-        (rs, path) -> CounterexampleInfo.feasibleImprecise(path), pCpa);
+        (rs, path) -> CounterexampleInfo.feasibleImprecise(path, CFAPathWithAdditionalInfo.of(path, pCpa)), pCpa);
   }
 
   /** Create a {@link Refiner} instance from a {@link ARGBasedRefiner} instance. */
