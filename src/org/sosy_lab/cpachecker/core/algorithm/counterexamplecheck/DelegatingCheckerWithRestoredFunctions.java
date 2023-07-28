@@ -9,16 +9,21 @@
 package org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,7 +36,9 @@ import org.sosy_lab.common.io.TempFile.TempFileBuilder;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.CFA;
 import org.sosy_lab.cpachecker.cfa.Language;
+import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
 import org.sosy_lab.cpachecker.cfa.model.CFANode;
+import org.sosy_lab.cpachecker.cfa.model.FunctionCallEdge;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cfa.mutation.CFAMutator;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
@@ -41,6 +48,8 @@ import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.exceptions.CounterexampleAnalysisFailed;
 import org.sosy_lab.cpachecker.exceptions.ParserException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
+import org.sosy_lab.cpachecker.util.CFATraversal;
+import org.sosy_lab.cpachecker.util.CFATraversal.TraversalProcess;
 import org.sosy_lab.cpachecker.util.LiveVariables;
 import org.sosy_lab.cpachecker.util.LoopStructure;
 import org.sosy_lab.cpachecker.util.cwriter.CFAToCTranslator;
@@ -158,8 +167,46 @@ public class DelegatingCheckerWithRestoredFunctions extends CounterexampleChecke
     AdditionalFunctionsCFA(CFA pRestoredCfa, ImmutableSet<String> pAlreadyPresentFunctions) {
       assert pRestoredCfa.getAllFunctionNames().containsAll(pAlreadyPresentFunctions);
       delegate = pRestoredCfa;
-      functions.putAll(pRestoredCfa.getAllFunctions());
-      functions.keySet().removeAll(pAlreadyPresentFunctions);
+
+      Multimap<String, String> fCalls =
+          MultimapBuilder.hashKeys(pRestoredCfa.getNumberOfFunctions()).hashSetValues().build();
+      CFATraversal.dfs()
+          .traverseOnce(
+              getMainFunction(),
+              new CFATraversal.DefaultCFAVisitor() {
+                @Override
+                public TraversalProcess visitEdge(CFAEdge pEdge) {
+                  if (pEdge instanceof FunctionCallEdge) {
+                    fCalls.put(
+                        pEdge.getPredecessor().getFunctionName(),
+                        pEdge.getSuccessor().getFunctionName());
+                  }
+                  return super.visitEdge(pEdge);
+                }
+              });
+
+      if (fCalls.keySet().size() < pRestoredCfa.getNumberOfFunctions()) {
+        // not all functions are reachable from main
+        // we do not add them to counterexample then
+      }
+
+      Set<String> seen = new HashSet<>(pRestoredCfa.getNumberOfFunctions());
+
+      Queue<String> waitlist = new ArrayDeque<>(pRestoredCfa.getAllFunctions().keySet());
+      waitlist.removeAll(pAlreadyPresentFunctions);
+
+      while (!waitlist.isEmpty()) {
+        String functionNotInCex = waitlist.poll();
+        if (!seen.add(functionNotInCex)) {
+          continue;
+        }
+        // FIXME check for adding main: clashes with CEX entry {@code int main {main_0();}}
+
+        // add functions not in CEX trace and functions that are called from added
+        // as even if counterexample contains those, it likely contains only some paths inside them
+        functions.put(functionNotInCex, pRestoredCfa.getFunctionHead(functionNotInCex));
+        waitlist.addAll(fCalls.get(functionNotInCex));
+      }
     }
 
     @Override
