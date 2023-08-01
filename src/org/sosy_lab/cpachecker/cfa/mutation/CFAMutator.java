@@ -30,6 +30,7 @@ import org.sosy_lab.common.configuration.Option;
 import org.sosy_lab.common.configuration.Options;
 import org.sosy_lab.common.configuration.TimeSpanOption;
 import org.sosy_lab.common.configuration.converters.FileTypeConverter;
+import org.sosy_lab.common.log.ForwardingLogManager;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.cpachecker.cfa.CFA;
@@ -352,11 +353,33 @@ public class CFAMutator extends CFACreator {
 
   private CanMutate strategyCanMutate = CanMutate.NEVER_MUTATED;
 
+  private static final class DelegatingLogManager extends ForwardingLogManager {
+    private LogManager delegate;
+
+    private DelegatingLogManager(LogManager pLogger) {
+      delegate = pLogger;
+    }
+
+    private void setDelegate(LogManager pLogger) {
+      delegate = pLogger;
+    }
+
+    @Override
+    protected LogManager delegate() {
+      return delegate;
+    }
+
+    @Override
+    public LogManager withComponentName(String pName) {
+      return delegate.withComponentName(pName);
+    }
+  }
+
   public CFAMutator(Configuration pConfig, LogManager pLogger, ShutdownNotifier pShutdownNotifier)
       throws InvalidConfigurationException {
-    super(pConfig, pLogger, pShutdownNotifier);
+    super(pConfig, new DelegatingLogManager(pLogger), pShutdownNotifier);
     config.inject(this, CFAMutator.class);
-    mutatorStats = new CFAMutatorStatistics(pLogger);
+    mutatorStats = new CFAMutatorStatistics(logger);
 
     FileTypeConverter ftc =
         ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
@@ -376,7 +399,7 @@ public class CFAMutator extends CFACreator {
       if (oldStrategies.isEmpty()) {
         throw new InvalidConfigurationException("No CFA mutation strategies were specified");
       }
-      strategy = buildOldStrategies(pConfig, pLogger);
+      strategy = buildOldStrategies(pConfig, logger);
       return;
     }
 
@@ -448,7 +471,7 @@ public class CFAMutator extends CFACreator {
   }
 
   public void setLogger(LogManager pLogger) {
-    logger = pLogger;
+    ((DelegatingLogManager) logger).setDelegate(pLogger);
   }
 
   private boolean startExport() {
