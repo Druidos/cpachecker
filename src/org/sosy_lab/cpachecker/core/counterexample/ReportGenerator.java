@@ -23,6 +23,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.io.Resources;
@@ -84,6 +85,7 @@ import org.sosy_lab.cpachecker.cpa.arg.witnessexport.WitnessExporter;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.WitnessToOutputFormatsUtils;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.BiPredicates;
+import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultLocalizationInfo;
 
 @Options
@@ -402,34 +404,60 @@ public class ReportGenerator {
     return Joiner.on(" && ").join(preconditionParts);
   }
 
+  private static void writeJSONString(Multimap<String, Object> edgeWithNotes, Writer writer)
+      throws IOException {
+    boolean first = true;
+    writer.append('{');
+    for (Map.Entry<String, Collection<Object>> entry : edgeWithNotes.asMap().entrySet()) {
+      if (first) {
+        first = false;
+      } else {
+        writer.write(", ");
+      }
+
+      JSON.writeJSONString(entry.getKey(), writer);
+      writer.write(": ");
+
+      if (entry.getKey().equals(KeyDef.NOTE.toString())) {
+        JSON.writeJSONString(Joiner.on("\\n").join(entry.getValue()), writer);
+      } else {
+        JSON.writeJSONString(Iterables.getOnlyElement(entry.getValue()).toString(), writer);
+      }
+    }
+    writer.write('}');
+  }
+
   private void insertArgJson(Writer writer) throws IOException {
     writer.write("var argJson = {");
     if (!argNodes.isEmpty() && !argEdges.isEmpty()) {
       writer.write("\n\"nodes\":");
       JSON.writeJSONString(argNodes.values(), writer);
-      writer.write(",\n\"edges\":");
+      writer.write(",\n\"edges\": [");
       for (Multimap<String, Object> edge : argEdges.values()) {
-        JSON.writeJSONString(edge.asMap(), writer);
+        writeJSONString(edge, writer);
+        writer.write(", ");
       }
-      writer.write("\n");
+      writer.write("]\n");
     }
     if (!argRelevantEdges.isEmpty() && !argRelevantNodes.isEmpty()) {
       writer.write(",\n\"relevantnodes\":");
       JSON.writeJSONString(argRelevantNodes.values(), writer);
-      writer.write(",\n\"relevantedges\":");
+      writer.write(",\n\"relevantedges\": [");
       for (Multimap<String, Object> relevantEdge : argRelevantEdges.values()) {
-        JSON.writeJSONString(relevantEdge.asMap(), writer);
+        writeJSONString(relevantEdge, writer);
+        writer.write(", ");
       }
-      writer.write("\n");
+      writer.write("]\n");
     }
     if (!argReducedEdges.isEmpty() || !argReducedNodes.isEmpty()) {
       writer.write(",\n\"reducednodes\":");
       JSON.writeJSONString(argReducedNodes.values(), writer);
-      writer.write(",\n\"reducededges\":");
+      writer.write(",\n\"reducededges\": [");
       for (Multimap<String, Object> reducedEdge : argReducedEdges.values()) {
-        JSON.writeJSONString(reducedEdge.asMap(), writer);
+        writeJSONString(reducedEdge, writer);
+        writer.write(", ");
       }
-      writer.write("\n");
+      writer.write("]\n");
     }
     writer.write("}\n");
     writer.write("window.argJson = argJson;\n");
@@ -472,7 +500,8 @@ public class ReportGenerator {
   private void insertStatistics(Writer writer, String statistics) throws IOException {
     int counter = 0;
     String insertTableLine =
-        "<table  id=\"statistics_table\" class=\"display\" style=\"width:100%;padding: 10px\""
+        "<table ng-non-bindable id=\"statistics_table\" class=\"display\""
+            + " style=\"width:100%;padding: 10px\""
             + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
             + " scope=\"col\">Statistics Name</th><th scope=\"col\">Statistics Value</th><th"
             + " scope=\"col\">Additional Value</th></tr></thead><tbody>\n";
@@ -547,7 +576,7 @@ public class ReportGenerator {
         writer.write(
             "<div id=\"source-file\" class=\"sourceContent\" ng-show = \"sourceFileIsSet("
                 + sourceFileNumber
-                + ")\">\n<table>\n");
+                + ")\">\n<table ng-non-bindable>\n");
         String line;
         while (null != (line = source.readLine())) {
           line = "<td><pre class=\"prettyprint\">" + htmlEscaper().escape(line) + "  </pre></td>";
@@ -572,7 +601,8 @@ public class ReportGenerator {
     Iterable<String> lines = LINE_SPLITTER.split(config.asPropertiesString());
     int iterator = 0;
     String insertTableLine =
-        "<table  id=\"config_table\" class=\"display\" style=\"width:100%;padding: 10px\""
+        "<table ng-non-bindable id=\"config_table\" class=\"display\""
+            + " style=\"width:100%;padding: 10px\""
             + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
             + " scope=\"col\">#</th><th scope=\"col\">Configuration Name</th><th"
             + " scope=\"col\">Configuration Value</th></tr></thead><tbody>\n";
@@ -606,7 +636,8 @@ public class ReportGenerator {
       final Splitter logDateSplitter = Splitter.on(' ').limit(2);
 
       String insertTableLine =
-          "<table  id=\"log_table\" class=\"display\" style=\"width:100%;padding: 10px\""
+          "<table ng-non-bindable id=\"log_table\" class=\"display\""
+              + " style=\"width:100%;padding: 10px\""
               + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
               + " scope=\"col\">Date</th><th scope=\"col\">Time</th><th scope=\"col\">Level</th><th"
               + " scope=\"col\">Component</th><th scope=\"col\">Message</th></tr></thead><tbody>\n";
