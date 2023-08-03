@@ -1025,10 +1025,15 @@ cfaMutation.ifTrue = RETURN_ORIGINAL
 # Log to console every round with this logging level.
 cfaMutation.log.consoleLevel = Level.OFF
 
-# Create log file for every round with this logging level.
-# Use main file logging level if that is lower.
-cfaMutation.logFile = "this-round.log"
+# Create log files for analysis of original CFA, analysis after %d mutation,
+# feasibility check (if it is on and analysis yielded False) after that, and
+# analysis after rollback (if it is on) after that for every round, using
+# this logging level. Set level to OFF to disable this logging.
 cfaMutation.logFile.level = Level.FINE
+cfaMutation.logNameFeasibility = "%d-round-feasibility-check.log"
+cfaMutation.logNameMutation = "%d-round-after-mutation.log"
+cfaMutation.logNameOriginal = "0-round-original.log"
+cfaMutation.logNameRollback = "%d-round-after-rollback.log"
 
 # which elements to remove from CFA (one manipulator class)
 cfaMutation.manipulator = no default value

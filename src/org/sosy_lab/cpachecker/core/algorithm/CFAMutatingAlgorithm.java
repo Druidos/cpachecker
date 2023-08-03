@@ -909,17 +909,52 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
         secure = true,
         name = "logFile.level",
         description =
-            "Create log file for every round with this logging level.\n"
-                + "Use main file logging level if that is lower.")
+            "Create log files for analysis of original CFA, analysis after %d mutation, "
+                + "feasibility check (if it is on and analysis yielded False) after that, "
+                + "and analysis after rollback (if it is on) after that "
+                + "for every round, using this logging level. "
+                + "Set level to OFF to disable this logging.")
     private Level logFileLevel = Level.FINE;
 
     @Option(
         secure = true,
         description =
-            "Create log file for every round with this logging level.\n"
-                + "Use main file logging level if that is lower.")
-    @FileOption(Type.OUTPUT_FILE)
-    private Path logFile = Path.of("this-round.log");
+            "Create log files for analysis of original CFA, analysis after %d mutation, "
+                + "feasibility check (if it is on and analysis yielded False) after that, "
+                + "and analysis after rollback (if it is on) after that "
+                + "for every round, using this logging level. "
+                + "Set level to OFF to disable this logging.")
+    private String logNameOriginal = "0-round-original.log";
+
+    @Option(
+        secure = true,
+        description =
+            "Create log files for analysis of original CFA, analysis after %d mutation, "
+                + "feasibility check (if it is on and analysis yielded False) after that, "
+                + "and analysis after rollback (if it is on) after that "
+                + "for every round, using this logging level. "
+                + "Set level to OFF to disable this logging.")
+    private String logNameMutation = "%d-round-after-mutation.log";
+
+    @Option(
+        secure = true,
+        description =
+            "Create log files for analysis of original CFA, analysis after %d mutation, "
+                + "feasibility check (if it is on and analysis yielded False) after that, "
+                + "and analysis after rollback (if it is on) after that "
+                + "for every round, using this logging level. "
+                + "Set level to OFF to disable this logging.")
+    private String logNameFeasibility = "%d-round-feasibility-check.log";
+
+    @Option(
+        secure = true,
+        description =
+            "Create log files for analysis of original CFA, analysis after %d mutation, "
+                + "feasibility check (if it is on and analysis yielded False) after that, "
+                + "and analysis after rollback (if it is on) after that "
+                + "for every round, using this logging level. "
+                + "Set level to OFF to disable this logging.")
+    private String logNameRollback = "%d-round-after-rollback.log";
 
     @Option(secure = true, description = "File to dump statistics of current round to")
     @FileOption(Type.OUTPUT_FILE)
@@ -972,8 +1007,6 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
           ((FileTypeConverter) Configuration.getDefaultConverters().get(FileOption.class));
       currentOutputDirectory = defaultOutputDirectory = ftc.getOutputPath();
       disableOutput = "true".equals(globalConfig.getProperty("output.disable")); // XXX better
-      // undo resolving files from default directory, but keep whether they are null
-      logFile = logFile == null ? null : defaultOutputDirectory.relativize(logFile);
       statFile = statFile == null ? null : defaultOutputDirectory.relativize(statFile);
       rankedNodesFile =
           rankedNodesFile == null ? null : defaultOutputDirectory.relativize(rankedNodesFile);
@@ -1004,48 +1037,54 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
 
     Configuration getConfigBeforeMutations() throws InvalidConfigurationException {
       resetExportDirectory(directoryForOriginalRound);
-      return createRoundConfig(0, timeManager.getRoundLimitOptionsForAnalysis());
+      return createRoundConfig(logNameOriginal, timeManager.getRoundLimitOptionsForAnalysis());
     }
 
     Configuration getConfigAfterMutation(int pRound) throws InvalidConfigurationException {
       resetExportDirectory(String.format(directoryForMutationRound, pRound));
 
       if (configAfterMutation != null) {
-        ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
-        builder.addConverter(
-            FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
-        return builder.build();
+        return updateRoundConfig(configAfterMutation, String.format(logNameMutation, pRound));
       }
 
       configAfterMutation =
-          createRoundConfig(pRound, timeManager.getRoundLimitOptionsForAnalysis());
+          createRoundConfig(
+              String.format(logNameMutation, pRound),
+              timeManager.getRoundLimitOptionsForAnalysis());
       return configAfterMutation;
     }
 
     Configuration getConfigAfterRollback(int pRound) throws InvalidConfigurationException {
       resetExportDirectory(String.format(directoryAfterRollback, pRound));
 
-      ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
-      builder.addConverter(
-          FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
-      return builder.build();
+      return updateRoundConfig( // not a bug, configs after mutation and rb are same
+          configAfterMutation, String.format(logNameRollback, pRound));
     }
 
     Configuration getConfigForCexFeasibilityCheck(int pRound) throws InvalidConfigurationException {
       resetExportDirectory(String.format(directoryForFeasibilityCheck, pRound));
 
       if (configForCexCheck != null) {
-        ConfigurationBuilder builder = Configuration.builder().copyFrom(configAfterMutation);
-        builder.addConverter(
-            FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
-        return builder.build();
+        return updateRoundConfig(configForCexCheck, String.format(logNameFeasibility, pRound));
       }
 
-      configForCexCheck = createRoundConfig(pRound, timeManager.createFeasibilityCheckOptions());
+      configForCexCheck =
+          createRoundConfig(
+              String.format(logNameFeasibility, pRound),
+              timeManager.createFeasibilityCheckOptions());
       return configForCexCheck;
     }
 
-    private Configuration createRoundConfig(int pRound, Map<String, String> pLimits)
+    private Configuration updateRoundConfig(Configuration pConfig, String pLogFileName)
+        throws InvalidConfigurationException {
+      ConfigurationBuilder builder = Configuration.builder().copyFrom(pConfig);
+      builder.setOption("log.file", pLogFileName);
+      builder.addConverter(
+          FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
+      return builder.build();
+    }
+
+    private Configuration createRoundConfig(String pLogFileName, Map<String, String> pLimits)
         throws InvalidConfigurationException {
 
       ConfigurationBuilder builder = Configuration.builder().copyFrom(globalConfig);
@@ -1061,24 +1100,22 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
       // builder.setOption("log.consoleExclude", "");
       builder.setOption("log.level", logFileLevel.toString());
       // builder.setOption("log.fileExclude", "");
-
-      if (logFile != null) {
-        builder.setOption("log.file", logFile.toString());
-      } else {
-        builder.clearOption("log.file");
-      }
+      builder.setOption("log.file", pLogFileName);
 
       builder.setOptions(pLimits);
 
       builder.addConverter(
           FileOption.class, Configuration.getDefaultConverters().get(FileOption.class));
       Configuration result = builder.build();
-      checkConfigs(globalConfig, result, pRound, globalLogger);
+      checkConfigs(globalConfig, result, pLogFileName, globalLogger);
       return result;
     }
 
     private static void checkConfigs(
-        Configuration pGlobalConfig, Configuration pSingleConfig, int pRound, LogManager pLogger)
+        Configuration pGlobalConfig,
+        Configuration pSingleConfig,
+        String pRoundDescription,
+        LogManager pLogger)
         throws InvalidConfigurationException {
       Map<String, String> global = configToMap(pGlobalConfig);
       Map<String, String> single = configToMap(pSingleConfig);
@@ -1090,9 +1127,9 @@ public class CFAMutatingAlgorithm extends NestingAlgorithm {
               ImmutableSet.of("limits.time.cpu", "limits.time.wall", "log.level").contains(key)
                   ? Level.FINE
                   : Level.INFO,
-              "Mismatch of configuration options for %s. round: "
+              "Mismatch of configuration options for %s: "
                   + "'%s' has two values '%s' and '%s'. Using '%s'.",
-              pRound,
+              pRoundDescription,
               key,
               value,
               single.get(key),
