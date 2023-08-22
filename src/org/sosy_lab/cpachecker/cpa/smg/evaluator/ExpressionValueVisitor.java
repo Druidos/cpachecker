@@ -456,6 +456,11 @@ class ExpressionValueVisitor
                   BigInteger sizeOfLVal = smgExpressionEvaluator.machineModel.getSizeofInBits(type);
                   SMGExplicitValue diff = lValAddress.getOffset().subtract(rValAddress.getOffset());
                   diff = diff.divide(SMGKnownExpValue.valueOf(sizeOfLVal));
+                  if (!diff.isUnknown() && !diff.isZero()) {
+                    SMGKnownSymbolicValue symbolicValue = SMGKnownSymValue.of();
+                    newState.putExplicit(symbolicValue, (SMGKnownExpValue) diff);
+                    return singletonList(SMGValueAndState.of(newState, symbolicValue));
+                  }
                   return singletonList(SMGValueAndState.of(newState, diff));
                 }
               }
