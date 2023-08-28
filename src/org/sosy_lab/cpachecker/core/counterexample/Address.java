@@ -151,6 +151,36 @@ public abstract class Address {
     return UnknownAddress.getInstance();
   }
 
+  public static class BitPreciseConcreteAddress extends ConcreteAddress {
+    private BitPreciseConcreteAddress(BigInteger pAddressValue) {
+      super(pAddressValue);
+    }
+
+    public static BitPreciseConcreteAddress valueOf(BigInteger pAddressValue) {
+      return new BitPreciseConcreteAddress(pAddressValue);
+    }
+
+    @Override
+    public BitPreciseConcreteAddress addOffset(BigInteger pOffset) {
+      BigInteger newAddressValue = super.getAddressValue().add(pOffset);
+      return BitPreciseConcreteAddress.valueOf(newAddressValue);
+    }
+
+    @Override
+    public String getCommentRepresentation() {
+      return super.getAddressValue().divide(BigInteger.valueOf(8)).toString();
+    }
+
+    @Override
+    public BigInteger getAddressValue() {
+      return super.getAddressValue().divide(BigInteger.valueOf(8));
+    }
+
+    public BigInteger getBitPreciseAddressValue() {
+      return super.getAddressValue();
+    }
+  }
+
   public static class ConcreteAddress extends Address implements Comparable<ConcreteAddress> {
 
     private final BigInteger addressValue;
@@ -171,11 +201,7 @@ public abstract class Address {
 
     @Override
     public ConcreteAddress addOffset(BigDecimal pOffset) {
-      BigInteger offset;
-
-      offset = pOffset.toBigIntegerExact();
-      BigInteger newAddressValue = addressValue.add(offset);
-      return ConcreteAddress.valueOf(newAddressValue);
+      return addOffset(pOffset.toBigIntegerExact());
     }
 
     @Override

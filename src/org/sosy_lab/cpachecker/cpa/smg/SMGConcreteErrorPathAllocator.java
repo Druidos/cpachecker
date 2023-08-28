@@ -30,6 +30,7 @@ import org.sosy_lab.cpachecker.cfa.model.CFAEdgeType;
 import org.sosy_lab.cpachecker.cfa.model.c.CDeclarationEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CStatementEdge;
 import org.sosy_lab.cpachecker.core.counterexample.Address;
+import org.sosy_lab.cpachecker.core.counterexample.Address.BitPreciseConcreteAddress;
 import org.sosy_lab.cpachecker.core.counterexample.Address.ConcreteAddress;
 import org.sosy_lab.cpachecker.core.counterexample.AssumptionToEdgeAllocator;
 import org.sosy_lab.cpachecker.core.counterexample.ConcreteState;
@@ -53,7 +54,8 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
 
   // this analysis puts every object in the same heap
   private static final String MEMORY_NAME = "SMG_Analysis_Heap";
-  private PersistentSortedMap<ConcreteAddress, Object> pPrevMap = PathCopyingPersistentTreeMap.of();
+  private PersistentSortedMap<BitPreciseConcreteAddress, Object> pPrevMap =
+      PathCopyingPersistentTreeMap.of();
 
   public SMGConcreteErrorPathAllocator(AssumptionToEdgeAllocator pAssumptionToEdgeAllocator) {
     super(SMGState.class, pAssumptionToEdgeAllocator);
@@ -174,15 +176,15 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
 
   private Map<String, Memory> allocateAddresses(
       SMGState pSMGState, SMGState pPrevState, SMGObjectAddressMap pAdresses) {
-    PersistentMap<ConcreteAddress, Object> values =
+    PersistentMap<BitPreciseConcreteAddress, Object> values =
         createHeapValues(pSMGState, pPrevState, pAdresses);
     return ImmutableMap.of(MEMORY_NAME, new Memory(MEMORY_NAME, values));
   }
 
-  private PersistentSortedMap<ConcreteAddress, Object> createHeapValues(
+  private PersistentSortedMap<BitPreciseConcreteAddress, Object> createHeapValues(
       SMGState pSMGState, SMGState pPrevState, SMGObjectAddressMap pAdresses) {
 
-    PersistentSortedMap<ConcreteAddress, Object> result = pPrevMap;
+    PersistentSortedMap<BitPreciseConcreteAddress, Object> result = pPrevMap;
     if (pPrevState == null) {
       pPrevState = pSMGState.copyOf();
       pPrevState.clearValues();
@@ -210,7 +212,7 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
         continue;
       }
 
-      ConcreteAddress address =
+      BitPreciseConcreteAddress address =
           pAdresses.calculateAddress(hvEdge.getObject(), hvEdge.getOffset(), pSMGState);
       result = result.putAndCopy(address, value);
     }
@@ -228,11 +230,13 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
 
   public static class SMGObjectAddressMap {
 
-    private final Map<SMGObject, ConcreteAddress> objectAddressMap = new HashMap<>();
-    private ConcreteAddress nextAlloc = ConcreteAddress.valueOf(BigInteger.valueOf(100));
-    private final Map<LeftHandSide, ConcreteAddress> variableAddressMap = new HashMap<>();
+    private final Map<SMGObject, BitPreciseConcreteAddress> objectAddressMap = new HashMap<>();
+    private BitPreciseConcreteAddress nextAlloc =
+        BitPreciseConcreteAddress.valueOf(BigInteger.valueOf(1000));
+    private final Map<LeftHandSide, BitPreciseConcreteAddress> variableAddressMap = new HashMap<>();
 
-    public ConcreteAddress calculateAddress(SMGObject pObject, long pOffset, SMGState pSMGState) {
+    public BitPreciseConcreteAddress calculateAddress(
+        SMGObject pObject, long pOffset, SMGState pSMGState) {
 
       // Create a new base address for the object if necessary
       if (!objectAddressMap.containsKey(pObject)) {
@@ -244,7 +248,7 @@ public class SMGConcreteErrorPathAllocator extends ConcreteErrorPathAllocator<SM
         BigInteger objectSize = BigInteger.valueOf(pObject.getSize());
 
         BigInteger nextAllocOffset =
-            nextAlloc.getAddressValue().add(objectSize).add(BigInteger.ONE);
+            nextAlloc.getBitPreciseAddressValue().add(objectSize).add(BigInteger.valueOf(8));
 
         nextAlloc = nextAlloc.addOffset(nextAllocOffset);
       }
