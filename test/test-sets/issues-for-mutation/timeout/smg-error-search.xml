@@ -19,11 +19,11 @@ Mutate CFA so analysis can find an error that is present in original program.
 <benchmark tool="cpachecker" walltimelimit="121min">
 
 	<option name="-benchmark"/>
+<!--	<option name="-setprop">output.disable=false</option>-->
+	<option name="-setprop">cfaMutation.useDifferentDirectories=true</option>
 
 	<option name="-setprop">limits.time.cpu=120min</option>
 	<option name="-setprop">cfaMutation.dd.minProperty=VERDICT_UNKNOWN_BECAUSE_OF_TIMEOUT</option>
-	<option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
-	<option name="-setprop">cfaMutation.cex.timelimit=300s</option>
 
 	<option name="-setprop">analysis.stopAfterError=false</option>
 
@@ -43,20 +43,62 @@ Mutate CFA so analysis can find an error that is present in original program.
 
 	<propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
 
-	<rundefinition name="DD+Min+">
-		<option name="-cfaMutation-smg-ldv-min"/>
-		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
-	</rundefinition>
-
-	<rundefinition name="DD+Max+">
+	<rundefinition name="DD+Max+10s">
 		<option name="-cfaMutation-smg-ldv-max"/>
 		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=10s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=20s</option>
+	</rundefinition>
+	<rundefinition name="DD+Min+10s">
+		<option name="-cfaMutation-smg-ldv-min"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=10s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=20s</option>
 	</rundefinition>
 
-	<rundefinition name="bare-analysis">
-		<!-- all other options for bare analysis are above -->
-		<option name="-smg-ldv"/>
+	<rundefinition name="DD+Max+30s">
+		<option name="-cfaMutation-smg-ldv-max"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=30s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=60s</option>
 	</rundefinition>
+	<rundefinition name="DD+Min+30s">
+		<option name="-cfaMutation-smg-ldv-min"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=30s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=60s</option>
+	</rundefinition>
+
+	<rundefinition name="DD+Max+90s">
+		<option name="-cfaMutation-smg-ldv-max"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=90s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=180s</option>
+	</rundefinition>
+	<rundefinition name="DD+Min+90s">
+		<option name="-cfaMutation-smg-ldv-min"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=90s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=180s</option>
+	</rundefinition>
+
+	<rundefinition name="DD+Max+300s">
+		<option name="-cfaMutation-smg-ldv-max"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=600s</option>
+	</rundefinition>
+	<rundefinition name="DD+Min+300s">
+		<option name="-cfaMutation-smg-ldv-min"/>
+		<option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+		<option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
+		<option name="-setprop">cfaMutation.cex.timelimit=600s</option>
+	</rundefinition>
+
+<!--	<rundefinition name="bare-analysis">-->
+<!--		&lt;!&ndash; all other options for bare analysis are above &ndash;&gt;-->
+<!--		<option name="-smg-ldv"/>-->
+<!--	</rundefinition>-->
 
 	<!-- the second task needs ~10 min, other need more than several hours -->
 	<tasks>

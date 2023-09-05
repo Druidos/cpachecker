@@ -20,22 +20,59 @@ Mutate CFA so analysis can find an error that is present in original program.
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
 <benchmark tool="cpachecker" walltimelimit="1300s">
-  <option name="-benchmark"/>
   <option name="-setprop">limits.time.cpu=1200s</option>
-  <option name="-heap">10000M</option>
-  <option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
-  <option name="-setprop">cfaMutation.cex.timelimit=300s</option>
-  <option name="-setprop">shutdown.timeout=90</option>
+  <option name="-heap">6000M</option>
+  <option name="-setprop">shutdown.timeout=60</option>
 
-  <rundefinition name="DD+Max+">
+  <option name="-benchmark"/>
+  <option name="-setprop">counterexample.export.graphml="cex.%d.graphml"</option>
+  <option name="-setprop">counterexample.export.compressWitness=false</option>
+  <option name="-setprop">cpa.arg.witness.removeInsufficientEdges=false</option>
+  <option name="-setprop">cfaMutation.useDifferentDirectories=true</option>
+
+  <rundefinition name="DD+Max+30s">
     <option name="-cfaMutation-svcomp22"/>
     <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MAX</option>
     <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=30s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=60s</option>
   </rundefinition>
-  <rundefinition name="DD+Min+">
+  <rundefinition name="DD+Min+30s">
     <option name="-cfaMutation-svcomp22"/>
     <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MIN</option>
     <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=30s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=60s</option>
+  </rundefinition>
+
+  <rundefinition name="DD+Max+90s">
+    <option name="-cfaMutation-svcomp22"/>
+    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MAX</option>
+    <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=90s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=180s</option>
+  </rundefinition>
+  <rundefinition name="DD+Min+90s">
+    <option name="-cfaMutation-svcomp22"/>
+    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MIN</option>
+    <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=90s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=180s</option>
+  </rundefinition>
+
+  <rundefinition name="DD+Max+300s">
+    <option name="-cfaMutation-svcomp22"/>
+    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MAX</option>
+    <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=600s</option>
+  </rundefinition>
+  <rundefinition name="DD+Min+300s">
+    <option name="-cfaMutation-svcomp22"/>
+    <option name="-setprop">cfaMutation.ifTimeout=SEARCH_FOR_ERROR_MIN</option>
+    <option name="-setprop">cfaMutation.ifException=RETURN_ORIGINAL</option>
+    <option name="-setprop">cfaMutation.timelimit.hardcap=300s</option>
+    <option name="-setprop">cfaMutation.cex.timelimit=600s</option>
   </rundefinition>
 
 <!--  <rundefinition name="bare-analysis">-->
