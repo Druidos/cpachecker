@@ -153,7 +153,7 @@ public final class CCompositeType implements CComplexType {
 
   public String toASTString(String pDeclarator, boolean withMembers) {
     checkNotNull(pDeclarator);
-    ArrayList<String> parts = new ArrayList<>();
+    List<String> parts = new ArrayList<>();
     parts.add(Strings.emptyToNull(alignment.stringAlignas()));
     if (isConst()) {
       parts.add("const");

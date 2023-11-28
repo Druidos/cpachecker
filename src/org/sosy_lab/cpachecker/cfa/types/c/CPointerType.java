@@ -14,6 +14,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -86,7 +87,7 @@ public final class CPointerType implements CType, Serializable {
   @Override
   public String toASTString(String pDeclarator) {
     checkNotNull(pDeclarator);
-    ArrayList<String> parts = new ArrayList<>();
+    List<String> parts = new ArrayList<>();
 
     // ugly hack but it works:
     // We need to insert the "*" and qualifiers between the type and the name (e.g. "int *var").

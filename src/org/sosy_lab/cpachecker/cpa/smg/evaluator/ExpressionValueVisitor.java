@@ -11,7 +11,6 @@ package org.sosy_lab.cpachecker.cpa.smg.evaluator;
 import static java.util.Collections.singletonList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -626,7 +625,7 @@ class ExpressionValueVisitor
   public List<? extends SMGValueAndState> visit(CFunctionCallExpression pIastFunctionCallExpression)
       throws CPATransferException {
     if (!smgExpressionEvaluator.builtins.isABuiltIn(pIastFunctionCallExpression)) {
-      Builder<SMGValueAndState> resultBuilder = ImmutableList.builder();
+      ImmutableList.Builder<SMGValueAndState> resultBuilder = ImmutableList.builder();
       // Evaluate function pointer to check NULL pointer execution or buffer overflow errors
       ExpressionValueVisitor valueVisitor =
           smgExpressionEvaluator.getExpressionValueVisitor(cfaEdge, getInitialSmgState());

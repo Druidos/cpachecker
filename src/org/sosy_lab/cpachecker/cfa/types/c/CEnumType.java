@@ -135,7 +135,7 @@ public final class CEnumType implements CComplexType {
   @Override
   public String toASTString(String pDeclarator) {
     checkNotNull(pDeclarator);
-    ArrayList<String> parts = new ArrayList<>();
+    List<String> parts = new ArrayList<>();
     parts.add(Strings.emptyToNull(alignment.stringAlignas()));
     if (isConst()) {
       parts.add("const");

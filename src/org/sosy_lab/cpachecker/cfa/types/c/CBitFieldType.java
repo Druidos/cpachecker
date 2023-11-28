@@ -14,6 +14,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType.ComplexTypeKind;
 
@@ -92,7 +93,7 @@ public class CBitFieldType implements CType {
       pDeclarator = "";
     }
 
-    ArrayList<String> parts = new ArrayList<>();
+    List<String> parts = new ArrayList<>();
     parts.add(Strings.emptyToNull(alignment.stringAlignas()));
     parts.add(type.toASTString(pDeclarator));
     parts.add(":");
