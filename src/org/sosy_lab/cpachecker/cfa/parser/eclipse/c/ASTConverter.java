@@ -72,6 +72,7 @@ import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStandardFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
+import org.eclipse.cdt.core.dom.ast.IASTToken;
 import org.eclipse.cdt.core.dom.ast.IASTTypeId;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdInitializerExpression;
@@ -2267,14 +2268,17 @@ class ASTConverter {
     for (IASTAttribute attribute : attributeArray) {
       String name = getAttributeString(attribute.getName());
       if (name.equals("aligned")) {
-        int cur;
+        int cur  = machinemodel.getMaxAlign();
+        IASTToken argumentClause = attribute.getArgumentClause();
         try {
-          String arg = getAttributeString(attribute.getArgumentClause().getTokenCharImage());
-          cur = Integer.valueOf(arg);
-        } catch (NullPointerException | NumberFormatException e) {
+          if (argumentClause != null) {
+            String arg = getAttributeString(argumentClause.getTokenCharImage());
+            cur = Integer.parseInt(arg);
+          }
+        } catch (NumberFormatException e) {
           // default (biggest) alignment as clause was not specified
           // XXX is empty clause always the same as BIGGEST_ALIGNMENT?
-          cur = machinemodel.getMaxAlign();
+          cur  = machinemodel.getMaxAlign();
         }
         if (aligned < cur) {
           aligned = cur;
