@@ -694,6 +694,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
               + pPointerToAbstractObject.getTargetSpecifier());
     }
 
+    boolean sllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
+
     SMGRegion newConcreteRegion =
         new SMGRegion(pListSeg.getSize(), "concrete sll segment ID " + SMGCPA.getNewValue(), 0);
     heap.addHeapObject(newConcreteRegion);
@@ -738,6 +740,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.addHeapObject(newSll);
     heap.setValidity(newSll, true);
+
+    if (sllHasExternalObject) {
+      heap.setExternallyAllocatedFlag(newConcreteRegion, true);
+      heap.setExternallyAllocatedFlag(newSll, true);
+    }
 
     /*Check if pointer was already created due to All target Specifier*/
     SMGValue newPointerToNewRegion = getAddress(newConcreteRegion, hfo);
@@ -797,6 +804,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       throws SMGInconsistentException {
 
     logger.log(Level.ALL, "Materialise ", pListSeg, " in state id ", getId());
+
+    boolean dllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
 
     SMGRegion newConcreteRegion =
         new SMGRegion(pListSeg.getSize(), "concrete dll segment ID " + SMGCPA.getNewValue(), 0);
@@ -878,6 +887,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.addHeapObject(newDll);
     heap.setValidity(newDll, true);
+
+    if (dllHasExternalObject) {
+      heap.setExternallyAllocatedFlag(newConcreteRegion, true);
+      heap.setExternallyAllocatedFlag(newDll, true);
+    }
 
     /*Check if pointer was already created due to All target Specifier*/
     SMGValue newPointerToNewRegion = getAddress(newConcreteRegion, hfo);

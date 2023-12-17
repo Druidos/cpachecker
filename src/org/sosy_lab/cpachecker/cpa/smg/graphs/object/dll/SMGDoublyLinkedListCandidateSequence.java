@@ -50,6 +50,8 @@ public class SMGDoublyLinkedListCandidateSequence
       return pSMG;
     }
 
+    boolean sequenceHasExternalObject = pSMG.isObjectExternallyAllocated(prevObject);
+
     for (int i = 1; i < length; i++) {
 
       SMGEdgeHasValue nextEdge =
@@ -62,6 +64,10 @@ public class SMGDoublyLinkedListCandidateSequence
 
       if (nextObject == prevObject) {
         throw new AssertionError("Invalid candidate sequence: Attempt to merge object with itself");
+      }
+
+      if (!sequenceHasExternalObject) {
+        sequenceHasExternalObject = pSMG.isObjectExternallyAllocated(nextObject);
       }
 
       if (length > 1) {
@@ -113,6 +119,10 @@ public class SMGDoublyLinkedListCandidateSequence
       pSMG.markHeapObjectDeletedAndRemoveEdges(nextObject);
       pSMG.markHeapObjectDeletedAndRemoveEdges(prevObject);
       prevObject = newAbsObj;
+
+      if (sequenceHasExternalObject) {
+        pSMG.setExternallyAllocatedFlag(newAbsObj, true);
+      }
 
       SMGEdgeHasValue nfoHve =
           new SMGEdgeHasValue(
