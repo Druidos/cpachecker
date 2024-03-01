@@ -615,9 +615,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.markHeapObjectDeletedAndRemoveEdges(pListSeg);
 
-    heap.replaceValue(nextPointer, firstPointer);
+    if (firstPointer != null) {
+      heap.removePointsToEdge(firstPointer);
+      heap.replaceValue(nextPointer, firstPointer);
+    }
 
-    if (firstPointer.equals(pPointerToAbstractObject.getValue())) {
+    if (firstPointer != null && firstPointer.equals(pPointerToAbstractObject.getValue())) {
       return getPointerFromValue(nextPointer);
     } else {
       throw new AssertionError(
@@ -757,8 +760,6 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGEdgePointsTo newPtEdgeToNewRegionFromOutsideSMG =
         new SMGEdgePointsTo(oldPointerToSll, newConcreteRegion, hfo);
 
-    SMGSymbolicValue newPointerToSll = SMGKnownSymValue.of();
-
     /*If you can't find the pointer, use generic pointer type*/
     long sizeOfPointerToSll;
 
@@ -771,12 +772,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       sizeOfPointerToSll = fieldsContainingOldPointerToSll.iterator().next().getSizeInBits();
     }
 
-    SMGEdgePointsTo newPtEToSll =
-        new SMGEdgePointsTo(newPointerToSll, newSll, hfo, SMGTargetSpecifier.FIRST);
-
-    newPointerToSll = SMGKnownAddressValue.valueOf(newPtEToSll);
+    SMGSymbolicValue newPointerToSll = SMGKnownSymValue.of();
 
     writeValue(newConcreteRegion, nfo, sizeOfPointerToSll, newPointerToSll);
+
+    SMGEdgePointsTo newPtEToSll =
+        new SMGEdgePointsTo(newPointerToSll, newSll, hfo, SMGTargetSpecifier.FIRST);
 
     for (SMGEdgeHasValue hve : oldFieldsEdges) {
       heap.addHasValueEdge(
