@@ -250,6 +250,30 @@ public class SMGOptions {
               + " memory regions")
   private boolean handleSameLiteralsAsOneMemoryRegion = true;
 
+  @Option(
+      secure = true,
+      name = "seqLengthEqualityThreshold",
+      description =
+          "the minimum length of a sequence of mergeable objects allowed to be merged"
+              + " with equality join status")
+  private int seqLengthEqualityThreshold = 2;
+
+  @Option(
+      secure = true,
+      name = "seqLengthEntailmentThreshold",
+      description =
+          "the minimum length of a sequence of mergeable objects allowed to be merged"
+              + " with entailment join status")
+  private int seqLengthEntailmentThreshold = 2;
+
+  @Option(
+      secure = true,
+      name = "seqLengthIncomparableThreshold",
+      description =
+          "the minimum length of a sequence of mergeable objects allowed to be merged"
+              + " with incomparable join status")
+  private int seqLengthIncomparableThreshold = 2;
+
   public enum SMGExportLevel {
     NEVER,
     LEAF,
@@ -415,5 +439,15 @@ public class SMGOptions {
 
   public boolean handleSameLiteralsAsOneMemoryRegion() {
     return handleSameLiteralsAsOneMemoryRegion;
+  }
+  public int getSeqLengthEqualityThreshold() {
+    return seqLengthEqualityThreshold;
+  }
+  public int getSeqLengthEntailmentThreshold() {
+    return seqLengthEntailmentThreshold;
+  }
+
+  public int getSeqLengthIncomparableThreshold() {
+    return seqLengthIncomparableThreshold;
   }
 }

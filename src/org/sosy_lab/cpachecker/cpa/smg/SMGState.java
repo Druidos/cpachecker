@@ -2326,7 +2326,15 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     final SMGAbstractionManager manager;
     boolean usesHeapInterpolation = true; // TODO do we need this flag?
     if (usesHeapInterpolation) {
-      manager = new SMGAbstractionManager(logger, heap, this, blocks, 2, 2, 2);
+      manager =
+          new SMGAbstractionManager(
+            logger,
+            heap,
+            this,
+            blocks,
+            options.getSeqLengthEqualityThreshold(),
+            options.getSeqLengthEntailmentThreshold(),
+            options.getSeqLengthIncomparableThreshold());
     } else {
       manager = new SMGAbstractionManager(logger, heap, this, blocks, 2, 2, 3);
     }
@@ -2353,7 +2361,15 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
   public SMGAbstractionCandidate executeHeapAbstractionOneStep(Set<SMGAbstractionBlock> pResult)
       throws SMGInconsistentException {
-    SMGAbstractionManager manager = new SMGAbstractionManager(logger, heap, this, pResult, 2, 2, 2);
+    SMGAbstractionManager manager =
+        new SMGAbstractionManager(
+          logger,
+          heap,
+          this,
+          pResult,
+          options.getSeqLengthEqualityThreshold(),
+          options.getSeqLengthEntailmentThreshold(),
+          options.getSeqLengthIncomparableThreshold());
     SMGAbstractionCandidate result = manager.executeOneStep();
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return result;
