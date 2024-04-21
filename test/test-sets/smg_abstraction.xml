@@ -19,6 +19,9 @@ SPDX-License-Identifier: Apache-2.0
         <includesfile>../programs/smg_abstraction_tests/smg_abstraction.set</includesfile>
         <option name="-smg-ldv"/>
         <option name="-preprocess" />
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=2</option>
         <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
     </tasks>
 
