@@ -1035,7 +1035,7 @@ final class SMGJoinValues {
 
     // Algorithm 9 from FIT-TR-2012-04, line 6
     SMGJoinStatus newJoinStatus =
-        length == 0 ? SMGJoinStatus.LEFT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
+        length == 0 ? SMGJoinStatus.RIGHT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
 
     newStatus = newStatus.updateWith(newJoinStatus);
 
@@ -1304,7 +1304,7 @@ final class SMGJoinValues {
     }
 
     SMGJoinStatus newJoinStatus =
-        length == 0 ? SMGJoinStatus.RIGHT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
+        length == 0 ? SMGJoinStatus.LEFT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
 
     newStatus = newStatus.updateWith(newJoinStatus);
 
