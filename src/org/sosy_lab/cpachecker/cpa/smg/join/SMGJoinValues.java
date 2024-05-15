@@ -543,7 +543,7 @@ final class SMGJoinValues {
 
     SMGJoinStatus newJoinStatus =
         pTarget.getKind() == SMGObjectKind.OPTIONAL
-            ? SMGJoinStatus.RIGHT_ENTAIL
+            ? SMGJoinStatus.LEFT_ENTAIL
             : SMGJoinStatus.INCOMPARABLE;
 
     SMGJoinStatus updatedStatus = pStatus.updateWith(newJoinStatus);
@@ -804,7 +804,7 @@ final class SMGJoinValues {
 
     SMGJoinStatus newJoinStatus =
         pTarget.getKind() == SMGObjectKind.OPTIONAL
-            ? SMGJoinStatus.LEFT_ENTAIL
+            ? SMGJoinStatus.RIGHT_ENTAIL
             : SMGJoinStatus.INCOMPARABLE;
 
     SMGJoinStatus updatedStatus = pStatus.updateWith(newJoinStatus);
