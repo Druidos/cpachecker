@@ -101,6 +101,8 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
       return;
     }
 
+    boolean startObjectIsSLL = pObject.getKind() == SMGObjectKind.SLL;
+
     for (SMGEdgeHasValue hveNext : pSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject))) {
 
       long nfo = hveNext.getOffset();
@@ -112,6 +114,14 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
 
       SMGEdgePointsTo nextPointerEdge = pSmg.getPointer(nextPointer);
       long hfo = nextPointerEdge.getOffset();
+
+      if (startObjectIsSLL) {
+        SMGSingleLinkedList sll = ((SMGSingleLinkedList)pObject);
+        if (hfo != sll.getHfo() || nfo != sll.getNfo()) {
+          continue;
+        }
+      }
+
       SMGTargetSpecifier nextPointerTg = nextPointerEdge.getTargetSpecifier();
 
       if (!(nextPointerTg == SMGTargetSpecifier.REGION
@@ -128,6 +138,13 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
 
       if (pObject.getSize() != nextObject.getSize()) {
         continue;
+      }
+
+      if (nextObject.getKind() == SMGObjectKind.SLL) {
+        SMGSingleLinkedList sll = ((SMGSingleLinkedList)nextObject);
+        if (hfo != sll.getHfo() || nfo != sll.getNfo()) {
+          continue;
+        }
       }
 
       if (!(nextObject.getKind() == SMGObjectKind.SLL
