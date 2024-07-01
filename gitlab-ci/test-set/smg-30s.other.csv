@@ -1,0 +1,39 @@
+source file	outcome	correct verdict
+test/programs/benchmarks/loops/invert_string-2.c	ERROR line 16: Unrecognized C code (Could not resolve type.): char str1[MAX]; (line was originally char str1[MAX], str2[MAX];) (SMGExpressionEvaluator.getBitSizeof, SEVERE)	FALSE valid-deref
+test/programs/benchmarks/ntdrivers/floppy.i.cil-2.c	FALSE valid-deref: invalid pointer dereference in line 2148	FALSE valid-deref
+test/programs/benchmarks/ntdrivers/floppy.i.cil-3.c	FALSE valid-memtrack	FALSE valid-memtrack
+test/programs/benchmarks/ntdrivers/floppy2.i.cil.c	FALSE valid-deref: invalid pointer dereference in line 2659	FALSE valid-deref
+test/programs/benchmarks/ntdrivers/kbfiltr.i.cil-1.c	FALSE valid-deref: invalid pointer dereference in line 1694	FALSE valid-deref
+test/programs/benchmarks/ntdrivers-simplified/cdaudio_simpl1.cil-1.c	ERROR Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	TRUE
+test/programs/benchmarks/ntdrivers-simplified/floppy_simpl3.cil-1.c	ERROR Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	TRUE
+test/programs/benchmarks/ntdrivers-simplified/kbfiltr_simpl1.cil.c	TRUE	TRUE
+test/programs/benchmarks/ntdrivers-simplified/kbfiltr_simpl2.cil-1.c	TRUE	TRUE
+test/programs/benchmarks/ntdrivers-simplified/kbfiltr_simpl2.cil-2.c	ERROR Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	TRUE
+test/programs/benchmarks/locks/test_locks_14-2.c	ERROR Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	TRUE
+test/programs/benchmarks/locks/test_locks_15-1.c	ERROR Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	TRUE
+test/programs/benchmarks/memsafety-ext3/derefAfterFree1.c	FALSE valid-deref: invalid pointer dereference in line 14	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/derefAfterFree2.c	FALSE valid-deref: invalid pointer dereference in line 9	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/derefInLoop1.c	FALSE valid-deref: invalid pointer dereference in line 8	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/freeAlloca.c	ERROR Unknown function 'alloca' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	FALSE valid-free
+test/programs/benchmarks/memsafety-ext3/getNumbers1-1.c	ERROR Unknown function 'alloca' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options (SMGBuiltins.handleUnknownFunction, SEVERE)	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/getNumbers1-2.c	TRUE	TRUE
+test/programs/benchmarks/memsafety-ext3/getNumbers2.c	FALSE valid-deref: invalid pointer dereference in line 26	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/getNumbers3.c	TRUE	TRUE
+test/programs/benchmarks/memsafety-ext3/getNumbers4-1.c	TRUE	TRUE
+test/programs/benchmarks/memsafety-ext3/getNumbers4-2.c	FALSE valid-deref: invalid pointer dereference in line 38	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/naturalNumbers1.c	FALSE valid-deref: invalid pointer dereference in line 4	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/realloc1.c	FALSE valid-deref: invalid pointer dereference in line 16	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/scopes1.c	FALSE valid-deref: invalid pointer dereference in line 16	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/scopes2.c	FALSE valid-deref: invalid pointer dereference in line 18	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/scopes3.c	FALSE valid-deref: invalid pointer dereference in line 8	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/scopes4-1.c	TRUE	TRUE
+test/programs/benchmarks/memsafety-ext3/scopes4-2.c	FALSE valid-deref: invalid pointer dereference in line 18	FALSE valid-deref
+test/programs/benchmarks/memsafety-ext3/scopes5.c	FALSE valid-deref: invalid pointer dereference in line 7	FALSE valid-deref
+test/programs/benchmarks/pthread-memsafety/fillarray.i	ERROR line 1061: Unsupported feature (Not able to compute allocation size): __CPAchecker_TMP_0 = malloc(size); (line was originally int *a = (int *)malloc(size);) (SMGBuiltins.getAllocateFunctionParameter, SEVERE)	FALSE valid-deref
+test/programs/benchmarks/pthread-memsafety/fillarray1.i	ERROR line 1072: Unsupported feature (Not able to compute allocation size): __CPAchecker_TMP_0 = malloc(size); (line was originally int *a = (int *)malloc(size);) (SMGBuiltins.getAllocateFunctionParameter, SEVERE)	FALSE valid-deref
+test/programs/benchmarks/pthread-memsafety/list1.i	ERROR line 1072: Unsupported feature (pthread_create): pthread_create(&id1, (void *)0, &build, list); (line was originally pthread_create(&id1, ((void *)0), build, list);) (CallstackTransferRelation.getAbstractSuccessorsForEdge, SEVERE)	FALSE valid-deref
+test/programs/benchmarks/memsafety-bftpd/bftpd_1.i	TRUE	TRUE
+test/programs/benchmarks/memsafety-bftpd/bftpd_2.i	TRUE	TRUE
+test/programs/benchmarks/memsafety-bftpd/bftpd_3.i	FALSE valid-memtrack	FALSE valid-memtrack
+test/programs/benchmarks/termination-crafted/4BitCounterPointer.c	TRUE	TRUE
+test/programs/benchmarks/termination-crafted/SyntaxSupportPointer01-3.c	TRUE	TRUE

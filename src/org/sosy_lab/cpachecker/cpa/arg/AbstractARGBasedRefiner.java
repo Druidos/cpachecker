@@ -64,7 +64,9 @@ public class AbstractARGBasedRefiner implements Refiner, StatisticsProvider {
   public static Refiner create(ConfigurableProgramAnalysis pCpa)
       throws InvalidConfigurationException {
     return AbstractARGBasedRefiner.forARGBasedRefiner(
-        (rs, path) -> CounterexampleInfo.feasibleImprecise(path, CFAPathWithAdditionalInfo.of(path, pCpa)), pCpa);
+        (rs, path) ->
+            CounterexampleInfo.feasibleImprecise(path, CFAPathWithAdditionalInfo.of(path, pCpa)),
+        pCpa);
   }
 
   /** Create a {@link Refiner} instance from a {@link ARGBasedRefiner} instance. */

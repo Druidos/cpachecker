@@ -14,7 +14,7 @@ target options).
 
 
 from .misc import Alignment
-from .ctypes import CType, Void, Number, Pointer, Array
+from .ctypes import Void, Number, Pointer, Array
 
 
 class Machine:

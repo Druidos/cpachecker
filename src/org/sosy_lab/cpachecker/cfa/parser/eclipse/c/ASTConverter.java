@@ -2268,7 +2268,7 @@ class ASTConverter {
     for (IASTAttribute attribute : attributeArray) {
       String name = getAttributeString(attribute.getName());
       if (name.equals("aligned")) {
-        int cur  = machinemodel.getMaxAlign();
+        int cur = machinemodel.getMaxAlign();
         IASTToken argumentClause = attribute.getArgumentClause();
         try {
           if (argumentClause != null) {
@@ -2278,7 +2278,7 @@ class ASTConverter {
         } catch (NumberFormatException e) {
           // default (biggest) alignment as clause was not specified
           // XXX is empty clause always the same as BIGGEST_ALIGNMENT?
-          cur  = machinemodel.getMaxAlign();
+          cur = machinemodel.getMaxAlign();
         }
         if (aligned < cur) {
           aligned = cur;

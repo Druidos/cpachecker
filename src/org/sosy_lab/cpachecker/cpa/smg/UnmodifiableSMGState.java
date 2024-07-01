@@ -164,9 +164,7 @@ public interface UnmodifiableSMGState extends LatticeAbstractState<UnmodifiableS
 
   boolean isTrackPredicatesEnabled();
 
-  /**
-   * Checks if it is comparison of external memory and Null pointer
-   */
+  /** Checks if it is comparison of external memory and Null pointer */
   boolean comparisonAgainstExternalMemory(SMGObject pObject1, SMGObject pObject2);
 
   SMGPredicateRelation getPathPredicateRelation();

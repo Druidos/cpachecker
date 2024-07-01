@@ -347,15 +347,30 @@ class Graph:
                 align_class = align_class[
                     align_class.rfind(".") + 1 : align_class.find(" at 0x")
                 ]
-                end_msg = "title is %s of %s  //  %s" % (title, title.ctype, align_class)
+                end_msg = "title is %s of %s  //  %s" % (
+                    title,
+                    title.ctype,
+                    align_class,
+                )
                 asserts = [
                     ("_Alignof(%s) == %s" % (expr, align), end_msg),
-                    ("sizeof(%s) == %s" % (expr, size), end_msg)
+                    ("sizeof(%s) == %s" % (expr, size), end_msg),
                 ]
                 if mode == "prints":
                     yield (
-                        'printf("' + str(expr) + '\\ta:%ld, s:%ld  //  expected a:' + str(align) + ', s:' + str(size) +
-                        '  //  ' + node.align_class.__doc__ + '\\n", _Alignof(' + str(expr) + '), sizeof(' + str(expr) + '));\n'
+                        'printf("'
+                        + str(expr)
+                        + "\\ta:%ld, s:%ld  //  expected a:"
+                        + str(align)
+                        + ", s:"
+                        + str(size)
+                        + "  //  "
+                        + node.align_class.__doc__
+                        + '\\n", _Alignof('
+                        + str(expr)
+                        + "), sizeof("
+                        + str(expr)
+                        + "));\n"
                     )
                 elif mode == "static asserts":
                     for check, message in asserts:

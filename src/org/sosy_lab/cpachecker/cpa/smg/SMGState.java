@@ -2265,11 +2265,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   @Override
   public boolean comparisonAgainstExternalMemory(SMGObject pObject1, SMGObject pObject2) {
     return (pObject2.equals(SMGNullObject.INSTANCE)
-        && heap.isObjectExternallyAllocated(pObject1)
-        && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty())
+            && heap.isObjectExternallyAllocated(pObject1)
+            && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty())
         || (pObject1.equals(SMGNullObject.INSTANCE)
-        && heap.isObjectExternallyAllocated(pObject2)
-        && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty());
+            && heap.isObjectExternallyAllocated(pObject2)
+            && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty());
   }
 
   @Override

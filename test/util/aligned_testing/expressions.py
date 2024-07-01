@@ -15,7 +15,7 @@ subscript and sum.
 
 from enum import Enum, IntEnum
 from .misc import RValueException
-from .ctypes import CType, Pointer, Number, Array, standard_types
+from .ctypes import Pointer, Number, Array, standard_types
 
 
 class Expression:

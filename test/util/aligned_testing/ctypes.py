@@ -129,8 +129,8 @@ class Number(CType):
         self.is_scalar = True
 
         typenick = self.default_typeid
-        remove = re.compile("\s*(unsigned|signed)\s*")
-        long = re.compile("\s*long\s+")
+        remove = re.compile(r"\s*(unsigned|signed)\s*")
+        long = re.compile(r"\s*long\s+")
         typenick = re.sub(pattern=long, string=typenick, repl="l")
         typenick = re.sub(pattern=remove, string=typenick, repl="")
         self.typenick = typenick
