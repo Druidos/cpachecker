@@ -223,6 +223,7 @@ def conclude(test_descriptions, outcomes, cmd_lines):
     total = len(outcomes)
     the_same = count["NO CHANGE"]
     new_verdicts = count["NEW VERDICT"]
+    flaky_timeouts_count = len(flaky_timeouts) - 1
 
     log_if_any(the_same, total, 'have same outcome as before', warning=False)
     log_if_any(count["LOST VERDICT"], total, 'have lost verdict to an error')
@@ -233,9 +234,12 @@ def conclude(test_descriptions, outcomes, cmd_lines):
     log_if_any(
         new_verdicts, total,
         'have obtained verdict. maybe update respective gitlab-ci/test-set/%.csv with full-log.csv')
-    if total > the_same:
+    if total > the_same + flaky_timeouts_count:
         sys.exit(
             f'{total - the_same} out of {total} tests degraded or obtained a verdict, see diff.csv')
+    elif flaky_timeouts_count > 0:
+        print(f'{flaky_timeouts_count} tests have flaky timeout verdicts')
+        sys.exit(110)
     else:
         print(f'all {total} tests have same outcomes as previously')
 

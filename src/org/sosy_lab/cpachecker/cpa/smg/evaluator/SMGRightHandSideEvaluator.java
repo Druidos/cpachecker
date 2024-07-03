@@ -135,7 +135,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
       for (Entry<String, SMGValue> entry : errState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = errState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pObject.equals(pointer.getObject())) {
-          readVariable = readVariable.concat(" '" + entry.getKey() + "' variable");
+          readVariable = readVariable + (" '" + entry.getKey() + "' variable");
         }
       }
       final String description;
@@ -209,7 +209,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
       for (Entry<String, SMGValue> entry : newState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = newState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pMemoryOfField.equals(pointer.getObject())) {
-          readVariable = readVariable.concat(" on '" + entry.getKey() + "' variable");
+          readVariable = readVariable + (" on '" + entry.getKey() + "' variable");
         }
       }
       if (!pMemoryOfField.equals(SMGNullObject.INSTANCE)) {

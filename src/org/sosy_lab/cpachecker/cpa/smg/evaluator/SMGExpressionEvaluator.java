@@ -230,7 +230,7 @@ public class SMGExpressionEvaluator {
       for (Entry<String, SMGValue> entry : errState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = errState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pObject.equals(pointer.getObject())) {
-          readVariable = readVariable.concat(" '" + entry.getKey() + "' variable");
+          readVariable = readVariable + (" '" + entry.getKey() + "' variable");
           errState.addInvalidRead(entry.getKey(), entry.getValue());
         }
       }

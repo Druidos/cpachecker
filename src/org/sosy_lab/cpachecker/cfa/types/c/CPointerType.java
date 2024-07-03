@@ -101,7 +101,7 @@ public final class CPointerType implements CType, Serializable {
       parts.add(alignment.stringTypeAligned());
     }
     // if any qualifiers, add a space after asterisk
-    String asterisk = parts.size() == 0 ? "*" : "* ";
+    String asterisk = parts.isEmpty() ? "*" : "* ";
 
     parts.add(Strings.emptyToNull(pDeclarator));
     String declarator = asterisk + Joiner.on(' ').skipNulls().join(parts);

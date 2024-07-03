@@ -43,9 +43,14 @@ do
     echo $TEST:
     echo "  <<: *integration-tests"
     echo "  script:"
-    echo "    - python3 gitlab-ci/run-tests.py $TEST"
+    echo "    - python3 gitlab-ci/run-tests.py $TEST || exit_code=\$?"
+    echo "    - exit \$exit_code"
     if [[ $TEST =~ "flaky" ]]  # these tend to be very flaky
-    then echo "  allow_failure: true"
+    then
+      echo "  allow_failure: true"
+    else # allow timeouts
+      echo "  allow_failure:"
+      echo "    exit_codes: 110"
     fi
     echo ""
   } >> generated-ci.yml

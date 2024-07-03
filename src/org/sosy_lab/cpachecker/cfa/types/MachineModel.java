@@ -910,7 +910,7 @@ public enum MachineModel {
       }
       // or if it is greater than default for declared type
       int def = pCBitFieldType.getType().accept(this);
-      return attrs > def ? attrs : def;
+      return Math.max(attrs, def);
     }
   }
 

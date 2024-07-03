@@ -172,9 +172,6 @@ unit-tests:jdk-17:
 refaster:
   <<: *source_check
   image: ${CI_REGISTRY_IMAGE}/test:jdk-11
-  # TODO Remove after we merge changes from LMU upstream trunk, as
-  #  some problems were not introduced by us, and were hopefully already resolved.
-  allow_failure: true
   before_script:
     - 'test -d refaster || git clone https://gitlab.com/sosy-lab/software/refaster.git'
     - 'cd refaster'
