@@ -2921,6 +2921,18 @@ cpa.smg.runtimeCheck = NONE
 # functions, i.e., free of memory-related side-effects.
 cpa.smg.safeUnknownFunctionsPatterns = {"abort"}
 
+# the minimum length of a sequence of mergeable objects allowed to be merged
+# with entailment join status
+cpa.smg.seqLengthEntailmentThreshold = 2
+
+# the minimum length of a sequence of mergeable objects allowed to be merged
+# with equality join status
+cpa.smg.seqLengthEqualityThreshold = 2
+
+# the minimum length of a sequence of mergeable objects allowed to be merged
+# with incomparable join status
+cpa.smg.seqLengthIncomparableThreshold = 2
+
 # which stop operator to use for the SMGCPA
 cpa.smg.stop = "SEP"
   allowed values: [SEP, NEVER, END_BLOCK]
