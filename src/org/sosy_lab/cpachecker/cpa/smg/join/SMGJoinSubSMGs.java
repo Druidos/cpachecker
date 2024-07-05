@@ -278,11 +278,10 @@ final class SMGJoinSubSMGs {
         return pObject.getLevel() + 1;
       } else if (pValue.isZero()) {
         /* if the pointer is zero, then we take the level of its parent,
-          since by default it points to a NULL object having a zero level */
-        return
-            pObject.getKind() == SMGObjectKind.SLL || pObject.getKind() == SMGObjectKind.DLL
-                ? pObject.getLevel() + 1
-                : pObject.getLevel();
+        since by default it points to a NULL object having a zero level */
+        return pObject.getKind() == SMGObjectKind.SLL || pObject.getKind() == SMGObjectKind.DLL
+            ? pObject.getLevel() + 1
+            : pObject.getLevel();
       } else {
         SMGObject targetObject = pointer.getObject();
         return targetObject.getLevel();

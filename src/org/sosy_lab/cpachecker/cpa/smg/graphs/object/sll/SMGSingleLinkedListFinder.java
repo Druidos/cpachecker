@@ -116,7 +116,7 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
       long hfo = nextPointerEdge.getOffset();
 
       if (startObjectIsSLL) {
-        SMGSingleLinkedList sll = ((SMGSingleLinkedList)pObject);
+        SMGSingleLinkedList sll = ((SMGSingleLinkedList) pObject);
         if (hfo != sll.getHfo() || nfo != sll.getNfo()) {
           continue;
         }
@@ -141,7 +141,7 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
       }
 
       if (nextObject.getKind() == SMGObjectKind.SLL) {
-        SMGSingleLinkedList sll = ((SMGSingleLinkedList)nextObject);
+        SMGSingleLinkedList sll = ((SMGSingleLinkedList) nextObject);
         if (hfo != sll.getHfo() || nfo != sll.getNfo()) {
           continue;
         }

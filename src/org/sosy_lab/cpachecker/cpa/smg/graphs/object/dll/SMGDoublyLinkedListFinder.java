@@ -14,7 +14,6 @@ import com.google.common.collect.Iterables;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
-import org.apache.batik.util.DoublyLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionBlock;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionFinder;
@@ -29,7 +28,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll.SMGSingleLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.join.SMGJoinStatus;
 import org.sosy_lab.cpachecker.cpa.smg.join.SMGJoinSubSMGsForAbstraction;
@@ -165,14 +163,14 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
         }
 
         if (startObjectIsDLL) {
-          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList)pObject);
+          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList) pObject);
           if (hfo != dll.getHfo() || nfo != dll.getNfo() || pfo != dll.getPfo()) {
             continue;
           }
         }
 
         if (nextObjectIsDLL) {
-          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList)nextObject);
+          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList) nextObject);
           if (hfo != dll.getHfo() || nfo != dll.getNfo() || pfo != dll.getPfo()) {
             continue;
           }

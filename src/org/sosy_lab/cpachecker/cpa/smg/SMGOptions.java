@@ -440,9 +440,11 @@ public class SMGOptions {
   public boolean handleSameLiteralsAsOneMemoryRegion() {
     return handleSameLiteralsAsOneMemoryRegion;
   }
+
   public int getSeqLengthEqualityThreshold() {
     return seqLengthEqualityThreshold;
   }
+
   public int getSeqLengthEntailmentThreshold() {
     return seqLengthEntailmentThreshold;
   }

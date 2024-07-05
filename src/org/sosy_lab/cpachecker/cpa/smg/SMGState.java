@@ -2328,13 +2328,13 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     if (usesHeapInterpolation) {
       manager =
           new SMGAbstractionManager(
-            logger,
-            heap,
-            this,
-            blocks,
-            options.getSeqLengthEqualityThreshold(),
-            options.getSeqLengthEntailmentThreshold(),
-            options.getSeqLengthIncomparableThreshold());
+              logger,
+              heap,
+              this,
+              blocks,
+              options.getSeqLengthEqualityThreshold(),
+              options.getSeqLengthEntailmentThreshold(),
+              options.getSeqLengthIncomparableThreshold());
     } else {
       manager = new SMGAbstractionManager(logger, heap, this, blocks, 2, 2, 3);
     }
@@ -2363,13 +2363,13 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       throws SMGInconsistentException {
     SMGAbstractionManager manager =
         new SMGAbstractionManager(
-          logger,
-          heap,
-          this,
-          pResult,
-          options.getSeqLengthEqualityThreshold(),
-          options.getSeqLengthEntailmentThreshold(),
-          options.getSeqLengthIncomparableThreshold());
+            logger,
+            heap,
+            this,
+            pResult,
+            options.getSeqLengthEqualityThreshold(),
+            options.getSeqLengthEntailmentThreshold(),
+            options.getSeqLengthIncomparableThreshold());
     SMGAbstractionCandidate result = manager.executeOneStep();
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return result;
