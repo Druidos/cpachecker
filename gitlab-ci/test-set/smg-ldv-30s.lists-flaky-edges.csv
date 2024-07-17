@@ -1,2 +1,2 @@
 source file	outcome	correct verdict	command line
-test/programs/benchmarks/forester-heap/dll-01-2.i	FALSE valid-deref: invalid pointer dereference in line 1056		scripts/cpa.sh -smg-ldv -spec config/properties/valid-memsafety.prp -timelimit 30s -heap 4000M -noout -stats -setprop cpa.smg.runtimeCheck=FULL test/programs/benchmarks/forester-heap/dll-01-2.i
+test/programs/benchmarks/forester-heap/dll-01-2.i	FALSE valid-deref: invalid pointer dereference in line 1056	TRUE	scripts/cpa.sh -smg-ldv -spec config/properties/valid-memsafety.prp -timelimit 30s -heap 4000M -noout -stats -setprop cpa.smg.runtimeCheck=FULL test/programs/benchmarks/forester-heap/dll-01-2.i

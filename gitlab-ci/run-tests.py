@@ -248,7 +248,7 @@ class TestDescription:
     def __init__(self, row):
         self.source_filename = row[0]
         self.previous_outcome = row[1]
-        self.correct_verdict = row[2] if len(row) == 3 else None
+        self.correct_verdict = row[2] if len(row) > 2 else None
 
 
 if __name__ == "__main__":
