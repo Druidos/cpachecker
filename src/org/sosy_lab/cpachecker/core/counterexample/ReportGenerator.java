@@ -39,7 +39,6 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -73,6 +72,8 @@ import org.sosy_lab.cpachecker.cfa.model.FunctionExitNode;
 import org.sosy_lab.cpachecker.core.CPAchecker;
 import org.sosy_lab.cpachecker.core.CPAcheckerResult.Result;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.FaultLocalizationInfoWithTraceFormula;
+import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.FormulaContext;
+import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.TraceFormula;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.precondition.PreCondition;
 import org.sosy_lab.cpachecker.core.interfaces.AbstractState;
 import org.sosy_lab.cpachecker.core.reachedset.UnmodifiableReachedSet;
@@ -85,6 +86,7 @@ import org.sosy_lab.cpachecker.cpa.arg.witnessexport.WitnessToOutputFormatsUtils
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.BiPredicates;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultLocalizationInfo;
+import org.sosy_lab.cpachecker.util.predicates.smt.FormulaToCVisitor;
 
 @Options
 public class ReportGenerator {
@@ -270,7 +272,7 @@ public class ReportGenerator {
         Writer writer = IO.openOutputFile(reportPath, StandardCharsets.UTF_8)) {
 
       String line;
-      while (null != (line = reader.readLine())) {
+      while ((line = reader.readLine()) != null) {
         if (line.contains("CONFIGURATION")) {
           insertConfiguration(writer);
         } else if (line.contains("REPORT_CSS")) {
@@ -305,7 +307,7 @@ public class ReportGenerator {
         Resources.asCharSource(Resources.getResource(getClass(), file), StandardCharsets.UTF_8)
             .openBufferedStream(); ) {
       String line;
-      while (null != (line = reader.readLine())) {
+      while ((line = reader.readLine()) != null) {
         writer.write(line);
         writer.write('\n');
       }
@@ -355,8 +357,7 @@ public class ReportGenerator {
     dotBuilder.writeMergedNodesList(writer);
 
     if (counterExample != null) {
-      if (counterExample instanceof FaultLocalizationInfo) {
-        FaultLocalizationInfo flInfo = (FaultLocalizationInfo) counterExample;
+      if (counterExample instanceof FaultLocalizationInfo flInfo) {
         flInfo.prepare();
         writer.write(",\n\"errorPath\":");
         counterExample.toJSON(writer);
@@ -383,23 +384,12 @@ public class ReportGenerator {
     if (!(fInfo instanceof FaultLocalizationInfoWithTraceFormula)) {
       return "";
     }
-    List<String> preconditionParts = new ArrayList<>();
-    PreCondition preCondition =
-        ((FaultLocalizationInfoWithTraceFormula) fInfo).getTraceFormula().getPrecondition();
-    for (CFAEdge cfaEdge : preCondition.getEdgesForPrecondition()) {
-      String input = cfaEdge.getCode().replaceAll(";", "");
-      List<String> parts = Splitter.on(" ").limit(2).splitToList(input);
-      assert !parts.isEmpty() : "Splitter split " + input + " into 0 parts.";
-      if (parts.size() == 1) {
-        preconditionParts.add(parts.get(0));
-      } else {
-        preconditionParts.add(parts.get(1));
-      }
-    }
-    if (preconditionParts.isEmpty()) {
-      preconditionParts.add("true");
-    }
-    return Joiner.on(" && ").join(preconditionParts);
+    TraceFormula traceFormula = ((FaultLocalizationInfoWithTraceFormula) fInfo).getTraceFormula();
+    PreCondition preCondition = traceFormula.getPrecondition();
+    FormulaContext context = traceFormula.getContext();
+    FormulaToCVisitor visitor = new FormulaToCVisitor(context.getSolver().getFormulaManager());
+    context.getSolver().getFormulaManager().visit(preCondition.getPrecondition(), visitor);
+    return visitor.getString();
   }
 
   private void insertArgJson(Writer writer) throws IOException {
@@ -472,10 +462,11 @@ public class ReportGenerator {
   private void insertStatistics(Writer writer, String statistics) throws IOException {
     int counter = 0;
     String insertTableLine =
-        "<table  id=\"statistics_table\" class=\"display\" style=\"width:100%;padding: 10px\""
-            + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
-            + " scope=\"col\">Statistics Name</th><th scope=\"col\">Statistics Value</th><th"
-            + " scope=\"col\">Additional Value</th></tr></thead><tbody>\n";
+        "<table ng-non-bindable id=\"statistics_table\" class=\"display\""
+            + " style=\"width:100%;padding: 10px\" class=\"table table-bordered\"><thead"
+            + " class=\"thead-light\"><tr><th scope=\"col\">Statistics Name</th><th"
+            + " scope=\"col\">Statistics Value</th><th scope=\"col\">Additional"
+            + " Value</th></tr></thead><tbody>\n";
     writer.write(insertTableLine);
     for (String line : LINE_SPLITTER.split(statistics)) {
       if (!line.contains(":") && !line.trim().isEmpty() && !line.contains("----------")) {
@@ -547,9 +538,9 @@ public class ReportGenerator {
         writer.write(
             "<div id=\"source-file\" class=\"sourceContent\" ng-show = \"sourceFileIsSet("
                 + sourceFileNumber
-                + ")\">\n<table>\n");
+                + ")\">\n<table ng-non-bindable>\n");
         String line;
-        while (null != (line = source.readLine())) {
+        while ((line = source.readLine()) != null) {
           line = "<td><pre class=\"prettyprint\">" + htmlEscaper().escape(line) + "  </pre></td>";
           writer.write(
               "<tr id=\"source-"
@@ -572,8 +563,8 @@ public class ReportGenerator {
     Iterable<String> lines = LINE_SPLITTER.split(config.asPropertiesString());
     int iterator = 0;
     String insertTableLine =
-        "<table  id=\"config_table\" class=\"display\" style=\"width:100%;padding: 10px\""
-            + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
+        "<table ng-non-bindable id=\"config_table\" class=\"display\" style=\"width:100%;padding:"
+            + " 10px\" class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
             + " scope=\"col\">#</th><th scope=\"col\">Configuration Name</th><th"
             + " scope=\"col\">Configuration Value</th></tr></thead><tbody>\n";
     writer.write(insertTableLine);
@@ -606,8 +597,8 @@ public class ReportGenerator {
       final Splitter logDateSplitter = Splitter.on(' ').limit(2);
 
       String insertTableLine =
-          "<table  id=\"log_table\" class=\"display\" style=\"width:100%;padding: 10px\""
-              + " class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
+          "<table ng-non-bindable id=\"log_table\" class=\"display\" style=\"width:100%;padding:"
+              + " 10px\" class=\"table table-bordered\"><thead class=\"thead-light\"><tr><th"
               + " scope=\"col\">Date</th><th scope=\"col\">Time</th><th scope=\"col\">Level</th><th"
               + " scope=\"col\">Component</th><th scope=\"col\">Message</th></tr></thead><tbody>\n";
       writer.write(insertTableLine);
@@ -670,7 +661,7 @@ public class ReportGenerator {
 
     Set<FileLocation> allLocations =
         FluentIterable.of(cfa.getMainFunction()) // We want this as first element
-            .append(cfa.getAllFunctionHeads())
+            .append(cfa.entryNodes())
             .transform(FunctionEntryNode::getFileLocation)
             .filter(FileLocation::isRealLocation)
             .toSet();
@@ -678,7 +669,7 @@ public class ReportGenerator {
     return FluentIterable.concat(
             Collections2.transform(sourceFiles, Path::of),
             Collections2.transform(allLocations, FileLocation::getFileName))
-        .filter(path -> Files.isReadable(path))
+        .filter(Files::isReadable)
         .filter(path -> !Files.isDirectory(path))
         .toSet();
   }

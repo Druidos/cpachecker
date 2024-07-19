@@ -10,9 +10,11 @@ package org.sosy_lab.cpachecker.cpa.arg.witnessexport;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Comparators;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -32,6 +34,10 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
 
   private static final TransitionCondition EMPTY = new TransitionCondition();
 
+  private static final Comparator<Iterable<Map.Entry<KeyDef, PersistentSet>>> KEY_VALUES_COMPARATOR =
+      Comparators.lexicographical(
+          Map.Entry.<KeyDef, PersistentSet>comparingByKey().thenComparing(Map.Entry.comparingByValue()));
+
   private final EnumMap<KeyDef, PersistentSet<String>> keyValues;
 
   private final Scope scope;
@@ -40,7 +46,7 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
 
   private TransitionCondition() {
     keyValues = new EnumMap<>(KeyDef.class);
-    scope = new Scope(Optional.empty(), ImmutableMap.of());
+    scope = new Scope(Optional.empty(), ImmutableSortedMap.of());
   }
 
   private TransitionCondition(EnumMap<KeyDef, PersistentSet<String>> pKeyValues, Scope pScope) {
@@ -158,11 +164,7 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
       }
     }
 
-    if (!scope.mergeWith(pLabel.scope).isPresent()) {
-      return false;
-    }
-
-    return true;
+    return scope.mergeWith(pLabel.scope).isPresent();
   }
 
   @Override
@@ -170,40 +172,11 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
     if (this == pO) {
       return 0;
     }
-    Iterator<Entry<KeyDef, PersistentSet<String>>> entryIterator = keyValues.entrySet().iterator();
-    Iterator<Entry<KeyDef, PersistentSet<String>>> otherEntryIterator =
-        pO.keyValues.entrySet().iterator();
-    while (entryIterator.hasNext() && otherEntryIterator.hasNext()) {
-      Entry<KeyDef, PersistentSet<String>> entry = entryIterator.next();
-      Entry<KeyDef, PersistentSet<String>> otherEntry = otherEntryIterator.next();
-      int compKey = entry.getKey().compareTo(otherEntry.getKey());
-      if (compKey != 0) {
-        return compKey;
-      }
-      Iterator<String> entryValueIterator = entry.getValue().iterator();
-      Iterator<String> otherEntryValueIterator = otherEntry.getValue().iterator();
-      while (entryValueIterator.hasNext() && otherEntryValueIterator.hasNext()) {
-        String entryValue = entryValueIterator.next();
-        String otherEntryValue = otherEntryValueIterator.next();
-        int compVal = entryValue.compareTo(otherEntryValue);
-        if (compVal != 0) {
-          return compVal;
-        }
-        if (!entryValueIterator.hasNext()) {
-          return -1;
-        }
-        if (!otherEntryValueIterator.hasNext()) {
-          return 1;
-        }
-      }
-    }
-    if (!entryIterator.hasNext()) {
-      return -1;
-    }
-    if (!otherEntryIterator.hasNext()) {
-      return 1;
-    }
-    return scope.compareTo(pO.scope);
+
+    return ComparisonChain.start()
+        .compare(keyValues.entrySet(), pO.keyValues.entrySet(), KEY_VALUES_COMPARATOR)
+        .compare(scope, pO.scope)
+        .result();
   }
 
   public static TransitionCondition empty() {
@@ -214,15 +187,14 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
 
     private final Optional<String> functionName;
 
-    private final ImmutableMap<String, ASimpleDeclaration> usedDeclarations;
+    private final ImmutableSortedMap<String, ASimpleDeclaration> usedDeclarations;
 
     private Scope(
         Optional<String> pFunctionName, Map<String, ASimpleDeclaration> pUsedDeclarations) {
       functionName = pFunctionName;
-      usedDeclarations = ImmutableMap.copyOf(pUsedDeclarations);
+      usedDeclarations = ImmutableSortedMap.copyOf(pUsedDeclarations);
       for (ASimpleDeclaration decl : pUsedDeclarations.values()) {
-        if (decl instanceof AVariableDeclaration) {
-          AVariableDeclaration varDecl = (AVariableDeclaration) decl;
+        if (decl instanceof AVariableDeclaration varDecl) {
           checkArgument(
               varDecl.isGlobal() || functionName.isPresent(),
               "Cannot create a global scope with non-global variable declarations.");
@@ -252,12 +224,9 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
       if (this == pOther) {
         return true;
       }
-      if (pOther instanceof Scope) {
-        Scope other = (Scope) pOther;
-        return functionName.equals(other.functionName)
-            && usedDeclarations.equals(other.usedDeclarations);
-      }
-      return false;
+      return pOther instanceof Scope other
+          && functionName.equals(other.functionName)
+          && usedDeclarations.equals(other.usedDeclarations);
     }
 
     @Override
@@ -274,8 +243,10 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
     @Override
     public int compareTo(Scope pOther) {
       return ComparisonChain.start()
-          .compareTrueFirst(isGlobal(), pOther.isGlobal())
-          .compare(functionName.orElseThrow(), pOther.functionName.orElseThrow())
+          .compare(
+              functionName,
+              pOther.functionName,
+              Comparators.emptiesFirst(Comparator.naturalOrder()))
           .compare(
               usedDeclarations,
               pOther.usedDeclarations,
@@ -355,10 +326,6 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
   }
 
   private static boolean isGlobalVarDecl(@Nullable ASimpleDeclaration pDecl) {
-    if (pDecl instanceof AVariableDeclaration) {
-      AVariableDeclaration varDecl = (AVariableDeclaration) pDecl;
-      return varDecl.isGlobal();
-    }
-    return false;
+    return pDecl instanceof AVariableDeclaration varDecl && varDecl.isGlobal();
   }
 }

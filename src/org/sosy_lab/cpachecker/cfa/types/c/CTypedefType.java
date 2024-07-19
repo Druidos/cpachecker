@@ -12,16 +12,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import java.io.Serializable;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** This represents a type which was created by using typedef. */
-public final class CTypedefType implements CType, Serializable {
+public final class CTypedefType implements CType {
 
-  private static final long serialVersionUID = -3461236537115147688L;
+  @Serial private static final long serialVersionUID = -3461236537115147688L;
   private final String name; // the typedef name
   private final CType realType; // the real type this typedef points to
   private final boolean isConst;
@@ -111,6 +111,11 @@ public final class CTypedefType implements CType, Serializable {
   }
 
   @Override
+  public boolean hasKnownConstantSize() {
+    return realType.hasKnownConstantSize();
+  }
+
+  @Override
   public <R, X extends Exception> R accept(CTypeVisitor<R, X> pVisitor) throws X {
     return pVisitor.visit(this);
   }
@@ -130,17 +135,12 @@ public final class CTypedefType implements CType, Serializable {
    */
   @Override
   public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
+    if (this == obj) {
       return true;
     }
 
-    if (!(obj instanceof CTypedefType)) {
-      return false;
-    }
-
-    CTypedefType other = (CTypedefType) obj;
-
-    return Objects.equals(name, other.name)
+    return obj instanceof CTypedefType other
+        && Objects.equals(name, other.name)
         && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)

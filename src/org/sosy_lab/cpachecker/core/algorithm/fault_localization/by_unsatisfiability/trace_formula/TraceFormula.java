@@ -9,8 +9,12 @@
 package org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 import org.sosy_lab.common.configuration.Configuration;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.configuration.Option;
@@ -21,8 +25,10 @@ import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiabi
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.precondition.PreCondition;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.precondition.PreConditionComposer;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.trace.Trace;
+import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.trace.Trace.TraceAtom;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.trace.TraceInterpreter;
-import org.sosy_lab.cpachecker.exceptions.CPATransferException;
+import org.sosy_lab.cpachecker.exceptions.CPAException;
+import org.sosy_lab.cpachecker.util.predicates.pathformula.SSAMap;
 import org.sosy_lab.cpachecker.util.predicates.smt.FormulaManagerView;
 import org.sosy_lab.cpachecker.util.predicates.smt.Solver;
 import org.sosy_lab.java_smt.api.BooleanFormula;
@@ -84,6 +90,11 @@ public class TraceFormula {
                 + " from the trace. Hence, no assume edge will be part of a fault.")
     private boolean makeFlowSensitive = false;
 
+    @Option(
+        secure = true,
+        description = "if enabled, nondet declarations get a selector, otherwise they don't")
+    private boolean inlinePrecondition = true;
+
     public TraceFormulaOptions(Configuration pConfiguration) throws InvalidConfigurationException {
       pConfiguration.inject(this);
     }
@@ -106,6 +117,10 @@ public class TraceFormula {
 
     public boolean makeFlowSensitive() {
       return makeFlowSensitive;
+    }
+
+    public boolean shouldInlinePrecondition() {
+      return inlinePrecondition;
     }
   }
 
@@ -147,10 +162,28 @@ public class TraceFormula {
    * @throws InterruptedException if program is interrupted unexpectedly
    */
   public boolean isCalculationPossible() throws SolverException, InterruptedException {
+    if (getTrace().isEmpty()) {
+      return false;
+    }
     Solver solver = context.getSolver();
-    BooleanFormulaManager bmgr = solver.getFormulaManager().getBooleanFormulaManager();
-    return !solver.isUnsat(
-        bmgr.and(precondition.getPrecondition(), bmgr.not(postCondition.getPostCondition())));
+    FormulaManagerView fmgr = solver.getFormulaManager();
+    BooleanFormulaManager bmgr = fmgr.getBooleanFormulaManager();
+    SSAMap initial = getTrace().getInitialSsaMap();
+    SSAMap last = getTrace().getLatestSsaMap();
+    BooleanFormula formula =
+        bmgr.and(
+            fmgr.instantiate(fmgr.uninstantiate(precondition.getPrecondition()), initial),
+            fmgr.instantiate(fmgr.uninstantiate(bmgr.not(postCondition.getPostCondition())), last));
+    if (solver.isUnsat(formula)) {
+      context
+          .getLogger()
+          .logf(
+              Level.INFO,
+              "Found UNSAT core in pre- and pot-condition: %s",
+              solver.unsatCore(formula));
+      return false;
+    }
+    return true;
   }
 
   public PostCondition getPostCondition() {
@@ -163,6 +196,10 @@ public class TraceFormula {
 
   public Trace getTrace() {
     return trace;
+  }
+
+  public FormulaContext getContext() {
+    return context;
   }
 
   @Override
@@ -189,13 +226,52 @@ public class TraceFormula {
       List<CFAEdge> pCounterexample,
       FormulaContext pContext,
       TraceFormulaOptions pOptions)
-      throws CPATransferException, SolverException, InterruptedException {
+      throws CPAException, SolverException, InterruptedException, InvalidCounterexampleException {
     List<CFAEdge> remainingCounterexample = pCounterexample;
     PreCondition precondition = pPreConditionType.extractPreCondition(remainingCounterexample);
     remainingCounterexample = precondition.getRemainingCounterexample();
     PostCondition postCondition = pPostConditionType.extractPostCondition(remainingCounterexample);
     remainingCounterexample = postCondition.getRemainingCounterexample();
     Trace trace = Trace.fromCounterexample(remainingCounterexample, pContext, pOptions);
+    Set<String> nondets = precondition.getNondetVariables();
+    List<CFAEdge> preconditionEdges = new ArrayList<>(precondition.getEdgesForPrecondition());
+    if (pOptions.shouldInlinePrecondition()) {
+      List<TraceAtom> modifiedTrace = new ArrayList<>(trace.size());
+      BooleanFormula formula = precondition.getPrecondition();
+      for (TraceAtom traceAtom : trace) {
+        if (nondets.stream().anyMatch(name -> traceAtom.getFormula().toString().contains(name))) {
+          preconditionEdges.add(traceAtom.correspondingEdge());
+          formula =
+              pContext
+                  .getSolver()
+                  .getFormulaManager()
+                  .getBooleanFormulaManager()
+                  .and(formula, traceAtom.getFormula());
+        } else {
+          modifiedTrace.add(traceAtom);
+        }
+      }
+      precondition = precondition.replaceRelatedEdgesAndFormula(preconditionEdges, formula);
+      trace = new Trace(pContext, modifiedTrace);
+    } else {
+      FluentIterable.from(trace)
+          .filter(
+              atom ->
+                  nondets.stream().anyMatch(name -> atom.getFormula().toString().contains(name)))
+          .transform(TraceAtom::correspondingEdge)
+          .copyInto(preconditionEdges);
+      precondition = precondition.replaceRelatedEdges(preconditionEdges);
+    }
     return instantiate(pContext, precondition, trace, postCondition);
+  }
+
+  public static TraceFormula emptyTraceFormula(FormulaContext pContext) {
+    BooleanFormula trueFormula =
+        pContext.getSolver().getFormulaManager().getBooleanFormulaManager().makeTrue();
+    return new TraceFormula(
+        pContext,
+        PreCondition.of(trueFormula),
+        Trace.emptyTrace(pContext),
+        PostCondition.of(trueFormula));
   }
 }

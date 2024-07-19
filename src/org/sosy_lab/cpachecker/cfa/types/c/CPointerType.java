@@ -12,15 +12,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import java.io.Serializable;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public final class CPointerType implements CType, Serializable {
+public final class CPointerType implements CType {
 
-  private static final long serialVersionUID = -6423006826454509009L;
+  @Serial private static final long serialVersionUID = -6423006826454509009L;
   public static final CPointerType POINTER_TO_VOID =
       new CPointerType(false, false, Alignment.NO_SPECIFIERS, CVoidType.VOID);
   public static final CPointerType POINTER_TO_CHAR =
@@ -80,6 +80,11 @@ public final class CPointerType implements CType, Serializable {
   }
 
   @Override
+  public boolean hasKnownConstantSize() {
+    return true;
+  }
+
+  @Override
   public String toString() {
     return toASTString("");
   }
@@ -136,17 +141,12 @@ public final class CPointerType implements CType, Serializable {
    */
   @Override
   public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
+    if (this == obj) {
       return true;
     }
 
-    if (!(obj instanceof CPointerType)) {
-      return false;
-    }
-
-    CPointerType other = (CPointerType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CPointerType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && Objects.equals(type, other.type);

@@ -52,7 +52,7 @@ public class ToCodeFormulaVisitor
     CNumericTypes.LONG_INT,
     CNumericTypes.UNSIGNED_LONG_INT,
     CNumericTypes.LONG_LONG_INT,
-    CNumericTypes.UNSIGNED_LONG_LONG_INT
+    CNumericTypes.UNSIGNED_LONG_LONG_INT,
   };
 
   /**
@@ -78,8 +78,7 @@ public class ToCodeFormulaVisitor
   }
 
   private CSimpleType determineType(TypeInfo pTypeInfo) {
-    if (pTypeInfo instanceof BitVectorInfo) {
-      BitVectorInfo bitVectorInfo = (BitVectorInfo) pTypeInfo;
+    if (pTypeInfo instanceof BitVectorInfo bitVectorInfo) {
       int sizeOfChar = machineModel.getSizeofCharInBits();
       int size = bitVectorInfo.getSize();
       boolean isSigned = bitVectorInfo.isSigned();
@@ -90,8 +89,7 @@ public class ToCodeFormulaVisitor
         }
       }
       return CNumericTypes.INT;
-    } else if (pTypeInfo instanceof FloatingPointTypeInfo) {
-      FloatingPointTypeInfo fpTypeInfo = (FloatingPointTypeInfo) pTypeInfo;
+    } else if (pTypeInfo instanceof FloatingPointTypeInfo fpTypeInfo) {
       switch (fpTypeInfo) {
         case FLOAT:
           return CNumericTypes.FLOAT;
@@ -136,8 +134,7 @@ public class ToCodeFormulaVisitor
    * @return a bit vector formula representing the given value as a bit vector with the given size.
    */
   private String asFormulaString(TypeInfo pInfo, Number pValue) {
-    if (pInfo instanceof BitVectorInfo && pValue instanceof BigInteger) {
-      BitVectorInfo bitVectorInfo = (BitVectorInfo) pInfo;
+    if (pInfo instanceof BitVectorInfo bitVectorInfo && pValue instanceof BigInteger) {
       int size = bitVectorInfo.getSize();
       BigInteger value = (BigInteger) pValue;
       // Get only the [size] least significant bits
@@ -333,8 +330,8 @@ public class ToCodeFormulaVisitor
     TypeInfo targetInfo = pCast.getTypeInfo();
     String sourceFormula = pCast.getCasted().accept(this, pEnvironment);
     TypeInfo sourceInfo = pCast.getCasted().getTypeInfo();
-    if (targetInfo instanceof BitVectorInfo && sourceInfo instanceof BitVectorInfo) {
-      BitVectorInfo sourceBitVectorInfo = (BitVectorInfo) sourceInfo;
+    if (targetInfo instanceof BitVectorInfo
+        && sourceInfo instanceof BitVectorInfo sourceBitVectorInfo) {
       int sourceSize = sourceBitVectorInfo.getSize();
       int targetSize = ((BitVectorInfo) targetInfo).getSize();
       if ((sourceSize == targetSize && sourceBitVectorInfo.isSigned() == targetInfo.isSigned())
@@ -385,17 +382,21 @@ public class ToCodeFormulaVisitor
 
     // Check not equals
     ExpressionTree<String> inversion = ExpressionTrees.getTrue();
-    CompoundInterval op1EvalInvert =
-        pEqual.getOperand1().accept(evaluationVisitor, pEnvironment).invert();
+    CompoundInterval op1Eval = pEqual.getOperand1().accept(evaluationVisitor, pEnvironment);
+    CompoundInterval op1EvalInvert = op1Eval.invert();
     // TODO check changes, possibly have to be reverted
-    if (op1EvalInvert.isSingleton() && pEqual.getOperand2() instanceof Variable) {
+    if (op1EvalInvert.isSingleton()
+        && !op1Eval.isSingleton()
+        && pEqual.getOperand2() instanceof Variable) {
       return not(
           Equal.of(Constant.of(typeInfo, op1EvalInvert), pEqual.getOperand2())
               .accept(this, pEnvironment));
     }
-    CompoundInterval op2EvalInvert =
-        pEqual.getOperand2().accept(evaluationVisitor, pEnvironment).invert();
-    if (op2EvalInvert.isSingleton() && pEqual.getOperand1() instanceof Variable) {
+    CompoundInterval op2Eval = pEqual.getOperand2().accept(evaluationVisitor, pEnvironment);
+    CompoundInterval op2EvalInvert = op2Eval.invert();
+    if (op2EvalInvert.isSingleton()
+        && !op2Eval.isSingleton()
+        && pEqual.getOperand1() instanceof Variable) {
       return not(
           Equal.of(pEqual.getOperand1(), Constant.of(typeInfo, op2EvalInvert))
               .accept(this, pEnvironment));

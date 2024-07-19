@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.sosy_lab.cpachecker.core.interfaces.AbstractQueryableState;
 import org.sosy_lab.cpachecker.core.interfaces.AbstractState;
 import org.sosy_lab.cpachecker.core.interfaces.Partitionable;
 import org.sosy_lab.cpachecker.exceptions.InvalidQueryException;
-import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
+import org.sosy_lab.cpachecker.util.globalinfo.SerializationInfoStorage;
 
 /**
  * Abstract state that stores callstack information by maintaning a single-linked list of states
@@ -38,7 +39,7 @@ import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
 public class CallstackState
     implements AbstractState, Partitionable, AbstractQueryableState, Serializable {
 
-  private static final long serialVersionUID = 3629687385150064994L;
+  @Serial private static final long serialVersionUID = 3629687385150064994L;
 
   protected final @Nullable CallstackState previousState;
   protected final String currentFunction;
@@ -102,22 +103,19 @@ public class CallstackState
         + ", stack depth "
         + getDepth()
         + " ["
-        + Integer.toHexString(super.hashCode())
+        + Integer.toHexString(System.identityHashCode(this))
         + "], stack "
         + getStack();
   }
 
   public boolean sameStateInProofChecking(CallstackState pOther) {
-    if (pOther.callerNode.equals(callerNode)
+    return pOther.callerNode.equals(callerNode)
         && pOther.depth == depth
         && pOther.currentFunction.equals(currentFunction)
         && (pOther.previousState == previousState
             || (previousState != null
                 && pOther.previousState != null
-                && previousState.sameStateInProofChecking(pOther.previousState)))) {
-      return true;
-    }
-    return false;
+                && previousState.sameStateInProofChecking(pOther.previousState)));
   }
 
   @Override
@@ -137,18 +135,23 @@ public class CallstackState
 
     throw new InvalidQueryException(
         String.format(
-            "Evaluating %s not supported by %s", pProperty, this.getClass().getCanonicalName()));
+            "Evaluating %s not supported by %s", pProperty, getClass().getCanonicalName()));
   }
 
+  @Serial
   private void writeObject(java.io.ObjectOutputStream out) throws IOException {
     out.defaultWriteObject();
     out.writeInt(callerNode.getNodeNumber());
   }
 
+  @Serial
   private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
     in.defaultReadObject();
     int nodeNumber = in.readInt();
     callerNode =
-        GlobalInfo.getInstance().getCFAInfo().orElseThrow().getNodeByNodeNumber(nodeNumber);
+        SerializationInfoStorage.getInstance()
+            .getCFAInfo()
+            .orElseThrow()
+            .getNodeByNodeNumber(nodeNumber);
   }
 }

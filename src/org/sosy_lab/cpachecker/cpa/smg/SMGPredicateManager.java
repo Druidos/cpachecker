@@ -70,22 +70,15 @@ public class SMGPredicateManager {
 
   private BooleanFormula createBooleanFormula(
       Formula pFormulaOne, Formula pFormulaTwo, BinaryOperator pOp) {
-    switch (pOp) {
-      case GREATER_THAN:
-        return fmgr.makeGreaterThan(pFormulaOne, pFormulaTwo, true);
-      case GREATER_EQUAL:
-        return fmgr.makeGreaterOrEqual(pFormulaOne, pFormulaTwo, true);
-      case LESS_THAN:
-        return fmgr.makeLessThan(pFormulaOne, pFormulaTwo, true);
-      case LESS_EQUAL:
-        return fmgr.makeLessOrEqual(pFormulaOne, pFormulaTwo, true);
-      case EQUALS:
-        return fmgr.makeEqual(pFormulaOne, pFormulaTwo);
-      case NOT_EQUALS:
-        return bfmgr.not(fmgr.makeEqual(pFormulaOne, pFormulaTwo));
-      default:
-        throw new AssertionError();
-    }
+    return switch (pOp) {
+      case GREATER_THAN -> fmgr.makeGreaterThan(pFormulaOne, pFormulaTwo, true);
+      case GREATER_EQUAL -> fmgr.makeGreaterOrEqual(pFormulaOne, pFormulaTwo, true);
+      case LESS_THAN -> fmgr.makeLessThan(pFormulaOne, pFormulaTwo, true);
+      case LESS_EQUAL -> fmgr.makeLessOrEqual(pFormulaOne, pFormulaTwo, true);
+      case EQUALS -> fmgr.makeEqual(pFormulaOne, pFormulaTwo);
+      case NOT_EQUALS -> bfmgr.not(fmgr.makeEqual(pFormulaOne, pFormulaTwo));
+      default -> throw new AssertionError();
+    };
   }
 
   private BooleanFormula addPredicateToFormula(
@@ -94,17 +87,13 @@ public class SMGPredicateManager {
     BigInteger explicitValue = pRelation.getExplicitValue().getValue();
     SMGType symbolicSMGType = pRelation.getSymbolicSMGType();
     long explicitSize = symbolicSMGType.getCastedSize();
-    boolean isExplicitSigned = symbolicSMGType.isCastedSigned();
     BinaryOperator op = pRelation.getOperator();
 
     BitvectorFormula explicitValueFormula =
         efmgr.makeBitvector(BigInteger.valueOf(explicitSize + 1).intValueExact(), explicitValue);
     BitvectorFormula explicitValueFormulaCasted =
         efmgr.extract(
-            explicitValueFormula,
-            BigInteger.valueOf(explicitSize - 1).intValueExact(),
-            0,
-            isExplicitSigned);
+            explicitValueFormula, BigInteger.valueOf(explicitSize - 1).intValueExact(), 0);
 
     BitvectorFormula symbolicValue = getCastedValue(pRelation.getSymbolicValue(), symbolicSMGType);
     result = createBooleanFormula(symbolicValue, explicitValueFormulaCasted, op);
@@ -150,7 +139,7 @@ public class SMGPredicateManager {
       result =
           efmgr.extend(result, BigInteger.valueOf(toSize - fromSize).intValueExact(), isToSigned);
     } else if (toSize < fromSize) {
-      result = efmgr.extract(result, BigInteger.valueOf(toSize - 1).intValueExact(), 0, isToSigned);
+      result = efmgr.extract(result, BigInteger.valueOf(toSize - 1).intValueExact(), 0);
     } else if (isToSigned != isFromSigned) {
       result = efmgr.extend(result, 0, isToSigned);
     }
@@ -295,12 +284,12 @@ public class SMGPredicateManager {
         } else {
           return false;
         }
-      } catch (SolverException pE) {
-        logger.log(Level.WARNING, "Solver Exception: " + pE + " on predicate " + errorPredicate);
-      } catch (InterruptedException pE) {
+      } catch (SolverException e) {
+        logger.log(Level.WARNING, "Solver Exception: " + e + " on predicate " + errorPredicate);
+      } catch (InterruptedException e) {
         logger.log(
             Level.WARNING,
-            "Solver Interrupted Exception: " + pE + " on predicate " + errorPredicate);
+            "Solver Interrupted Exception: " + e + " on predicate " + errorPredicate);
       }
     }
 

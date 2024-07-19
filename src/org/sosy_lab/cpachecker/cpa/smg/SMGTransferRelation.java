@@ -64,7 +64,6 @@ import org.sosy_lab.cpachecker.cfa.model.c.CAssumeEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CDeclarationEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CFunctionCallEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CFunctionReturnEdge;
-import org.sosy_lab.cpachecker.cfa.model.c.CFunctionSummaryEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CReturnStatementEdge;
 import org.sosy_lab.cpachecker.cfa.model.c.CStatementEdge;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
@@ -234,10 +233,7 @@ public class SMGTransferRelation
 
   @Override
   protected Collection<SMGState> handleFunctionReturnEdge(
-      CFunctionReturnEdge functionReturnEdge,
-      CFunctionSummaryEdge fnkCall,
-      CFunctionCall summaryExpr,
-      String callerFunctionName)
+      CFunctionReturnEdge functionReturnEdge, CFunctionCall summaryExpr, String callerFunctionName)
       throws CPATransferException {
     Collection<SMGState> successors = handleFunctionReturn(functionReturnEdge);
     if (options.isCheckForMemLeaksAtEveryFrameDrop()) {
@@ -258,18 +254,15 @@ public class SMGTransferRelation
   private List<SMGState> handleFunctionReturn(CFunctionReturnEdge functionReturnEdge)
       throws CPATransferException {
 
-    CFunctionSummaryEdge summaryEdge = functionReturnEdge.getSummaryEdge();
-    CFunctionCall exprOnSummary = summaryEdge.getExpression();
+    CFunctionCall exprOnSummary = functionReturnEdge.getFunctionCall();
     SMGState newState = state.copyOf();
 
     assert Iterables.getLast(newState.getHeap().getStackFrames())
         .getFunctionDeclaration()
         .equals(functionReturnEdge.getFunctionEntry().getFunctionDefinition());
 
-    if (exprOnSummary instanceof CFunctionCallAssignmentStatement) {
+    if (exprOnSummary instanceof CFunctionCallAssignmentStatement funcAssignment) {
       // Assign the return value to the lValue of the functionCallAssignment
-      CFunctionCallAssignmentStatement funcAssignment =
-          (CFunctionCallAssignmentStatement) exprOnSummary;
       CExpression lValue = funcAssignment.getLeftHandSide();
       CType rValueType = TypeUtils.getRealExpressionType(funcAssignment.getRightHandSide());
       SMGObject tmpMemory = newState.getHeap().getFunctionReturnObject();
@@ -370,11 +363,10 @@ public class SMGTransferRelation
         exp = ((CCastExpression) exp).getOperand();
       }
       // handle string argument
-      if (exp instanceof CStringLiteralExpression) {
-        CStringLiteralExpression strExp = (CStringLiteralExpression) exp;
-        cParamType = strExp.transformTypeToArrayType();
+      if (exp instanceof CStringLiteralExpression strExp) {
+        cParamType = strExp.getExpressionType();
 
-        String name = strExp.getContentString() + " string literal";
+        String name = strExp.getContentWithoutNullTerminator() + " string literal";
 
         SMGRegion stringObj = initialNewState.getHeap().getGlobalObjects().get(name);
 
@@ -477,7 +469,7 @@ public class SMGTransferRelation
       List<CParameterDeclaration> paramDecl,
       List<Pair<SMGRegion, SMGValue>> values,
       SMGState pState)
-      throws SMGInconsistentException, UnrecognizedCodeException {
+      throws CPATransferException {
 
     SMGState newState = pState.copyOf();
     newState.addStackFrame(callEdge.getSuccessor().getFunctionDefinition());
@@ -642,8 +634,8 @@ public class SMGTransferRelation
           if (newState.hasMemoryErrors() || !smgPredicateManager.isUnsat(predicateFormula)) {
             result.add(newState);
           }
-        } catch (SolverException pE) {
-          throw new CPATransferException("Solver Exception on predicate " + predicateFormula, pE);
+        } catch (SolverException e) {
+          throw new CPATransferException("Solver Exception on predicate " + predicateFormula, e);
         }
       } else if ((truthValue && !explicitValue.equals(SMGZeroValue.INSTANCE))
           || (!truthValue && explicitValue.equals(SMGZeroValue.INSTANCE))) {
@@ -681,40 +673,37 @@ public class SMGTransferRelation
     }
 
     CBinaryExpression binExpOp1 = (CBinaryExpression) op1;
-    switch (binExpOp1.getOperator()) {
-      case EQUALS:
-        return new CBinaryExpression(
-            binExpOp1.getFileLocation(),
-            binExpOp1.getExpressionType(),
-            binExpOp1.getCalculationType(),
-            binExpOp1.getOperand1(),
-            binExpOp1.getOperand2(),
-            op == BinaryOperator.EQUALS ? BinaryOperator.NOT_EQUALS : BinaryOperator.EQUALS);
-      case NOT_EQUALS:
-        return new CBinaryExpression(
-            binExpOp1.getFileLocation(),
-            binExpOp1.getExpressionType(),
-            binExpOp1.getCalculationType(),
-            binExpOp1.getOperand1(),
-            binExpOp1.getOperand2(),
-            op == BinaryOperator.EQUALS ? BinaryOperator.EQUALS : BinaryOperator.NOT_EQUALS);
-      default:
-        return pExpression;
-    }
+    return switch (binExpOp1.getOperator()) {
+      case EQUALS ->
+          new CBinaryExpression(
+              binExpOp1.getFileLocation(),
+              binExpOp1.getExpressionType(),
+              binExpOp1.getCalculationType(),
+              binExpOp1.getOperand1(),
+              binExpOp1.getOperand2(),
+              op == BinaryOperator.EQUALS ? BinaryOperator.NOT_EQUALS : BinaryOperator.EQUALS);
+      case NOT_EQUALS ->
+          new CBinaryExpression(
+              binExpOp1.getFileLocation(),
+              binExpOp1.getExpressionType(),
+              binExpOp1.getCalculationType(),
+              binExpOp1.getOperand1(),
+              binExpOp1.getOperand2(),
+              op == BinaryOperator.EQUALS ? BinaryOperator.EQUALS : BinaryOperator.NOT_EQUALS);
+      default -> pExpression;
+    };
   }
 
   @Override
   protected Collection<SMGState> handleStatementEdge(CStatementEdge pCfaEdge, CStatement cStmt)
       throws CPATransferException {
-    if (cStmt instanceof CAssignment) {
-      CAssignment cAssignment = (CAssignment) cStmt;
+    if (cStmt instanceof CAssignment cAssignment) {
       CExpression lValue = cAssignment.getLeftHandSide();
       CRightHandSide rValue = cAssignment.getRightHandSide();
 
       return handleAssignment(state, pCfaEdge, lValue, rValue);
-    } else if (cStmt instanceof CFunctionCallStatement) {
+    } else if (cStmt instanceof CFunctionCallStatement cFCall) {
 
-      CFunctionCallStatement cFCall = (CFunctionCallStatement) cStmt;
       CFunctionCallExpression cFCExpression = cFCall.getFunctionCallExpression();
 
       Set<SMGState> states = new LinkedHashSet<>();
@@ -799,7 +788,7 @@ public class SMGTransferRelation
         /*Check for dereference errors in rValue*/
         List<SMGState> newStates =
             asSMGStateList(readValueToBeAssiged(pState.copyOf(), cfaEdge, rValue));
-        newStates.forEach(smgState -> smgState.unknownWrite());
+        newStates.forEach(SMGState::unknownWrite);
         result.addAll(newStates);
       } else {
         result.addAll(
@@ -1053,17 +1042,14 @@ public class SMGTransferRelation
       } else {
         return assignFieldToState(pNewState, pEdge, pNewObject, pOffset, pLValueType, expression);
       }
-    } else if (pInitializer instanceof CInitializerList) {
-      CInitializerList pNewInitializer = ((CInitializerList) pInitializer);
+    } else if (pInitializer instanceof CInitializerList pNewInitializer) {
       CType realCType = pLValueType.getCanonicalType();
 
-      if (realCType instanceof CArrayType) {
-        CArrayType arrayType = (CArrayType) realCType;
+      if (realCType instanceof CArrayType arrayType) {
         return handleInitializerList(
             pNewState, pVarDecl, pEdge, pNewObject, pOffset, arrayType, pNewInitializer);
 
-      } else if (realCType instanceof CCompositeType) {
-        CCompositeType structType = (CCompositeType) realCType;
+      } else if (realCType instanceof CCompositeType structType) {
         return handleInitializerList(
             pNewState.copyOf(), pVarDecl, pEdge, pNewObject, pOffset, structType, pNewInitializer);
       }
@@ -1123,6 +1109,7 @@ public class SMGTransferRelation
       return assignFieldToState(pNewState, pEdge, pNewObject, pOffset, pLValueType, expression);
     }
   }
+
   /*
    * Handle string literal expression initializer:
    * if a string initializer nested in struct type:
@@ -1153,8 +1140,8 @@ public class SMGTransferRelation
     if (realCType instanceof CCompositeType || pLValueType instanceof CPointerType) {
       // create a new global region for string literal expression
       List<SMGState> smgStates = new ArrayList<>();
-      CType cParamType = pExpression.transformTypeToArrayType();
-      String name = pExpression.getContentString() + " string literal";
+      CArrayType cParamType = pExpression.getExpressionType();
+      String name = pExpression.getContentWithoutNullTerminator() + " string literal";
       SMGRegion region = pNewState.getHeap().getGlobalObjects().get(name);
 
       if (!options.handleSameLiteralsAsOneMemoryRegion() && region != null) {
@@ -1248,7 +1235,7 @@ public class SMGTransferRelation
               pEdge,
               pNewObject,
               pOffset,
-              pExpression.getExpressionType(),
+              pExpression.getExpressionType().asPointerType(),
               newInitializer));
     }
     return smgStates;
@@ -1448,8 +1435,7 @@ public class SMGTransferRelation
     newStates = result;
 
     for (CInitializer initializer : pNewInitializer.getInitializers()) {
-      if (initializer instanceof CDesignatedInitializer) {
-        CDesignatedInitializer designatedInitializer = (CDesignatedInitializer) initializer;
+      if (initializer instanceof CDesignatedInitializer designatedInitializer) {
         assert designatedInitializer.getDesignators().size() == 1;
         CDesignator cDesignator = designatedInitializer.getDesignators().get(0);
         if (cDesignator instanceof CArrayDesignator) {

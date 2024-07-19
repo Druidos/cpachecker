@@ -60,7 +60,7 @@ public class BlockToDotWriter {
     // get hierarchy, Multimap of <outer block, inner blocks>
     final Multimap<Block, Block> hierarchy = getHierarchy();
 
-    app.append("digraph " + "blocked_CFA" + " {\n");
+    app.append("digraph blocked_CFA {\n");
     final List<CFAEdge> edges = new ArrayList<>();
 
     // dump nodes of all blocks
@@ -89,8 +89,7 @@ public class BlockToDotWriter {
     // sort blocks, largest blocks first
     List<Block> sortedBlocks = new ArrayList<>(blockPartitioning.getBlocks());
     Collections.sort(
-        sortedBlocks,
-        Comparator.<Block>comparingInt((block) -> block.getNodes().size()).reversed());
+        sortedBlocks, Comparator.<Block>comparingInt(block -> block.getNodes().size()).reversed());
 
     // build hierarchy, worst case runtime O(n^2), iff mainBlock contains all other blocks
     // 'directly'.

@@ -15,6 +15,7 @@ import static org.sosy_lab.cpachecker.cfa.CFACreationUtils.isReachableNode;
 import com.google.common.base.Verify;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import java.math.BigInteger;
@@ -73,6 +74,8 @@ import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.log.LogManagerWithoutDuplicates;
 import org.sosy_lab.cpachecker.cfa.CFACreationUtils;
 import org.sosy_lab.cpachecker.cfa.ast.ADeclaration;
+import org.sosy_lab.cpachecker.cfa.ast.AParameterDeclaration;
+import org.sosy_lab.cpachecker.cfa.ast.AVariableDeclaration;
 import org.sosy_lab.cpachecker.cfa.ast.FileLocation;
 import org.sosy_lab.cpachecker.cfa.ast.acsl.util.FunctionBlock;
 import org.sosy_lab.cpachecker.cfa.ast.acsl.util.StatementBlock;
@@ -179,6 +182,8 @@ class CFAFunctionBuilder extends ASTVisitor {
   private final ShutdownNotifier shutdownNotifier;
   private final CheckBindingVisitor checkBinding;
   private final Sideassignments sideAssignmentStack;
+  ImmutableMap.Builder<CFANode, Set<AVariableDeclaration>> cfaNodeToAstLocalVariablesInScope;
+  ImmutableMap.Builder<CFANode, Set<AParameterDeclaration>> cfaNodeToAstParametersInScope;
 
   private boolean encounteredAsm = false;
 
@@ -191,7 +196,9 @@ class CFAFunctionBuilder extends ASTVisitor {
       MachineModel pMachine,
       String staticVariablePrefix,
       Sideassignments pSideAssignmentStack,
-      CheckBindingVisitor pCheckBinding) {
+      CheckBindingVisitor pCheckBinding,
+      ImmutableMap.Builder<CFANode, Set<AVariableDeclaration>> pCfaNodeToAstLocalVariablesInScope,
+      ImmutableMap.Builder<CFANode, Set<AParameterDeclaration>> pCfaNodeToAstParametersInScope) {
     options = pOptions;
     logger = pLogger;
     shutdownNotifier = pShutdownNotifier;
@@ -216,6 +223,8 @@ class CFAFunctionBuilder extends ASTVisitor {
     shouldVisitStatements = true;
     shouldVisitExpressions = true;
     sideAssignmentStack = pSideAssignmentStack;
+    cfaNodeToAstLocalVariablesInScope = pCfaNodeToAstLocalVariablesInScope;
+    cfaNodeToAstParametersInScope = pCfaNodeToAstParametersInScope;
   }
 
   FunctionEntryNode getStartNode() {
@@ -256,6 +265,12 @@ class CFAFunctionBuilder extends ASTVisitor {
           CFACreationUtils.removeEdgeFromNodes(edge);
         }
       }
+    }
+
+    // if the function exit node doesn't have entering edges, it's unreachable and we remove it
+    Optional<FunctionExitNode> exitNode = cfa.getExitNode();
+    if (exitNode.isPresent() && exitNode.orElseThrow().getNumEnteringEdges() == 0) {
+      cfa.removeExitNode();
     }
 
     assert !sideAssignmentStack.hasPreSideAssignments();
@@ -458,9 +473,12 @@ class CFAFunctionBuilder extends ASTVisitor {
 
     final FileLocation fileloc = astCreator.getLocation(declaration);
     final FunctionExitNode returnNode = new FunctionExitNode(fdef);
+    trackScopeInformation(returnNode);
 
     final FunctionEntryNode startNode =
         new CFunctionEntryNode(fileloc, fdef, returnNode, scope.getReturnVariable());
+    trackScopeInformation(startNode);
+
     returnNode.setEntryNode(startNode);
     cfa = startNode;
     blocks.add(new FunctionBlock(startNode));
@@ -520,12 +538,15 @@ class CFAFunctionBuilder extends ASTVisitor {
 
       CFANode lastNode = locStack.pop();
 
+      // During function CFA construction, every function entry node must have a function exit node
+      // (unreachable function exit nodes have not been removed yet).
+      FunctionExitNode functionExitNode = cfa.getExitNode().orElseThrow();
       if (isReachableNode(lastNode)) {
         BlankEdge blankEdge =
-            new BlankEdge("", FileLocation.DUMMY, lastNode, cfa.getExitNode(), "default return");
+            new BlankEdge("", FileLocation.DUMMY, lastNode, functionExitNode, "default return");
         addToCFA(blankEdge);
       } else {
-        cfa.getExitNode().addOutOfScopeVariables(lastNode.getOutOfScopeVariables());
+        functionExitNode.addOutOfScopeVariables(lastNode.getOutOfScopeVariables());
       }
 
       if (!gotoLabelNeeded.isEmpty()) {
@@ -745,6 +766,7 @@ class CFAFunctionBuilder extends ASTVisitor {
     }
 
     CFALabelNode labelNode = new CFALabelNode(cfa.getFunction(), labelName);
+    trackScopeInformation(labelNode);
     locStack.push(labelNode);
 
     if (localLabel == null) {
@@ -870,7 +892,10 @@ class CFAFunctionBuilder extends ASTVisitor {
   private void handleReturnStatement(IASTReturnStatement returnStatement, FileLocation fileloc) {
 
     CFANode prevNode = locStack.pop();
-    FunctionExitNode functionExitNode = cfa.getExitNode();
+
+    // During function CFA construction, every function entry node must have a function exit node
+    // (unreachable function exit nodes have not been removed yet).
+    FunctionExitNode functionExitNode = cfa.getExitNode().orElseThrow();
 
     // a return statement leaves all available scopes at once.
     for (Collection<CSimpleDeclaration> vars : scope.getVariablesOfMostLocalScopes()) {
@@ -1008,12 +1033,18 @@ class CFAFunctionBuilder extends ASTVisitor {
     CFACreationUtils.addEdgeToCFA(edge, logger, options.showDeadCode());
   }
 
+  private void trackScopeInformation(CFANode pNode) {
+    cfaNodeToAstLocalVariablesInScope.put(pNode, scope.getVariablesInScope());
+    cfaNodeToAstParametersInScope.put(pNode, scope.getParameters());
+  }
+
   /**
    * @category helper
    */
   private CFANode newCFANode() {
     assert cfa != null;
     CFANode nextNode = new CFANode(cfa.getFunction());
+    trackScopeInformation(nextNode);
     return nextNode;
   }
 
@@ -1429,6 +1460,8 @@ class CFAFunctionBuilder extends ASTVisitor {
               loc.getNodeLength() + loc.getNodeOffset() - fileLocation.getNodeOffset(),
               fileLocation.getStartingLineNumber(),
               loc.getEndingLineNumber(),
+              loc.getStartColumnInLine(),
+              loc.getEndColumnInLine(),
               fileLocation.getStartingLineInOrigin(),
               loc.getEndingLineInOrigin(),
               fileLocation.isOffsetRelatedToOrigin() && loc.isOffsetRelatedToOrigin());
@@ -1539,11 +1572,20 @@ class CFAFunctionBuilder extends ASTVisitor {
 
     createLoop(doStatement.getCondition(), fileloc);
 
+    FileLocation dummyLoc = onlyFirstLine(fileloc);
+
+    // Add additional blank edge between the AssumeEdge and the loop head as detected by
+    // LoopStructure. This is not necessary, but works better for analyses that want to re-add the
+    // parents of loop heads to the waitlist, which is problematic if that parent has two outgoing
+    // edges. Cf. #1113 for more information.
+    CFANode firstLoopNode = locStack.pop();
+    CFANode newFirstLoopNode = newCFANode();
+    locStack.push(newFirstLoopNode);
+    addToCFA(new BlankEdge("", dummyLoc, firstLoopNode, newFirstLoopNode, "do"));
+
     // connect CFA with first node inside the loop
     // (so the condition will be skipped in the first iteration)
-    final BlankEdge blankEdge =
-        new BlankEdge("", onlyFirstLine(fileloc), prevNode, locStack.peek(), "do");
-    addToCFA(blankEdge);
+    addToCFA(new BlankEdge("", dummyLoc, prevNode, newFirstLoopNode, "do"));
   }
 
   /**
@@ -1576,6 +1618,9 @@ class CFAFunctionBuilder extends ASTVisitor {
 
     CFANode prevNode = locStack.pop();
     CFANode postLoopNode = loopNextStack.peek();
+    if (postLoopNode == null) {
+      throw parseContext.parseError("Invalid 'break' outside loop", breakStatement);
+    }
 
     // on "return" we add the OOSVars after the return edge, because the return can access all vars.
     // on "break" we add the OOSVars before the break edge, because nothing happens along the edge.
@@ -1597,6 +1642,9 @@ class CFAFunctionBuilder extends ASTVisitor {
 
     CFANode prevNode = locStack.pop();
     CFANode loopStartNode = loopStartStack.peek();
+    if (loopStartNode == null) {
+      throw parseContext.parseError("Invalid 'continue' outside loop", continueStatement);
+    }
 
     BlankEdge blankEdge =
         new BlankEdge(
@@ -1604,6 +1652,7 @@ class CFAFunctionBuilder extends ASTVisitor {
     addToCFA(blankEdge);
 
     CFANode nextNode = new CFANode(cfa.getFunction());
+    trackScopeInformation(nextNode);
     locStack.push(nextNode);
   }
 
@@ -1774,6 +1823,8 @@ class CFAFunctionBuilder extends ASTVisitor {
         f.getNodeLength(),
         f.getStartingLineNumber(),
         f.getStartingLineNumber(),
+        f.getStartColumnInLine(),
+        f.getEndColumnInLine(),
         f.getStartingLineInOrigin(),
         f.getStartingLineInOrigin(),
         f.isOffsetRelatedToOrigin());
@@ -1820,6 +1871,7 @@ class CFAFunctionBuilder extends ASTVisitor {
             postSwitchNode));
 
     locStack.push(new CFANode(cfa.getFunction()));
+    trackScopeInformation(locStack.peek());
 
     switchDefaultStack.push(null);
     switchDefaultFileLocationStack.push(null);
@@ -1872,12 +1924,15 @@ class CFAFunctionBuilder extends ASTVisitor {
    * @category switchstatement
    */
   private void handleCaseStatement(final IASTCaseStatement statement, FileLocation fileLocation) {
+    if (switchCaseStack.isEmpty()) {
+      throw parseContext.parseError("Invalid 'case' outside switch", statement);
+    }
 
     // condition, right part, "2" or 'a' or 'a'...'c'
     IASTExpression right = statement.getExpression();
 
     CFANode rootNode = switchCaseStack.pop();
-    final CExpression switchExpr = switchExprStack.peek();
+    final CExpression switchExpr = checkNotNull(switchExprStack.peek());
     final CFANode caseNode = newCFANode();
     final CFANode notCaseNode = newCFANode();
     final CFANode nextCaseStartsAtNode;
@@ -1931,45 +1986,37 @@ class CFAFunctionBuilder extends ASTVisitor {
         buildBinaryExpression(switchExpr, caseExpr, CBinaryExpression.BinaryOperator.EQUALS);
 
     final CExpression exp = astCreator.simplifyExpressionOneStep(binExp);
-    final CFANode nextCaseStartsAtNode;
-    switch (astCreator.getConditionKind(exp)) {
-      case ALWAYS_FALSE:
-        // no edge connecting rootNode with caseNode,
-        // so the "case" branch won't be connected to the rest of the CFA.
-        // also ignore the edge from rootNode to notCaseNode, it is not needed
-        nextCaseStartsAtNode = rootNode;
-        break;
-
-      case ALWAYS_TRUE:
-        final BlankEdge trueEdge =
-            new BlankEdge(
-                "",
-                onlyFirstLine(fileLocation),
+    final CFANode nextCaseStartsAtNode =
+        switch (astCreator.getConditionKind(exp)) {
+            // no edge connecting rootNode with caseNode,
+            // so the "case" branch won't be connected to the rest of the CFA.
+            // also ignore the edge from rootNode to notCaseNode, it is not needed
+          case ALWAYS_FALSE -> rootNode;
+          case ALWAYS_TRUE -> {
+            final BlankEdge trueEdge =
+                new BlankEdge(
+                    "",
+                    onlyFirstLine(fileLocation),
+                    rootNode,
+                    caseNode,
+                    "__case__[" + binExp.toASTString() + "]");
+            addToCFA(trueEdge);
+            yield notCaseNode;
+          }
+          case NORMAL -> {
+            assert ASTOperatorConverter.isBooleanExpression(exp);
+            addConditionEdges(
+                exp.toASTString(),
+                exp,
                 rootNode,
                 caseNode,
-                "__case__[" + binExp.toASTString() + "]");
-        addToCFA(trueEdge);
-        nextCaseStartsAtNode = notCaseNode;
-        break;
-
-      case NORMAL:
-        assert ASTOperatorConverter.isBooleanExpression(exp);
-        addConditionEdges(
-            exp.toASTString(),
-            exp,
-            rootNode,
-            caseNode,
-            notCaseNode,
-            fileLocation,
-            false,
-            ImmutableSet.of());
-        nextCaseStartsAtNode = notCaseNode;
-        break;
-
-      default:
-        throw new AssertionError();
-    }
-
+                notCaseNode,
+                fileLocation,
+                false,
+                ImmutableSet.of());
+            yield notCaseNode;
+          }
+        };
     return nextCaseStartsAtNode;
   }
 
@@ -2126,12 +2173,10 @@ class CFAFunctionBuilder extends ASTVisitor {
           Pair<IASTExpression, CIdExpression> cond = it.next();
           IASTExpression condExp = cond.getFirst();
           CIdExpression tempVar = cond.getSecond();
-          if (sideAssignment instanceof CVariableDeclaration) {
-            CVariableDeclaration cvd = (CVariableDeclaration) sideAssignment;
-            if (cvd.getOrigName().equals(tempVar.getName())) {
-              prevNode = handleConditionalExpression(prevNode, condExp, tempVar);
-              it.remove();
-            }
+          if ((sideAssignment instanceof CVariableDeclaration cvd)
+              && cvd.getOrigName().equals(tempVar.getName())) {
+            prevNode = handleConditionalExpression(prevNode, condExp, tempVar);
+            it.remove();
           }
         }
       }

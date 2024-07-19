@@ -13,6 +13,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
@@ -39,7 +41,7 @@ import org.sosy_lab.cpachecker.util.predicates.pathformula.pointeraliasing.TypeH
 @javax.annotation.concurrent.Immutable // cannot prove deep immutability because of CType
 public final class SSAMap implements Serializable {
 
-  private static final long serialVersionUID = 7618801653203679876L;
+  @Serial private static final long serialVersionUID = 7618801653203679876L;
 
   // Default value for the default value
   private static final int DEFAULT_DEFAULT_IDX = -1;
@@ -117,12 +119,18 @@ public final class SSAMap implements Serializable {
     }
 
     @SuppressWarnings("CheckReturnValue")
+    @CanIgnoreReturnValue
     public SSAMapBuilder setIndex(String name, CType type, int idx) {
       Preconditions.checkArgument(
-          idx > 0, "Indices need to be positive for this SSAMap implementation:", name, type, idx);
+          idx > 0, "Non-positive index %s for variable %s with type %s", idx, name, type);
       int oldIdx = getIndex(name);
       Preconditions.checkArgument(
-          idx >= oldIdx, "SSAMap updates need to be strictly monotone:", name, type, idx);
+          idx >= oldIdx,
+          "Non-monotonic SSAMap update for variable %s with type %s from %s to %s",
+          name,
+          type,
+          oldIdx,
+          idx);
 
       type = type.getCanonicalType();
       assert !(type instanceof CFunctionType) : "Variable " + name + " has function type " + type;
@@ -153,6 +161,7 @@ public final class SSAMap implements Serializable {
       freshValueProvider = freshValueProvider.merge(fvp);
     }
 
+    @CanIgnoreReturnValue
     public SSAMapBuilder deleteVariable(String variable) {
       int index = getIndex(variable);
       if (index != ssa.defaultValue) {
@@ -327,14 +336,11 @@ public final class SSAMap implements Serializable {
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
-    } else if (!(obj instanceof SSAMap)) {
-      return false;
-    } else {
-      SSAMap other = (SSAMap) obj;
-      // Do a few cheap checks before the expensive ones.
-      return varsHashCode == other.varsHashCode
-          && vars.equals(other.vars)
-          && freshValueProvider.equals(other.freshValueProvider);
     }
+    return obj instanceof SSAMap other
+        // Do a few cheap checks before the expensive ones.
+        && varsHashCode == other.varsHashCode
+        && vars.equals(other.vars)
+        && freshValueProvider.equals(other.freshValueProvider);
   }
 }

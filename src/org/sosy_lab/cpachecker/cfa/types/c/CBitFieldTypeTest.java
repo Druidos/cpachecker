@@ -25,7 +25,7 @@ public class CBitFieldTypeTest {
   private final ClassSanityTester tester = new ClassSanityTester();
 
   public CBitFieldTypeTest() {
-    tester.setDefault(CType.class, CNumericTypes.INT);
+    tester.setDistinctValues(CType.class, CNumericTypes.INT, CNumericTypes.CHAR);
     tester.setDistinctValues(
         Alignment.class, Alignment.NO_SPECIFIERS, new Alignment(0, 1, 0, true));
   }
@@ -124,7 +124,7 @@ public class CBitFieldTypeTest {
             false,
             Alignment.NO_SPECIFIERS,
             false,
-            CNumericTypes.SIGNED_INT,
+            CNumericTypes.INT,
             ImmutableList.of(),
             "DummyEnum",
             "DummyEnum"),

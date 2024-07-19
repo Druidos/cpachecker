@@ -30,7 +30,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll.SMGSingleLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll.SMGSingleLinkedListCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentSet;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 
 public final class SMGJoinSubSMGsForAbstraction {
 
@@ -63,8 +63,7 @@ public final class SMGJoinSubSMGsForAbstraction {
     SMGEdgeHasValue prevObj2hve = null;
     SMGEdgeHasValue nextObj2hve = null;
 
-    if (pListCandidate instanceof SMGDoublyLinkedListCandidate) {
-      SMGDoublyLinkedListCandidate dllc = (SMGDoublyLinkedListCandidate) pListCandidate;
+    if (pListCandidate instanceof SMGDoublyLinkedListCandidate dllc) {
       nfo = dllc.getShape().getNfo();
       pfo = dllc.getShape().getPfo();
       hfo = dllc.getShape().getHfo();
@@ -276,18 +275,13 @@ public final class SMGJoinSubSMGsForAbstraction {
 
   private int getMinLength(SMGObject pObj) {
 
-    switch (pObj.getKind()) {
-      case REG:
-        return 1;
-      case DLL:
-        return ((SMGDoublyLinkedList) pObj).getMinimumLength();
-      case SLL:
-        return ((SMGSingleLinkedList) pObj).getMinimumLength();
-      case OPTIONAL:
-        return 0;
-      default:
-        throw new AssertionError();
-    }
+    return switch (pObj.getKind()) {
+      case REG -> 1;
+      case DLL -> ((SMGDoublyLinkedList) pObj).getMinimumLength();
+      case SLL -> ((SMGSingleLinkedList) pObj).getMinimumLength();
+      case OPTIONAL -> 0;
+      default -> throw new AssertionError();
+    };
   }
 
   public boolean isDefined() {

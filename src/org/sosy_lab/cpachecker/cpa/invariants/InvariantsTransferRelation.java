@@ -123,7 +123,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
   }
 
   private NumeralFormula<CompoundInterval> allPossibleValues(Type pType) {
-    TypeInfo typeInfo = BitVectorInfo.from(machineModel, pType);
+    TypeInfo typeInfo = TypeInfo.from(machineModel, pType);
     return InvariantsFormulaManager.INSTANCE.asConstant(
         typeInfo, getCompoundIntervalManager(typeInfo).allPossibleValues());
   }
@@ -138,17 +138,17 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
     final AtomicBoolean overflowDetected = new AtomicBoolean(false);
     OverflowEventHandler overflowEventHandler = () -> overflowDetected.set(true);
 
-    if (compoundIntervalManagerFactory instanceof CompoundBitVectorIntervalManagerFactory) {
-      CompoundBitVectorIntervalManagerFactory compoundBitVectorIntervalManagerFactory =
-          (CompoundBitVectorIntervalManagerFactory) compoundIntervalManagerFactory;
+    if (compoundIntervalManagerFactory
+        instanceof
+        CompoundBitVectorIntervalManagerFactory compoundBitVectorIntervalManagerFactory) {
       compoundBitVectorIntervalManagerFactory.addOverflowEventHandler(overflowEventHandler);
     }
 
     state = getSuccessor(pEdge, precision, state);
 
-    if (compoundIntervalManagerFactory instanceof CompoundBitVectorIntervalManagerFactory) {
-      CompoundBitVectorIntervalManagerFactory compoundBitVectorIntervalManagerFactory =
-          (CompoundBitVectorIntervalManagerFactory) compoundIntervalManagerFactory;
+    if (compoundIntervalManagerFactory
+        instanceof
+        CompoundBitVectorIntervalManagerFactory compoundBitVectorIntervalManagerFactory) {
       compoundBitVectorIntervalManagerFactory.removeOverflowEventHandler(overflowEventHandler);
     }
 
@@ -262,15 +262,11 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
     }
 
     // Ignore unsupported types
-    if (!BitVectorInfo.isSupported(decl.getType())) {
+    if (!TypeInfo.isSupported(decl.getType())) {
       return pElement;
     }
 
-    MemoryLocation varName = MemoryLocation.parseExtendedQualifiedName(decl.getName());
-    if (!decl.isGlobal()) {
-      varName =
-          MemoryLocationExtractor.scope(decl.getName(), pEdge.getSuccessor().getFunctionName());
-    }
+    MemoryLocation varName = MemoryLocation.forDeclaration(decl);
 
     NumeralFormula<CompoundInterval> value;
     if (decl.getInitializer() instanceof CInitializerExpression) {
@@ -292,8 +288,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
       throws UnrecognizedCodeException {
 
     InvariantsState newElement = pElement;
-    List<String> formalParams = pEdge.getSuccessor().getFunctionParameterNames();
-    List<CParameterDeclaration> declarations = pEdge.getSuccessor().getFunctionParameters();
+    List<CParameterDeclaration> formalParams = pEdge.getSuccessor().getFunctionParameters();
     List<CExpression> actualParams = pEdge.getArguments();
     int limit = Math.min(formalParams.size(), actualParams.size());
 
@@ -318,23 +313,23 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
     formalParams = FluentIterable.from(formalParams).limit(limit).toList();
     actualParams = FluentIterable.from(actualParams).limit(limit).toList();
 
-    Iterator<CParameterDeclaration> declarationIterator = declarations.iterator();
-    for (Pair<String, CExpression> param : Pair.zipList(formalParams, actualParams)) {
+    for (var param : Pair.zipList(formalParams, actualParams)) {
       CExpression actualParam = param.getSecond();
-      CParameterDeclaration declaration = declarationIterator.next();
+      CParameterDeclaration declaration = param.getFirst();
 
       // Ignore unsupported types
-      if (!BitVectorInfo.isSupported(declaration.getType())) {
+      if (!TypeInfo.isSupported(declaration.getType())) {
         continue;
       }
 
       NumeralFormula<CompoundInterval> value =
-          actualParam.accept(actualParamExpressionToFormulaVisitor);
+          ExpressionToFormulaVisitor.makeCastFromArrayToPointerIfNecessary(
+                  actualParam, declaration.getType())
+              .accept(actualParamExpressionToFormulaVisitor);
       if (containsArrayWildcard(value)) {
         value = toConstant(value, pElement.getEnvironment());
       }
-      MemoryLocation formalParam =
-          MemoryLocationExtractor.scope(param.getFirst(), pEdge.getSuccessor().getFunctionName());
+      MemoryLocation formalParam = MemoryLocation.forDeclaration(declaration);
 
       value = handlePotentialOverflow(pElement, value, declaration.getType());
       newElement = newElement.assign(formalParam, value);
@@ -374,8 +369,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
       }
     }
 
-    if (pEdge.getStatement() instanceof CAssignment) {
-      CAssignment assignment = (CAssignment) pEdge.getStatement();
+    if (pEdge.getStatement() instanceof CAssignment assignment) {
       ExpressionToFormulaVisitor etfv = getExpressionToFormulaVisitor(pEdge, pElement);
       CExpression leftHandSide = assignment.getLeftHandSide();
       CRightHandSide rightHandSide = assignment.getRightHandSide();
@@ -384,17 +378,14 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
                   assignment.getRightHandSide(), leftHandSide.getExpressionType())
               .accept(etfv);
       if (compoundIntervalFormulaManager.containsAllPossibleValues(value)
-          && rightHandSide instanceof CFunctionCallExpression) {
-        CFunctionCallExpression cFunctionCallExpression = (CFunctionCallExpression) rightHandSide;
+          && rightHandSide instanceof CFunctionCallExpression cFunctionCallExpression) {
         CExpression functionNameExpression = cFunctionCallExpression.getFunctionNameExpression();
-        if (functionNameExpression instanceof CIdExpression) {
-          CIdExpression idExpression = (CIdExpression) functionNameExpression;
-          if (idExpression.getName().equals("__VERIFIER_nondet_uint")) {
-            TypeInfo typeInfo = BitVectorInfo.from(machineModel, leftHandSide.getExpressionType());
-            value =
-                InvariantsFormulaManager.INSTANCE.asConstant(
-                    typeInfo, getCompoundIntervalManager(typeInfo).singleton(0).extendToMaxValue());
-          }
+        if ((functionNameExpression instanceof CIdExpression idExpression)
+            && idExpression.getName().equals("__VERIFIER_nondet_uint")) {
+          TypeInfo typeInfo = TypeInfo.from(machineModel, leftHandSide.getExpressionType());
+          value =
+              InvariantsFormulaManager.INSTANCE.asConstant(
+                  typeInfo, getCompoundIntervalManager(typeInfo).singleton(0).extendToMaxValue());
         }
       }
       value = handlePotentialOverflow(pElement, value, leftHandSide.getExpressionType());
@@ -426,9 +417,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
     MemoryLocationExtractor variableNameExtractor =
         new MemoryLocationExtractor(
             compoundIntervalManagerFactory, machineModel, pEdge, pElement.getEnvironment());
-    if (pLeftHandSide instanceof CArraySubscriptExpression) {
-      CArraySubscriptExpression arraySubscriptExpression =
-          (CArraySubscriptExpression) pLeftHandSide;
+    if (pLeftHandSide instanceof CArraySubscriptExpression arraySubscriptExpression) {
       MemoryLocation array =
           variableNameExtractor.getMemoryLocation(arraySubscriptExpression.getArrayExpression());
       NumeralFormula<CompoundInterval> subscript =
@@ -461,9 +450,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
           new MemoryLocationExtractor(
               compoundIntervalManagerFactory, machineModel, pEdge, pElement.getEnvironment());
       CLeftHandSide leftHandSide = cAssignment.getLeftHandSide();
-      if (leftHandSide instanceof CArraySubscriptExpression) {
-        CArraySubscriptExpression arraySubscriptExpression =
-            (CArraySubscriptExpression) leftHandSide;
+      if (leftHandSide instanceof CArraySubscriptExpression arraySubscriptExpression) {
         MemoryLocation array =
             variableNameExtractor.getMemoryLocation(arraySubscriptExpression.getArrayExpression());
         NumeralFormula<CompoundInterval> subscript =
@@ -488,7 +475,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
       throws UnrecognizedCodeException {
     CFunctionSummaryEdge summaryEdge = pFunctionReturnEdge.getSummaryEdge();
 
-    CFunctionCall expression = summaryEdge.getExpression();
+    final CFunctionCall expression = pFunctionReturnEdge.getFunctionCall();
 
     final String calledFunctionName = pFunctionReturnEdge.getPredecessor().getFunctionName();
 
@@ -496,16 +483,14 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
     InvariantsState result = pElement;
 
     // expression is an assignment operation, e.g. a = g(b);
-    if (expression instanceof CFunctionCallAssignmentStatement) {
-      CFunctionCallAssignmentStatement funcExp = (CFunctionCallAssignmentStatement) expression;
-
+    if (expression instanceof CFunctionCallAssignmentStatement funcExp) {
       if (var.isPresent()) {
         ExpressionToFormulaVisitor expressionToFormulaVisitor =
             getExpressionToFormulaVisitor(
                 new MemoryLocationExtractor(
                     compoundIntervalManagerFactory,
                     machineModel,
-                    summaryEdge.getFunctionEntry().getFunctionName(),
+                    pFunctionReturnEdge.getFunctionEntry().getFunctionName(),
                     pElement.getEnvironment()),
                 pElement);
         CExpression idExpression =
@@ -519,11 +504,7 @@ class InvariantsTransferRelation extends SingleEdgeTransferRelation {
       }
     } else {
       Iterator<CExpression> actualParamIterator =
-          summaryEdge
-              .getExpression()
-              .getFunctionCallExpression()
-              .getParameterExpressions()
-              .iterator();
+          expression.getFunctionCallExpression().getParameterExpressions().iterator();
       for (String formalParamName :
           pFunctionReturnEdge.getPredecessor().getEntryNode().getFunctionParameterNames()) {
         if (!actualParamIterator.hasNext()) {

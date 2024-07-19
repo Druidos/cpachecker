@@ -22,7 +22,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,8 +148,7 @@ public class AssignmentToPathAllocator {
       createAssignments(terms, variableEnvironment, variables, functionEnvironment, memory);
       removeDeallocatedVariables(ssaMap, variableEnvironment, variables);
       ImmutableMap<String, Memory> allocatedMemory =
-          ImmutableMap.copyOf(
-              Maps.transformEntries(memory, (name, heap) -> new Memory(name, heap)));
+          ImmutableMap.copyOf(Maps.transformEntries(memory, Memory::new));
 
       ConcreteState concreteState =
           new ConcreteState(
@@ -197,12 +195,9 @@ public class AssignmentToPathAllocator {
     @Override
     public boolean shouldEvaluateExpressionWithThisEvaluator(AExpression pExp) {
 
-      if (pExp instanceof CExpression) {
-        CExpression cExp = (CExpression) pExp;
-        if (hasUninterpretedFunctionName(cExp)) {
-          String functionName = getUninterpretedFunctionName(cExp);
-          return uninterpretedFunctions.containsKey(functionName);
-        }
+      if ((pExp instanceof CExpression cExp) && hasUninterpretedFunctionName(cExp)) {
+        String functionName = getUninterpretedFunctionName(cExp);
+        return uninterpretedFunctions.containsKey(functionName);
       }
 
       return false;
@@ -212,9 +207,8 @@ public class AssignmentToPathAllocator {
 
       String typeName = getTypeString(pCExp.getExpressionType());
 
-      if (pCExp instanceof CBinaryExpression) {
+      if (pCExp instanceof CBinaryExpression binExp) {
 
-        CBinaryExpression binExp = (CBinaryExpression) pCExp;
         String opString = binExp.getOperator().getOperator();
 
         switch (binExp.getOperator()) {
@@ -231,13 +225,11 @@ public class AssignmentToPathAllocator {
 
         return typeName + "_" + opString + "_";
 
-      } else if (pCExp instanceof CUnaryExpression) {
-        CUnaryExpression unExp = (CUnaryExpression) pCExp;
+      } else if (pCExp instanceof CUnaryExpression unExp) {
         String op = unExp.getOperator().getOperator();
 
         return typeName + "_" + op + "_";
-      } else if (pCExp instanceof CCastExpression) {
-        CCastExpression castExp = (CCastExpression) pCExp;
+      } else if (pCExp instanceof CCastExpression castExp) {
         CType type2 = castExp.getOperand().getExpressionType();
         String typeName2 = getTypeString(type2);
         return "__cast_" + typeName2 + "_to_" + typeName + "__";
@@ -248,21 +240,13 @@ public class AssignmentToPathAllocator {
 
     private String getTypeString(CType pExpressionType) {
 
-      if (pExpressionType instanceof CSimpleType) {
+      if (pExpressionType instanceof CSimpleType simpleType) {
 
-        CSimpleType simpleType = (CSimpleType) pExpressionType;
-
-        switch (simpleType.getType()) {
-          case INT:
-          case CHAR:
-          case BOOL:
-            return "Integer";
-          case FLOAT:
-          case DOUBLE:
-            return "Rational";
-          default:
-            return "";
-        }
+        return switch (simpleType.getType()) {
+          case INT, CHAR, BOOL -> "Integer";
+          case FLOAT, DOUBLE -> "Rational";
+          default -> "";
+        };
       }
 
       return "";
@@ -383,10 +367,8 @@ public class AssignmentToPathAllocator {
 
     if (isReference) {
       List<String> fieldNames = new ArrayList<>(references.size() - 1);
-      Iterator<String> fieldNameIterator = references.iterator();
       int i = 0;
-      while (fieldNameIterator.hasNext()) {
-        String fieldName = fieldNameIterator.next();
+      for (String fieldName : references) {
         if (i != NAME_AND_FUNCTION) {
           fieldNames.add(fieldName);
         }

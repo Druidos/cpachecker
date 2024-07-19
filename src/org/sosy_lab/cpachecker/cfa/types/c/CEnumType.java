@@ -9,28 +9,24 @@
 package org.sosy_lab.cpachecker.cfa.types.c;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import java.io.Serial;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.sosy_lab.cpachecker.cfa.ast.AbstractSimpleDeclaration;
-import org.sosy_lab.cpachecker.cfa.ast.FileLocation;
-import org.sosy_lab.cpachecker.cfa.ast.c.CAstNodeVisitor;
-import org.sosy_lab.cpachecker.cfa.ast.c.CSimpleDeclaration;
-import org.sosy_lab.cpachecker.cfa.ast.c.CSimpleDeclarationVisitor;
-import org.sosy_lab.cpachecker.cfa.types.Type;
+import org.sosy_lab.cpachecker.cfa.ast.c.CEnumerator;
 
 public final class CEnumType implements CComplexType {
 
-  private static final long serialVersionUID = -986078271714119880L;
+  @Serial private static final long serialVersionUID = -986078271714119880L;
 
+  private final CSimpleType compatibleType;
   private final ImmutableList<CEnumerator> enumerators;
   private final String name;
   private final String origName;
@@ -38,23 +34,22 @@ public final class CEnumType implements CComplexType {
   private final boolean isVolatile;
   private final Alignment alignment;
   private final boolean isPacked;
-  private CSimpleType integerType;
   private int hashCache = 0;
 
   public CEnumType(
-      boolean pConst,
-      boolean pVolatile,
-      Alignment pAlignment,
-      boolean pPacked,
-      CSimpleType pIntegerType,
-      List<CEnumerator> pEnumerators,
-      String pName,
-      String pOrigName) {
+      final boolean pConst,
+      final boolean pVolatile,
+      final Alignment pAlignment,
+      final boolean pPacked,
+      final CSimpleType pCompatibleType,
+      final List<CEnumerator> pEnumerators,
+      final String pName,
+      final String pOrigName) {
     isConst = pConst;
     isVolatile = pVolatile;
     alignment = checkNotNull(pAlignment);
     isPacked = pPacked;
-    integerType = checkNotNull(pIntegerType);
+    compatibleType = checkNotNull(pCompatibleType);
     enumerators = ImmutableList.copyOf(pEnumerators);
     name = pName.intern();
     origName = pOrigName.intern();
@@ -85,6 +80,11 @@ public final class CEnumType implements CComplexType {
     return isPacked;
   }
 
+  @Override
+  public boolean hasKnownConstantSize() {
+    return true;
+  }
+
   /**
    * §6.7.2.2 (4) Each enumerated type shall be compatible with char, a signed integer type, or an
    * unsigned integer type. The choice of type is implementation-defined, but shall be capable of
@@ -104,8 +104,8 @@ public final class CEnumType implements CComplexType {
    *
    * @return integer type compatible with this enum
    */
-  public CSimpleType getIntegerType() {
-    return integerType;
+  public CSimpleType getCompatibleType() {
+    return compatibleType;
   }
 
   public ImmutableList<CEnumerator> getEnumerators() {
@@ -168,104 +168,6 @@ public final class CEnumType implements CComplexType {
     return toASTString("");
   }
 
-  public static final class CEnumerator extends AbstractSimpleDeclaration
-      implements CSimpleDeclaration {
-
-    private static final long serialVersionUID = -2526725372840523651L;
-
-    private final @Nullable BigInteger value;
-    private @Nullable CEnumType enumType;
-    private final String qualifiedName;
-
-    public CEnumerator(
-        final FileLocation pFileLocation,
-        final String pName,
-        final String pQualifiedName,
-        final @Nullable CType pType,
-        final @Nullable BigInteger pValue) {
-      super(pFileLocation, pType, pName);
-
-      checkNotNull(pName);
-      value = pValue;
-      qualifiedName = checkNotNull(pQualifiedName);
-    }
-
-    /** Get the enum that declared this enumerator. */
-    public CEnumType getEnum() {
-      return enumType;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-
-      if (!(obj instanceof CEnumerator) || !super.equals(obj)) {
-        return false;
-      }
-
-      CEnumerator other = (CEnumerator) obj;
-
-      return Objects.equals(value, other.value) && qualifiedName.equals(other.qualifiedName);
-      // do not compare the enumType, comparing it with == is wrong because types which
-      // are the same but not identical would lead to wrong results
-      // comparing it with equals is no good choice, too. This would lead to a stack
-      // overflow
-      //  && (enumType == other.enumType);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(value, enumType, qualifiedName) * 31 + super.hashCode();
-    }
-
-    /** This method should be called only during parsing. */
-    public void setEnum(CEnumType pEnumType) {
-      checkState(enumType == null);
-      enumType = checkNotNull(pEnumType);
-    }
-
-    @Override
-    public void setType(Type pType) {
-      super.setType(checkNotNull(pType));
-    }
-
-    @Override
-    public String getQualifiedName() {
-      return qualifiedName;
-    }
-
-    @Override
-    public CType getType() {
-      return (CType) super.getType();
-    }
-
-    public @Nullable BigInteger getValue() {
-      checkState(value != null, "Need to check hasValue() before calling getValue()");
-      return value;
-    }
-
-    public boolean hasValue() {
-      return value != null;
-    }
-
-    @Override
-    public String toASTString() {
-      return getQualifiedName().replace("::", "__") + (hasValue() ? " = " + value : "");
-    }
-
-    @Override
-    public <R, X extends Exception> R accept(CSimpleDeclarationVisitor<R, X> pV) throws X {
-      return pV.visit(this);
-    }
-
-    @Override
-    public <R, X extends Exception> R accept(CAstNodeVisitor<R, X> pV) throws X {
-      return pV.visit(this);
-    }
-  }
-
   @Override
   public <R, X extends Exception> R accept(CTypeVisitor<R, X> pVisitor) throws X {
     return pVisitor.visit(this);
@@ -290,13 +192,8 @@ public final class CEnumType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CEnumType)) {
-      return false;
-    }
-
-    CEnumType other = (CEnumType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CEnumType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked
@@ -311,13 +208,8 @@ public final class CEnumType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CEnumType)) {
-      return false;
-    }
-
-    CEnumType other = (CEnumType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CEnumType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked
@@ -341,7 +233,7 @@ public final class CEnumType implements CComplexType {
         isVolatile || pForceVolatile,
         alignment,
         isPacked,
-        integerType,
+        compatibleType,
         enumerators,
         name,
         origName);
@@ -353,6 +245,6 @@ public final class CEnumType implements CComplexType {
       return this;
     }
     return new CEnumType(
-        isConst, isVolatile, alignment, pPacked, integerType, enumerators, name, origName);
+        isConst, isVolatile, alignment, pPacked, compatibleType, enumerators, name, origName);
   }
 }

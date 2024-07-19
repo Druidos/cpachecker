@@ -13,7 +13,7 @@ public final class CNumericTypes {
   private CNumericTypes() {}
 
   // type constants
-  //   const  volatile  no alignment  basictype  long  short  signed  unsign  compl  imag  long long
+  //   const  volatile  no alignment  basic type  long  short  signed  unsign  compl  imag  long long
   public static final CSimpleType BOOL =
       new CSimpleType(
           false,
@@ -262,4 +262,7 @@ public final class CNumericTypes {
           false,
           false,
           false);
+
+  public static final CType SIZE_T =
+      new CSimpleType(false, false, CBasicType.INT, true, false, false, true, false, false, false);
 }

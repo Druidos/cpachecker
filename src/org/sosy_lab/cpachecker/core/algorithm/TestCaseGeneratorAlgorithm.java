@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.core.algorithm;
 import static com.google.common.collect.FluentIterable.from;
 
 import com.google.common.base.Preconditions;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -138,10 +139,7 @@ public class TestCaseGeneratorAlgorithm implements ProgressReportingAlgorithm, S
     if (pReached.getWaitlist().size() > 1
         || !pReached.getWaitlist().contains(pReached.getFirstState())) {
       pReached.getWaitlist().stream()
-          .filter(
-              (AbstractState state) -> {
-                return !((ARGState) state).getChildren().isEmpty();
-              })
+          .filter((AbstractState state) -> !((ARGState) state).getChildren().isEmpty())
           .forEach(
               (AbstractState state) -> {
                 ARGState argState = (ARGState) state;
@@ -158,11 +156,10 @@ public class TestCaseGeneratorAlgorithm implements ProgressReportingAlgorithm, S
     }
 
     try {
-      boolean shouldReturnFalse, ignoreTargetState;
       while (pReached.hasWaitingState() && !testTargets.isEmpty()) {
         shutdownNotifier.shutdownIfNecessary();
-        shouldReturnFalse = false;
-        ignoreTargetState = false;
+        boolean shouldReturnFalse = false;
+        boolean ignoreTargetState = false;
 
         assert ARGUtils.checkARG(pReached);
         assert from(pReached).filter(AbstractStates::isTargetState).isEmpty();
@@ -220,6 +217,7 @@ public class TestCaseGeneratorAlgorithm implements ProgressReportingAlgorithm, S
 
                   logger.log(Level.FINE, "Removing test target: " + targetEdge);
                   testTargets.remove(targetEdge);
+                  TestTargetProvider.processTargetPath(cexInfo);
 
                   if (shouldReportCoveredErrorCallAsError()) {
                     addErrorStateWithTargetInformation(pReached);
@@ -286,7 +284,7 @@ public class TestCaseGeneratorAlgorithm implements ProgressReportingAlgorithm, S
     Preconditions.checkState(shouldReportCoveredErrorCallAsError());
     pReached.add(
         new DummyErrorState(pReached.getLastState()) {
-          private static final long serialVersionUID = 5522643115974481914L;
+          @Serial private static final long serialVersionUID = 5522643115974481914L;
 
           @Override
           public Set<TargetInformation> getTargetInformation() {
@@ -310,13 +308,11 @@ public class TestCaseGeneratorAlgorithm implements ProgressReportingAlgorithm, S
 
   @Override
   public double getProgress() {
-    switch (progressType) {
-      case ABSOLUTE:
-        return progress;
-      case RELATIVE_TOTAL:
-        return progress / Math.max(1, TestTargetProvider.getTotalNumberOfTestTargets());
-      default:
-        throw new AssertionError("Unhandled progress computation type: " + progressType);
-    }
+    return switch (progressType) {
+      case ABSOLUTE -> progress;
+      case RELATIVE_TOTAL ->
+          progress / Math.max(1, TestTargetProvider.getTotalNumberOfTestTargets());
+      default -> throw new AssertionError("Unhandled progress computation type: " + progressType);
+    };
   }
 }

@@ -104,6 +104,8 @@ def execute_benchmark(benchmark, output_handler):
             cmdLine.extend(["--zip-result-files", str(benchmark.config.zipResultFiles)])
         if benchmark.config.cgroupAccess:
             cmdLine.extend(["--cgroupAccess", str(benchmark.config.cgroupAccess)])
+        if benchmark.config.tryLessMemory:
+            cmdLine.extend(["--try-less-memory", str(benchmark.config.tryLessMemory)])
         if benchmark.config.debug:
             cmdLine.extend(["--print-new-files", "true"])
 
@@ -155,7 +157,6 @@ def toTabList(items):
 
 
 def getCloudInput(benchmark):
-
     (
         requirements,
         numberOfRuns,
@@ -200,18 +201,20 @@ def getCloudInput(benchmark):
 
 
 def getBenchmarkDataForCloud(benchmark):
-
     # get requirements
     r = benchmark.requirements
+    memRequirement = bytes_to_mb(
+        DEFAULT_CLOUD_MEMORY_REQUIREMENT if r.memory is None else r.memory
+    )
     requirements = [
-        bytes_to_mb(DEFAULT_CLOUD_MEMORY_REQUIREMENT if r.memory is None else r.memory),
+        memRequirement,
         DEFAULT_CLOUD_CPUCORE_REQUIREMENT if r.cpu_cores is None else r.cpu_cores,
         DEFAULT_CLOUD_CPUMODEL_REQUIREMENT if r.cpu_model is None else r.cpu_model,
     ]
 
     # get limits and number of Runs
     timeLimit = benchmark.rlimits.cputime_hard or DEFAULT_CLOUD_TIMELIMIT
-    memLimit = bytes_to_mb(benchmark.rlimits.memory)
+    memLimit = bytes_to_mb(benchmark.rlimits.memory) or memRequirement
     coreLimit = benchmark.rlimits.cpu_cores
     numberOfRuns = sum(
         len(runSet.runs) for runSet in benchmark.run_sets if runSet.should_be_executed()
@@ -259,7 +262,6 @@ def getBenchmarkDataForCloud(benchmark):
 
 
 def getToolDataForCloud(benchmark):
-
     workingDir = benchmark.working_directory()
     if not os.path.isdir(workingDir):
         sys.exit(f"Missing working directory '{workingDir}', cannot run tool.")
@@ -288,7 +290,6 @@ def getToolDataForCloud(benchmark):
 
 
 def handleCloudResults(benchmark, output_handler, start_time, end_time):
-
     outputDir = benchmark.log_folder
     if not os.path.isdir(outputDir) or not os.listdir(outputDir):
         # outputDir does not exist or is empty
@@ -349,9 +350,7 @@ def handleCloudResults(benchmark, output_handler, start_time, end_time):
             rawPath = run.log_file[: -len(".log")]
             dirname, filename = os.path.split(rawPath)
             vcloudFilesDirectory = rawPath + ".files"
-            benchexecFilesDirectory = os.path.join(
-                dirname[: -len(".logfiles")] + ".files", filename
-            )
+            benchexecFilesDirectory = run.result_files_folder
             if os.path.isdir(vcloudFilesDirectory) and not os.path.isdir(
                 benchexecFilesDirectory
             ):

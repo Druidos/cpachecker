@@ -57,13 +57,8 @@ public class FunctionFormulaManagerView extends BaseManagerView implements UFMan
       if (this == obj) {
         return true;
       }
-      if (!(obj instanceof ReplaceUninterpretedFunctionDeclaration)) {
-        return false;
-      }
-      ReplaceUninterpretedFunctionDeclaration<?> other =
-          (ReplaceUninterpretedFunctionDeclaration<?>) obj;
-
-      return wrapped.equals(other.wrapped);
+      return obj instanceof ReplaceUninterpretedFunctionDeclaration<?> other
+          && wrapped.equals(other.wrapped);
     }
 
     @Override
@@ -82,7 +77,7 @@ public class FunctionFormulaManagerView extends BaseManagerView implements UFMan
     }
 
     @Override
-    public List<FormulaType<?>> getArgumentTypes() {
+    public ImmutableList<FormulaType<?>> getArgumentTypes() {
       return argumentTypes;
     }
 

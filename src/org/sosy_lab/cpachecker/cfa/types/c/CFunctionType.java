@@ -15,14 +15,16 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.sosy_lab.cpachecker.cfa.types.AFunctionType;
+import org.sosy_lab.cpachecker.cfa.types.AbstractFunctionType;
 
-public class CFunctionType extends AFunctionType implements CType {
+public sealed class CFunctionType extends AbstractFunctionType implements CType
+    permits CFunctionTypeWithNames {
 
-  private static final long serialVersionUID = 4154771254170820716L;
+  @Serial private static final long serialVersionUID = 4154771254170820716L;
 
   public static CFunctionType functionTypeWithReturnType(CType pReturnType) {
     return new CFunctionType(checkNotNull(pReturnType), ImmutableList.of(), false);
@@ -131,6 +133,11 @@ public class CFunctionType extends AFunctionType implements CType {
   @Override
   public boolean isIncomplete() {
     return false;
+  }
+
+  @Override
+  public boolean hasKnownConstantSize() {
+    return true;
   }
 
   @Override

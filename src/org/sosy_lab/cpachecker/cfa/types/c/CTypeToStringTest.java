@@ -51,6 +51,7 @@ public class CTypeToStringTest {
           false);
 
   @Parameters(name = "{0} [{1}]")
+  @SuppressWarnings("checkstyle:NoWhitespaceAfter") // nicely readable in this special case
   public static Object[][] types() {
     return new Object[][] {
       { // declare var as pointer to int
@@ -229,7 +230,7 @@ public class CTypeToStringTest {
         (CType)
             parser
                 .parseString(Path.of("dummy"), stringRepr + ";")
-                .getGlobalDeclarations()
+                .globalDeclarations()
                 .get(0)
                 .getFirst()
                 .getType();

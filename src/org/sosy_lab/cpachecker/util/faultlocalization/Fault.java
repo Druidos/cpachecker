@@ -69,6 +69,7 @@ public class Fault extends ForwardingSet<FaultContribution> implements Comparabl
     errorSet = new LinkedHashSet<>(pContribs);
     infos = new ArrayList<>();
     score = pScore;
+    intendedIndex = -1;
   }
 
   /**
@@ -79,7 +80,9 @@ public class Fault extends ForwardingSet<FaultContribution> implements Comparabl
    *     FaultInfo to this set.
    */
   public void addInfo(FaultInfo reason) {
-    infos.add(reason);
+    if (!infos.contains(reason)) {
+      infos.add(reason);
+    }
   }
 
   public List<FaultInfo> getInfos() {
@@ -159,12 +162,7 @@ public class Fault extends ForwardingSet<FaultContribution> implements Comparabl
 
   @Override
   public boolean equals(Object q) {
-    if (!(q instanceof Fault)) {
-      return false;
-    }
-
-    Fault comp = (Fault) q;
-    return errorSet.equals(comp.errorSet) && infos.equals(comp.infos);
+    return q instanceof Fault comp && errorSet.equals(comp.errorSet) && infos.equals(comp.infos);
   }
 
   @Override
@@ -186,5 +184,16 @@ public class Fault extends ForwardingSet<FaultContribution> implements Comparabl
   public void replaceErrorSet(Set<FaultContribution> pContributions) {
     errorSet.clear();
     errorSet.addAll(pContributions);
+  }
+
+  public static Fault merge(Fault f1, Fault f2) {
+    Set<FaultContribution> contributions = new LinkedHashSet<>(f1);
+    contributions.addAll(f2);
+    List<FaultInfo> infos = new ArrayList<>(f1.infos);
+    infos.addAll(f2.infos);
+    Fault newFault = new Fault(contributions);
+    infos.forEach(newFault::addInfo);
+    newFault.intendedIndex = Integer.min(f1.intendedIndex, f2.intendedIndex);
+    return newFault;
   }
 }

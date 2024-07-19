@@ -12,36 +12,33 @@ SPDX-License-Identifier: Apache-2.0
 - Beyer, Dirk (since 2007); LMU Munich, Germany
 - Wendler, Philipp (since 2009); LMU Munich, Germany
 
+# ISP RAS fork Maintainers
+- Andrianov, Pavel (since 2014); ISP RAS, Russia
+- Petrov, Oleg (since 2020); ISP RAS, Russia
+- Vasilyev, Anton (since 2015); ISP RAS, Russia
+
 # Former Maintainers
 - Keremoglu, Erkan (2008 - 2011); SFU, Canada
 
 # Developers/Contributors
-- Andrianov, Pavel (since 2014); ISP RAS, Russia
 - Baier, Daniel (since 2021); LMU Munich, Germany
 - Bunk, Thomas (since 2018); LMU Munich, Germany
 - Chien, Po-Chun (since 2021); LMU Munich, Germany
-- Cimbalnik, Klara (since 2020): LMU Munich, Germany
+- Cimbalnik, Klara (since 2020); LMU Munich, Germany
+- Damböck, Benedikt (since 2023); LMU Munich, Germany
 - Friedberger, Karlheinz (since 2011); LMU Munich, Germany
 - Haltermann, Jan (since 2019); University of Oldenburg, Germany
-- Holzner, Stephan (since 2019); LMU Munich, Germany
-- Jakobs, Marie-Christine (since 2012); TU Darmstadt, Germany
-- Kanav, Sudeep (since 2021); LMU Munich, Germany
+- Jakobs, Marie-Christine (since 2012); LMU Munich, Germany
+- Jankola, Marek (since 2023); LMU Munich, Germany
 - Kettl, Matthias (since 2019); LMU Munich, Germany
 - Lee, Nian-Ze (since 2020); LMU Munich, Germany
 - Lemberger, Thomas (since 2014); LMU Munich, Germany
-- Lingsch, Marian (since 2020): LMU Munich, Germany
-- Mutilin, Vadim (since 2012); ISP RAS, Russia
-- Petrov, Oleg (since 2020); ISP RAS, Russia
+- Lingsch-Rosenfeld, Marian (since 2020): LMU Munich, Germany
+- Onderka, Jan (since 2023); CTU Prague, Czech Republic
 - Port, Valentin (since 2019); LMU Munich, Germany
-- Rust, Henry (since 2021); TU Darmstadt, Germany
-- Schönberger, Frederic (since 2021); LMU Munich, Germany
-- Schüss, Balthasar (since 2019); LMU Munich, Germany
-- Selberg, Jakob (since 2018); LMU Munich, Germany
 - Spießl, Martin (since 2017); LMU Munich, Germany
-- Tschöpel, Sebastian (since 2021); LMU Munich, Germany
 - Umbricht, Sven (since 2020); LMU Munich, Germany
-- Vasilyev, Anton (since 2015); ISP RAS, Russia
-- Weise, Nico (since 2019); LMU Munich, Germany
+- Wachowitz, Henrik (since 2022); LMU Munich, Germany
 
 # Former Developers/Contributors
 - Ali, Schindar (2020); LMU Munich, Germany
@@ -76,11 +73,15 @@ SPDX-License-Identifier: Apache-2.0
 - Griggio, Alberto (2008 - 2009); SFU, Canada / University of Trento, Italy
 - Hagenhof, Christian (2015); University of Passau, Germany
 - Hagl, Raphael (2018 - 2019); LMU Munich, Germany
+- Hailer, Maximilian (2022); LMU Munich, Germany
 - Häring, Peter (2011 - 2014); University of Passau, Germany
 - Heydebrand, Julian (2015); University of Passau, Germany
+- Hoffmann, Sascha (2022 - 2023); TU Darmstadt, Germany
 - Holzer, Andreas (2008 - 2015); TU Darmstadt, Germany / TU Vienna, Austria
+- Holzner, Stephan (2019 - 2021); LMU Munich, Germany
 - Ivanov, Dejan (2017); LMU Munich, Germany
 - Kafounis, Angelos (2020); LMU Munich, Germany
+- Kanav, Sudeep (2021); LMU Munich, Germany
 - Karpenkov, George (2014 - 2017); Verimag, Grenoble
 - Käufl, Michael (2011); University of Passau, Germany
 - Kieffer, Steven (2011 - 2012); SFU, Canada
@@ -90,6 +91,7 @@ SPDX-License-Identifier: Apache-2.0
 - Korth, Philipp (2012); University of Paderborn, Germany
 - Kotoun, Michal (2018); Brno University of Technology, Czechia
 - Kronawitter, Stefan (2012); University of Passau, Germany
+- Kühn, Camilla (2022); TU Darmstadt, Germany
 - Lachner, Michael (2020 - 2021); LMU Munich, Germany
 - Letko, Zdenek (2014); Brno University of Technology, Czechia
 - Löwe, Stefan (2010 - 2016); University of Passau, Germany
@@ -102,17 +104,23 @@ SPDX-License-Identifier: Apache-2.0
 - Mordan, Vitaly (2014 - 2018); ISP RAS, Russia
 - Muller, Petr (2012 - 2014); Brno University of Technology, Czechia
 - Murr, Magdalena (2015); University of Passau, Germany
+- Mutilin, Vadim (2012 - 2020); ISP RAS, Russia
 - Nandanwar, Lokesh (2018); National Institute of Technology Durgapur, India
 - Olbrich, Christian (2014); University of Passau, Germany
 - Ott, Sebastian (2013 - 2016); University of Passau, Germany
 - Peters, Stefan (2011 - 2012); University of Passau, Germany
+- Pollandt, Tim (2021 - 2022); TU Darmstadt, Germany
 - Pöllmann, Daniel (2019); LMU Munich, Germany
 - Quadt, Florian (2013 - 2014); University of Passau, Germany
 - Ratke, Sabine (2020); LMU Munich, Germany
 - Rhein, Alexander von (2010); University of Passau, Germany
+- Rust, Henry (2021); TU Darmstadt, Germany
 - Scheffel, Sebastian (2014 - 2015); University of Passau, Germany
+- Schönberger, Frederic (2021); LMU Munich, Germany
 - Schremmer, Alexander (2012 - 2013); University of Paderborn, Germany
+- Schüss, Balthasar (2019 - 2021); LMU Munich, Germany
 - Seibt, Georg (2015); University of Passau, Germany
+- Selberg, Jakob (2018 - 2020); LMU Munich, Germany
 - Sell, Leon (2015 - 2016); University of Passau, Germany
 - Serdyukov, Denys (2021); TU Darmstadt, Germany
 - Speidel, Hendrik (2010); University of Passau, Germany
@@ -125,11 +133,14 @@ SPDX-License-Identifier: Apache-2.0
 - Töws, Manuel (2016); University of Paderborn, Germany
 - Tornede, Tanja (2014 - 2016); University of Paderborn, Germany
 - Trapp, Mirjam (2018 - 2019); LMU Munich, Germany
+- Tschöpel, Sebastian (2021); LMU Munich, Germany
 - Volkov, Anton (2015 - 2018); ISP RAS, Russia
+- Weise, Nico (2019 - 2021); LMU Munich, Germany
 - Wiesholler, Max (2018 - 2019); LMU Munich, Germany
 - Winter, Katharina (2018 - 2019); LMU Munich, Germany
 - Woller, Christoph (2014 - 2015); University of Passau, Germany
 - Wonisch, Daniel (2011 - 2012); University of Paderborn, Germany
+- Yang, Zhu (2023); LMU Munich, Germany
 - Zenger, Geoff (2007); SFU, Canada
 - Zorneck, Gernot (2016 - 2017); University of Passau, Germany
 - Zakharov, Ilja (2016); ISP RAS, Russia

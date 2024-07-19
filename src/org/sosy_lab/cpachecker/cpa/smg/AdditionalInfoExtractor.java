@@ -201,8 +201,7 @@ public class AdditionalInfoExtractor {
       } else {
         return "Assign";
       }
-    } else if (elem instanceof SMGObject) {
-      SMGObject smgObject = (SMGObject) elem;
+    } else if (elem instanceof SMGObject smgObject) {
       if (isFunctionParameter(pState.getHeap(), smgObject)) {
         return "Function parameter " + smgObject.getLabel();
       } else if (smgObject.getLabel().contains("alloc")) {

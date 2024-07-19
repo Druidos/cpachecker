@@ -20,6 +20,7 @@ import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression.BinaryOperator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CCastExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CCharLiteralExpression;
+import org.sosy_lab.cpachecker.cfa.ast.c.CEnumerator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CFieldReference;
 import org.sosy_lab.cpachecker.cfa.ast.c.CFloatLiteralExpression;
@@ -340,7 +341,7 @@ class ExpressionValueVisitor
 
   @Override
   public List<? extends SMGValueAndState> visit(CTypeIdExpression typeIdExp)
-      throws UnrecognizedCodeException {
+      throws CPATransferException {
 
     TypeIdOperator typeOperator = typeIdExp.getOperator();
     CType type = typeIdExp.getType();
@@ -433,9 +434,8 @@ class ExpressionValueVisitor
               return singletonList(SMGValueAndState.of(newState, val));
 
             case MINUS:
-              if (lVal instanceof SMGKnownAddressValue && rVal instanceof SMGKnownAddressValue) {
-                SMGKnownAddressValue lValAddress = (SMGKnownAddressValue) lVal;
-                SMGKnownAddressValue rValAddress = (SMGKnownAddressValue) rVal;
+              if (lVal instanceof SMGKnownAddressValue lValAddress
+                  && rVal instanceof SMGKnownAddressValue rValAddress) {
                 if (lValAddress.getObject().equals(rValAddress.getObject())) {
                   CType lVarType = lVarInBinaryExp.getExpressionType().getCanonicalType();
                   final CType type;

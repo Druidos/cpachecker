@@ -34,37 +34,33 @@ public class ApronMergeOperator {
   @Option(
       secure = true,
       name = "onlyMergeAtLoopHeads",
-      description = "with this option enabled" + " the states are only merged at loop heads")
+      description = "with this option enabled the states are only merged at loop heads")
   private boolean onlyMergeAtLoopHeads = false;
 
   public static MergeOperator getInstance(ApronDomain domain, Configuration config)
       throws InvalidConfigurationException {
     ApronMergeOperator mergeOp = new ApronMergeOperator(domain, config);
 
-    switch (mergeOp.type) {
-      case "SEP":
-        return MergeSepOperator.getInstance();
-      case "JOIN":
-        return mergeOp.new ApronMergeJoinOperator(domain, config);
-      case "WIDENING":
-        return mergeOp.new ApronMergeWideningOperator(domain, config);
-      default:
-        throw new InvalidConfigurationException("Unknown type for merge operator");
-    }
+    return switch (mergeOp.type) {
+      case "SEP" -> MergeSepOperator.getInstance();
+      case "JOIN" -> mergeOp.new ApronMergeJoinOperator(domain, config);
+      case "WIDENING" -> mergeOp.new ApronMergeWideningOperator(domain, config);
+      default -> throw new InvalidConfigurationException("Unknown type for merge operator");
+    };
   }
 
-  private ApronMergeOperator(ApronDomain domain, Configuration config)
+  private ApronMergeOperator(ApronDomain pDomain, Configuration config)
       throws InvalidConfigurationException {
     config.inject(this);
-    this.domain = domain;
+    domain = pDomain;
   }
 
   @Options(prefix = "cpa.apron.mergeop")
   class ApronMergeJoinOperator extends ApronMergeOperator implements MergeOperator {
 
-    private ApronMergeJoinOperator(ApronDomain domain, Configuration config)
+    private ApronMergeJoinOperator(ApronDomain pDomain, Configuration config)
         throws InvalidConfigurationException {
-      super(domain, config);
+      super(pDomain, config);
     }
 
     @Override
@@ -82,9 +78,9 @@ public class ApronMergeOperator {
   @Options(prefix = "cpa.apron.mergeop")
   class ApronMergeWideningOperator extends ApronMergeOperator implements MergeOperator {
 
-    private ApronMergeWideningOperator(ApronDomain domain, Configuration config)
+    private ApronMergeWideningOperator(ApronDomain pDomain, Configuration config)
         throws InvalidConfigurationException {
-      super(domain, config);
+      super(pDomain, config);
     }
 
     @Override

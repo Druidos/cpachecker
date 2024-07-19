@@ -17,6 +17,7 @@ import org.sosy_lab.cpachecker.cfa.model.CFAEdgeType;
 import org.sosy_lab.cpachecker.cfa.model.CFALabelNode;
 import org.sosy_lab.cpachecker.cfa.model.CFANode;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
+import org.sosy_lab.cpachecker.cfa.model.FunctionExitNode;
 
 /**
  * Helper class that contains some complex operations that may be useful during the creation of a
@@ -115,6 +116,11 @@ public class CFACreationUtils {
 
     while (!queue.isEmpty()) {
       CFANode n = queue.poll();
+      if (n instanceof FunctionExitNode) {
+        // the function exit node is unreachable, so the entry node shouldn't have a reference to it
+        ((FunctionExitNode) n).getEntryNode().removeExitNode();
+      }
+
       for (int i = n.getNumLeavingEdges() - 1; i >= 0; i--) {
         CFAEdge e = n.getLeavingEdge(i);
         CFANode succ = e.getSuccessor();

@@ -16,6 +16,7 @@ import static com.google.common.collect.Iterables.transform;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class CCompositeType implements CComplexType {
 
-  private static final long serialVersionUID = -839957929135012583L;
+  @Serial private static final long serialVersionUID = -839957929135012583L;
   private final CComplexType.ComplexTypeKind kind;
   private @Nullable List<CCompositeTypeMemberDeclaration> members = null;
   private final String name;
@@ -97,7 +98,7 @@ public final class CCompositeType implements CComplexType {
         checkArgument(
             !it.hasNext(), "incomplete member %s in non-last position of %s", member, this);
         checkArgument(
-            member.getType().getCanonicalType() instanceof CArrayType,
+            member.isFlexibleArrayMember(),
             "incomplete non-array member %s in last position of %s",
             member,
             this);
@@ -139,6 +140,23 @@ public final class CCompositeType implements CComplexType {
   @Override
   public boolean isIncomplete() {
     return false;
+  }
+
+  @Override
+  public boolean hasKnownConstantSize() {
+    // forbidden by C standard, but a GCC extension:
+    // https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html
+    for (Iterator<CCompositeTypeMemberDeclaration> it = getMembers().iterator(); it.hasNext(); ) {
+      CCompositeTypeMemberDeclaration member = it.next();
+      if (!member.getType().hasKnownConstantSize()) {
+        // special case: if this is a "flexible array member" as last member, then size is known
+        if (it.hasNext() || !member.isFlexibleArrayMember()) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   @Override
@@ -192,7 +210,7 @@ public final class CCompositeType implements CComplexType {
    */
   public static final class CCompositeTypeMemberDeclaration implements Serializable {
 
-    private static final long serialVersionUID = 8647666228796784933L;
+    @Serial private static final long serialVersionUID = 8647666228796784933L;
     private final CType type;
     private final String name;
 
@@ -216,10 +234,7 @@ public final class CCompositeType implements CComplexType {
       if (this == obj) {
         return true;
       }
-      if (obj == null) {
-        return false;
-      }
-      if (getClass() != obj.getClass()) {
+      if (obj == null || getClass() != obj.getClass()) {
         return false;
       }
       CCompositeTypeMemberDeclaration other = (CCompositeTypeMemberDeclaration) obj;
@@ -233,6 +248,15 @@ public final class CCompositeType implements CComplexType {
 
     public String getName() {
       return name;
+    }
+
+    /**
+     * Whether this is a flexible array member as defined by § 6.7.2.1 (18). Such members are only
+     * allowed as last members of a struct.
+     */
+    public boolean isFlexibleArrayMember() {
+      return type.getCanonicalType() instanceof CArrayType arrayType
+          && arrayType.getLength() == null;
     }
 
     public String toASTString() {
@@ -286,13 +310,8 @@ public final class CCompositeType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CCompositeType)) {
-      return false;
-    }
-
-    CCompositeType other = (CCompositeType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CCompositeType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked
@@ -306,13 +325,8 @@ public final class CCompositeType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CCompositeType)) {
-      return false;
-    }
-
-    CCompositeType other = (CCompositeType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CCompositeType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked

@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public final class CVoidType implements CType {
 
-  private static final long serialVersionUID = 1385808708190595556L;
+  @Serial private static final long serialVersionUID = 1385808708190595556L;
 
   public static final CVoidType VOID = new CVoidType(false, false);
 
@@ -66,6 +67,13 @@ public final class CVoidType implements CType {
   }
 
   @Override
+  public boolean hasKnownConstantSize() {
+    // C standards says "false" because it is incomplete, but GCC allows sizeof(void) as an
+    // extension, so we return "true" to signal that its size can be computed.
+    return true;
+  }
+
+  @Override
   public <R, X extends Exception> R accept(CTypeVisitor<R, X> pVisitor) throws X {
     return pVisitor.visit(this);
   }
@@ -103,6 +111,7 @@ public final class CVoidType implements CType {
     return create(isConst || pForceConst, isVolatile || pForceVolatile);
   }
 
+  @Serial
   private Object readResolve() {
     return create(isConst, isVolatile);
   }

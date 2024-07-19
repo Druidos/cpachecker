@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.io.Serial;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class CElaboratedType implements CComplexType {
 
-  private static final long serialVersionUID = -3566628634889842927L;
+  @Serial private static final long serialVersionUID = -3566628634889842927L;
   private final ComplexTypeKind kind;
   private String name;
   private final String origName;
@@ -170,6 +171,18 @@ public final class CElaboratedType implements CComplexType {
   }
 
   @Override
+  public boolean hasKnownConstantSize() {
+    // similar logic as for isIncomplete
+    if (realType == null) {
+      return kind == ComplexTypeKind.ENUM; // enums are always complete and have known constant size
+    } else {
+      // need to delegate to realType because of GCC extension for VLAs in structs:
+      // https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html
+      return realType.hasKnownConstantSize();
+    }
+  }
+
+  @Override
   public <R, X extends Exception> R accept(CTypeVisitor<R, X> pVisitor) throws X {
     return pVisitor.visit(this);
   }
@@ -193,13 +206,8 @@ public final class CElaboratedType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CElaboratedType)) {
-      return false;
-    }
-
-    CElaboratedType other = (CElaboratedType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CElaboratedType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && kind == other.kind
@@ -213,13 +221,8 @@ public final class CElaboratedType implements CComplexType {
       return true;
     }
 
-    if (!(obj instanceof CElaboratedType)) {
-      return false;
-    }
-
-    CElaboratedType other = (CElaboratedType) obj;
-
-    return isConst == other.isConst
+    return obj instanceof CElaboratedType other
+        && isConst == other.isConst
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && kind == other.kind

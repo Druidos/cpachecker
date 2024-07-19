@@ -8,8 +8,10 @@
 
 package org.sosy_lab.cpachecker.util.predicates.pathformula.pointeraliasing;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.base.Verify.verify;
 import static com.google.common.collect.FluentIterable.from;
 import static org.sosy_lab.common.collect.PersistentSortedMaps.merge;
 import static org.sosy_lab.cpachecker.util.predicates.pathformula.pointeraliasing.CTypeUtils.checkIsSimplified;
@@ -70,7 +72,7 @@ class PointerTargetSetManager {
    * @param size The size of the fake base type.
    * @return An array of {@code size} voids.
    */
-  static CType getFakeBaseType(int size) {
+  static CType getFakeBaseType(long size) {
     return checkIsSimplified(
         new CArrayType(
             false,
@@ -112,6 +114,7 @@ class PointerTargetSetManager {
   private final TypeHandlerWithPointerAliasing typeHandler;
   private final MemoryRegionManager regionMgr;
   private final SMTHeap heap;
+
   /**
    * Creates a new PointerTargetSetManager.
    *
@@ -136,9 +139,12 @@ class PointerTargetSetManager {
     regionMgr = pRegionMgr;
 
     if (pOptions.useByteArrayForHeap()) {
+      // TODO: add option to use byte-level heap but with uninterpreted functions
+      SMTMultipleAssignmentHeap backingHeap =
+          new SMTHeapWithArrays(pFormulaManager, pTypeHandler.getPointerType());
       heap =
           new SMTHeapWithByteArray(
-              pFormulaManager, pTypeHandler.getPointerType(), pConv.machineModel);
+              pFormulaManager, pTypeHandler.getPointerType(), pConv.machineModel, backingHeap);
     } else if (pOptions.useArraysForHeap()) {
       heap = new SMTHeapWithArrays(pFormulaManager, pTypeHandler.getPointerType());
     } else {
@@ -181,14 +187,19 @@ class PointerTargetSetManager {
   /**
    * Create a formula that represents an assignment to a value via a pointer.
    *
+   * <p>The assignment may not contain encoded quantified variables. Use {@link
+   * #makeQuantifiedPointerAssignment(String, FormulaType, int, int, BooleanFormula, Formula,
+   * Formula)} instead if it does.
+   *
    * @param targetName The name of the pointer access symbol as returned by {@link
    *     MemoryRegionManager#getPointerAccessName(MemoryRegion)}
    * @param pTargetType The formula type of the value
    * @param oldIndex The old SSA index for targetName
    * @param newIndex The new SSA index for targetName
-   * @param address The address where the value should be written
-   * @param value The value to write
-   * @return A formula representing an assignment of the form {@code targetName@newIndex[address] =
+   * @param address The address where the value should be written, which may not contain encoded
+   *     quantified variables.
+   * @param value The value to write.
+   * @return A formula representing assignment of the form {@code targetName@newIndex[address] =
    *     value}
    */
   <I extends Formula, E extends Formula> BooleanFormula makePointerAssignment(
@@ -199,6 +210,62 @@ class PointerTargetSetManager {
       final I address,
       final E value) {
     return heap.makePointerAssignment(targetName, pTargetType, oldIndex, newIndex, address, value);
+  }
+
+  /**
+   * Create a formula that represents an assignment from old SSA index to new SSA index without
+   * changing the value. Useful for creating conditional assignments.
+   *
+   * @param targetName The name of the pointer access symbol as returned by {@link
+   *     MemoryRegionManager#getPointerAccessName(MemoryRegion)}
+   * @param pTargetType The formula type of the value
+   * @param oldIndex The old SSA index for targetName
+   * @param newIndex The new SSA index for targetName
+   * @return A formula representing an assignment of the form {@code targetName@newIndex[address] =
+   *     value}
+   */
+  <E extends Formula> BooleanFormula makeIdentityPointerAssignment(
+      final String targetName,
+      final FormulaType<E> pTargetType,
+      final int oldIndex,
+      final int newIndex) {
+    return heap.makeIdentityPointerAssignment(targetName, pTargetType, oldIndex, newIndex);
+  }
+
+  /**
+   * Create a formula that represents a conditional assignment to a value via a pointer, with the
+   * possibility of using quantified variables encoded in the formulas for address, condition, and
+   * value to set.
+   *
+   * <p>Since the formulas may contain encoded quantified variables, it may not be possible to
+   * perform the assignment using the theory used for standard {@link #makePointerAssignment(String,
+   * FormulaType, int, int, Formula, Formula)}. Specifically, for the theory of arrays, it is not
+   * possible to perform a write to quantified address as the meaning would be "value is stored to
+   * one of the selected locations" instead of proper "value is stored to each address as
+   * aplicable".
+   *
+   * @param targetName The name of the pointer access symbol as returned by {@link
+   *     MemoryRegionManager#getPointerAccessName(MemoryRegion)}
+   * @param pTargetType The formula type of the value
+   * @param oldIndex The old SSA index for targetName
+   * @param newIndex The new SSA index for targetName
+   * @param condition The condition upon which the value is assigned to the address, otherwise, the
+   *     previous value is retained. May contain encoded quantified variables.
+   * @param address The address where the value should be written. May contain encoded quantified
+   *     variables, therefore actually "pointing to multiple addresses".
+   * @param value The value to write.
+   * @return A formula representing the assignments.
+   */
+  <I extends Formula, E extends Formula> BooleanFormula makeQuantifiedPointerAssignment(
+      final String targetName,
+      final FormulaType<?> pTargetType,
+      final int oldIndex,
+      final int newIndex,
+      final BooleanFormula condition,
+      final I address,
+      final E value) {
+    return heap.makeQuantifiedPointerAssignment(
+        targetName, pTargetType, oldIndex, newIndex, condition, address, value);
   }
 
   /**
@@ -286,6 +353,9 @@ class PointerTargetSetManager {
     final CopyOnWriteSortedMap<CompositeField, Boolean> fieldsOnlyPts2 =
         CopyOnWriteSortedMap.copyOf(PathCopyingPersistentTreeMap.<CompositeField, Boolean>of());
 
+    if (options.useArraysForHeap()) {
+      verify(pts1.getFields().isEmpty() && pts2.getFields().isEmpty());
+    }
     PersistentSortedMap<CompositeField, Boolean> mergedFields =
         merge(
             pts1.getFields(),
@@ -307,9 +377,18 @@ class PointerTargetSetManager {
 
     // Handle targets
 
-    PersistentSortedMap<String, PersistentList<PointerTarget>> mergedTargets =
-        merge(
-            pts1.getTargets(), pts2.getTargets(), (key, list1, list2) -> mergeLists(list1, list2));
+    PersistentSortedMap<String, PersistentList<PointerTarget>> mergedTargets;
+    if (options.useArraysForHeap()) {
+      verify(pts1.getTargets() == null || pts1.getTargets().isEmpty());
+      verify(pts2.getTargets() == null || pts2.getTargets().isEmpty());
+      mergedTargets = null;
+    } else {
+      mergedTargets =
+          merge(
+              pts1.getTargets(),
+              pts2.getTargets(),
+              (key, list1, list2) -> mergeLists(list1, list2));
+    }
     shutdownNotifier.shutdownIfNecessary();
 
     // Targets is always the cross product of bases and fields.
@@ -435,13 +514,10 @@ class PointerTargetSetManager {
      * <p>We check for UNION-type with special fieldnames.
      */
     private static boolean isAlreadyMergedCompositeType(final CType type) {
-      if (type instanceof CCompositeType) {
-        final CCompositeType compositeType = (CCompositeType) type;
-        return compositeType.getKind() == ComplexTypeKind.UNION
-            && !compositeType.getMembers().isEmpty()
-            && compositeType.getMembers().get(0).getName().equals(getUnitedFieldBaseName(0));
-      }
-      return false;
+      return type instanceof CCompositeType compositeType
+          && compositeType.getKind() == ComplexTypeKind.UNION
+          && !compositeType.getMembers().isEmpty()
+          && compositeType.getMembers().get(0).getName().equals(getUnitedFieldBaseName(0));
     }
   }
 
@@ -456,7 +532,8 @@ class PointerTargetSetManager {
       return list1;
     }
 
-    PersistentList<T> smallerList, biggerList;
+    PersistentList<T> smallerList;
+    PersistentList<T> biggerList;
     if (size1 > size2) {
       smallerList = list2;
       biggerList = list1;
@@ -505,7 +582,7 @@ class PointerTargetSetManager {
           && !DynamicMemoryHandler.isAllocVariableName(baseName)) {
         highestAllocatedAddresses =
             makeBaseAddressConstraints(
-                baseName, base.getValue(), null, highestAllocatedAddresses, pConstraints);
+                baseName, base.getValue(), null, false, highestAllocatedAddresses, pConstraints);
       }
     }
 
@@ -520,9 +597,12 @@ class PointerTargetSetManager {
    *   <li>for alignment
    * </ul>
    *
+   * <p>Either pType or pAllocationSize need to be given.
+   *
    * @param pNewBase The name of the new base.
    * @param pType The type of the new base.
    * @param pAllocationSize An optional expression for the size in bytes of the new base.
+   * @param pIsDynamicAllocation Whether this is an allocation from malloc etc.
    * @param pHighestAllocatedAddresses list of addresses for which this method will ensure that the
    *     new base does not overlap
    * @param pConstraints Where the constraints about addresses will be added to.
@@ -531,12 +611,15 @@ class PointerTargetSetManager {
    */
   PersistentList<Formula> makeBaseAddressConstraints(
       final String pNewBase,
-      final CType pType,
+      final @Nullable CType pType,
       final @Nullable Formula pAllocationSize,
+      final boolean pIsDynamicAllocation,
       final PersistentList<Formula> pHighestAllocatedAddresses,
       final Constraints pConstraints) {
+    checkArgument(pType != null || pAllocationSize != null);
+    checkArgument(!pIsDynamicAllocation || pAllocationSize != null);
 
-    if (!options.trackFunctionPointers() && CTypes.isFunctionPointer(pType)) {
+    if (!options.trackFunctionPointers() && pType != null && CTypes.isFunctionPointer(pType)) {
       // Avoid adding constraints about function addresses,
       // otherwise we might track facts about function pointers for code like "if (p == &f)".
       return pHighestAllocatedAddresses;
@@ -559,17 +642,22 @@ class PointerTargetSetManager {
 
     // Add alignment constraint
     // For incomplete types, better not add constraints (imprecise) than a wrong one (unsound).
-    if (!pType.isIncomplete()) {
+    int alignment = 0;
+    if (pIsDynamicAllocation) {
+      alignment = conv.machineModel.getAlignofMalloc();
+    } else if (pType != null && !pType.isIncomplete()) {
+      alignment = typeHandler.getAlignof(pType);
+    }
+    if (alignment != 0) {
       pConstraints.addConstraint(
           formulaManager.makeModularCongruence(
-              newBaseFormula,
-              formulaManager.makeNumber(pointerType, 0L),
-              typeHandler.getAlignof(pType),
-              false));
+              newBaseFormula, formulaManager.makeNumber(pointerType, 0L), alignment, false));
     }
 
-    final int typeSize =
-        pType.isIncomplete() ? options.defaultAllocationSize() : typeHandler.getSizeof(pType);
+    final long typeSize =
+        pType != null && pType.hasKnownConstantSize()
+            ? typeHandler.getExactSizeof(pType)
+            : options.defaultAllocationSize();
     final Formula typeSizeF = formulaManager.makeNumber(pointerType, typeSize);
     final Formula newBasePlusTypeSize = formulaManager.makePlus(newBaseFormula, typeSizeF);
 
@@ -581,9 +669,9 @@ class PointerTargetSetManager {
     // elsewhere and we must thus ensure here, too.
     // Furthermore, in case of linear approximation we need a constraint that the size is
     // positive, and using the type size takes care of this automatically.
-    // In cases where the precise size is known and correct, we need only one of the constraints.
-    // We use the one with typeSize instead of allocationSize, because the latter would add one
-    // multiplication to the formula.
+    // There are also cases where both sizes are given but different, for example in cases like
+    // "int* p = malloc(i);", where pType is "int" and pAllocationSize contains "i".
+    // But if both are the same, we can optimize one away.
     // We also need to ensure that the highest allocated address (both variants) is greater than
     // zero to prevent overflows with bitvector arithmetic.
 
@@ -591,8 +679,7 @@ class PointerTargetSetManager {
     PersistentList<Formula> highestAllocatedAddresses =
         PersistentLinkedList.of(newBasePlusTypeSize);
 
-    if (pAllocationSize != null
-        && !pAllocationSize.equals(formulaManager.makeNumber(pointerType, typeSize))) {
+    if (pAllocationSize != null && !pAllocationSize.equals(typeSizeF)) {
       Formula basePlusAllocationSize = formulaManager.makePlus(newBaseFormula, pAllocationSize);
       pConstraints.addConstraint(makeGreaterZero(basePlusAllocationSize));
 
@@ -659,6 +746,10 @@ class PointerTargetSetManager {
       PersistentSortedMap<String, PersistentList<PointerTarget>> targets,
       final PersistentSortedMap<CompositeField, Boolean> fields) {
     checkIsSimplified(cType);
+    if (options.useArraysForHeap()) {
+      return targets;
+    }
+
     /* Remove assertion: it fails on a correct code (gcc compiles it)
      * struct A;
      * ...
@@ -667,10 +758,9 @@ class PointerTargetSetManager {
      */
     // assert !(cType instanceof CElaboratedType) : "Unresolved elaborated type " + cType  + " for
     // base " + base;
-    if (cType instanceof CArrayType) {
-      final CArrayType arrayType = (CArrayType) cType;
+    if (cType instanceof CArrayType arrayType) {
       final int length = CTypeUtils.getArrayLength(arrayType, options);
-      int offset = 0;
+      long offset = 0;
       for (int i = 0; i < length; ++i) {
         // TODO: create region with arrayType.getType()
         targets =
@@ -683,10 +773,9 @@ class PointerTargetSetManager {
                 containerOffset + properOffset,
                 targets,
                 fields);
-        offset += typeHandler.getSizeof(arrayType.getType());
+        offset += typeHandler.getApproximatedSizeof(arrayType.getType());
       }
-    } else if (cType instanceof CCompositeType) {
-      final CCompositeType compositeType = (CCompositeType) cType;
+    } else if (cType instanceof CCompositeType compositeType) {
       assert compositeType.getKind() != ComplexTypeKind.ENUM
           : "Enums are not composite: " + compositeType;
       for (final CCompositeTypeMemberDeclaration memberDeclaration : compositeType.getMembers()) {
@@ -739,6 +828,10 @@ class PointerTargetSetManager {
       PersistentSortedMap<String, PersistentList<PointerTarget>> targets,
       final PersistentSortedMap<String, CType> bases,
       final PersistentSortedMap<CompositeField, Boolean> fields) {
+    if (options.useArraysForHeap()) {
+      return targets;
+    }
+
     for (final Map.Entry<String, CType> entry : bases.entrySet()) {
       String name = entry.getKey();
       CType type = checkIsSimplified(entry.getValue());

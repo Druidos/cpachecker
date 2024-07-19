@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -93,8 +94,7 @@ public class CProgramScope implements Scope {
                 return Collections.singleton(dcl);
               }
 
-              if (pNode instanceof FunctionEntryNode) {
-                FunctionEntryNode entryNode = (FunctionEntryNode) pNode;
+              if (pNode instanceof FunctionEntryNode entryNode) {
                 return from(entryNode.getFunctionParameters()).filter(CSimpleDeclaration.class);
               }
 
@@ -108,8 +108,7 @@ public class CProgramScope implements Scope {
     }
     if (pDeclaration.getName() == null
         && pDeclaration.getQualifiedName() == null
-        && pDeclaration instanceof CComplexTypeDeclaration) {
-      CComplexTypeDeclaration complexTypeDeclaration = (CComplexTypeDeclaration) pDeclaration;
+        && pDeclaration instanceof CComplexTypeDeclaration complexTypeDeclaration) {
       CComplexType complexType = complexTypeDeclaration.getType();
       return complexType != null
           && complexType.getName() != null
@@ -123,8 +122,7 @@ public class CProgramScope implements Scope {
     if (result != null) {
       return result;
     }
-    if (pDeclaration instanceof CComplexTypeDeclaration) {
-      CComplexTypeDeclaration complexTypeDeclaration = (CComplexTypeDeclaration) pDeclaration;
+    if (pDeclaration instanceof CComplexTypeDeclaration complexTypeDeclaration) {
       CComplexType complexType = complexTypeDeclaration.getType();
       if (complexType != null
           && complexType.getName() != null
@@ -167,6 +165,7 @@ public class CProgramScope implements Scope {
     throw new AssertionError("Cannot extract a name.");
   }
 
+  @SuppressFBWarnings("SS_SHOULD_BE_STATIC") // TODO should this be implemented or removed?
   private final String currentFile = "";
 
   private final Set<String> variableNames;
@@ -246,7 +245,7 @@ public class CProgramScope implements Scope {
     /* Get all nodes, get all edges from nodes, get all declarations from edges,
      * assign every declaration its name.
      */
-    Collection<CFANode> nodes = pCFA.getAllNodes();
+    Collection<CFANode> nodes = pCFA.nodes();
 
     FluentIterable<CSimpleDeclaration> allDcls =
         FluentIterable.from(nodes).transformAndConcat(CProgramScope::toCSimpleDeclarations);
@@ -533,8 +532,7 @@ public class CProgramScope implements Scope {
     return Multimaps.transformValues(
         qualifiedDeclarationsMultiMap,
         v -> {
-          if (v instanceof CVariableDeclaration) {
-            CVariableDeclaration original = (CVariableDeclaration) v;
+          if (v instanceof CVariableDeclaration original) {
             if (original.getInitializer() == null) {
               return v;
             }
@@ -610,8 +608,7 @@ public class CProgramScope implements Scope {
     Iterable<AAstNode> nodes =
         FluentIterable.from(CFAUtils.getAstNodesFromCfaEdge(pEdge))
             .transformAndConcat(CFAUtils::traverseRecursively);
-    if (pEdge instanceof ADeclarationEdge) {
-      ADeclarationEdge declarationEdge = (ADeclarationEdge) pEdge;
+    if (pEdge instanceof ADeclarationEdge declarationEdge) {
       ADeclaration declaration = declarationEdge.getDeclaration();
       if (declaration instanceof AFunctionDeclaration) {
         nodes = Iterables.concat(nodes, ((AFunctionDeclaration) declaration).getParameters());
@@ -642,28 +639,25 @@ public class CProgramScope implements Scope {
         .collect(
             ImmutableSetMultimap.toImmutableSetMultimap(
                 astNode -> {
-                  if (astNode instanceof CSimpleDeclaration) {
-                    CSimpleDeclaration decl = (CSimpleDeclaration) astNode;
-                    if (decl instanceof CVariableDeclaration) {
-                      CVariableDeclaration original = (CVariableDeclaration) decl;
-                      if (original.getInitializer() != null) {
-                        return new CVariableDeclaration(
-                            original.getFileLocation(),
-                            original.isGlobal(),
-                            original.getCStorageClass(),
-                            original.getType(),
-                            original.getName(),
-                            original.getOrigName(),
-                            original.getQualifiedName(),
-                            null);
-                      }
+                  if (astNode instanceof CSimpleDeclaration decl) {
+                    if ((decl instanceof CVariableDeclaration original)
+                        && (original.getInitializer() != null)) {
+                      return new CVariableDeclaration(
+                          original.getFileLocation(),
+                          original.isGlobal(),
+                          original.getCStorageClass(),
+                          original.getType(),
+                          original.getName(),
+                          original.getOrigName(),
+                          original.getQualifiedName(),
+                          null);
                     }
                     return decl;
                   }
                   CIdExpression idExpression = (CIdExpression) astNode;
                   return idExpression.getDeclaration();
                 },
-                astNode -> astNode.getFileLocation()));
+                CAstNode::getFileLocation));
   }
 
   private static <T extends CType> void putIfUnique(

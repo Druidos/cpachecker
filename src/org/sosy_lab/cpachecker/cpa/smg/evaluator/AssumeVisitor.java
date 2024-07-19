@@ -77,17 +77,13 @@ public class AssumeVisitor extends ExpressionValueVisitor {
 
             // if we already know the value, we should use it.
             // TODO why does the visitor above create the symbolic value in the first place?
-            if (leftSideVal instanceof SMGKnownSymbolicValue) {
-              SMGKnownSymbolicValue expValue = (SMGKnownSymbolicValue) leftSideVal;
-              if (newState.isExplicit(expValue)) {
-                leftSideVal = newState.getExplicit(expValue);
-              }
+            if ((leftSideVal instanceof SMGKnownSymbolicValue expValue)
+                && newState.isExplicit(expValue)) {
+              leftSideVal = newState.getExplicit(expValue);
             }
-            if (rightSideVal instanceof SMGKnownSymbolicValue) {
-              SMGKnownSymbolicValue expValue = (SMGKnownSymbolicValue) rightSideVal;
-              if (newState.isExplicit(expValue)) {
-                rightSideVal = newState.getExplicit(expValue);
-              }
+            if ((rightSideVal instanceof SMGKnownSymbolicValue expValue)
+                && newState.isExplicit(expValue)) {
+              rightSideVal = newState.getExplicit(expValue);
             }
 
             for (SMGValueAndState resultValueAndState :
@@ -179,22 +175,15 @@ public class AssumeVisitor extends ExpressionValueVisitor {
       long offset1 = pV1.getOffset().getAsLong();
       long offset2 = pV2.getOffset().getAsLong();
 
-      switch (pOp) {
-        case GREATER_EQUAL:
-          return offset1 >= offset2;
-        case GREATER_THAN:
-          return offset1 > offset2;
-        case LESS_EQUAL:
-          return offset1 <= offset2;
-        case LESS_THAN:
-          return offset1 < offset2;
-        case EQUALS:
-          return offset1 == offset2;
-        case NOT_EQUALS:
-          return offset1 != offset2;
-        default:
-          throw new AssertionError("Impossible case thrown");
-      }
+      return switch (pOp) {
+        case GREATER_EQUAL -> offset1 >= offset2;
+        case GREATER_THAN -> offset1 > offset2;
+        case LESS_EQUAL -> offset1 <= offset2;
+        case LESS_THAN -> offset1 < offset2;
+        case EQUALS -> offset1 == offset2;
+        case NOT_EQUALS -> offset1 != offset2;
+        default -> throw new AssertionError("Impossible case thrown");
+      };
     } else if (getInitialSmgState().comparisonAgainstExternalMemory(object1, object2)) {
       return true;
     } else if (pOp == BinaryOperator.NOT_EQUALS

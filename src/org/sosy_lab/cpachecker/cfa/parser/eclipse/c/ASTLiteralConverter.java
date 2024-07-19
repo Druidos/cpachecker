@@ -72,22 +72,15 @@ class ASTLiteralConverter {
       return handleImaginaryNumber(fileLoc, (CSimpleType) type, e, valueStr);
     }
 
-    switch (e.getKind()) {
-      case IASTLiteralExpression.lk_char_constant:
-        return new CCharLiteralExpression(fileLoc, type, parseCharacterLiteral(valueStr, e));
-
-      case IASTLiteralExpression.lk_integer_constant:
-        return parseIntegerLiteral(fileLoc, valueStr, e);
-
-      case IASTLiteralExpression.lk_float_constant:
-        return parseFloatLiteral(fileLoc, type, valueStr, e);
-
-      case IASTLiteralExpression.lk_string_literal:
-        return new CStringLiteralExpression(fileLoc, type, valueStr);
-
-      default:
-        throw parseContext.parseError("Unknown literal", e);
-    }
+    return switch (e.getKind()) {
+      case IASTLiteralExpression.lk_char_constant ->
+          new CCharLiteralExpression(fileLoc, type, parseCharacterLiteral(valueStr, e));
+      case IASTLiteralExpression.lk_integer_constant -> parseIntegerLiteral(fileLoc, valueStr, e);
+      case IASTLiteralExpression.lk_float_constant -> parseFloatLiteral(fileLoc, type, valueStr, e);
+      case IASTLiteralExpression.lk_string_literal ->
+          new CStringLiteralExpression(fileLoc, valueStr);
+      default -> throw parseContext.parseError("Unknown literal", e);
+    };
   }
 
   private CImaginaryLiteralExpression handleImaginaryNumber(
@@ -99,13 +92,13 @@ class ASTLiteralConverter {
             type.isVolatile(),
             type.getAlignment(),
             type.getType(),
-            type.isLong(),
-            type.isShort(),
-            type.isSigned(),
-            type.isUnsigned(),
-            type.isComplex(),
+            type.hasLongSpecifier(),
+            type.hasShortSpecifier(),
+            type.hasSignedSpecifier(),
+            type.hasUnsignedSpecifier(),
+            type.hasComplexSpecifier(),
             true,
-            type.isLongLong());
+            type.hasLongLongSpecifier());
     switch (exp.getKind()) {
       case IASTLiteralExpression.lk_char_constant:
         return new CImaginaryLiteralExpression(
@@ -194,8 +187,16 @@ class ASTLiteralConverter {
   }
 
   @VisibleForTesting
-  char parseCharacterLiteral(String s, final IASTNode e) {
+  char parseCharacterLiteral(String s, final IASTLiteralExpression e) {
     check(s.length() >= 3, "invalid character literal (too short)", e);
+    if (s.charAt(0) == 'L' || s.charAt(0) == 'u' || s.charAt(0) == 'U') {
+      try {
+        return parseCharacterLiteral(s.substring(1), e);
+      } catch (CFAGenerationRuntimeException ex) {
+        throw parseContext.parseError("Unsupported wide character literal", e);
+      }
+    }
+
     check(
         s.charAt(0) == '\'' && s.charAt(s.length() - 1) == '\'',
         "character literal without quotation marks",
@@ -238,40 +239,20 @@ class ASTLiteralConverter {
       } else {
         // something like '\n'
         check(s.length() == 1, "character literal too long", e);
-        switch (c) {
-          case 'a':
-            result = 7;
-            break;
-          case 'b':
-            result = '\b';
-            break;
-          case 'f':
-            result = '\f';
-            break;
-          case 'n':
-            result = '\n';
-            break;
-          case 'r':
-            result = '\r';
-            break;
-          case 't':
-            result = '\t';
-            break;
-          case 'v':
-            result = 11;
-            break;
-          case '"':
-            result = '\"';
-            break;
-          case '\'':
-            result = '\'';
-            break;
-          case '\\':
-            result = '\\';
-            break;
-          default:
-            throw parseContext.parseError("unknown character literal", e);
-        }
+        result =
+            switch (c) {
+              case 'a' -> 7;
+              case 'b' -> '\b';
+              case 'f' -> '\f';
+              case 'n' -> '\n';
+              case 'r' -> '\r';
+              case 't' -> '\t';
+              case 'v' -> 11;
+              case '"' -> '\"';
+              case '\'' -> '\'';
+              case '\\' -> '\\';
+              default -> throw parseContext.parseError("unknown character literal", e);
+            };
       }
     }
     return result;
@@ -295,26 +276,16 @@ class ASTLiteralConverter {
   private BigInteger parseRawIntegerValue(ConstantType type, String s, final IASTNode e) {
     BigInteger result;
     try {
-      switch (type) {
-        case BINARY:
-          // remove "0b" from the string
-          s = s.substring(2);
-          result = new BigInteger(s, 2);
-          break;
-        case OCTAL:
-          result = new BigInteger(s, 8);
-          break;
-        case DECIMAL:
-          result = new BigInteger(s, 10);
-          break;
-        case HEXADECIMAL:
-          // this is expected to be in hex format, remove "0x" from the string
-          s = s.substring(2);
-          result = new BigInteger(s, 16);
-          break;
-        default:
-          throw parseContext.parseError(String.format("invalid constant type: %s", type.name()), e);
-      }
+      result =
+          switch (type) {
+            case BINARY -> new BigInteger(s.substring(2), 2); // remove "0b" from the string
+            case OCTAL -> new BigInteger(s, 8);
+            case DECIMAL -> new BigInteger(s, 10);
+            case HEXADECIMAL -> new BigInteger(s.substring(2), 16); // remove "0x" from the string
+            default ->
+                throw parseContext.parseError(
+                    String.format("invalid constant type: %s", type.name()), e);
+          };
     } catch (NumberFormatException exception) {
       throw parseContext.parseError("invalid number", e);
     }
@@ -402,7 +373,7 @@ class ASTLiteralConverter {
       case L:
       case LL:
         if (pType == ConstantType.DECIMAL) {
-          stream = stream.filter(x -> x.isSigned());
+          stream = stream.filter(Suffix::isSigned);
         }
         break;
 
@@ -465,7 +436,7 @@ class ASTLiteralConverter {
     BINARY,
     OCTAL,
     DECIMAL,
-    HEXADECIMAL;
+    HEXADECIMAL,
   }
 
   private enum Suffix {

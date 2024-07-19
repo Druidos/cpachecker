@@ -34,23 +34,19 @@ public class OctagonMergeOperator {
   @Option(
       secure = true,
       name = "onlyMergeAtLoopHeads",
-      description = "with this option enabled" + " the states are only merged at loop heads")
+      description = "with this option enabled the states are only merged at loop heads")
   private boolean onlyMergeAtLoopHeads = false;
 
   public static MergeOperator getInstance(OctagonDomain domain, Configuration config)
       throws InvalidConfigurationException {
     OctagonMergeOperator mergeOp = new OctagonMergeOperator(domain, config);
 
-    switch (mergeOp.type) {
-      case "SEP":
-        return MergeSepOperator.getInstance();
-      case "JOIN":
-        return mergeOp.new OctagonMergeJoinOperator(domain, config);
-      case "WIDENING":
-        return mergeOp.new OctagonMergeWideningOperator(domain, config);
-      default:
-        throw new InvalidConfigurationException("Unknown type for merge operator");
-    }
+    return switch (mergeOp.type) {
+      case "SEP" -> MergeSepOperator.getInstance();
+      case "JOIN" -> mergeOp.new OctagonMergeJoinOperator(domain, config);
+      case "WIDENING" -> mergeOp.new OctagonMergeWideningOperator(domain, config);
+      default -> throw new InvalidConfigurationException("Unknown type for merge operator");
+    };
   }
 
   private OctagonMergeOperator(OctagonDomain domain, Configuration config)

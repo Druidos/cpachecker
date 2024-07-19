@@ -8,16 +8,19 @@
 
 package org.sosy_lab.cpachecker.util.smg.graph;
 
+import com.google.common.base.Preconditions;
 import java.math.BigInteger;
+import org.sosy_lab.cpachecker.cpa.value.type.NumericValue;
+import org.sosy_lab.cpachecker.cpa.value.type.Value;
 
 /**
  * SMG edge pointing from an (SMG-)value to an (SMG-)object. Has a target specifier consisting of
- * SMGTargetSpecifier {first, last, all, region} and a offset.
+ * SMGTargetSpecifier {first, last, all, region} and an offset.
  */
-public class SMGPointsToEdge implements SMGEdge, Comparable<SMGPointsToEdge> {
+public class SMGPointsToEdge {
 
   private final SMGObject pointsToObject;
-  private final BigInteger offset;
+  private final Value offset;
   private SMGTargetSpecifier targetSpecifier;
 
   /**
@@ -32,20 +35,30 @@ public class SMGPointsToEdge implements SMGEdge, Comparable<SMGPointsToEdge> {
    */
   public SMGPointsToEdge(
       SMGObject pPointsToObject, BigInteger pOffset, SMGTargetSpecifier pTargetSpecifier) {
+    Preconditions.checkNotNull(pPointsToObject);
+    Preconditions.checkNotNull(pOffset);
+    Preconditions.checkNotNull(pTargetSpecifier);
+    pointsToObject = pPointsToObject;
+    offset = new NumericValue(pOffset);
+    targetSpecifier = pTargetSpecifier;
+  }
+
+  public SMGPointsToEdge(
+      SMGObject pPointsToObject, Value pOffset, SMGTargetSpecifier pTargetSpecifier) {
+    Preconditions.checkNotNull(pPointsToObject);
+    Preconditions.checkNotNull(pOffset);
+    Preconditions.checkNotNull(pTargetSpecifier);
     pointsToObject = pPointsToObject;
     offset = pOffset;
     targetSpecifier = pTargetSpecifier;
   }
 
-  /**
-   * @return the SMGObject this edge points to.
-   */
+  /** Returns the SMGObject this edge points to. */
   public SMGObject pointsTo() {
     return pointsToObject;
   }
 
-  @Override
-  public BigInteger getOffset() {
+  public Value getOffset() {
     return offset;
   }
 
@@ -54,42 +67,42 @@ public class SMGPointsToEdge implements SMGEdge, Comparable<SMGPointsToEdge> {
   }
 
   @Override
-  public int compareTo(SMGPointsToEdge pOther) {
-    if (pointsToObject.compareTo(pOther.pointsToObject) == 0) {
-      if (offset.compareTo(pOther.offset) == 0) {
-        if (targetSpecifier == pOther.targetSpecifier) {
-          return 0;
-        } else {
-          return 1;
-        }
-      } else {
-        return offset.compareTo(pOther.offset);
-      }
-    } else {
-      return pointsToObject.compareTo(pOther.pointsToObject);
-    }
-  }
-
-  @Override
   public boolean equals(Object other) {
-    if (!(other instanceof SMGPointsToEdge)) {
-      return false;
-    }
-    SMGPointsToEdge otherEdge = (SMGPointsToEdge) other;
-    if (otherEdge.offset.equals(offset)
+    return other instanceof SMGPointsToEdge otherEdge
+        && otherEdge.offset.equals(offset)
         && otherEdge.pointsToObject.equals(pointsToObject)
-        && targetSpecifier.equals(otherEdge.targetSpecifier)) {
-      return true;
-    }
-    return false;
+        && targetSpecifier.equals(otherEdge.targetSpecifier);
   }
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return targetSpecifier.hashCode() + 31 * pointsToObject.hashCode() + 41 * offset.hashCode();
   }
 
   public void setTargetSpecifier(SMGTargetSpecifier pTargetSpecifier) {
     targetSpecifier = pTargetSpecifier;
+  }
+
+  public SMGPointsToEdge copyAndSetTargetSpecifier(SMGTargetSpecifier pTargetSpecifier) {
+    return new SMGPointsToEdge(pointsToObject, offset, pTargetSpecifier);
+  }
+
+  @Override
+  public String toString() {
+    return " -> ("
+        + specToString()
+        + ") ["
+        + (offset.isNumericValue() ? offset.asNumericValue().bigIntegerValue() : offset)
+        + "] "
+        + pointsToObject;
+  }
+
+  private String specToString() {
+    return switch (targetSpecifier) {
+      case IS_REGION -> "reg";
+      case IS_LAST_POINTER -> "lst";
+      case IS_FIRST_POINTER -> "fst";
+      case IS_ALL_POINTER -> "all";
+    };
   }
 }

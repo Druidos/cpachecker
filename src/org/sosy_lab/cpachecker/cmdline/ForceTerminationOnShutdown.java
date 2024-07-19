@@ -101,7 +101,7 @@ class ForceTerminationOnShutdown implements Runnable {
     }
   }
 
-  @SuppressWarnings({"deprecation", "DeprecatedThreadMethods"})
+  @SuppressWarnings({"deprecation", "DeprecatedThreadMethods", "removal"})
   @SuppressForbidden("need to call Thread.stop")
   @SuppressFBWarnings("DM_EXIT")
   @Override
@@ -142,7 +142,12 @@ class ForceTerminationOnShutdown implements Runnable {
     // Now we need to kill the JVM.
 
     // If the main thread hangs in Java code, this will work:
-    mainThread.stop();
+    try {
+      mainThread.stop();
+    } catch (UnsupportedOperationException e) {
+      // Java 20+
+      // We cannot really do better instead of continuing and eventually calling System.exit()
+    }
     try {
       TimeUnit.SECONDS.sleep(SHUTDOWN_GRACE_PERIOD_2);
     } catch (InterruptedException e) {

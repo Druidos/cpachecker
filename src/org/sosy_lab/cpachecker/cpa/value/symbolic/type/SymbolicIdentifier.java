@@ -9,9 +9,8 @@
 package org.sosy_lab.cpachecker.cpa.value.symbolic.type;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.primitives.Longs;
+import java.io.Serial;
 import java.util.Objects;
 import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -44,7 +43,7 @@ import org.sosy_lab.cpachecker.util.states.MemoryLocation;
  */
 public class SymbolicIdentifier implements SymbolicValue, Comparable<SymbolicIdentifier> {
 
-  private static final long serialVersionUID = -3773425414056328601L;
+  @Serial private static final long serialVersionUID = -3773425414056328601L;
 
   // this objects unique id for identifying it
   private final long id;
@@ -53,7 +52,7 @@ public class SymbolicIdentifier implements SymbolicValue, Comparable<SymbolicIde
 
   public SymbolicIdentifier(final long pId, final MemoryLocation pRepresentedLocation) {
     id = pId;
-    representedLocation = checkNotNull(pRepresentedLocation);
+    representedLocation = pRepresentedLocation;
   }
 
   @Override
@@ -128,7 +127,7 @@ public class SymbolicIdentifier implements SymbolicValue, Comparable<SymbolicIde
 
   @Override
   public int compareTo(SymbolicIdentifier o) {
-    return Longs.compare(getId(), o.getId());
+    return Long.compare(getId(), o.getId());
   }
 
   /**
@@ -162,6 +161,10 @@ public class SymbolicIdentifier implements SymbolicValue, Comparable<SymbolicIde
      */
     public String convertToStringEncoding(SymbolicIdentifier pIdentifier) {
       Optional<MemoryLocation> representedLocation = pIdentifier.getRepresentedLocation();
+      // TODO: Temporary workaround for SMG2, todo: improve
+      if (representedLocation.isEmpty()) {
+        return "id#" + pIdentifier.getId();
+      }
       assert representedLocation.isPresent();
       return representedLocation.orElseThrow().getExtendedQualifiedName()
           + "#"

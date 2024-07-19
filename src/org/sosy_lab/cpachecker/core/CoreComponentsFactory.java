@@ -10,7 +10,6 @@ package org.sosy_lab.cpachecker.core;
 
 import static com.google.common.base.Verify.verifyNotNull;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.ShutdownManager;
@@ -31,9 +30,9 @@ import org.sosy_lab.cpachecker.core.algorithm.CPAAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CounterexampleStoreAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.CustomInstructionRequirementsExtractingAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.ExceptionHandlingAlgorithm;
+import org.sosy_lab.cpachecker.core.algorithm.FaultLocalizationByImport;
 import org.sosy_lab.cpachecker.core.algorithm.FaultLocalizationWithCoverage;
 import org.sosy_lab.cpachecker.core.algorithm.FaultLocalizationWithTraceFormula;
-import org.sosy_lab.cpachecker.core.algorithm.InvariantExportAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.MPIPortfolioAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.NoopAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.ParallelAlgorithm;
@@ -46,13 +45,13 @@ import org.sosy_lab.cpachecker.core.algorithm.SelectionAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.TestCaseGeneratorAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.UndefinedFunctionCollectorAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.WitnessToACSLAlgorithm;
-import org.sosy_lab.cpachecker.core.algorithm.WitnessToInvariantWitnessAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.bmc.BMCAlgorithm;
+import org.sosy_lab.cpachecker.core.algorithm.bmc.DARAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.bmc.IMCAlgorithm;
-import org.sosy_lab.cpachecker.core.algorithm.bmc.ISMCAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.bmc.pdr.PdrAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.composition.CompositionAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.counterexamplecheck.CounterexampleCheckAlgorithm;
+import org.sosy_lab.cpachecker.core.algorithm.distributed_summaries.DistributedSummaryAnalysis;
 import org.sosy_lab.cpachecker.core.algorithm.explainer.Explainer;
 import org.sosy_lab.cpachecker.core.algorithm.impact.ImpactAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.mpv.MPVAlgorithm;
@@ -84,7 +83,6 @@ import org.sosy_lab.cpachecker.cpa.bam.BAMCPA;
 import org.sosy_lab.cpachecker.cpa.bam.BAMCounterexampleCheckAlgorithm;
 import org.sosy_lab.cpachecker.cpa.location.LocationCPA;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
-import org.sosy_lab.cpachecker.util.automaton.CachingTargetLocationProvider;
 
 /** Factory class for the three core components of CPAchecker: algorithm, cpa and reached set. */
 @Options(prefix = "analysis")
@@ -165,11 +163,11 @@ public class CoreComponentsFactory {
 
   @Option(
       secure = true,
-      name = "algorithm.ISMC",
+      name = "algorithm.DAR",
       description =
-          "use interpolation-sequence based model checking algorithm, "
+          "use dual approximated reachability model checking algorithm, "
               + "works only with PredicateCPA and large-block encoding")
-  private boolean useISMC = false;
+  private boolean useDAR = false;
 
   @Option(
       secure = true,
@@ -217,18 +215,6 @@ public class CoreComponentsFactory {
 
   @Option(secure = true, description = "converts a witness to an ACSL annotated program")
   private boolean useWitnessToACSLAlgorithm = false;
-
-  @Option(
-      secure = true,
-      name = "witnessToInvariant",
-      description = "converts a graphml witness to invariant witness")
-  private boolean useWitnessToInvariantAlgorithm = false;
-
-  @Option(
-      secure = true,
-      name = "invariantExport",
-      description = "Runs an algorithm that produces and exports invariants")
-  private boolean useInvariantExportAlgorithm = false;
 
   @Option(
       secure = true,
@@ -385,6 +371,18 @@ public class CoreComponentsFactory {
       description = "Use fault localization with distance metrics")
   private boolean useFaultLocalizationWithDistanceMetrics = false;
 
+  @Option(
+      secure = true,
+      name = "algorithm.configurableComponents",
+      description = "Distribute predicate analysis to multiple workers")
+  private boolean useConfigurableComponents = false;
+
+  @Option(
+      secure = true,
+      name = "algorithm.importFaults",
+      description = "Import faults stored in a JSON format.")
+  private boolean useImportFaults = false;
+
   @Option(secure = true, description = "Enable converting test goals to conditions.")
   private boolean testGoalConverter;
 
@@ -443,7 +441,7 @@ public class CoreComponentsFactory {
         && !useProofCheckAlgorithmWithStoredConfig
         && !useRestartingAlgorithm
         && !useImpactAlgorithm
-        && (useBMC || useIMC || useISMC || useInvariantExportAlgorithm);
+        && (useBMC || useIMC || useDAR);
   }
 
   public Algorithm createAlgorithm(
@@ -508,25 +506,6 @@ public class CoreComponentsFactory {
     } else if (useMPIProcessAlgorithm) {
       algorithm = new MPIPortfolioAlgorithm(config, logger, shutdownNotifier, specification);
 
-    } else if (useWitnessToInvariantAlgorithm) {
-      try {
-        algorithm =
-            new WitnessToInvariantWitnessAlgorithm(
-                config, logger, shutdownNotifier, cfa, specification);
-      } catch (IOException e) {
-        throw new CPAException("could not instantiate invariant witness writer", e);
-      }
-    } else if (useInvariantExportAlgorithm) {
-      algorithm =
-          new InvariantExportAlgorithm(
-              config,
-              logger,
-              shutdownManager,
-              cfa,
-              specification,
-              reachedSetFactory,
-              new CachingTargetLocationProvider(shutdownNotifier, logger, cfa),
-              aggregatedReachedSets);
     } else if (useFaultLocalizationWithDistanceMetrics) {
       algorithm = new Explainer(config, logger, shutdownNotifier, specification, cfa);
     } else if (useArrayAbstraction) {
@@ -618,10 +597,10 @@ public class CoreComponentsFactory {
                 aggregatedReachedSets);
       }
 
-      if (useISMC) {
+      if (useDAR) {
         verifyNotNull(shutdownManager);
         algorithm =
-            new ISMCAlgorithm(
+            new DARAlgorithm(
                 algorithm,
                 cpa,
                 config,
@@ -631,6 +610,19 @@ public class CoreComponentsFactory {
                 cfa,
                 specification,
                 aggregatedReachedSets);
+      }
+
+      if (useTerminationAlgorithm) {
+        algorithm =
+            new TerminationAlgorithm(
+                config,
+                logger,
+                shutdownNotifier,
+                cfa,
+                reachedSetFactory,
+                aggregatedReachedSetManager,
+                algorithm,
+                cpa);
       }
 
       if (checkCounterexamples) {
@@ -701,19 +693,6 @@ public class CoreComponentsFactory {
         algorithm = new RestrictedProgramDomainAlgorithm(algorithm, cfa);
       }
 
-      if (useTerminationAlgorithm) {
-        algorithm =
-            new TerminationAlgorithm(
-                config,
-                logger,
-                shutdownNotifier,
-                cfa,
-                reachedSetFactory,
-                aggregatedReachedSetManager,
-                algorithm,
-                cpa);
-      }
-
       if (cpa instanceof ARGCPA && forceCexStore) {
         algorithm =
             new CounterexampleStoreAlgorithm(algorithm, cpa, config, logger, cfa.getMachineModel());
@@ -723,12 +702,25 @@ public class CoreComponentsFactory {
         algorithm = new MPVAlgorithm(cpa, config, logger, shutdownNotifier, specification, cfa);
       }
 
+      if (useConfigurableComponents) {
+        algorithm =
+            new DistributedSummaryAnalysis(
+                config,
+                logger,
+                cfa,
+                ShutdownManager.createWithParent(shutdownNotifier),
+                specification);
+      }
+
       if (useFaultLocalizationWithCoverage) {
         algorithm = new FaultLocalizationWithCoverage(algorithm, shutdownNotifier, logger, config);
       }
       if (useFaultLocalizationWithTraceFormulas) {
         algorithm =
             new FaultLocalizationWithTraceFormula(algorithm, config, logger, cfa, shutdownNotifier);
+      }
+      if (useImportFaults) {
+        algorithm = new FaultLocalizationByImport(config, algorithm, cfa, logger);
       }
     }
 

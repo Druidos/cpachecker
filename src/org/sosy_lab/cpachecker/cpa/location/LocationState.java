@@ -13,10 +13,12 @@ import static org.sosy_lab.cpachecker.util.CFAUtils.allLeavingEdges;
 import static org.sosy_lab.cpachecker.util.CFAUtils.enteringEdges;
 import static org.sosy_lab.cpachecker.util.CFAUtils.leavingEdges;
 
+import com.google.common.base.Ascii;
 import com.google.common.base.Splitter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import org.sosy_lab.cpachecker.cfa.ast.FileLocation;
@@ -32,12 +34,12 @@ import org.sosy_lab.cpachecker.core.interfaces.Partitionable;
 import org.sosy_lab.cpachecker.exceptions.InvalidQueryException;
 import org.sosy_lab.cpachecker.util.CFAUtils;
 import org.sosy_lab.cpachecker.util.globalinfo.CFAInfo;
-import org.sosy_lab.cpachecker.util.globalinfo.GlobalInfo;
+import org.sosy_lab.cpachecker.util.globalinfo.SerializationInfoStorage;
 
 public class LocationState
     implements AbstractStateWithLocation, AbstractQueryableState, Partitionable, Serializable {
 
-  private static final long serialVersionUID = -801176497691618779L;
+  @Serial private static final long serialVersionUID = -801176497691618779L;
 
   private static boolean isNoFunctionCall(CFAEdge e) {
     return !(e instanceof FunctionCallEdge || e instanceof FunctionReturnEdge);
@@ -45,7 +47,7 @@ public class LocationState
 
   static class BackwardsLocationState extends LocationState {
 
-    private static final long serialVersionUID = 6825257572921009531L;
+    @Serial private static final long serialVersionUID = 6825257572921009531L;
 
     BackwardsLocationState(CFANode locationNode, boolean pFollowFunctionCalls) {
       super(locationNode, pFollowFunctionCalls);
@@ -53,11 +55,11 @@ public class LocationState
 
     @Override
     public Iterable<CFAEdge> getOutgoingEdges() {
-      return super.getIngoingEdges();
+      return super.getIncomingEdges();
     }
 
     @Override
-    public Iterable<CFAEdge> getIngoingEdges() {
+    public Iterable<CFAEdge> getIncomingEdges() {
       return super.getOutgoingEdges();
     }
   }
@@ -86,7 +88,7 @@ public class LocationState
   }
 
   @Override
-  public Iterable<CFAEdge> getIngoingEdges() {
+  public Iterable<CFAEdge> getIncomingEdges() {
     if (followFunctionCalls) {
       return enteringEdges(locationNode);
 
@@ -110,7 +112,7 @@ public class LocationState
               + pProperty
               + "\" is invalid. Could not split the property string correctly.");
     } else {
-      switch (parts.get(0).toLowerCase()) {
+      switch (Ascii.toLowerCase(parts.get(0))) {
         case "line":
           try {
             int queryLine = Integer.parseInt(parts.get(1));
@@ -192,6 +194,7 @@ public class LocationState
 
   // no equals and hashCode because there is always only one element per CFANode
 
+  @Serial
   private Object writeReplace() {
     return new SerialProxy(locationNode.getNodeNumber());
   }
@@ -202,20 +205,22 @@ public class LocationState
    * @param in the input stream
    */
   @SuppressWarnings("UnusedVariable") // parameter is required by API
+  @Serial
   private void readObject(ObjectInputStream in) throws IOException {
     throw new InvalidObjectException("Proxy required");
   }
 
   private static class SerialProxy implements Serializable {
-    private static final long serialVersionUID = 6889568471468710163L;
+    @Serial private static final long serialVersionUID = 6889568471468710163L;
     private final int nodeNumber;
 
     public SerialProxy(int nodeNumber) {
       this.nodeNumber = nodeNumber;
     }
 
+    @Serial
     private Object readResolve() {
-      CFAInfo cfaInfo = GlobalInfo.getInstance().getCFAInfo().orElseThrow();
+      CFAInfo cfaInfo = SerializationInfoStorage.getInstance().getCFAInfo().orElseThrow();
       return cfaInfo.getLocationStateFactory().getState(cfaInfo.getNodeByNodeNumber(nodeNumber));
     }
   }

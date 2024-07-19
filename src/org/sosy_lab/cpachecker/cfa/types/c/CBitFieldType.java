@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import java.io.Serial;
 import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,9 @@ import java.util.Objects;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType.ComplexTypeKind;
 
 /** Instances of this class represent C bit-field types. */
-public class CBitFieldType implements CType {
+public final class CBitFieldType implements CType {
 
-  private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
 
   private final CType type;
 
@@ -63,8 +64,7 @@ public class CBitFieldType implements CType {
 
   private CType checkType(CType pBitFieldType) {
     CType canonicalType = pBitFieldType.getCanonicalType();
-    if (canonicalType instanceof CSimpleType) {
-      CSimpleType simpleType = (CSimpleType) canonicalType;
+    if (canonicalType instanceof CSimpleType simpleType) {
       CBasicType basicType = simpleType.getType();
       switch (basicType) {
         case BOOL:
@@ -76,11 +76,9 @@ public class CBitFieldType implements CType {
       }
     } else if (canonicalType instanceof CEnumType) {
       return pBitFieldType;
-    } else if (canonicalType instanceof CElaboratedType) {
-      CElaboratedType elaboratedType = (CElaboratedType) canonicalType;
-      if (elaboratedType.getKind() == ComplexTypeKind.ENUM) {
-        return pBitFieldType;
-      }
+    } else if ((canonicalType instanceof CElaboratedType elaboratedType)
+        && (elaboratedType.getKind() == ComplexTypeKind.ENUM)) {
+      return pBitFieldType;
     }
     throw new IllegalArgumentException("Not a valid bit-field type: " + pBitFieldType);
   }
@@ -120,6 +118,11 @@ public class CBitFieldType implements CType {
   @Override
   public boolean isIncomplete() {
     return type.isIncomplete();
+  }
+
+  @Override
+  public boolean hasKnownConstantSize() {
+    return type.hasKnownConstantSize();
   }
 
   @Override
@@ -175,15 +178,13 @@ public class CBitFieldType implements CType {
 
   @Override
   public boolean equals(Object pObj) {
-    if (pObj == this) {
+    if (this == pObj) {
       return true;
     }
-    if (pObj instanceof CBitFieldType) {
-      CBitFieldType other = (CBitFieldType) pObj;
-      return bitFieldSize == other.bitFieldSize
+    return pObj instanceof CBitFieldType other
+        && bitFieldSize == other.bitFieldSize
           && alignment.equals(other.alignment)
           && type.equals(other.type);
-    }
-    return false;
+
   }
 }

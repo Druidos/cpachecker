@@ -183,23 +183,33 @@ public class PredicateStaticRefiner extends StaticRefiner
       return delegate.performRefinementForPath(pReached, allStatesTrace);
     }
 
+    // create path with all abstraction location elements (excluding the initial element)
+    // the last element is the element corresponding to the error location
+    final List<ARGState> abstractionStatesTrace =
+        PredicateCPARefiner.filterAbstractionStates(allStatesTrace);
+    if (abstractionStatesTrace.size() == 1) {
+      // For single-block paths, static refinement is useless,
+      // there are no meaningful predicates to discover. So we use regular refinement and maybe
+      // later on perform the static refinement (if we find another path that has more blocks).
+      logger.log(Level.FINEST, "Skipping heuristics-based refinement for single-block error path.");
+      return delegate.performRefinementForPath(pReached, allStatesTrace);
+    }
+
     totalTime.start();
     try {
-      return performStaticRefinementForPath(pReached, allStatesTrace);
+      return performStaticRefinementForPath(pReached, allStatesTrace, abstractionStatesTrace);
     } finally {
       totalTime.stop();
     }
   }
 
   private CounterexampleInfo performStaticRefinementForPath(
-      final ARGReachedSet pReached, final ARGPath allStatesTrace)
+      final ARGReachedSet pReached,
+      final ARGPath allStatesTrace,
+      List<ARGState> abstractionStatesTrace)
       throws CPAException, InterruptedException {
     logger.log(Level.FINEST, "Starting heuristics-based refinement.");
 
-    // create path with all abstraction location elements (excluding the initial element)
-    // the last element is the element corresponding to the error location
-    final List<ARGState> abstractionStatesTrace =
-        PredicateCPARefiner.filterAbstractionStates(allStatesTrace);
     BlockFormulas formulas =
         blockFormulaStrategy.getFormulasForPath(
             allStatesTrace.getFirstState(), abstractionStatesTrace);
@@ -276,20 +286,18 @@ public class PredicateStaticRefiner extends StaticRefiner
   private Multimap<String, AStatementEdge> buildDirectlyAffectingStatements() {
     Multimap<String, AStatementEdge> directlyAffectingStatements = LinkedHashMultimap.create();
 
-    for (CFANode u : cfa.getAllNodes()) {
+    for (CFANode u : cfa.nodes()) {
       Deque<CFAEdge> edgesToHandle = CFAUtils.leavingEdges(u).copyInto(new ArrayDeque<>());
       while (!edgesToHandle.isEmpty()) {
         CFAEdge e = edgesToHandle.pop();
-        if (e instanceof CStatementEdge) {
-          CStatementEdge stmtEdge = (CStatementEdge) e;
-          if (stmtEdge.getStatement() instanceof CAssignment) {
-            CAssignment assign = (CAssignment) stmtEdge.getStatement();
+        if ((e instanceof CStatementEdge stmtEdge)
+            && (stmtEdge.getStatement() instanceof CAssignment)) {
+          CAssignment assign = (CAssignment) stmtEdge.getStatement();
 
-            if (assign.getLeftHandSide() instanceof CIdExpression) {
-              String variable =
-                  ((CIdExpression) assign.getLeftHandSide()).getDeclaration().getQualifiedName();
-              directlyAffectingStatements.put(variable, stmtEdge);
-            }
+          if (assign.getLeftHandSide() instanceof CIdExpression) {
+            String variable =
+                ((CIdExpression) assign.getLeftHandSide()).getDeclaration().getQualifiedName();
+            directlyAffectingStatements.put(variable, stmtEdge);
           }
         }
       }
@@ -349,15 +357,10 @@ public class PredicateStaticRefiner extends StaticRefiner
       throws SolverException, CPATransferException, InterruptedException {
     Set<AssumeEdge> result = new HashSet<>();
 
-    for (CFANode u : cfa.getAllNodes()) {
-      for (CFAEdge e : CFAUtils.leavingEdges(u)) {
-        if (e instanceof AssumeEdge) {
-          AssumeEdge assume = (AssumeEdge) e;
-          if (!isAssumeOnLoopVariable(assume)) {
-            if (hasContradictingOperationInFlow(assume, directlyAffectingStatements)) {
-              result.add(assume);
-            }
-          }
+    for (CFAEdge edge : cfa.edges()) {
+      if ((edge instanceof AssumeEdge assume) && !isAssumeOnLoopVariable(assume)) {
+        if (hasContradictingOperationInFlow(assume, directlyAffectingStatements)) {
+          result.add(assume);
         }
       }
     }
@@ -388,8 +391,7 @@ public class PredicateStaticRefiner extends StaticRefiner
         }
 
         if (edgeOnTrace) {
-          if (e instanceof AssumeEdge) {
-            AssumeEdge assume = (AssumeEdge) e;
+          if (e instanceof AssumeEdge assume) {
             if (!isAssumeOnLoopVariable(assume)) {
               if (hasContradictingOperationInFlow(assume, directlyAffectingStatements)) {
                 result.add(assume);
@@ -505,14 +507,12 @@ public class PredicateStaticRefiner extends StaticRefiner
 
   private void dumpAssumePredicate(Path target) {
     try (Writer w = IO.openOutputFile(target, Charset.defaultCharset())) {
-      for (CFANode u : cfa.getAllNodes()) {
-        for (CFAEdge e : CFAUtils.leavingEdges(u)) {
-          if (e instanceof AssumeEdge) {
-            Collection<AbstractionPredicate> preds = assumeEdgeToPredicates(false, (AssumeEdge) e);
-            for (AbstractionPredicate p : preds) {
-              w.append(p.getSymbolicAtom().toString());
-              w.append("\n");
-            }
+      for (CFAEdge e : cfa.edges()) {
+        if (e instanceof AssumeEdge) {
+          Collection<AbstractionPredicate> preds = assumeEdgeToPredicates(false, (AssumeEdge) e);
+          for (AbstractionPredicate p : preds) {
+            w.append(p.getSymbolicAtom().toString());
+            w.append("\n");
           }
         }
       }

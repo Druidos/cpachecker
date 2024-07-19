@@ -25,7 +25,6 @@ import org.sosy_lab.cpachecker.core.interfaces.PrecisionAdjustment;
 import org.sosy_lab.cpachecker.core.interfaces.PrecisionAdjustmentResult;
 import org.sosy_lab.cpachecker.core.reachedset.UnmodifiableReachedSet;
 import org.sosy_lab.cpachecker.cpa.callstack.CallstackStateEqualsWrapper;
-import org.sosy_lab.cpachecker.cpa.predicate.PredicateAbstractState.InfeasibleDummyState;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.predicates.AbstractionFormula;
@@ -61,7 +60,6 @@ public class PredicatePrecisionAdjustment implements PrecisionAdjustment {
       PredicateCPAInvariantsManager pInvariantSupplier,
       PredicateProvider pPredicateProvider,
       PredicateStatistics pPredicateStatistics) {
-
     logger = pLogger;
     fmgr = pFmgr;
     pathFormulaManager = pPfmgr;
@@ -100,7 +98,7 @@ public class PredicatePrecisionAdjustment implements PrecisionAdjustment {
       }
 
       return Optional.of(
-          PrecisionAdjustmentResult.create(
+          new PrecisionAdjustmentResult(
               element, pPrecision, PrecisionAdjustmentResult.Action.CONTINUE));
 
     } catch (SolverException e) {
@@ -113,9 +111,6 @@ public class PredicatePrecisionAdjustment implements PrecisionAdjustment {
   private boolean shouldComputeAbstraction(
       AbstractState fullState, CFANode location, PredicateAbstractState predicateState) {
     if (predicateState.isAbstractionState()) {
-      return false;
-    }
-    if (predicateState instanceof InfeasibleDummyState) {
       return false;
     }
     if (blk.isBlockEnd(location, predicateState.getPathFormula().getLength())) {
@@ -217,7 +212,6 @@ public class PredicatePrecisionAdjustment implements PrecisionAdjustment {
             abstractionLocations,
             element.getPreviousAbstractionState());
     return Optional.of(
-        PrecisionAdjustmentResult.create(
-            state, precision, PrecisionAdjustmentResult.Action.CONTINUE));
+        new PrecisionAdjustmentResult(state, precision, PrecisionAdjustmentResult.Action.CONTINUE));
   }
 }

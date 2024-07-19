@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.util.predicates.pathformula.pointeraliasing;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Predicate;
+import java.io.Serial;
 import java.io.Serializable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.ast.c.CLeftHandSide;
@@ -47,7 +48,7 @@ class PointerTargetPattern implements Serializable, Predicate<PointerTarget> {
     return new PointerTargetPattern(base, null, 0L, 0L);
   }
 
-  static Predicate<PointerTarget> forRange(String base, long startOffset, int size) {
+  static Predicate<PointerTarget> forRange(String base, long startOffset, long size) {
     return new RangePointerTargetPattern(base, startOffset, size);
   }
 
@@ -62,7 +63,7 @@ class PointerTargetPattern implements Serializable, Predicate<PointerTarget> {
     return lhs.accept(v).build();
   }
 
-  Predicate<PointerTarget> withRange(final int size) {
+  Predicate<PointerTarget> withRange(final long size) {
     assert containerOffset != null && properOffset != null : "Starting address is inexact";
     return forRange(base, containerOffset + properOffset, size);
   }
@@ -113,7 +114,7 @@ class PointerTargetPattern implements Serializable, Predicate<PointerTarget> {
   private final @Nullable Long properOffset;
   private final @Nullable Long containerOffset;
 
-  private static final long serialVersionUID = -2918663736813010025L;
+  @Serial private static final long serialVersionUID = -2918663736813010025L;
 
   private static class RangePointerTargetPattern implements Predicate<PointerTarget> {
 
@@ -122,7 +123,7 @@ class PointerTargetPattern implements Serializable, Predicate<PointerTarget> {
     private final long endOffset;
 
     private RangePointerTargetPattern(
-        final String pBase, final long pStartOffset, final int pSize) {
+        final String pBase, final long pStartOffset, final long pSize) {
       base = pBase;
       startOffset = pStartOffset;
       endOffset = pStartOffset + pSize;
@@ -176,7 +177,7 @@ class PointerTargetPattern implements Serializable, Predicate<PointerTarget> {
 
     @Nullable Long getRemainingOffset(TypeHandlerWithPointerAliasing typeHandler) {
       if (containerType != null && containerOffset != null && properOffset != null) {
-        return typeHandler.getSizeof(containerType) - properOffset;
+        return typeHandler.getExactSizeof(containerType) - properOffset;
       } else {
         return null;
       }

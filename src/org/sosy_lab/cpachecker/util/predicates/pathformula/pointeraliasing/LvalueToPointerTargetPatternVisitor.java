@@ -81,7 +81,7 @@ class LvalueToPointerTargetPatternVisitor
           {
             final PointerTargetPatternBuilder result = operand1.accept(this);
             if (result != null) {
-              final Integer offset = tryEvaluateExpression(operand2);
+              final Long offset = tryEvaluateExpression(operand2);
               final Long oldOffset = result.getProperOffset();
               if (offset != null && oldOffset != null && offset < oldOffset) {
                 result.setProperOffset(oldOffset - offset);
@@ -97,7 +97,7 @@ class LvalueToPointerTargetPatternVisitor
         case PLUS:
           {
             PointerTargetPatternBuilder result = operand1.accept(this);
-            final Integer offset;
+            final Long offset;
             if (result == null) {
               result = operand2.accept(this);
               offset = tryEvaluateExpression(operand1);
@@ -146,17 +146,12 @@ class LvalueToPointerTargetPatternVisitor
     public PointerTargetPatternBuilder visit(final CUnaryExpression e)
         throws UnrecognizedCodeException {
       final CExpression operand = e.getOperand();
-      switch (e.getOperator()) {
-        case AMPER:
-          return operand.accept(LvalueToPointerTargetPatternVisitor.this);
-        case MINUS:
-        case TILDE:
-          return null;
-        case SIZEOF:
-          throw new UnrecognizedCodeException("Illegal unary operator", cfaEdge, e);
-        default:
-          throw new UnrecognizedCodeException("Unrecognized unary operator", cfaEdge, e);
-      }
+      return switch (e.getOperator()) {
+        case AMPER -> operand.accept(LvalueToPointerTargetPatternVisitor.this);
+        case MINUS, TILDE -> null;
+        case SIZEOF -> throw new UnrecognizedCodeException("Illegal unary operator", cfaEdge, e);
+        default -> throw new UnrecognizedCodeException("Unrecognized unary operator", cfaEdge, e);
+      };
     }
 
     @Override
@@ -190,15 +185,14 @@ class LvalueToPointerTargetPatternVisitor
             new CArrayType(
                 containerType.isConst(), // TODO: Set array size
                 containerType.isVolatile(),
-                elementType,
-                null);
+                elementType);
       } else {
         elementType = ((CArrayType) containerType).getType();
       }
       result.shift(containerType);
-      final Integer index = tryEvaluateExpression(e.getSubscriptExpression());
+      final Long index = tryEvaluateExpression(e.getSubscriptExpression());
       if (index != null) {
-        result.setProperOffset(index * typeHandler.getSizeof(elementType));
+        result.setProperOffset(index * typeHandler.getExactSizeof(elementType));
       }
       return result;
     } else {
@@ -291,9 +285,9 @@ class LvalueToPointerTargetPatternVisitor
     }
   }
 
-  private static @Nullable Integer tryEvaluateExpression(CExpression e) {
+  private static @Nullable Long tryEvaluateExpression(CExpression e) {
     if (e instanceof CIntegerLiteralExpression) {
-      return ((CIntegerLiteralExpression) e).getValue().intValue();
+      return ((CIntegerLiteralExpression) e).getValue().longValueExact();
     }
     return null;
   }

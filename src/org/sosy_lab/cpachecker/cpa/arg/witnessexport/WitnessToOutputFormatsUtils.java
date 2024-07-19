@@ -13,11 +13,11 @@ import static java.util.logging.Level.WARNING;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,11 +36,14 @@ import org.sosy_lab.cpachecker.cpa.arg.witnessexport.formatter.WitnessToGraphMLF
 import org.sosy_lab.cpachecker.cpa.slab.SLARGToDotWriter;
 import org.sosy_lab.cpachecker.cpa.smg.util.PersistentSet;
 import org.sosy_lab.cpachecker.util.NumericIdProvider;
+import org.sosy_lab.cpachecker.util.StringUtil;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTree;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTrees;
 
-public class WitnessToOutputFormatsUtils {
+public final class WitnessToOutputFormatsUtils {
+
+  private WitnessToOutputFormatsUtils() {}
 
   /** utility method */
   public static void writeWitness(
@@ -65,6 +68,18 @@ public class WitnessToOutputFormatsUtils {
    */
   public static void writeToGraphMl(Witness witness, Appendable pTarget) throws IOException {
     new WitnessToGraphMLFormatter(witness).appendTo(pTarget);
+  }
+
+  /**
+   * Appends the witness as GraphML to the supplied {@link Appendable}
+   *
+   * @param witness contains the information necessary to generate the GraphML representation
+   * @param pTarget where to append the GraphML
+   * @param pExportAllInvariants enable to also export true invariants
+   */
+  public static void writeToGraphMl(
+      Witness witness, boolean pExportAllInvariants, Appendable pTarget) throws IOException {
+    new WitnessToGraphMLFormatter(witness, pExportAllInvariants).appendTo(pTarget);
   }
 
   /** Appends the witness as Dot/Graphviz to the supplied {@link Appendable}. */
@@ -102,10 +117,8 @@ public class WitnessToOutputFormatsUtils {
         sourceNode = new HashMap<>();
 
         List<Integer> nodeIds =
-            witness.getARGStatesFor(source).stream()
-                .map(ARGState::getStateId)
-                .collect(ImmutableList.toImmutableList());
-        String nodeString = SLARGToDotWriter.generateLocationString(nodeIds).toString();
+            Lists.transform(witness.getARGStatesFor(source), ARGState::getStateId);
+        StringBuilder nodeString = StringUtil.convertIntegerRangesToStringCollapsed(nodeIds);
         StringBuilder labelBuilder = new StringBuilder(source);
         if (!nodeString.isEmpty()) {
           labelBuilder.append(String.format("%nARG node%s: ", nodeIds.size() == 1 ? "" : "s"));
@@ -156,7 +169,7 @@ public class WitnessToOutputFormatsUtils {
   }
 
   private static String determineNodeType(Witness witness, String source) {
-    Collection<ARGState> states = witness.getARGStatesFor(source);
+    ImmutableList<ARGState> states = witness.getARGStatesFor(source);
     if (!witness.getViolatedProperties().get(source).isEmpty()
         || states.stream().anyMatch(ARGState::isTarget)) {
       return "target";

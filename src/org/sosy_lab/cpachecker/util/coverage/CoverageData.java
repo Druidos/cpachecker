@@ -19,7 +19,6 @@ import org.sosy_lab.cpachecker.cfa.model.ADeclarationEdge;
 import org.sosy_lab.cpachecker.cfa.model.AReturnStatementEdge;
 import org.sosy_lab.cpachecker.cfa.model.AssumeEdge;
 import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
-import org.sosy_lab.cpachecker.cfa.model.CFANode;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
 import org.sosy_lab.cpachecker.cpa.smg.util.PersistentMultimap;
@@ -76,15 +75,11 @@ public final class CoverageData {
 
   public void putCFA(CFA pCFA) {
     // ------------ Existing lines ----------------
-    for (CFANode node : pCFA.getAllNodes()) {
-      // This part adds lines, which are only on edges, such as "return" or "goto"
-      for (CFAEdge edge : CFAUtils.leavingEdges(node)) {
-        putExistingEdge(edge);
-      }
-    }
+    // This part adds lines, which are only on edges, such as "return" or "goto"
+    pCFA.edges().forEach(this::putExistingEdge);
 
     // ------------ Existing functions -------------
-    for (FunctionEntryNode entryNode : pCFA.getAllFunctionHeads()) {
+    for (FunctionEntryNode entryNode : pCFA.entryNodes()) {
       putExistingFunction(entryNode);
     }
   }

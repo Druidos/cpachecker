@@ -21,8 +21,17 @@ import org.sosy_lab.cpachecker.cfa.types.Type;
  * <p>The files "CTypes.dia"/"CTypes.pdf" in this package document the C type system and the
  * CPAchecker-specific classes.
  */
-@SuppressWarnings("serial")
-public interface CType extends Type {
+public sealed interface CType extends Type
+    permits CArrayType,
+        CBitFieldType,
+        CComplexType,
+        CFunctionType,
+        CFunctionTypeWithNames,
+        CPointerType,
+        CProblemType,
+        CSimpleType,
+        CTypedefType,
+        CVoidType {
 
   boolean isConst();
 
@@ -45,6 +54,15 @@ public interface CType extends Type {
    * size cannot be computed.
    */
   boolean isIncomplete();
+
+  /**
+   * Check whether the current type has *known constant size* as defined by the C standard in §
+   * 6.2.5 (23). These are types for which the size can be computed statically. Only incomplete
+   * types and variable-length arrays do not have known constant size, but GCC has a an extension
+   * that also allows such arrays in structs:
+   * https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html
+   */
+  boolean hasKnownConstantSize();
 
   /** Will throw a UnsupportedOperationException */
   @Override
@@ -111,9 +129,8 @@ public interface CType extends Type {
       }
     }
 
-    if (rightHandSide instanceof CPointerType && leftHandSide instanceof CPointerType) {
-      CPointerType pointerLeft = (CPointerType) leftHandSide;
-      CPointerType pointerRight = (CPointerType) rightHandSide;
+    if (rightHandSide instanceof CPointerType pointerRight
+        && leftHandSide instanceof CPointerType pointerLeft) {
       CType leftPointedToType = pointerLeft.getType();
       CType rightPointedToType = pointerRight.getType();
 
@@ -131,10 +148,8 @@ public interface CType extends Type {
     }
 
     // Cf. C-Standard §6.3.2.1 (3)
-    if (leftHandSide instanceof CPointerType && rightHandSide instanceof CArrayType) {
-      CPointerType pointerLeft = (CPointerType) leftHandSide;
-      CArrayType arrayRight = (CArrayType) rightHandSide;
-
+    if (leftHandSide instanceof CPointerType pointerLeft
+        && rightHandSide instanceof CArrayType arrayRight) {
       return CTypes.areTypesCompatible(pointerLeft.getType(), arrayRight.getType());
     }
 

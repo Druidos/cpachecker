@@ -11,13 +11,13 @@ package org.sosy_lab.cpachecker.cpa.bdd;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression.BinaryOperator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CCharLiteralExpression;
+import org.sosy_lab.cpachecker.cfa.ast.c.CEnumerator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CIdExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CImaginaryLiteralExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CIntegerLiteralExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.DefaultCExpressionVisitor;
 import org.sosy_lab.cpachecker.cfa.model.CFANode;
-import org.sosy_lab.cpachecker.cfa.types.c.CEnumType.CEnumerator;
 import org.sosy_lab.cpachecker.core.defaults.precision.VariableTrackingPrecision;
 import org.sosy_lab.cpachecker.exceptions.NoException;
 import org.sosy_lab.cpachecker.util.predicates.regions.Region;
@@ -66,19 +66,13 @@ public class BDDBooleanExpressionVisitor extends DefaultCExpressionVisitor<Regio
       Region l, Region r, final RegionManager rmgr, final CBinaryExpression binaryExpr) {
 
     final BinaryOperator binaryOperator = binaryExpr.getOperator();
-    switch (binaryOperator) {
-      case BINARY_AND:
-        return rmgr.makeAnd(l, r);
-      case BINARY_OR:
-        return rmgr.makeOr(l, r);
-      case BINARY_XOR:
-      case NOT_EQUALS:
-        return rmgr.makeUnequal(l, r);
-      case EQUALS:
-        return rmgr.makeEqual(l, r);
-      default:
-        throw new AssertionError("unhandled binary operator");
-    }
+    return switch (binaryOperator) {
+      case BINARY_AND -> rmgr.makeAnd(l, r);
+      case BINARY_OR -> rmgr.makeOr(l, r);
+      case BINARY_XOR, NOT_EQUALS -> rmgr.makeUnequal(l, r);
+      case EQUALS -> rmgr.makeEqual(l, r);
+      default -> throw new AssertionError("unhandled binary operator");
+    };
   }
 
   @Override
@@ -98,13 +92,8 @@ public class BDDBooleanExpressionVisitor extends DefaultCExpressionVisitor<Regio
 
   @Override
   public Region visit(CIdExpression idExp) {
-    if (idExp.getDeclaration() instanceof CEnumerator) {
-      CEnumerator enumerator = (CEnumerator) idExp.getDeclaration();
-      if (enumerator.hasValue()) {
-        return getNum(enumerator.getValue().longValueExact());
-      } else {
-        return null;
-      }
+    if (idExp.getDeclaration() instanceof CEnumerator enumerator) {
+      return getNum(enumerator.getValue().longValueExact());
     }
 
     final Region[] result =

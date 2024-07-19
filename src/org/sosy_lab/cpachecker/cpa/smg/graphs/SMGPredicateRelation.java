@@ -10,6 +10,7 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ import org.sosy_lab.cpachecker.cfa.ast.c.CBinaryExpression.BinaryOperator;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGExplicitValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentMultimap;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentMultimap;
 
 /** Utility class for representation comparisons of SMGValues */
 public final class SMGPredicateRelation {
@@ -52,11 +53,9 @@ public final class SMGPredicateRelation {
       if (this == pO) {
         return true;
       }
-      if (!(pO instanceof SMGValuesPair)) {
-        return false;
-      }
-      SMGValuesPair that = (SMGValuesPair) pO;
-      return first.equals(that.first) && second.equals(that.second);
+      return pO instanceof SMGValuesPair that
+          && first.equals(that.first)
+          && second.equals(that.second);
     }
 
     @Override
@@ -66,10 +65,13 @@ public final class SMGPredicateRelation {
 
     @Override
     public int compareTo(SMGValuesPair pSMGValuesPair) {
-      int cmp = first.compareTo(pSMGValuesPair.first);
-      return cmp == 0 ? second.compareTo(pSMGValuesPair.second) : cmp;
+      return ComparisonChain.start()
+          .compare(first, pSMGValuesPair.first)
+          .compare(second, pSMGValuesPair.second)
+          .result();
     }
   }
+
   /** The Multimap is used as Bi-Map, i.e. each pair (K,V) is also inserted as pair (V,K). */
   private PersistentMultimap<SMGValuesPair, SymbolicRelation> smgValuesRelation =
       PersistentMultimap.of();
@@ -328,12 +330,8 @@ public final class SMGPredicateRelation {
       if (this == pO) {
         return true;
       }
-      if (!(pO instanceof SymbolicRelation)) {
-        return false;
-      }
-
-      SymbolicRelation relation = (SymbolicRelation) pO;
-      return valueOne.equals(relation.valueOne)
+      return pO instanceof SymbolicRelation relation
+          && valueOne.equals(relation.valueOne)
           && valueTwo.equals(relation.valueTwo)
           && operator == relation.operator;
     }
@@ -400,12 +398,8 @@ public final class SMGPredicateRelation {
       if (this == pO) {
         return true;
       }
-      if (!(pO instanceof ExplicitRelation)) {
-        return false;
-      }
-
-      ExplicitRelation relation = (ExplicitRelation) pO;
-      return symbolicValue.equals(relation.symbolicValue)
+      return pO instanceof ExplicitRelation relation
+          && symbolicValue.equals(relation.symbolicValue)
           && explicitValue.equals(relation.explicitValue)
           && operator == relation.operator;
     }

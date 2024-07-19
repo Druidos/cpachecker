@@ -35,6 +35,10 @@ public class WitnessToGraphMLFormatter extends WitnessToOutputFormatter<Element>
     super(pWitness);
   }
 
+  public WitnessToGraphMLFormatter(Witness pWitness, boolean pExportAllInvariants) {
+    super(pWitness, pExportAllInvariants);
+  }
+
   @Override
   protected void initialize(Appendable pTarget) throws IOException {
     try {

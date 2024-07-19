@@ -19,6 +19,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -211,6 +212,13 @@ public class ThreadingState
     return locks.containsValue(threadId);
   }
 
+  public Set<String> getLocksForThread(String threadId) {
+    return FluentIterable.from(locks.entrySet())
+        .filter(entry -> entry.getValue().equals(threadId))
+        .transform(Map.Entry::getKey)
+        .toSet();
+  }
+
   @Override
   public String toString() {
     return "( threads={\n"
@@ -226,11 +234,8 @@ public class ThreadingState
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof ThreadingState)) {
-      return false;
-    }
-    ThreadingState ts = (ThreadingState) other;
-    return threads.equals(ts.threads)
+    return other instanceof ThreadingState ts
+        && threads.equals(ts.threads)
         && locks.equals(ts.locks)
         && Objects.equals(activeThread, ts.activeThread)
         && threadIdsForWitness.equals(ts.threadIdsForWitness);
@@ -257,8 +262,8 @@ public class ThreadingState
   }
 
   @Override
-  public Iterable<CFAEdge> getIngoingEdges() {
-    return getLocations().transformAndConcat(AbstractStateWithLocations::getIngoingEdges);
+  public Iterable<CFAEdge> getIncomingEdges() {
+    return getLocations().transformAndConcat(AbstractStateWithLocations::getIncomingEdges);
   }
 
   @Override
@@ -401,11 +406,8 @@ public class ThreadingState
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof ThreadState)) {
-        return false;
-      }
-      ThreadState other = (ThreadState) o;
-      return location.equals(other.location)
+      return o instanceof ThreadState other
+          && location.equals(other.location)
           && callstack.equals(other.callstack)
           && num == other.num;
     }

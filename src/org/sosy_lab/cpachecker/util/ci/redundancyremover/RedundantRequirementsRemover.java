@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Comparators;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +29,9 @@ import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.Pair;
 
-public class RedundantRequirementsRemover {
+public final class RedundantRequirementsRemover {
+
+  private RedundantRequirementsRemover() {}
 
   public static List<Pair<ARGState, Collection<ARGState>>> removeRedundantRequirements(
       final List<Pair<ARGState, Collection<ARGState>>> requirements,
@@ -53,7 +56,7 @@ public class RedundantRequirementsRemover {
           S extends AbstractState, V>
       implements Comparator<V>, Serializable {
 
-    private static final long serialVersionUID = 2610823786116954949L;
+    @Serial private static final long serialVersionUID = 2610823786116954949L;
     private SortingArrayHelper sortHelper = new SortingArrayHelper();
 
     protected abstract boolean covers(final V covering, final V covered);
@@ -185,9 +188,10 @@ public class RedundantRequirementsRemover {
             "Cannot make class static as suggested because require generic type parameters of outer"
                 + " class. Removing interface Serializable is also no option because it introduces"
                 + " another warning suggesting to implement Serializable interface.")
+    @SuppressWarnings("checkstyle:AvoidDefaultSerializableInInnerClasses")
     private class SortingArrayHelper implements Comparator<V[]>, Serializable {
 
-      private static final long serialVersionUID = 3970718511743910013L;
+      @Serial private static final long serialVersionUID = 3970718511743910013L;
 
       @Override
       public int compare(final V[] arg0, final V[] arg1) {
@@ -209,10 +213,11 @@ public class RedundantRequirementsRemover {
             "Cannot make class static as suggested because require generic type parameters of outer"
                 + " class. Removing interface Serializable is also no option because it introduces"
                 + " another warning suggesting to implement Serializable interface.")
+    @SuppressWarnings("checkstyle:AvoidDefaultSerializableInInnerClasses")
     private class SortingHelper
         implements Comparator<Pair<V[][], Pair<ARGState, Collection<ARGState>>>>, Serializable {
 
-      private static final long serialVersionUID = 3894486288294859800L;
+      @Serial private static final long serialVersionUID = 3894486288294859800L;
 
       @Override
       public int compare(

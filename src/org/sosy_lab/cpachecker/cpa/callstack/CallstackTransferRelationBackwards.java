@@ -86,7 +86,7 @@ public class CallstackTransferRelationBackwards extends CallstackTransferRelatio
       case FunctionReturnEdge:
         {
           FunctionReturnEdge edge = (FunctionReturnEdge) pEdge;
-          CFANode correspondingCallNode = edge.getSummaryEdge().getPredecessor();
+          CFANode correspondingCallNode = edge.getCallNode();
           if (hasRecursion(e, nextAnalysisFunction)) {
             if (options.skipRecursion()) {
               logger.logOnce(
@@ -100,7 +100,7 @@ public class CallstackTransferRelationBackwards extends CallstackTransferRelatio
             } else {
               logger.log(
                   Level.INFO,
-                  "Recursion detected, aborting. To ignore recursion, add -skipRecursion to the"
+                  "Recursion detected, aborting. To ignore recursion, add --skip-recursion to the"
                       + " command line.");
               throw new UnsupportedCodeException("recursion", pEdge);
             }

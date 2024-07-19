@@ -10,6 +10,7 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ComparisonChain;
 import java.math.BigInteger;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -99,27 +100,18 @@ public class SMGEdgeHasValue extends SMGEdge implements Comparable<SMGEdgeHasVal
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof SMGEdgeHasValue)) {
-      return false;
-    }
-    SMGEdgeHasValue other = (SMGEdgeHasValue) obj;
-    return super.equals(obj) && sizeInBits.equals(other.sizeInBits);
+    return obj instanceof SMGEdgeHasValue other
+        && super.equals(obj)
+        && sizeInBits.equals(other.sizeInBits);
   }
 
   @Override
   public int compareTo(SMGEdgeHasValue o) {
-    int result = object.compareTo(o.object);
-    if (result != 0) {
-      return result;
-    }
-    result = Long.compare(getOffset(), o.getOffset());
-    if (result != 0) {
-      return result;
-    }
-    result = value.compareTo(o.value);
-    if (result != 0) {
-      return result;
-    }
-    return sizeInBits.compareTo(o.sizeInBits);
+    return ComparisonChain.start()
+        .compare(object, o.object)
+        .compare(getOffset(), o.getOffset())
+        .compare(value, o.value)
+        .compare(sizeInBits, o.sizeInBits)
+        .result();
   }
 }

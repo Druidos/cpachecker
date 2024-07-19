@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,6 +69,7 @@ import org.sosy_lab.cpachecker.core.specification.Property.CoverFunctionCallProp
 import org.sosy_lab.cpachecker.core.specification.PropertyFileParser;
 import org.sosy_lab.cpachecker.core.specification.PropertyFileParser.InvalidPropertyFileException;
 import org.sosy_lab.cpachecker.cpa.automaton.AutomatonGraphmlParser;
+import org.sosy_lab.cpachecker.cpa.automaton.AutomatonWitnessV2ParserUtils;
 import org.sosy_lab.cpachecker.cpa.testtargets.TestTargetType;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.WitnessType;
 import org.sosy_lab.cpachecker.util.resources.ResourceLimitChecker;
@@ -85,7 +87,7 @@ public class CPAMain {
 
     if (args.length == 0) {
       // be nice to user
-      args = new String[] {"-help"};
+      args = new String[] {"--help"};
     }
 
     // initialize various components
@@ -233,6 +235,15 @@ public class CPAMain {
 
     @Option(
         secure = true,
+        name = "datarace.config",
+        description =
+            "When checking for the data race property, "
+                + "use this configuration file instead of the current one.")
+    @FileOption(Type.OPTIONAL_INPUT_FILE)
+    private @Nullable Path dataraceConfig = null;
+
+    @Option(
+        secure = true,
         name = "termination.config",
         description =
             "When checking for the termination property, "
@@ -319,7 +330,9 @@ public class CPAMain {
    * @return A Configuration object, the output directory, and the specification properties.
    */
   private static Config createConfiguration(String[] args)
-      throws InvalidConfigurationException, InvalidCmdlineArgumentException, IOException,
+      throws InvalidConfigurationException,
+          InvalidCmdlineArgumentException,
+          IOException,
           InterruptedException {
     // if there are some command line arguments, process them
     Map<String, String> cmdLineOptions = CmdLineArguments.processArguments(args);
@@ -438,18 +451,12 @@ public class CPAMain {
     for (String program : pPrograms) {
       Language language;
       String suffix = program.substring(program.lastIndexOf(".") + 1);
-      switch (suffix) {
-        case "ll":
-        case "bc":
-          language = Language.LLVM;
-          break;
-        case "c":
-        case "i":
-        case "h":
-        default:
-          language = Language.C;
-          break;
-      }
+      language =
+          switch (suffix) {
+            case "ll", "bc" -> Language.LLVM;
+            case "c", "i", "h" -> Language.C;
+            default -> Language.C;
+          };
       Preconditions.checkNotNull(language);
       if (frontendLanguage == null) { // first iteration
         frontendLanguage = language;
@@ -504,6 +511,13 @@ public class CPAMain {
             "Unsupported combination of properties: " + properties);
       }
       alternateConfigFile = check(options.overflowConfig, "overflows", "overflow.config");
+    } else if (properties.contains(CommonVerificationProperty.DATA_RACE)) {
+      if (properties.size() != 1) {
+        // Data race property cannot be checked with others in combination
+        throw new InvalidConfigurationException(
+            "Unsupported combination of properties: " + properties);
+      }
+      alternateConfigFile = check(options.dataraceConfig, "data races", "datarace.config");
     } else if (properties.contains(CommonVerificationProperty.TERMINATION)) {
       // Termination property cannot be checked with others in combination
       if (properties.size() != 1) {
@@ -547,6 +561,7 @@ public class CPAMain {
           .clearOption("memorysafety.config")
           .clearOption("memorycleanup.config")
           .clearOption("overflow.config")
+          .clearOption("datarace.config")
           .clearOption("termination.config")
           .clearOption("output.disable")
           .clearOption("output.path")
@@ -663,7 +678,32 @@ public class CPAMain {
       validationConfigFile = options.correctnessWitnessValidationConfig;
       appendWitnessToSpecificationOption(options, overrideOptions);
     } else {
-      WitnessType witnessType = AutomatonGraphmlParser.getWitnessType(options.witness);
+      WitnessType witnessType;
+      try {
+        // If a GraphML witness is parse first, then the parsing produces the error message "[Fatal
+        // Error] :1:1: Content is not allowed in prolog." which is printed directly to
+        // stdout/stderr. This is not desired in CPAchecker. For the meaning of the error see:
+        // https://stackoverflow.com/questions/11577420/fatal-error-11-content-is-not-allowed-in-prolog
+        Optional<WitnessType> optionalWitnessTypeYAML =
+            AutomatonWitnessV2ParserUtils.getWitnessTypeIfYAML(options.witness);
+        if (optionalWitnessTypeYAML.isPresent()) {
+          witnessType = optionalWitnessTypeYAML.orElseThrow();
+        } else {
+          Optional<WitnessType> optionalWitnessTypeGraphML =
+              AutomatonGraphmlParser.getWitnessTypeIfXML(options.witness);
+          if (optionalWitnessTypeGraphML.isPresent()) {
+            witnessType = optionalWitnessTypeGraphML.orElseThrow();
+          } else {
+            throw new InvalidConfigurationException(
+                "The Witness format found for " + options.witness + " is currently not supported.");
+          }
+        }
+      } catch (NoSuchFileException e) {
+        throw new InvalidConfigurationException(
+            "Cannot parse witness: " + e.getFile() + " does not exist.", e);
+      } catch (IOException e) {
+        throw new InvalidConfigurationException("Cannot parse witness: " + e.getMessage(), e);
+      }
       switch (witnessType) {
         case VIOLATION_WITNESS:
           validationConfigFile = options.violationWitnessValidationConfig;
@@ -688,6 +728,7 @@ public class CPAMain {
                   + " is not supported");
       }
     }
+
     if (validationConfigFile == null) {
       throw new InvalidConfigurationException(
           "Validating (violation|correctness) witnesses is not supported if option"

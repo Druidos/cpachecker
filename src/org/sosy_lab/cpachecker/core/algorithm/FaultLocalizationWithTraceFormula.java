@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.Optionals;
 import org.sosy_lab.common.ShutdownNotifier;
 import org.sosy_lab.common.configuration.Configuration;
@@ -40,6 +39,7 @@ import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiabi
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.rankings.CallHierarchyScoring;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.rankings.EdgeTypeScoring;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.FormulaContext;
+import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.InvalidCounterexampleException;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.TraceFormula;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.TraceFormula.TraceFormulaOptions;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.trace_formula.postcondition.FinalAssumeClusterPostConditionComposer;
@@ -53,6 +53,7 @@ import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiabi
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.unsat.ModifiedMaxSatAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.unsat.OriginalMaxSatAlgorithm;
 import org.sosy_lab.cpachecker.core.algorithm.fault_localization.by_unsatisfiability.unsat.SingleUnsatCoreAlgorithm;
+import org.sosy_lab.cpachecker.core.counterexample.CFAEdgeWithAssumptions;
 import org.sosy_lab.cpachecker.core.counterexample.CFAPathWithAssumptions;
 import org.sosy_lab.cpachecker.core.counterexample.CounterexampleInfo;
 import org.sosy_lab.cpachecker.core.interfaces.Statistics;
@@ -63,14 +64,17 @@ import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.exceptions.CPAException;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.faultlocalization.Fault;
+import org.sosy_lab.cpachecker.util.faultlocalization.FaultExplanation;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultLocalizationInfo;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultRankingUtils;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultScoring;
-import org.sosy_lab.cpachecker.util.faultlocalization.InformationProvider;
 import org.sosy_lab.cpachecker.util.faultlocalization.appendables.FaultInfo.InfoType;
+import org.sosy_lab.cpachecker.util.faultlocalization.explanation.InformationProvider;
+import org.sosy_lab.cpachecker.util.faultlocalization.explanation.NoContextExplanation;
+import org.sosy_lab.cpachecker.util.faultlocalization.explanation.SuspiciousCalculationExplanation;
 import org.sosy_lab.cpachecker.util.faultlocalization.ranking.MinimalLineDistanceScoring;
-import org.sosy_lab.cpachecker.util.faultlocalization.ranking.OverallOccurrenceScoring;
 import org.sosy_lab.cpachecker.util.faultlocalization.ranking.SetSizeScoring;
+import org.sosy_lab.cpachecker.util.faultlocalization.ranking.VariableCountScoring;
 import org.sosy_lab.cpachecker.util.predicates.pathformula.PathFormulaManagerImpl;
 import org.sosy_lab.cpachecker.util.predicates.smt.Solver;
 import org.sosy_lab.cpachecker.util.statistics.StatTimer;
@@ -136,12 +140,22 @@ public class FaultLocalizationWithTraceFormula
   @Option(
       description =
           "By default, the precondition only contains the failing variable assignment of all nondet"
-              + " variables. Choose INITIAL_ASSIGNMENT to assignments like '<datatype>"
+              + " variables. Choose INITIAL_ASSIGNMENT to add assignments like '<datatype>"
               + " <variable-name> = <value>' to the precondition.")
   private PreConditionType preconditionType = PreConditionType.NONDETERMINISTIC_VARIABLES_ONLY;
 
   @Option(description = "which post-condition type to use")
   private PostConditionType postConditionType = PostConditionType.LAST_ASSUME_EDGES_ON_SAME_LINE;
+
+  @Option(
+      description = "whether to include variables beginning with __FAULT_LOCALIZATION_precondition")
+  private boolean includeDeclared = true;
+
+  @Option(description = "Whether the found counterexample needs to be precise")
+  private boolean requirePreciseCounterexample = true;
+
+  @Option(description = "Whether to stop searching for further faults if first fault was found.")
+  private boolean stopAfterFirstFault = false;
 
   public FaultLocalizationWithTraceFormula(
       final Algorithm pStoreAlgorithm,
@@ -177,25 +191,21 @@ public class FaultLocalizationWithTraceFormula
             AnalysisDirection.FORWARD);
     context = new FormulaContext(solver, manager, pCfa, logger, pConfig, pShutdownNotifier);
 
-    switch (algorithmType) {
-      case MAXORG:
-        faultAlgorithm = new OriginalMaxSatAlgorithm();
-        break;
-      case MAXSAT:
-        faultAlgorithm = new ModifiedMaxSatAlgorithm();
-        break;
-      case ERRINV:
-        faultAlgorithm = new ErrorInvariantsAlgorithm(pShutdownNotifier, pConfig, logger);
-        break;
-      case UNSAT:
-        faultAlgorithm = new SingleUnsatCoreAlgorithm();
-        break;
-      default:
-        throw new AssertionError("The specified algorithm type does not exist");
-    }
+    faultAlgorithm =
+        switch (algorithmType) {
+          case MAXORG -> new OriginalMaxSatAlgorithm(stopAfterFirstFault);
+          case MAXSAT -> new ModifiedMaxSatAlgorithm(stopAfterFirstFault);
+          case ERRINV -> new ErrorInvariantsAlgorithm(pShutdownNotifier, pConfig, logger);
+          case UNSAT -> new SingleUnsatCoreAlgorithm();
+        };
   }
 
   public void checkOptions() throws InvalidConfigurationException {
+    if (stopAfterFirstFault
+        && (algorithmType == AlgorithmType.ERRINV || algorithmType == AlgorithmType.UNSAT)) {
+      throw new InvalidConfigurationException(
+          "The option 'stopAfterFirstFault' requires MAXORG or MAXSAT as algorithmType");
+    }
     if (!algorithmType.equals(AlgorithmType.ERRINV) && options.makeFlowSensitive()) {
       throw new InvalidConfigurationException(
           "The option 'makeFlowSensitive' (flow-sensitive trace formula) requires the error"
@@ -212,7 +222,7 @@ public class FaultLocalizationWithTraceFormula
     }
     if (!options.getDisable().isEmpty() && algorithmType.equals(AlgorithmType.ERRINV)) {
       throw new InvalidConfigurationException(
-          "The option 'ban' is not applicable for the error invariants" + " algorithm");
+          "The option 'ban' is not applicable for the error invariants algorithm");
     }
     if (!options.getDisable().isEmpty()) {
       if (options.getDisable().stream()
@@ -257,6 +267,24 @@ public class FaultLocalizationWithTraceFormula
       logger.log(Level.INFO, "Starting fault localization...");
       for (CounterexampleInfo info : counterExamples) {
         logger.log(Level.INFO, "Find explanations for fault #" + info.getUniqueId());
+        if (info.isSpurious()) {
+          logger.logf(
+              Level.INFO,
+              "Algorithm found a spurious counterexample. Cannot continue fault"
+                  + " localization on counterexample %s...",
+              info.getUniqueId());
+          continue;
+        }
+        if (!requirePreciseCounterexample && !info.isPreciseCounterExample()) {
+          logger.logf(
+              Level.INFO,
+              "Algorithm found an imprecise counterexample. Cannot continue fault localization on"
+                  + " counterexample %s. Set"
+                  + " faultLocalization.by_traceformula.requirePreciseCounterexample=false to run"
+                  + " fault localization anyways.",
+              info.getUniqueId());
+          continue;
+        }
         runAlgorithm(info, faultAlgorithm);
       }
       logger.log(Level.INFO, "Stopping fault localization...");
@@ -266,46 +294,51 @@ public class FaultLocalizationWithTraceFormula
     return status;
   }
 
-  private FaultScoring getScoring(TraceFormula pTraceFormula) {
-    switch (algorithmType) {
-      case MAXORG:
-        // fall-through
-      case MAXSAT:
-        return FaultRankingUtils.concatHeuristics(
-            new EdgeTypeScoring(),
-            new SetSizeScoring(),
-            new OverallOccurrenceScoring(),
-            new MinimalLineDistanceScoring(
-                pTraceFormula.getPostCondition().getEdgesForPostCondition().get(0)),
-            new CallHierarchyScoring(pTraceFormula.getTrace().toEdgeList()));
-      case ERRINV:
-        // fall-through
-      case UNSAT:
-        return FaultRankingUtils.concatHeuristics(
-            new EdgeTypeScoring(), new CallHierarchyScoring(pTraceFormula.getTrace().toEdgeList()));
-      default:
-        throw new AssertionError("The specified algorithm type does not exist");
+  private List<CFAEdge> fromImpreciseCounterexample(CounterexampleInfo pInfo) {
+    return pInfo.getTargetPath().getFullPath();
+  }
+
+  private List<CFAEdge> fromPreciseCounterexample(CounterexampleInfo pInfo) {
+    // Run the algorithm and create a CFAPathWithAssumptions to the last reached state.
+    CFAPathWithAssumptions assumptions = pInfo.getCFAPathWithAssignments();
+    if (assumptions.isEmpty()) {
+      logger.log(Level.INFO, "The analysis returned no assumptions for a precise counterexample.");
+      return ImmutableList.of();
     }
+
+    // Collect all edges that do not evaluate to true
+    return transformedImmutableListCopy(assumptions, CFAEdgeWithAssumptions::getCFAEdge);
+  }
+
+  private FaultScoring getScoring(TraceFormula pTraceFormula) {
+    return switch (algorithmType) {
+        // fall-through
+      case MAXORG, MAXSAT ->
+          FaultRankingUtils.concatHeuristics(
+              new VariableCountScoring(),
+              new SetSizeScoring(),
+              new MinimalLineDistanceScoring(
+                  pTraceFormula.getPostCondition().getEdgesForPostCondition().get(0)));
+        // fall-through
+      case ERRINV, UNSAT ->
+          FaultRankingUtils.concatHeuristics(
+              new EdgeTypeScoring(),
+              new CallHierarchyScoring(pTraceFormula.getTrace().toEdgeList()));
+      default -> throw new AssertionError("The specified algorithm type does not exist");
+    };
   }
 
   private void runAlgorithm(CounterexampleInfo pInfo, FaultLocalizerWithTraceFormula pAlgorithm)
       throws CPAException, InterruptedException {
-
-    // Run the algorithm and create a CFAPathWithAssumptions to the last reached state.
-    CFAPathWithAssumptions assumptions = pInfo.getCFAPathWithAssignments();
-    if (assumptions.isEmpty()) {
-      logger.log(
-          Level.INFO, "The analysis returned no assumptions. Fault localization not possible.");
-      return;
-    }
-
     try {
-      // Collect all edges that do not evaluate to true
-      final List<CFAEdge> edgeList =
-          transformedImmutableListCopy(assumptions, assumption -> assumption.getCFAEdge());
-
+      List<CFAEdge> edgeList =
+          pInfo.isPreciseCounterExample()
+              ? fromPreciseCounterexample(pInfo)
+              : fromImpreciseCounterexample(pInfo);
       if (edgeList.isEmpty()) {
-        logger.log(Level.INFO, "Can't find relevant edges in the error trace.");
+        logger.log(
+            Level.INFO,
+            "Can't find relevant edges in the error trace. Fault Localization not possible.");
         return;
       }
 
@@ -339,8 +372,13 @@ public class FaultLocalizationWithTraceFormula
         faults = remainingFaults.build();
       }
 
-      InformationProvider.searchForAdditionalInformation(faults, edgeList);
-      InformationProvider.addDefaultPotentialFixesToFaults(faults, 3);
+      for (Fault fault : faults) {
+        FaultExplanation.explain(
+            fault,
+            NoContextExplanation.getInstance(),
+            new InformationProvider(edgeList),
+            new SuspiciousCalculationExplanation());
+      }
 
       FaultLocalizationInfo info =
           new FaultLocalizationInfoWithTraceFormula(
@@ -354,46 +392,46 @@ public class FaultLocalizationWithTraceFormula
       info.apply();
       logger.log(Level.INFO, "Running " + pAlgorithm.getClass().getSimpleName() + ":\n" + info);
 
-    } catch (SolverException sE) {
+    } catch (SolverException e) {
       throw new CPAException(
-          "The solver was not able to find the UNSAT-core of the path formula.", sE);
-    } catch (VerifyException vE) {
+          "The solver was not able to find the UNSAT-core of the path formula.", e);
+    } catch (VerifyException e) {
       throw new CPAException(
           "No bugs found because the trace formula is satisfiable or the counterexample is"
               + " spurious.",
-          vE);
-    } catch (InvalidConfigurationException iE) {
-      throw new CPAException("Incomplete analysis because of invalid configuration.", iE);
-    } catch (IllegalStateException iE) {
+          e);
+    } catch (InvalidConfigurationException e) {
+      throw new CPAException("Incomplete analysis because of invalid configuration.", e);
+    } catch (IllegalStateException e) {
       throw new CPAException(
-          "The counterexample is spurious. Calculating interpolants is not possible.", iE);
+          "The counterexample is spurious. Calculating interpolants is not possible.", e);
+    } catch (InvalidCounterexampleException e) {
+      throw new CPAException(
+          "The counterexample is invalid and cannot be transformed to a proper unsatisfiable"
+              + " TraceFormula.",
+          e);
     }
   }
 
   private PostConditionComposer getPostConditionExtractor() {
-    switch (postConditionType) {
-      case LAST_ASSUME_EDGE:
-        return new FinalAssumeEdgePostConditionComposer(context);
-      case LAST_ASSUME_EDGES_ON_SAME_LINE:
-        return new FinalAssumeEdgesOnSameLinePostConditionComposer(context);
-      case LAST_ASSUME_EDGE_CLUSTER:
-        return new FinalAssumeClusterPostConditionComposer(context);
-      default:
-        throw new AssertionError("Unknown post-condition type");
-    }
+    return switch (postConditionType) {
+      case LAST_ASSUME_EDGE -> new FinalAssumeEdgePostConditionComposer(context);
+      case LAST_ASSUME_EDGES_ON_SAME_LINE ->
+          new FinalAssumeEdgesOnSameLinePostConditionComposer(context);
+      case LAST_ASSUME_EDGE_CLUSTER -> new FinalAssumeClusterPostConditionComposer(context);
+      default -> throw new AssertionError("Unknown post-condition type");
+    };
   }
 
   private PreConditionComposer getPreConditionExtractor() {
-    switch (preconditionType) {
-      case NONDETERMINISTIC_VARIABLES_ONLY:
-        return new VariableAssignmentPreConditionComposer(context, options, false);
-      case INITIAL_ASSIGNMENT:
-        return new VariableAssignmentPreConditionComposer(context, options, true);
-      case ALWAYS_TRUE:
-        return new TruePreConditionComposer(context);
-      default:
-        throw new AssertionError("Unknown precondition type: " + preconditionType);
-    }
+    return switch (preconditionType) {
+      case NONDETERMINISTIC_VARIABLES_ONLY ->
+          new VariableAssignmentPreConditionComposer(context, options, false, includeDeclared);
+      case INITIAL_ASSIGNMENT ->
+          new VariableAssignmentPreConditionComposer(context, options, true, includeDeclared);
+      case ALWAYS_TRUE -> new TruePreConditionComposer(context);
+      default -> throw new AssertionError("Unknown precondition type: " + preconditionType);
+    };
   }
 
   @Override
@@ -419,7 +457,7 @@ public class FaultLocalizationWithTraceFormula
   }
 
   @Override
-  public @Nullable String getName() {
+  public String getName() {
     return getClass().getSimpleName();
   }
 }
