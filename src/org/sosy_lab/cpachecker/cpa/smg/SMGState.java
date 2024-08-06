@@ -575,6 +575,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.addHeapObject(newObject);
     heap.setValidity(newObject, heap.isObjectValid(pOptionalObject));
 
+    if (heap.isObjectExternallyAllocated(pOptionalObject)) {
+      heap.setExternallyAllocatedFlag(newObject, true);
+    }
+
     heap.markHeapObjectDeletedAndRemoveEdges(pOptionalObject);
 
     for (SMGEdgeHasValue edge : fields) {
