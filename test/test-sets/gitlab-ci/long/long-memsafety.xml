@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="30s" hardtimelimit="40s" memlimit="400MB" cpuCores="1">
+    <option name="-heap">300M</option>
+    <option name="-noout"/>
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+
+    <rundefinition name="smg">
+        <option name="-smg"/>
+    </rundefinition>
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+    </rundefinition>
+
+    <!-- From integration-smg.xml -->
+    <!-- 184 tasks -->
+    <tasks name="heap">
+        <includesfile>../../../programs/benchmarks/MemSafety-Heap.set</includesfile>
+        <propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <!-- Most tasks end with ERROR for SMG (w and w/o heap abstraction), but OK for -smg-ldv -->
+    <!-- 85 tasks -->
+    <tasks name="arrays">
+        <includesfile>../../../programs/benchmarks/MemSafety-Arrays.set</includesfile>
+        <propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <!-- From integration-nightly-smg.xml -->
+    <!-- 103 tasks -->
+    <tasks name="lists">
+        <includesfile>../../../programs/benchmarks/MemSafety-LinkedLists.set</includesfile>
+        <propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

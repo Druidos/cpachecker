@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!--
+Use this file as an example to create new regression test sets for the SMG analysis.
+
+Do name <rundefinition>s and <tasks>.
+
+Scale down the amount of tasks included in one <tasks>.
+This way one job finishes under half an hour (or at least under one hour).
+If a task needs 20s on average, 150 tasks need 150*20s/60=50min.
+-->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="20s" hardtimelimit="30s" cpuCores="1">
+    <option name="-heap">1000M</option>
+    <!-- Do not waste time outputing files. -->
+    <option name="-noout"/>
+    <!-- Print statistics to stdout, so BenchExec can add it to its tables (see columns below) -->
+    <option name="-stats"/>
+    <!-- Use full checks by default to catch errors in the graphs, i.e. bugs in the analysis -->
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+
+    <!-- Basic SMG configuration with explicit values only -->
+    <rundefinition name="smg">
+        <option name="-smg"/>
+    </rundefinition>
+    <!-- SMG with enabled heap abstraction and predicates -->
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+    </rundefinition>
+    <!-- SMG with simple predicates, but without heap abstraction -->
+    <rundefinition name="smg-ldv-nohabst">
+        <option name="-smg-ldv"/>
+        <option name="-setprop">cpa.smg.enableHeapAbstraction=false</option>
+    </rundefinition>
+    <!-- SMG with heap abstraction -->
+    <rundefinition name="smg-abst">
+        <option name="-smg"/>
+        <option name="-setprop">cpa.smg.enableHeapAbstraction=true</option>
+    </rundefinition>
+
+    <tasks name="cpalien">
+        <!-- can include files from another file -->
+        <includesfile>../../programs/cpalien/cpalien.set</includesfile>
+        <!-- if some files are needed -->
+        <requiredfiles>../../programs/cpalien/cpalien-headers.h</requiredfiles>
+        <!-- options can go everywhere, here is additional option for these tasks -->
+        <option name="-preprocess" />
+        <!-- do not forget propertyfiles -->
+        <propertyfile>../../config/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <!--
+    Include this information in BenchExec output.
+    Error and Exception columns is a way to get which problem occurred (first line only).
+    E.g., when there is a line with 'Error' in logs, this line will be stored
+    in the respective column. (The column will be empty otherwise.)
+    -->
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

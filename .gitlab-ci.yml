@@ -12,6 +12,12 @@ default:
   # cancel whole pipeline on a new commit on the same ref
   interruptible: true
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"  # TODO do not interrupt?
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+
 variables:
   PROJECT_PATH: "sosy-lab/software/cpachecker"
   GH_REF: "github.com/sosy-lab/cpachecker"
@@ -202,6 +208,8 @@ build-docker:release:
     DOCKERFILE: build/Dockerfile.release
     IMAGE: ":2.1.1"
     EXTRA_ARGS: "--destination $CI_REGISTRY_IMAGE:latest"
+  rules:
+    - when: never
 
 
 javascript-e2e-tests:
@@ -271,9 +279,6 @@ build-tar:
   artifacts:
     paths:
       - "cpachecker.tar.bz2"
-  only:
-    refs:
-      - trunk
 
 deploy-docker:
   stage: deploy
@@ -284,11 +289,8 @@ deploy-docker:
   extends: .build-docker
   variables:
     DOCKERFILE: build/Dockerfile.dev
-    IMAGE: ":dev"
+    IMAGE: ":$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
     EXTRA_ARGS: "--context dir://."
-  only:
-    refs:
-      - trunk
 
 
 # No coverage is computed for CPAchecker
@@ -310,27 +312,31 @@ javadoc:
   only: []
 
 
-generate-integration-tests-ci:
-  tags:
-    - docker
+generate-child-pipeline:
+  image:
+    name: python:3.8
+    entrypoint: [""]
   stage: integration_tests
   needs:
-    - build-dependencies
-    - build:jdk-11
+    - job: build-tar  # so the child pipeline does not start early
+      artifacts: false
   script:
-    - gitlab-ci/generate-integration-tests-ci.sh
+    # check xml test sets and generate child pipeline for the tests
+    - pip install defusedxml
+    - python3 gitlab-ci/check-and-generate-integration-tests-pipeline.py
   artifacts:
     paths:
-      - generated-ci.yml
+      - 'generated-ci.yml'
 
 run-integration-tests-pipeline:
   stage: integration_tests
   needs:
-    - generate-integration-tests-ci
+    - generate-child-pipeline
   trigger:
     include:
-      - artifact: generated-ci.yml
-        job: generate-integration-tests-ci
+      - artifact: 'generated-ci.yml'
+        job: generate-child-pipeline
     strategy: depend
   variables:
     PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+    PARENT_CI_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
