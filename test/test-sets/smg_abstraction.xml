@@ -15,15 +15,68 @@ SPDX-License-Identifier: Apache-2.0
     <option name="-noout"/>
     <option name="-heap">512M</option>
 
-    <tasks name="smg_abstraction">
-        <includesfile>../programs/smg_abstraction_tests/smg_abstraction.set</includesfile>
-        <option name="-smg-ldv"/>
-        <option name="-preprocess" />
+    <rundefinition name="smg-ldv-2">
         <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=2</option>
         <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=2</option>
         <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=2</option>
-        <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
+    </rundefinition>
+    <rundefinition name="smg-ldv-2-runtimeCheck=FULL">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=2</option>
+        <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-223">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=3</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-223-runtimeCheck=FULL">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=2</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=3</option>
+        <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-3">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=3</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=3</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=3</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-3-runtimeCheck=FULL">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=3</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=3</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=3</option>
+        <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-4">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=4</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=4</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=4</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-4-runtimeCheck=FULL">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=4</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=4</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=4</option>
+        <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-5">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=5</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=5</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=5</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-5-runtimeCheck=FULL">
+        <option name="-setprop">cpa.smg.seqLengthEqualityThreshold=5</option>
+        <option name="-setprop">cpa.smg.seqLengthEntailmentThreshold=5</option>
+        <option name="-setprop">cpa.smg.seqLengthIncomparableThreshold=5</option>
+        <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    </rundefinition>
+    <option name="-smg-ldv"/>
+    <option name="-preprocess" />
+    <option name="-noout"></option>
+    <option name="-stats"></option>
+    <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
+    <tasks name="smg_abstraction">
+        <includesfile>../programs/smg_abstraction_tests/smg_abstraction.set</includesfile>
     </tasks>
 
-    <rundefinition/>
 </benchmark>
