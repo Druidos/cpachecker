@@ -1040,6 +1040,10 @@ final class SMGJoinValues {
     newStatus = newStatus.updateWith(newJoinStatus);
 
     int lvlDiff = pPrevDestLevel - pTarget.getLevel();
+    // nesting level of the child can't be lower than its parent.
+    if (lvlDiff < 0) {
+      lvlDiff = 0;
+    }
 
     if (level1 < level2) {
       lvlDiff = lvlDiff + 1;
@@ -1309,6 +1313,10 @@ final class SMGJoinValues {
     newStatus = newStatus.updateWith(newJoinStatus);
 
     int levelDiff = pPrevDestLevel - pTarget.getLevel();
+    // nesting level of the child can't be lower than its parent.
+    if (levelDiff < 0) {
+      levelDiff = 0;
+    }
 
     if (level1 > level2) {
       levelDiff = levelDiff + 1;
