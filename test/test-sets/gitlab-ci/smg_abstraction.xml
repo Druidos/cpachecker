@@ -44,8 +44,16 @@ SPDX-License-Identifier: Apache-2.0
     <option name="-noout"></option>
     <option name="-stats"></option>
     <propertyfile>../../config/properties/valid-memsafety.prp</propertyfile>
+
     <tasks name="smg_abstraction">
         <includesfile>../../programs/smg_abstraction_tests/smg_abstraction.set</includesfile>
     </tasks>
 
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
 </benchmark>
