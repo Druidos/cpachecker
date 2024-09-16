@@ -256,7 +256,7 @@ public class SMGOptions {
       description =
           "the minimum length of a sequence of mergeable objects allowed to be merged"
               + " with equality join status")
-  private int seqLengthEqualityThreshold = 2;
+  private int seqLengthEqualityThreshold = 3;
 
   @Option(
       secure = true,
@@ -264,7 +264,7 @@ public class SMGOptions {
       description =
           "the minimum length of a sequence of mergeable objects allowed to be merged"
               + " with entailment join status")
-  private int seqLengthEntailmentThreshold = 2;
+  private int seqLengthEntailmentThreshold = 3;
 
   @Option(
       secure = true,
@@ -272,7 +272,7 @@ public class SMGOptions {
       description =
           "the minimum length of a sequence of mergeable objects allowed to be merged"
               + " with incomparable join status")
-  private int seqLengthIncomparableThreshold = 2;
+  private int seqLengthIncomparableThreshold = 3;
 
   public enum SMGExportLevel {
     NEVER,
