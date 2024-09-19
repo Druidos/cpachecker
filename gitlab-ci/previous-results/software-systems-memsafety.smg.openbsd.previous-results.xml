@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="software-systems-memsafety.smg.openbsd" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/openbsd-6.2/if_etherip-fixed-invalid-deref1.yml" files="[test/programs/benchmarks/openbsd-6.2/if_etherip-fixed-invalid-deref1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="2.970149815s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="131837952B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.9784534871578217s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.970149815s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:04.606853+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/openbsd-6.2/if_etherip-fixed-invalid-deref2.yml" files="[test/programs/benchmarks/openbsd-6.2/if_etherip-fixed-invalid-deref2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="2.943677338s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="131756032B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.953827388584614s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.943677338s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:07.791418+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/openbsd-6.2/if_etherip-fixed.yml" files="[test/programs/benchmarks/openbsd-6.2/if_etherip-fixed.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.945859936s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="130326528B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.957886680960655s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.945859936s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:11.051341+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/openbsd-6.2/if_etherip-invalid-deref.yml" files="[test/programs/benchmarks/openbsd-6.2/if_etherip-invalid-deref.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="2.962384062s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="131887104B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.9791770465672016s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.962384062s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:14.283133+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/openbsd-6.2/if_etherip-unreach-call.yml" files="[test/programs/benchmarks/openbsd-6.2/if_etherip-unreach-call.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.052106486s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="148664320B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="3.070782870054245s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.052106486s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:17.510866+00:00" hidden="true"/>
+  </run>
+  
+</result>

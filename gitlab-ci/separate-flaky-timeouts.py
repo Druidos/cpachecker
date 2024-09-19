@@ -8,13 +8,25 @@
 
 
 import bz2
-from defusedxml.minidom import parse
 import os
 import re
 import sys
+from defusedxml.minidom import parse
 
+red_color = '\033[1;31m'
+green_color = '\033[1;32m'
+no_color = '\033[0m'  # No Color
 
 common_header = """<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <!DOCTYPE result
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
@@ -34,22 +46,26 @@ common_header = """<?xml version="1.0" encoding="utf-8"?>
   </columns>
 """
 common_newline = '\n  '
-common_footer = "\n</result>"
+common_footer = "\n</result>\n"
 
 
 def parse_document(document):
+    domWithRuns = [
+        child for child in document.childNodes
+        if child.nodeType == child.ELEMENT_NODE and child.nodeName == 'result'
+    ]
+    if len(domWithRuns) != 1:
+        sys.exit('expected one <result/>, got ' + len(domWithRuns))
     results = [
-        child for child in document.childNodes[1].childNodes
-        if child.nodeType == child.ELEMENT_NODE
-        and child.nodeName == 'run'
+        child for child in domWithRuns[0].childNodes
+        if child.nodeType == child.ELEMENT_NODE and child.nodeName == 'run'
     ]
     filenames = [r.getAttribute('name').split('/programs/', 2)[1] for r in results]
     statuses = [
         column.getAttribute('value')
         for r in results
         for column in r.childNodes
-        if column.nodeType == column.ELEMENT_NODE
-        and column.getAttribute('title') == 'status'
+        if column.nodeType == column.ELEMENT_NODE and column.getAttribute('title') == 'status'
     ]
     return zip(results, filenames, statuses)
 
@@ -78,19 +94,38 @@ def compose_two_bodies(key_triple, parsed_triples):
         filename = filename.pop()
 
         non_timeout = {status for (_, _, status) in row if not status.startswith('TIMEOUT')}
+        last_non_timeout = row[-1][2]  # new files are last so choose from them
         if len(non_timeout) == 0:
             non_timeout = None
         elif len(non_timeout) == 1:
             non_timeout = non_timeout.pop()
+            # replace with dom
             for (dom, _, status) in row:
                 if status == non_timeout:
                     non_timeout = dom
                     break
             fix_paths_in_dom(non_timeout)
             primary.append(non_timeout)
+        elif len(non_timeout) == 2:
+            print('found multiple outcomes for', filename + ':', ', '.join(non_timeout))
+            correct_verdict = {dom.getAttribute('expectedVerdict') for (dom, _, _) in row}
+            if len(correct_verdict) == 0:
+                correct_verdict = 'absent'
+                color = red_color
+            elif len(correct_verdict) == 1:
+                correct_verdict = correct_verdict.pop()
+                color = green_color if last_non_timeout == correct_verdict else red_color
+            else:
+                correct_verdict = ', '.join(correct_verdict)
+                color = red_color
+            print('choosing', color + last_non_timeout + no_color, '(correct verdict is',
+                  correct_verdict + ')')
+            non_timeout = row[-1][0]  # replace with dom
+            fix_paths_in_dom(non_timeout)
+            primary.append(non_timeout)
         else:
-            sys.exit('found multiple outcomes for ' + filename + ': '
-                     + ', '.join(st for (_, st) in non_timeout))
+            sys.exit('found multiple outcomes for ' + filename + ': ' + ', '.join(non_timeout)
+                     + ' (expected at most two: an old and a new one)')
 
         timeout = {status for (_, _, status) in row if status.startswith('TIMEOUT')}
         if len(timeout) == 0:
@@ -102,8 +137,9 @@ def compose_two_bodies(key_triple, parsed_triples):
             timeout = 'TIMEOUT'
         else:
             if len(timeout) > 1:
-                print('found multiple outcomes for ' + filename + ': ' + timeout)
+                print('found multiple outcomes for ' + filename + ': ' + ', '.join(timeout))
             timeout = timeout.pop()
+        # replace with dom
         for (dom, _, status) in row:
             if status == timeout:
                 timeout = dom
@@ -118,47 +154,37 @@ def compose_two_bodies(key_triple, parsed_triples):
 
     testset, rundef, tasks = key_triple
     prefix = f'gitlab-ci/previous-results/{testset}.{rundef}.{tasks}'
-    with bz2.open(prefix + '.previous-results.xml.bz2', 'wt', encoding='utf8') as f:
+    with open(prefix + '.previous-results.xml', 'wt', encoding='utf8') as f:
         f.write(common_header % (testset, rundef, tasks, 'previous-results'))
         f.write(common_newline)
         f.writelines(r.toxml() + common_newline for r in primary)
         f.write(common_footer)
     if any_flaky:
-        with bz2.open(prefix + '.timeouts.xml.bz2', 'wt', encoding='utf8') as f:
+        with open(prefix + '.timeouts.xml', 'wt', encoding='utf8') as f:
             f.write(common_header % (testset, rundef, tasks, 'flaky-timeouts'))
             f.write(common_newline)
             f.writelines(r.toxml() + common_newline for r in secondary)
             f.write(common_footer)
 
 
-p1 = re.compile(
+new_files = re.compile(
     r'output-'
     r'(?P<testset>[^.]+)\.'
     r'(2024-\d\d-\d\d_\d\d-\d\d-\d\d\.results\.)?'
     r'(?P<rundef>[^.]+)\.'
-    r'(?P<tasks>[^.]+)\.'
-    r'xml\.bz2'
+    r'(?P<tasks>[^.]+)\.xml(\.bz2)?'
 )
-p2 = re.compile(
-    r'(?P<testset>[^.]+)\.'
-    r'(?P<rundef>[^.]+)\.'
-    r'(?P<tasks>[^.]+)'
-    r'-(half|one|double)-time\.'
-    r'xml\.bz2'
-)
-p3 = re.compile(
+old_files = re.compile(
     r'(?P<testset>[^.]+)\.'
     r'(?P<rundef>[^.]+)\.'
     r'(?P<tasks>[^.]+)\.'
-    r'(previous-results|timeouts)\.'
-    r'xml\.bz2'
+    r'(previous-results|timeouts)\.xml'
 )
 xml_bz2 = {}
 
-
 if __name__ == '__main__':
     for filename in os.listdir('gitlab-ci/previous-results/to-parse'):
-        match = p1.fullmatch(filename) or p2.fullmatch(filename)
+        match = new_files.fullmatch(filename)
         if not match:
             print('ignoring', filename)
             continue
@@ -166,19 +192,28 @@ if __name__ == '__main__':
         if triple not in xml_bz2:
             xml_bz2[triple] = []
             for file in os.listdir('gitlab-ci/previous-results'):
-                m = p3.fullmatch(file)
+                m = old_files.fullmatch(file)
                 if m and triple == (m.group('testset'), m.group('rundef'), m.group('tasks')):
                     print('found already present', file, 'to update')
                     xml_bz2[triple].append(file)
+        # should be last in case verdict changed
+        # if there are different verdicts in multiple new files
+        # the result depends on their order
         xml_bz2[triple].append('to-parse/' + filename)
     for triple in xml_bz2:
         tables = []
         print('reading', ', '.join(xml_bz2[triple]))
-        for compressed_xml in xml_bz2[triple]:
-            compressed_xml = 'gitlab-ci/previous-results/' + compressed_xml
-            with bz2.open(compressed_xml, 'rt', encoding='utf8') as f:
-                document = parse(f)
-                rows = parse_document(document)
-                tables.append(rows)
-        print(f'writing {triple[0]}.{triple[1]}.{triple[2]}.{{previous-results,timeouts}}.xml.bz2')
+        for xml in xml_bz2[triple]:
+            xml = 'gitlab-ci/previous-results/' + xml
+            if xml.endswith('.bz2'):
+                with bz2.open(xml, 'rt', encoding='utf8') as f:
+                    document = parse(f)
+                    rows = parse_document(document)
+                    tables.append(rows)
+            else:
+                with open(xml, 'rt', encoding='utf8') as f:
+                    document = parse(f)
+                    rows = parse_document(document)
+                    tables.append(rows)
+        print(f'writing {triple[0]}.{triple[1]}.{triple[2]}.{{previous-results,timeouts}}.xml')
         compose_two_bodies(triple, tables)

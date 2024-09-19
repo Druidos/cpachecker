@@ -1,0 +1,1237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="juliet-memsafety.smg.CWE127_Buffer_Underread__CWE839" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.235361691s"/>
+    <column title="memory" value="131506176B"/>
+    <column title="reached" value="287"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.059s"/>
+    <column title="transfer" value="1.057s"/>
+    <column title="walltime" value="7.245906497933902s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.235361691s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:15:31.347669+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_08_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_08_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.8910222s"/>
+    <column title="memory" value="130822144B"/>
+    <column title="reached" value="221"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.015s"/>
+    <column title="transfer" value="0.809s"/>
+    <column title="walltime" value="6.91332033497747s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.8910222s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:15:38.750085+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_10_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_10_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.11111069s"/>
+    <column title="memory" value="132026368B"/>
+    <column title="reached" value="296"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.041s"/>
+    <column title="transfer" value="1.050s"/>
+    <column title="walltime" value="7.120242710923776s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.11111069s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:15:45.804893+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_16_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_16_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.562281559s"/>
+    <column title="memory" value="131207168B"/>
+    <column title="reached" value="438"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.062s"/>
+    <column title="transfer" value="1.308s"/>
+    <column title="walltime" value="7.57379722094629s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.562281559s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:15:53.062821+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_17_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_17_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.761322874s"/>
+    <column title="memory" value="130097152B"/>
+    <column title="reached" value="244"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.027s"/>
+    <column title="transfer" value="0.936s"/>
+    <column title="walltime" value="6.777464402024634s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.761322874s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:00.792230+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.70786816s"/>
+    <column title="memory" value="130985984B"/>
+    <column title="reached" value="207"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.712s"/>
+    <column title="walltime" value="6.719931246014312s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.70786816s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:07.717986+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_34_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_34_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.603222871s"/>
+    <column title="memory" value="129572864B"/>
+    <column title="reached" value="208"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="0.782s"/>
+    <column title="walltime" value="6.6217098199995235s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.603222871s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:14.596932+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_34_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_34_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.485504112s"/>
+    <column title="memory" value="133971968B"/>
+    <column title="reached" value="362"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.073s"/>
+    <column title="transfer" value="1.333s"/>
+    <column title="walltime" value="7.494596845004708s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.485504112s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:21.359080+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_42_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_42_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.632552535s"/>
+    <column title="memory" value="131969024B"/>
+    <column title="reached" value="421"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.094s"/>
+    <column title="transfer" value="1.310s"/>
+    <column title="walltime" value="7.64269361004699s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.632552535s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:28.991334+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_45_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_45_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.214782284s"/>
+    <column title="memory" value="134250496B"/>
+    <column title="reached" value="382"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.046s"/>
+    <column title="transfer" value="1.230s"/>
+    <column title="walltime" value="7.224132520030253s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.214782284s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:36.795026+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_51_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_51_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.701103385s"/>
+    <column title="memory" value="127991808B"/>
+    <column title="reached" value="206"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.824s"/>
+    <column title="walltime" value="6.711511066998355s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.701103385s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:44.167168+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_51_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_connect_socket_51_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.098461765s"/>
+    <column title="memory" value="137216000B"/>
+    <column title="reached" value="370"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.087s"/>
+    <column title="transfer" value="1.153s"/>
+    <column title="walltime" value="7.1091772329527885s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.098461765s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:51.032609+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.590885164s"/>
+    <column title="memory" value="129388544B"/>
+    <column title="reached" value="190"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.754s"/>
+    <column title="walltime" value="6.603354670922272s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.590885164s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:16:58.284294+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.871467422s"/>
+    <column title="memory" value="136085504B"/>
+    <column title="reached" value="194"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.752s"/>
+    <column title="walltime" value="6.886739940964617s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.871467422s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:05.037095+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_08_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_08_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.026517098s"/>
+    <column title="memory" value="131383296B"/>
+    <column title="reached" value="227"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="0.875s"/>
+    <column title="walltime" value="7.048303931951523s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.026517098s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:12.071095+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.81964904s"/>
+    <column title="memory" value="133656576B"/>
+    <column title="reached" value="193"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.817s"/>
+    <column title="walltime" value="6.840464965091087s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.81964904s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:19.263361+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.922034633s"/>
+    <column title="memory" value="130478080B"/>
+    <column title="reached" value="196"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.755s"/>
+    <column title="walltime" value="6.9403751760255545s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.922034633s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:26.246999+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_16_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_16_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.084887577s"/>
+    <column title="memory" value="129286144B"/>
+    <column title="reached" value="212"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.948s"/>
+    <column title="walltime" value="7.1062308230903s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.084887577s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:33.345998+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_31_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_31_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.330330112s"/>
+    <column title="memory" value="133242880B"/>
+    <column title="reached" value="237"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="1.046s"/>
+    <column title="walltime" value="7.3398934920551255s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.330330112s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:40.606692+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_32_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_32_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.865352821s"/>
+    <column title="memory" value="130387968B"/>
+    <column title="reached" value="195"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.020s"/>
+    <column title="transfer" value="0.850s"/>
+    <column title="walltime" value="6.885677139973268s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.865352821s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:48.089653+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_52_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_52_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.121318324s"/>
+    <column title="memory" value="133066752B"/>
+    <column title="reached" value="294"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.014s"/>
+    <column title="transfer" value="1.109s"/>
+    <column title="walltime" value="7.1386584679130465s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.121318324s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:17:55.116345+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.296727301s"/>
+    <column title="memory" value="132349952B"/>
+    <column title="reached" value="322"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.032s"/>
+    <column title="transfer" value="1.175s"/>
+    <column title="walltime" value="7.323198774945922s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.296727301s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:02.400767+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_66_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_66_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.809029144s"/>
+    <column title="memory" value="131342336B"/>
+    <column title="reached" value="205"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="0.836s"/>
+    <column title="walltime" value="6.8263832119992s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.809029144s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:09.886856+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_66_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_66_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.286909778s"/>
+    <column title="memory" value="130019328B"/>
+    <column title="reached" value="288"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="1.126s"/>
+    <column title="walltime" value="7.31465237995144s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.286909778s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:16.856979+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_67_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fgets_67_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.97292982s"/>
+    <column title="memory" value="131899392B"/>
+    <column title="reached" value="290"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.028s"/>
+    <column title="transfer" value="1.072s"/>
+    <column title="walltime" value="6.989942429005168s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.97292982s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:24.321022+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.817335192s"/>
+    <column title="memory" value="129228800B"/>
+    <column title="reached" value="257"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.798s"/>
+    <column title="walltime" value="6.8347804569639266s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.817335192s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:31.456423+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_04_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_04_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.555369923s"/>
+    <column title="memory" value="130183168B"/>
+    <column title="reached" value="186"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.671s"/>
+    <column title="walltime" value="6.565734667005017s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.555369923s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:38.435433+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.698939273s"/>
+    <column title="memory" value="129376256B"/>
+    <column title="reached" value="186"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.784s"/>
+    <column title="walltime" value="6.720565073075704s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.698939273s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:45.172375+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_07_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_07_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.915607874s"/>
+    <column title="memory" value="127897600B"/>
+    <column title="reached" value="273"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.793s"/>
+    <column title="walltime" value="6.925767962937243s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.915607874s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:52.034398+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_12_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_12_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.91191622s"/>
+    <column title="memory" value="134537216B"/>
+    <column title="reached" value="205"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.865s"/>
+    <column title="walltime" value="6.932568852906115s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.91191622s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:18:59.110766+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.907130687s"/>
+    <column title="memory" value="133390336B"/>
+    <column title="reached" value="188"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.745s"/>
+    <column title="walltime" value="6.925674356985837s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.907130687s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:06.194342+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_44_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_44_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.869599489s"/>
+    <column title="memory" value="128819200B"/>
+    <column title="reached" value="187"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="0.737s"/>
+    <column title="walltime" value="6.880212181946263s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.869599489s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:13.260669+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_45_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_45_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.717329927s"/>
+    <column title="memory" value="127606784B"/>
+    <column title="reached" value="239"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.020s"/>
+    <column title="transfer" value="0.691s"/>
+    <column title="walltime" value="6.738335782079957s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.717329927s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:20.289781+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_53_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_53_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.757115292s"/>
+    <column title="memory" value="131387392B"/>
+    <column title="reached" value="191"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.790s"/>
+    <column title="walltime" value="6.778204214992002s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.757115292s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:27.169303+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_05_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_05_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.719403524s"/>
+    <column title="memory" value="133242880B"/>
+    <column title="reached" value="361"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.110s"/>
+    <column title="transfer" value="1.280s"/>
+    <column title="walltime" value="7.730570517014712s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.719403524s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:34.107215+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_07_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_07_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.307371894s"/>
+    <column title="memory" value="131674112B"/>
+    <column title="reached" value="360"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.107s"/>
+    <column title="transfer" value="1.158s"/>
+    <column title="walltime" value="7.318083530059084s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.307371894s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:41.982509+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_09_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_09_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.6852244s"/>
+    <column title="memory" value="132849664B"/>
+    <column title="reached" value="211"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.739s"/>
+    <column title="walltime" value="6.700704980990849s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.6852244s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:49.460184+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_13_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_13_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.505995363s"/>
+    <column title="memory" value="135303168B"/>
+    <column title="reached" value="359"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.122s"/>
+    <column title="transfer" value="1.271s"/>
+    <column title="walltime" value="7.530882150051184s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.505995363s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:19:56.300862+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.758187772s"/>
+    <column title="memory" value="132198400B"/>
+    <column title="reached" value="384"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.087s"/>
+    <column title="transfer" value="1.289s"/>
+    <column title="walltime" value="7.779131029034033s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.758187772s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:03.984349+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_17_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_17_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.050482665s"/>
+    <column title="memory" value="129871872B"/>
+    <column title="reached" value="281"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.044s"/>
+    <column title="transfer" value="1.006s"/>
+    <column title="walltime" value="7.073697061976418s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.050482665s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:11.905317+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_18_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_18_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.777882379s"/>
+    <column title="memory" value="134201344B"/>
+    <column title="reached" value="544"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.154s"/>
+    <column title="transfer" value="1.503s"/>
+    <column title="walltime" value="7.787077593035065s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.777882379s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:19.130356+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_32_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_32_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.723880903s"/>
+    <column title="memory" value="130375680B"/>
+    <column title="reached" value="213"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.810s"/>
+    <column title="walltime" value="6.743692837073468s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.723880903s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:27.063447+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_34_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_34_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.580968222s"/>
+    <column title="memory" value="133251072B"/>
+    <column title="reached" value="449"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.120s"/>
+    <column title="transfer" value="1.459s"/>
+    <column title="walltime" value="7.596696021966636s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.580968222s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:33.961085+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_44_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_44_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.779447987s"/>
+    <column title="memory" value="135217152B"/>
+    <column title="reached" value="478"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.093s"/>
+    <column title="transfer" value="1.458s"/>
+    <column title="walltime" value="7.79668742895592s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.779447987s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:41.706471+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_45_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_45_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.612677039s"/>
+    <column title="memory" value="131006464B"/>
+    <column title="reached" value="477"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.084s"/>
+    <column title="transfer" value="1.496s"/>
+    <column title="walltime" value="7.640728711965494s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.612677039s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:49.652205+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_53_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_53_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.708520587s"/>
+    <column title="memory" value="134455296B"/>
+    <column title="reached" value="217"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.769s"/>
+    <column title="walltime" value="6.735571151017211s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.708520587s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:20:57.436000+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_53_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_53_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.699255994s"/>
+    <column title="memory" value="131981312B"/>
+    <column title="reached" value="521"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.117s"/>
+    <column title="transfer" value="1.455s"/>
+    <column title="walltime" value="7.716453897068277s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.699255994s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:04.322322+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.961970612s"/>
+    <column title="memory" value="131362816B"/>
+    <column title="reached" value="551"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.136s"/>
+    <column title="transfer" value="1.558s"/>
+    <column title="walltime" value="7.988987568067387s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.961970612s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:12.183195+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_61_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_61_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.826478467s"/>
+    <column title="memory" value="134180864B"/>
+    <column title="reached" value="213"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.817s"/>
+    <column title="walltime" value="6.844922064919956s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.826478467s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:20.318675+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_66_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_66_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.913026113s"/>
+    <column title="memory" value="134553600B"/>
+    <column title="reached" value="214"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.913s"/>
+    <column title="walltime" value="6.933016069931909s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.913026113s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:27.303235+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_67_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_67_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.632448761s"/>
+    <column title="memory" value="132898816B"/>
+    <column title="reached" value="479"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.091s"/>
+    <column title="transfer" value="1.436s"/>
+    <column title="walltime" value="7.654686421039514s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.632448761s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:34.400211+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.844009276s"/>
+    <column title="memory" value="128815104B"/>
+    <column title="reached" value="171"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.737s"/>
+    <column title="walltime" value="6.853862290037796s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.844009276s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:42.192775+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_05_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_05_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.151922105s"/>
+    <column title="memory" value="129052672B"/>
+    <column title="reached" value="263"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.006s"/>
+    <column title="transfer" value="0.839s"/>
+    <column title="walltime" value="7.161973225069232s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.151922105s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:49.190022+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_11_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_11_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.613493191s"/>
+    <column title="memory" value="130924544B"/>
+    <column title="reached" value="188"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.754s"/>
+    <column title="walltime" value="6.625822546076961s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.613493191s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:21:56.535751+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_12_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_12_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.768810367s"/>
+    <column title="memory" value="131215360B"/>
+    <column title="reached" value="613"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.096s"/>
+    <column title="transfer" value="1.475s"/>
+    <column title="walltime" value="7.787387916003354s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.768810367s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:03.312141+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.759458098s"/>
+    <column title="memory" value="131665920B"/>
+    <column title="reached" value="174"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.692s"/>
+    <column title="walltime" value="6.788924319087528s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.759458098s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:11.313429+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.862091559s"/>
+    <column title="memory" value="130752512B"/>
+    <column title="reached" value="177"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.765s"/>
+    <column title="walltime" value="6.883336497005075s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.862091559s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:18.304653+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_22_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_22_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.866621255s"/>
+    <column title="memory" value="135163904B"/>
+    <column title="reached" value="259"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.835s"/>
+    <column title="walltime" value="6.884991534985602s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.866621255s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:25.366864+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_41_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_41_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.910091868s"/>
+    <column title="memory" value="130002944B"/>
+    <column title="reached" value="174"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.754s"/>
+    <column title="walltime" value="6.921237337985076s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.910091868s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:32.406119+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_51_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_51_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.900395755s"/>
+    <column title="memory" value="128954368B"/>
+    <column title="reached" value="222"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.019s"/>
+    <column title="transfer" value="0.703s"/>
+    <column title="walltime" value="6.920144143048674s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.900395755s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:39.475498+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_52_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_52_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.612005606s"/>
+    <column title="memory" value="128184320B"/>
+    <column title="reached" value="232"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.694s"/>
+    <column title="walltime" value="6.6210869289934635s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.612005606s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:46.545933+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_61_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_61_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.833981161s"/>
+    <column title="memory" value="128593920B"/>
+    <column title="reached" value="222"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.676s"/>
+    <column title="walltime" value="6.846409951103851s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.833981161s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:22:53.327128+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_66_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_negative_66_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.629730218s"/>
+    <column title="memory" value="129503232B"/>
+    <column title="reached" value="177"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.782s"/>
+    <column title="walltime" value="6.654730268986896s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.629730218s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:00.329079+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.978888794s"/>
+    <column title="memory" value="132562944B"/>
+    <column title="reached" value="185"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.807s"/>
+    <column title="walltime" value="7.004775234032422s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.978888794s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:07.131220+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.953195366s"/>
+    <column title="memory" value="131198976B"/>
+    <column title="reached" value="189"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.817s"/>
+    <column title="walltime" value="6.9705827260622755s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.953195366s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:14.280174+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_12_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_12_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.845907207s"/>
+    <column title="memory" value="133079040B"/>
+    <column title="reached" value="208"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.872s"/>
+    <column title="walltime" value="6.872861935989931s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.845907207s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:21.443418+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_14_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_14_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.626138728s"/>
+    <column title="memory" value="132882432B"/>
+    <column title="reached" value="188"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.802s"/>
+    <column title="walltime" value="6.637940980959684s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.626138728s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:28.456725+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_45_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.046747855s"/>
+    <column title="memory" value="130703360B"/>
+    <column title="reached" value="191"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="0.798s"/>
+    <column title="walltime" value="7.055785792996176s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.046747855s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:35.253933+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_53_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_53_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.142593929s"/>
+    <column title="memory" value="130740224B"/>
+    <column title="reached" value="258"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.011s"/>
+    <column title="transfer" value="1.020s"/>
+    <column title="walltime" value="7.1538256079657s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.142593929s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:42.462477+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_54_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_54_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.778722022s"/>
+    <column title="memory" value="131371008B"/>
+    <column title="reached" value="197"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.768s"/>
+    <column title="walltime" value="6.789020903990604s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.778722022s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:49.755589+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__CWE839_rand_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.29981975s"/>
+    <column title="memory" value="131284992B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="1.020s"/>
+    <column title="walltime" value="7.319445585948415s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.29981975s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:23:56.692749+00:00" hidden="true"/>
+  </run>
+  
+</result>

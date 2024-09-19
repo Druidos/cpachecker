@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="software-systems-memsafety.smg-ldv.busybox" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/busybox-1.22.0/basename-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/basename-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="131.014347317s"/>
+    <column title="memory" value="149721088B"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="walltime" value="131.04070194403175s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="131.014347317s" hidden="true"/>
+    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:47:32.995047+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/basename-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/basename-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="131.017552099s"/>
+    <column title="memory" value="148627456B"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="walltime" value="131.04334288899554s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="131.017552099s" hidden="true"/>
+    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:49:44.183688+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/chgrp-incomplete-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/chgrp-incomplete-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="13.04346175s"/>
+    <column title="memory" value="154865664B"/>
+    <column title="reached" value="1316"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.235s"/>
+    <column title="transfer" value="2.806s"/>
+    <column title="walltime" value="13.064589807996526s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.04346175s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:51:55.393519+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/chroot-incomplete-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/chroot-incomplete-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.682076111s"/>
+    <column title="memory" value="163184640B"/>
+    <column title="reached" value="1441"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.027s"/>
+    <column title="transfer" value="3.094s"/>
+    <column title="walltime" value="12.703185837017372s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.682076111s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:52:08.611682+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/cut-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/cut-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="11.137331345s"/>
+    <column title="error" value="line 2797: Unsupported feature"/>
+    <column title="memory" value="150093824B"/>
+    <column title="reached" value="1124"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.266s"/>
+    <column title="transfer" value="1.761s"/>
+    <column title="walltime" value="11.158454597985838s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.137331345s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:52:21.455197+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/cut-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/cut-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="11.390785937s"/>
+    <column title="error" value="line 2797: Unsupported feature"/>
+    <column title="memory" value="150368256B"/>
+    <column title="reached" value="1124"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.183s"/>
+    <column title="transfer" value="1.891s"/>
+    <column title="walltime" value="11.409901622042526s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.390785937s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:52:32.752332+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/cut-4.yml" files="[test/programs/benchmarks/busybox-1.22.0/cut-4.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="11.45493863s"/>
+    <column title="error" value="line 2722: Unsupported feature"/>
+    <column title="memory" value="149676032B"/>
+    <column title="reached" value="1124"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.246s"/>
+    <column title="transfer" value="1.870s"/>
+    <column title="walltime" value="11.473385524004698s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.45493863s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:52:44.303555+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/dirname-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/dirname-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="131.012059195s"/>
+    <column title="memory" value="158568448B"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="walltime" value="131.0378261540318s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="131.012059195s" hidden="true"/>
+    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:52:55.957338+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/du-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/du-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.908479951s"/>
+    <column title="error" value="line 2996: Unsupported feature"/>
+    <column title="memory" value="154648576B"/>
+    <column title="reached" value="1399"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.607s"/>
+    <column title="transfer" value="2.675s"/>
+    <column title="walltime" value="12.927485450985841s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.908479951s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:55:07.153665+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/echo-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/echo-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="121.94206982s"/>
+    <column title="memory" value="193802240B"/>
+    <column title="reached" value="8109"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="93.852s"/>
+    <column title="transfer" value="18.728s"/>
+    <column title="walltime" value="121.96635247796075s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="121.94206982s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:55:20.224071+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/expand-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/expand-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="13.779649974s"/>
+    <column title="error" value="line 2675: Unsupported feature"/>
+    <column title="memory" value="168239104B"/>
+    <column title="reached" value="1531"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.532s"/>
+    <column title="transfer" value="3.313s"/>
+    <column title="walltime" value="13.8009052730049s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.779649974s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:57:22.345827+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/expand-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/expand-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="15.287517526s"/>
+    <column title="error" value="line 2600: Unsupported feature"/>
+    <column title="memory" value="161452032B"/>
+    <column title="reached" value="1531"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.847s"/>
+    <column title="transfer" value="3.985s"/>
+    <column title="walltime" value="15.30589877301827s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.287517526s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:57:36.287826+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/fold-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/fold-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="17.144683047s"/>
+    <column title="memory" value="159989760B"/>
+    <column title="reached" value="2151"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.702s"/>
+    <column title="transfer" value="5.889s"/>
+    <column title="walltime" value="17.163658368051983s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.144683047s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:57:51.734060+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/head-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/head-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="18.752705779s"/>
+    <column title="memory" value="167178240B"/>
+    <column title="reached" value="1915"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.475s"/>
+    <column title="transfer" value="7.318s"/>
+    <column title="walltime" value="18.771020687010605s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.752705779s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:58:09.042994+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/head-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/head-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="17.131362498s"/>
+    <column title="memory" value="175697920B"/>
+    <column title="reached" value="1927"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.458s"/>
+    <column title="transfer" value="6.541s"/>
+    <column title="walltime" value="17.152625215006992s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.131362498s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:58:27.984811+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/hostid.yml" files="[test/programs/benchmarks/busybox-1.22.0/hostid.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.056798636s"/>
+    <column title="memory" value="151265280B"/>
+    <column title="reached" value="969"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.891s"/>
+    <column title="transfer" value="1.242s"/>
+    <column title="walltime" value="9.066417756024748s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.056798636s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:58:45.281669+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/logname-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/logname-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="12.91535975s"/>
+    <column title="memory" value="155336704B"/>
+    <column title="reached" value="1357"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.508s"/>
+    <column title="transfer" value="3.139s"/>
+    <column title="walltime" value="12.934288876014762s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.91535975s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:58:54.496421+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/logname-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/logname-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="23.763978637s"/>
+    <column title="memory" value="168091648B"/>
+    <column title="reached" value="1622"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="9.576s"/>
+    <column title="transfer" value="6.104s"/>
+    <column title="walltime" value="23.787879479001276s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="23.763978637s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:59:07.571109+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/ls-incomplete-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/ls-incomplete-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="51.667523564s"/>
+    <column title="error" value="line 3536: Unsupported feature"/>
+    <column title="memory" value="205070336B"/>
+    <column title="reached" value="4189"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="14.386s"/>
+    <column title="transfer" value="25.298s"/>
+    <column title="walltime" value="51.69417131098453s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="51.667523564s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T13:59:31.515624+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/ls-incomplete-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/ls-incomplete-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="46.516403283s"/>
+    <column title="error" value="line 3536: Unsupported feature"/>
+    <column title="memory" value="189661184B"/>
+    <column title="reached" value="4189"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="12.278s"/>
+    <column title="transfer" value="23.092s"/>
+    <column title="walltime" value="46.54620819800766s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="46.516403283s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:00:23.352895+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/mkdir-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/mkdir-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="12.25934506s"/>
+    <column title="error" value="line 2911: Unsupported feature"/>
+    <column title="memory" value="149663744B"/>
+    <column title="reached" value="1196"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.443s"/>
+    <column title="transfer" value="1.938s"/>
+    <column title="walltime" value="12.279584107978735s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.25934506s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:01:10.058082+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/mkfifo-incomplete-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/mkfifo-incomplete-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.018390637s"/>
+    <column title="memory" value="156876800B"/>
+    <column title="reached" value="1188"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.106s"/>
+    <column title="transfer" value="2.443s"/>
+    <column title="walltime" value="12.038116001989692s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.018390637s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:01:22.482546+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/od-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/od-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="17.914616077s"/>
+    <column title="error" value="line 3506: Unsupported feature"/>
+    <column title="memory" value="176574464B"/>
+    <column title="reached" value="1286"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="2.672s"/>
+    <column title="transfer" value="5.092s"/>
+    <column title="walltime" value="17.935656584973913s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.914616077s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:01:34.675039+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/od-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/od-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="17.803642346s"/>
+    <column title="error" value="line 3506: Unsupported feature"/>
+    <column title="memory" value="177225728B"/>
+    <column title="reached" value="1286"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="2.485s"/>
+    <column title="transfer" value="5.069s"/>
+    <column title="walltime" value="17.825285995029844s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.803642346s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:01:52.749886+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/od-4.yml" files="[test/programs/benchmarks/busybox-1.22.0/od-4.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="18.829386816s"/>
+    <column title="error" value="line 3431: Unsupported feature"/>
+    <column title="memory" value="182349824B"/>
+    <column title="reached" value="1286"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="2.762s"/>
+    <column title="transfer" value="5.511s"/>
+    <column title="walltime" value="18.845260754984338s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.829386816s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:02:10.721212+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/printf-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/printf-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="13.887037614s"/>
+    <column title="memory" value="167112704B"/>
+    <column title="reached" value="1466"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.245s"/>
+    <column title="transfer" value="3.607s"/>
+    <column title="walltime" value="13.909743837022688s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.887037614s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:02:29.712915+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/printf-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/printf-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="121.668929759s"/>
+    <column title="memory" value="219430912B"/>
+    <column title="reached" value="16092"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="59.326s"/>
+    <column title="transfer" value="50.621s"/>
+    <column title="walltime" value="121.70524624700192s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="121.668929759s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:02:43.772744+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/readlink-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/readlink-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.697616019s"/>
+    <column title="memory" value="157716480B"/>
+    <column title="reached" value="1225"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.227s"/>
+    <column title="transfer" value="2.645s"/>
+    <column title="walltime" value="13.717204841959756s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.697616019s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:04:45.625235+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/realpath-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/realpath-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.001189894s"/>
+    <column title="memory" value="152195072B"/>
+    <column title="reached" value="1258"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.218s"/>
+    <column title="transfer" value="2.644s"/>
+    <column title="walltime" value="13.022890499036293s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.001189894s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:04:59.495991+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/rm-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/rm-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="15.657850304s"/>
+    <column title="memory" value="163721216B"/>
+    <column title="reached" value="1528"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.454s"/>
+    <column title="transfer" value="3.630s"/>
+    <column title="walltime" value="15.69024032400921s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.657850304s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:05:12.683185+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/rm-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/rm-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="14.821401277s"/>
+    <column title="memory" value="159571968B"/>
+    <column title="reached" value="1528"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.364s"/>
+    <column title="transfer" value="3.628s"/>
+    <column title="walltime" value="14.843214061984327s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="14.821401277s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:05:28.515301+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/seq-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/seq-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="13.207040172s"/>
+    <column title="error" value="line 2392: Unsupported feature"/>
+    <column title="memory" value="157487104B"/>
+    <column title="reached" value="1116"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.363s"/>
+    <column title="transfer" value="2.102s"/>
+    <column title="walltime" value="13.217439296015073s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.207040172s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:05:43.504901+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/sleep-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/sleep-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="12.271988594s"/>
+    <column title="memory" value="149909504B"/>
+    <column title="reached" value="1154"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.185s"/>
+    <column title="transfer" value="1.851s"/>
+    <column title="walltime" value="12.292107922025025s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.271988594s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:05:56.871597+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/sleep-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/sleep-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.226901094s"/>
+    <column title="memory" value="158896128B"/>
+    <column title="reached" value="1154"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.100s"/>
+    <column title="transfer" value="1.815s"/>
+    <column title="walltime" value="12.247249315027148s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.226901094s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:06:09.352947+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/stty-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/stty-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="103.321184227s"/>
+    <column title="memory" value="199811072B"/>
+    <column title="reached" value="3728"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="17.952s"/>
+    <column title="transfer" value="71.864s"/>
+    <column title="walltime" value="103.3843735959963s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="103.321184227s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:06:21.755043+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/sync-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/sync-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="11.786444167s"/>
+    <column title="memory" value="152240128B"/>
+    <column title="reached" value="1011"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.981s"/>
+    <column title="transfer" value="2.079s"/>
+    <column title="walltime" value="11.799736238957848s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.786444167s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:08:05.288049+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/sync-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/sync-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.107528502s"/>
+    <column title="memory" value="142610432B"/>
+    <column title="reached" value="981"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.968s"/>
+    <column title="transfer" value="1.468s"/>
+    <column title="walltime" value="10.127402869984508s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.107528502s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:08:17.234137+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/tac-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/tac-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.871205101s"/>
+    <column title="memory" value="154574848B"/>
+    <column title="reached" value="1191"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.250s"/>
+    <column title="transfer" value="2.538s"/>
+    <column title="walltime" value="12.880882132041734s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.871205101s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:08:27.556046+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/tee-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/tee-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.609273184s"/>
+    <column title="memory" value="156573696B"/>
+    <column title="reached" value="1175"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.137s"/>
+    <column title="transfer" value="2.331s"/>
+    <column title="walltime" value="12.631159800977912s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.609273184s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:08:40.627457+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/test-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/test-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="131.012945743s"/>
+    <column title="memory" value="169705472B"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="walltime" value="131.03895714099053s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="131.012945743s" hidden="true"/>
+    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:08:53.407693+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/test-incomplete-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/test-incomplete-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="131.012136743s"/>
+    <column title="memory" value="169873408B"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="walltime" value="131.03572659404017s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="131.012136743s" hidden="true"/>
+    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:11:04.590651+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/touch-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/touch-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="12.010797105s"/>
+    <column title="error" value="line 2809: Unsupported feature"/>
+    <column title="memory" value="153018368B"/>
+    <column title="reached" value="1242"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.187s"/>
+    <column title="transfer" value="1.972s"/>
+    <column title="walltime" value="12.03127953899093s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.010797105s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:13:15.838778+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/uname-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/uname-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="26.878818099s"/>
+    <column title="memory" value="182472704B"/>
+    <column title="reached" value="2122"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="5.513s"/>
+    <column title="transfer" value="11.566s"/>
+    <column title="walltime" value="26.892228947021067s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="26.878818099s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:13:28.061117+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/uniq-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/uniq-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="11.846380395s"/>
+    <column title="error" value="line 2588: Unsupported feature"/>
+    <column title="memory" value="152215552B"/>
+    <column title="reached" value="1176"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.215s"/>
+    <column title="transfer" value="2.109s"/>
+    <column title="walltime" value="11.879333611985203s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.846380395s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:13:55.101343+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/usleep-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/usleep-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.094907484s"/>
+    <column title="memory" value="155160576B"/>
+    <column title="reached" value="1415"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.064s"/>
+    <column title="transfer" value="3.337s"/>
+    <column title="walltime" value="13.121993986947928s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.094907484s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:14:07.127578+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/uudecode-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/uudecode-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="12.812678077s"/>
+    <column title="error" value="line 2707: Unsupported feature"/>
+    <column title="memory" value="156286976B"/>
+    <column title="reached" value="1158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.465s"/>
+    <column title="transfer" value="2.070s"/>
+    <column title="walltime" value="12.84290848398814s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.812678077s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:14:20.397093+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/uudecode-3.yml" files="[test/programs/benchmarks/busybox-1.22.0/uudecode-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.240988021s"/>
+    <column title="error" value="line 2632: Unsupported feature"/>
+    <column title="memory" value="154206208B"/>
+    <column title="reached" value="1158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.515s"/>
+    <column title="transfer" value="1.914s"/>
+    <column title="walltime" value="12.268565065984149s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.240988021s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:14:33.385509+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/wc-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/wc-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="15.209890231s"/>
+    <column title="memory" value="167305216B"/>
+    <column title="reached" value="1552"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.542s"/>
+    <column title="transfer" value="4.006s"/>
+    <column title="walltime" value="15.241921153967269s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.209890231s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:14:45.797157+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/who-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/who-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.143000813s"/>
+    <column title="memory" value="157589504B"/>
+    <column title="reached" value="1276"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="1.226s"/>
+    <column title="transfer" value="2.583s"/>
+    <column title="walltime" value="13.16449533199193s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.143000813s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:15:01.196566+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/whoami-incomplete-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/whoami-incomplete-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="17.387991649s"/>
+    <column title="memory" value="178700288B"/>
+    <column title="reached" value="2022"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="3.040s"/>
+    <column title="transfer" value="5.221s"/>
+    <column title="walltime" value="17.422267297981307s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.387991649s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:15:14.505273+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/busybox-1.22.0/yes-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/yes-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="11.993064407s"/>
+    <column title="memory" value="147431424B"/>
+    <column title="reached" value="1272"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.927s"/>
+    <column title="transfer" value="2.546s"/>
+    <column title="walltime" value="12.01411950000329s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="11.993064407s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-01T14:15:32.075987+00:00" hidden="true"/>
+  </run>
+  
+</result>

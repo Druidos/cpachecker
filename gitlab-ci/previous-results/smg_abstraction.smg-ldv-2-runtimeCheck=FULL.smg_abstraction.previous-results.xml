@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="smg_abstraction.smg-ldv-2-runtimeCheck=FULL.smg_abstraction" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/smg_abstraction_tests/sll/insert_0SLL_level_lose.yml" files="[test/programs/smg_abstraction_tests/sll/insert_0SLL_level_lose.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.988988113s"/>
+    <column title="memory" value="94568448B"/>
+    <column title="reached" value="60"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.015s"/>
+    <column title="transfer" value="0.431s"/>
+    <column title="walltime" value="4.009659968316555s"/>
+    <column title="blkio-read" value="57344B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.988988113s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:40.127090+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/sll_ext_allocation_abstraction_memleak.yml" files="[test/programs/smg_abstraction_tests/sll/sll_ext_allocation_abstraction_memleak.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.494677323s"/>
+    <column title="memory" value="88788992B"/>
+    <column title="reached" value="26"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.018s"/>
+    <column title="transfer" value="0.169s"/>
+    <column title="walltime" value="3.5150014646351337s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.494677323s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:44.439347+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/sll_ext_allocation_materialise_memleak.yml" files="[test/programs/smg_abstraction_tests/sll/sll_ext_allocation_materialise_memleak.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.37149528s"/>
+    <column title="memory" value="86417408B"/>
+    <column title="reached" value="27"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.030s"/>
+    <column title="transfer" value="0.179s"/>
+    <column title="walltime" value="3.3829014003276825s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.37149528s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:48.199368+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/traversing_list_with_single_statement.yml" files="[test/programs/smg_abstraction_tests/sll/traversing_list_with_single_statement.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.641900189s"/>
+    <column title="memory" value="113217536B"/>
+    <column title="reached" value="57"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.075s"/>
+    <column title="transfer" value="0.260s"/>
+    <column title="walltime" value="3.6582267954945564s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.641900189s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:51.927184+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_lose_accuracy.yml" files="[test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_lose_accuracy.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="3.737953263s"/>
+    <column title="memory" value="91119616B"/>
+    <column title="reached" value="45"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.015s"/>
+    <column title="transfer" value="0.294s"/>
+    <column title="walltime" value="3.7513121850788593s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.737953263s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:55.811388+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_subsmg.yml" files="[test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_subsmg.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="4.994543025s"/>
+    <column title="exception" value="evaluation of parameters out of order"/>
+    <column title="memory" value="95379456B"/>
+    <column title="status" value="ASSERTION"/>
+    <column title="walltime" value="5.010660730302334s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.994543025s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="1" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:36:59.799302+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_subsmg_level_test.yml" files="[test/programs/smg_abstraction_tests/sll/sll_subsmg/sll_subsmg_level_test.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.714871521s"/>
+    <column title="memory" value="90075136B"/>
+    <column title="reached" value="64"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.048s"/>
+    <column title="transfer" value="0.324s"/>
+    <column title="walltime" value="3.7371806539595127s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.714871521s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:37:05.091193+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/dll/dll_ext_allocation_abstraction_memleak.yml" files="[test/programs/smg_abstraction_tests/dll/dll_ext_allocation_abstraction_memleak.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.499892768s"/>
+    <column title="memory" value="88350720B"/>
+    <column title="reached" value="33"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.216s"/>
+    <column title="walltime" value="3.518328085541725s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.499892768s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:37:09.167017+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_abstraction_tests/dll/dll_ext_allocation_materialise_memleak.yml" files="[test/programs/smg_abstraction_tests/dll/dll_ext_allocation_materialise_memleak.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true(valid-memtrack)">
+    <column title="cputime" value="3.490378727s"/>
+    <column title="memory" value="88219648B"/>
+    <column title="reached" value="34"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.230s"/>
+    <column title="walltime" value="3.50086310505867s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.490378727s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-29T15:37:12.979335+00:00" hidden="true"/>
+  </run>
+  
+</result>

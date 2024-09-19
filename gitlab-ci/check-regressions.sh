@@ -7,17 +7,18 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-CURR=output-$TESTSET.*.results.$RUNDEF.$TASKS.xml.bz2
-PREV=$TESTSET.$RUNDEF.$TASKS.previous-results.xml.bz2
-TOUT=$TESTSET.$RUNDEF.$TASKS.timeouts.xml.bz2
+CURR=output-$TESTSET.*.results.$RUNDEF.$TASKS.xml
+PREV=$TESTSET.$RUNDEF.$TASKS.previous-results.xml
+TOUT=$TESTSET.$RUNDEF.$TASKS.timeouts.xml
 TGFLAGS="--dump --ignore-flapping-timeout-regressions"
 GREEN_COLOR='\033[0;32m'
 RED_COLOR='\033[1;31m'
-NO_COLOR='\033[0m' # No Color
+NO_COLOR='\033[0m'
 
 
-benchexec --read-only-dir / --hidden-dir /home \
-  $CI_DIR/$TESTSET.xml -r $RUNDEF -t $TASKS -o output-
+echo "running CPAchecker on $TASKS with $RUNDEF configuration"
+benchexec --read-only-dir / --hidden-dir /home --no-compress-results \
+  $CI_DIR/$TESTSET.xml -r $RUNDEF -t $TASKS -o output- || exit $?
 echo -e "generate current table: $GREEN_COLOR $ table-generator $CURR -o . -n current $NO_COLOR"
 table-generator $CURR -o . -n current
 

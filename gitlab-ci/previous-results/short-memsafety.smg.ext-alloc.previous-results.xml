@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="short-memsafety.smg.ext-alloc" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/smg_External_Allocation_Test/err_ptr-1.yml" files="[test/programs/smg_External_Allocation_Test/err_ptr-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.352424495s"/>
+    <column title="memory" value="155262976B"/>
+    <column title="reached" value="34"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.352s"/>
+    <column title="walltime" value="3.3606761395931244s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.352424495s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:43.607065+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/err_ptr-2.yml" files="[test/programs/smg_External_Allocation_Test/err_ptr-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.28638963s"/>
+    <column title="memory" value="155185152B"/>
+    <column title="reached" value="34"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.242s"/>
+    <column title="walltime" value="3.296769142150879s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.28638963s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:47.139079+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/err_ptr2-1.yml" files="[test/programs/smg_External_Allocation_Test/err_ptr2-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.318894068s"/>
+    <column title="memory" value="156545024B"/>
+    <column title="reached" value="34"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.354s"/>
+    <column title="walltime" value="3.3367008827626705s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.318894068s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:50.687344+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/err_ptr2-2.yml" files="[test/programs/smg_External_Allocation_Test/err_ptr2-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.320772525s"/>
+    <column title="memory" value="154480640B"/>
+    <column title="reached" value="57"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.282s"/>
+    <column title="walltime" value="3.3363933749496937s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.320772525s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:54.267366+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/explAllocReachableFromExternal.yml" files="[test/programs/smg_External_Allocation_Test/explAllocReachableFromExternal.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.207929244s"/>
+    <column title="memory" value="154513408B"/>
+    <column title="reached" value="17"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.198s"/>
+    <column title="walltime" value="3.2172550596296787s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.207929244s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:13:57.823323+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/extAlloc.yml" files="[test/programs/smg_External_Allocation_Test/extAlloc.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.145403726s"/>
+    <column title="memory" value="155623424B"/>
+    <column title="reached" value="7"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.074s"/>
+    <column title="walltime" value="3.1609660387039185s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.145403726s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:01.339025+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/extAllocFree-1.yml" files="[test/programs/smg_External_Allocation_Test/extAllocFree-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.194204214s"/>
+    <column title="memory" value="154316800B"/>
+    <column title="reached" value="8"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.259s"/>
+    <column title="walltime" value="3.2128211557865143s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.194204214s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:04.731082+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/extAllocFree-2.yml" files="[test/programs/smg_External_Allocation_Test/extAllocFree-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.166777524s"/>
+    <column title="memory" value="154558464B"/>
+    <column title="reached" value="8"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.082s"/>
+    <column title="walltime" value="3.1802094019949436s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.166777524s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:08.151340+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/extAllocFree2.yml" files="[test/programs/smg_External_Allocation_Test/extAllocFree2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.16016882s"/>
+    <column title="memory" value="154898432B"/>
+    <column title="reached" value="10"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.241s"/>
+    <column title="walltime" value="3.1768353916704655s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.16016882s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:11.595019+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/extAllocNotFreed.yml" files="[test/programs/smg_External_Allocation_Test/extAllocNotFreed.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.098601413s"/>
+    <column title="memory" value="153501696B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.126s"/>
+    <column title="walltime" value="3.105203863233328s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.098601413s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:15.075051+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/functionPointer_array_false-valid-memtrack.yml" files="[test/programs/smg_External_Allocation_Test/extAllocNotFreed.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="3.106931718s"/>
+    <column title="memory" value="153108480B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.133s"/>
+    <column title="walltime" value="3.1228033415973186s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.106931718s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:18.353016+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/functionPointer_array_true-valid-memsafety.yml" files="[test/programs/smg_External_Allocation_Test/extAllocNotFreed.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.126980322s"/>
+    <column title="memory" value="153366528B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.141s"/>
+    <column title="walltime" value="3.144609484821558s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.126980322s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:21.671216+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/memcpyErrorPath-1.yml" files="[test/programs/smg_External_Allocation_Test/memcpyErrorPath-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.229883933s"/>
+    <column title="memory" value="155676672B"/>
+    <column title="reached" value="14"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.276s"/>
+    <column title="walltime" value="3.2485262155532837s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.229883933s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:25.111342+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/memcpyErrorPath-2.yml" files="[test/programs/smg_External_Allocation_Test/memcpyErrorPath-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.277811037s"/>
+    <column title="memory" value="154460160B"/>
+    <column title="reached" value="14"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.274s"/>
+    <column title="walltime" value="3.2927327528595924s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.277811037s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:28.575274+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/memcpyErrorPath_1.yml" files="[test/programs/smg_External_Allocation_Test/memcpyErrorPath_1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.299950123s"/>
+    <column title="memory" value="155492352B"/>
+    <column title="reached" value="14"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.330s"/>
+    <column title="walltime" value="3.315966222435236s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.299950123s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:32.059109+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/memcpyErrorPath_2.yml" files="[test/programs/smg_External_Allocation_Test/memcpyErrorPath_2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.179044531s"/>
+    <column title="memory" value="155353088B"/>
+    <column title="reached" value="6"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.246s"/>
+    <column title="walltime" value="3.196615591645241s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.179044531s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:35.619119+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/recursiveAccess-1.yml" files="[test/programs/smg_External_Allocation_Test/recursiveAccess-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.296742387s"/>
+    <column title="memory" value="154755072B"/>
+    <column title="reached" value="14"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.292s"/>
+    <column title="walltime" value="3.3166808784008026s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.296742387s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:39.131231+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/recursiveAccess-2.yml" files="[test/programs/smg_External_Allocation_Test/recursiveAccess-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.1835013s"/>
+    <column title="memory" value="154136576B"/>
+    <column title="reached" value="17"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.209s"/>
+    <column title="walltime" value="3.1931831762194633s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.1835013s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:42.666941+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/recursiveAccess1.yml" files="[test/programs/smg_External_Allocation_Test/recursiveAccess1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.27057318s"/>
+    <column title="memory" value="155975680B"/>
+    <column title="reached" value="14"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.293s"/>
+    <column title="walltime" value="3.2885949052870274s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.27057318s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:46.211209+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/stringInitializer-1.yml" files="[test/programs/smg_External_Allocation_Test/stringInitializer-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.195252564s"/>
+    <column title="memory" value="155254784B"/>
+    <column title="reached" value="9"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.247s"/>
+    <column title="walltime" value="3.213045857846737s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.195252564s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:49.902927+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/stringInitializer-2.yml" files="[test/programs/smg_External_Allocation_Test/stringInitializer-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.069439189s"/>
+    <column title="memory" value="153194496B"/>
+    <column title="reached" value="11"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.106s"/>
+    <column title="walltime" value="3.0884743593633175s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.069439189s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:53.339124+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/switch.yml" files="[test/programs/smg_External_Allocation_Test/switch.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.386290632s"/>
+    <column title="memory" value="156803072B"/>
+    <column title="reached" value="26"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.360s"/>
+    <column title="walltime" value="3.394521091133356s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.386290632s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:14:56.699022+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undef.yml" files="[test/programs/smg_External_Allocation_Test/undef.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.43405461s"/>
+    <column title="memory" value="156778496B"/>
+    <column title="reached" value="29"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.373s"/>
+    <column title="walltime" value="3.4527570120990276s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.43405461s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:00.423324+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefCharIndex-1.yml" files="[test/programs/smg_External_Allocation_Test/undefCharIndex-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.237857939s"/>
+    <column title="memory" value="156352512B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.279s"/>
+    <column title="walltime" value="3.2565070055425167s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.237857939s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:04.131221+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefCharIndex-2.yml" files="[test/programs/smg_External_Allocation_Test/undefCharIndex-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.233725145s"/>
+    <column title="memory" value="154705920B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.256s"/>
+    <column title="walltime" value="3.244233939796686s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.233725145s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:07.607330+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefIndex-1.yml" files="[test/programs/smg_External_Allocation_Test/undefIndex-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.296447334s"/>
+    <column title="memory" value="155656192B"/>
+    <column title="reached" value="18"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.295s"/>
+    <column title="walltime" value="3.310258436948061s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.296447334s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:11.167032+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefIndex-2.yml" files="[test/programs/smg_External_Allocation_Test/undefIndex-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.273132475s"/>
+    <column title="memory" value="156770304B"/>
+    <column title="reached" value="18"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.300s"/>
+    <column title="walltime" value="3.2828199416399s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.273132475s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:14.894938+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefSignedCharIndex-1.yml" files="[test/programs/smg_External_Allocation_Test/undefSignedCharIndex-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.339924232s"/>
+    <column title="memory" value="156012544B"/>
+    <column title="reached" value="18"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.304s"/>
+    <column title="walltime" value="3.3609408624470234s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.339924232s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:18.411112+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefSignedCharIndex-2.yml" files="[test/programs/smg_External_Allocation_Test/undefSignedCharIndex-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.33121351s"/>
+    <column title="memory" value="157974528B"/>
+    <column title="reached" value="18"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.276s"/>
+    <column title="walltime" value="3.3405328057706356s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.33121351s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:21.999352+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefSignedCharIndex2.yml" files="[test/programs/smg_External_Allocation_Test/undefSignedCharIndex2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.244063017s"/>
+    <column title="memory" value="156155904B"/>
+    <column title="reached" value="12"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.283s"/>
+    <column title="walltime" value="3.264780517667532s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.244063017s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:25.714992+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.21212585s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 49:"/>
+    <column title="memory" value="152645632B"/>
+    <column title="reached" value="13"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.216s"/>
+    <column title="walltime" value="3.21928471326828s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.21212585s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:29.199217+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-2.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="3.415591623s"/>
+    <column title="memory" value="155770880B"/>
+    <column title="reached" value="19"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.366s"/>
+    <column title="walltime" value="3.4236650355160236s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.415591623s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:32.750989+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-3.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-3.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="3.323113021s"/>
+    <column title="memory" value="155799552B"/>
+    <column title="reached" value="19"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.324s"/>
+    <column title="walltime" value="3.3316858112812042s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.323113021s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:36.631120+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-4.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-4.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.279104458s"/>
+    <column title="memory" value="155435008B"/>
+    <column title="reached" value="22"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.246s"/>
+    <column title="walltime" value="3.296780191361904s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.279104458s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:40.191341+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="3.257960779s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 46:"/>
+    <column title="memory" value="155062272B"/>
+    <column title="reached" value="13"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.233s"/>
+    <column title="walltime" value="3.2764754816889763s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.257960779s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:43.667345+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-6.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="3.24156989s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 46:"/>
+    <column title="memory" value="154968064B"/>
+    <column title="reached" value="13"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.251s"/>
+    <column title="walltime" value="3.248604469001293s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.24156989s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:47.171016+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-7.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.290608998s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 49:"/>
+    <column title="memory" value="154714112B"/>
+    <column title="reached" value="13"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.283s"/>
+    <column title="walltime" value="3.3086409606039524s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.290608998s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:50.647281+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedValue-1.yml" files="[test/programs/smg_External_Allocation_Test/undefinedValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.429493791s"/>
+    <column title="memory" value="156450816B"/>
+    <column title="reached" value="29"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.020s"/>
+    <column title="transfer" value="0.409s"/>
+    <column title="walltime" value="3.4415662735700607s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.429493791s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:54.158996+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_External_Allocation_Test/undefinedValue-2.yml" files="[test/programs/smg_External_Allocation_Test/undefinedValue-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.383044584s"/>
+    <column title="memory" value="155594752B"/>
+    <column title="reached" value="22"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.365s"/>
+    <column title="walltime" value="3.392090864479542s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.383044584s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T10:15:57.855152+00:00" hidden="true"/>
+  </run>
+  
+</result>
