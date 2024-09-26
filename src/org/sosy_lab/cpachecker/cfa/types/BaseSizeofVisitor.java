@@ -19,6 +19,7 @@ import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.ast.c.CExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CIntegerLiteralExpression;
+import org.sosy_lab.cpachecker.cfa.types.c.Alignment;
 import org.sosy_lab.cpachecker.cfa.types.c.CArrayType;
 import org.sosy_lab.cpachecker.cfa.types.c.CBitFieldType;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType.ComplexTypeKind;
@@ -33,6 +34,7 @@ import org.sosy_lab.cpachecker.cfa.types.c.CSimpleType;
 import org.sosy_lab.cpachecker.cfa.types.c.CType;
 import org.sosy_lab.cpachecker.cfa.types.c.CTypeVisitor;
 import org.sosy_lab.cpachecker.cfa.types.c.CTypedefType;
+import org.sosy_lab.cpachecker.cfa.types.c.CTypes;
 import org.sosy_lab.cpachecker.cfa.types.c.CVoidType;
 
 public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigInteger, X> {
@@ -113,7 +115,12 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
       sizeOfType = decl.getType().accept(this);
       size = size.max(sizeOfType);
     }
-    return size;
+
+    // size is padded to the alignment
+    BigInteger align = BigInteger.valueOf(model.getAlignof(pCompositeType));
+    // .negate().mod returns how many bytes needed to get multiple of align
+    BigInteger padding = size.negate().mod(align);
+    return size.add(padding);
   }
 
   @Override
@@ -199,7 +206,6 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
     List<CCompositeTypeMemberDeclaration> typeMembers = pOwnerType.getMembers();
 
     BigInteger bitOffset = BigInteger.ZERO;
-    BigInteger sizeOfConsecutiveBitFields = BigInteger.ZERO;
 
     long sizeOfByte = model.getSizeofCharInBits();
 
@@ -233,17 +239,30 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
           fieldSizeInBits = model.getSizeofInBits(type, this);
         }
 
-        if (type instanceof CBitFieldType) {
-          if (typeMember.getName().equals(pFieldName)) {
-            // just escape the loop and return the current offset
-            bitOffset = bitOffset.add(sizeOfConsecutiveBitFields);
-            return bitOffset;
+        boolean isBitfield = type instanceof CBitFieldType;
+        boolean isZeroLength = fieldSizeInBits.compareTo(BigInteger.ZERO) == 0;
+        Alignment effectiveAlignment = type.getAlignment().withInsidePacked(false);
+        boolean hasAlignedAttr = !effectiveAlignment.equals(Alignment.NO_SPECIFIERS);
+        CType effectiveType = type;
+
+        if (isBitfield) {
+          effectiveType = ((CBitFieldType) type).getType();
+          int alignFromAttr = model.alignmentFromAttributes(effectiveAlignment);
+          boolean fieldFits =
+              fieldSizeInBits.compareTo(BigInteger.valueOf(sizeOfByte * alignFromAttr)) <= 0;
+          boolean greaterAlign = model.getAlignof(effectiveType) < alignFromAttr;
+          // lesser align applies if bit-field fits inside alignment or struct is packed
+          // but zero-length bit-fields can only be overaligned
+          boolean lesserAlignApplies = !isZeroLength && (pOwnerType.isPacked() || fieldFits);
+          if (greaterAlign || lesserAlignApplies) {
+            effectiveType = CTypes.overrideAlignment(effectiveType, effectiveAlignment);
           }
+        }
 
-          CType innerType = ((CBitFieldType) type).getType();
-
-          if (fieldSizeInBits.compareTo(BigInteger.ZERO) == 0) {
-            // Bitfields with length 0 guarantee that
+        // add padding bits if needed
+        if (!isBitfield || isZeroLength || hasAlignedAttr) {
+          // Usual fields, bit-fields with length 0, and bit-fields
+          // with alignment attributes guarantee that
             // the next bitfield starts at the beginning of the
             // next address an object of the declaring
             // type could be addressed by.
@@ -269,42 +288,26 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
             // will be aligned to size of char and occupy 2 Bytes
             // in memory, while the same struct without the
             // 'char : 0;' member would just occupy 1 Byte.
-            bitOffset =
-                model.calculatePaddedBitsize(
-                    bitOffset, sizeOfConsecutiveBitFields, innerType, sizeOfByte);
-            sizeOfConsecutiveBitFields = BigInteger.ZERO;
-          } else {
-            sizeOfConsecutiveBitFields =
-                model
-                    .calculateNecessaryBitfieldOffset(
-                        sizeOfConsecutiveBitFields.add(bitOffset),
-                        innerType,
-                        sizeOfByte,
-                        fieldSizeInBits)
-                    .subtract(bitOffset);
-            sizeOfConsecutiveBitFields = sizeOfConsecutiveBitFields.add(fieldSizeInBits);
-          }
+          bitOffset = model.calculatePaddedBitsize(bitOffset, effectiveType, sizeOfByte);
 
-          // Put start offset of bitField to outParameterMap
-          if (outParameterMap != null) {
-            outParameterMap.put(
-                typeMember, bitOffset.add(sizeOfConsecutiveBitFields).subtract(fieldSizeInBits));
-          }
-        } else {
+        } else if (!pOwnerType.isPacked()) {
+          // all bitfields are consequent in packed struct
+
           bitOffset =
-              model.calculatePaddedBitsize(bitOffset, sizeOfConsecutiveBitFields, type, sizeOfByte);
-          sizeOfConsecutiveBitFields = BigInteger.ZERO;
-
-          if (typeMember.getName().equals(pFieldName)) {
-            // just escape the loop and return the current offset
-            return bitOffset;
-          }
-
-          if (outParameterMap != null) {
-            outParameterMap.put(typeMember, bitOffset);
-          }
-          bitOffset = bitOffset.add(fieldSizeInBits);
+              model.calculateNecessaryBitfieldOffset(
+                  bitOffset, effectiveType, sizeOfByte, fieldSizeInBits);
         }
+
+
+        if (typeMember.getName().equals(pFieldName)) {
+          // just escape the loop and return the current offset
+          return bitOffset;
+        }
+
+        if (outParameterMap != null) {
+          outParameterMap.put(typeMember, bitOffset);
+        }
+        bitOffset = bitOffset.add(fieldSizeInBits);
       }
     }
 
@@ -314,6 +317,6 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
     }
 
     // call with byte size of 1 to return size in bytes instead of bits
-    return model.calculatePaddedBitsize(bitOffset, sizeOfConsecutiveBitFields, pOwnerType, 1L);
+    return model.calculatePaddedBitsize(bitOffset, pOwnerType, 1L);
   }
 }

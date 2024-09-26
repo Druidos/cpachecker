@@ -1553,6 +1553,7 @@ public class AssumptionToEdgeAllocator {
         return new CSimpleType(
             pType.isConst(),
             pType.isVolatile(),
+            pType.getAlignment(),
             pType.getType(),
             pType.hasLongSpecifier(),
             pType.hasShortSpecifier(),

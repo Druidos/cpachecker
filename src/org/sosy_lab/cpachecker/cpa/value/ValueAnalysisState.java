@@ -800,15 +800,15 @@ public final class ValueAnalysisState
         throw new AssertionError("Unexpected type: " + simpleType);
       }
     } else if (pCType instanceof CEnumType enumType) {
-      long value = pNum.getNumber().longValue();
+      BigInteger value = BigInteger.valueOf(pNum.getNumber().longValue());
       for (CEnumerator enumerator : enumType.getEnumerators()) {
-        if (value == enumerator.getValue()) {
+        if (value.equals(enumerator.getValue())) {
           val = new CIdExpression(loc, enumerator);
           break;
         }
       }
       if (val == null) {
-        val = new CIntegerLiteralExpression(loc, enumType, BigInteger.valueOf(value));
+        val = new CIntegerLiteralExpression(loc, enumType, value);
       }
     } else {
       // disabled since this blocks too many programs for which plenty other information

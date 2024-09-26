@@ -90,8 +90,6 @@ import org.eclipse.cdt.core.dom.ast.c.ICASTDesignator;
 import org.eclipse.cdt.core.dom.ast.c.ICASTFieldDesignator;
 import org.eclipse.cdt.core.dom.ast.gnu.IGNUASTCompoundStatementExpression;
 import org.eclipse.cdt.core.dom.ast.gnu.c.IGCCASTArrayRangeDesignator;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTArrayDesignator;
-import org.eclipse.cdt.internal.core.dom.parser.c.CASTArrayRangeDesignator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTDeclarator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTLiteralExpression;
 import org.sosy_lab.common.log.LogManager;
@@ -2963,17 +2961,8 @@ class ASTConverter {
             name,
             origName);
 
-    if (PACKED_ENUM_REPRESENTATION_CANDIDATE_TYPES.contains(enumIntegerType)) {
-      // enumerators of packed enum are still at least int
-      enumIntegerType = CNumericTypes.SIGNED_INT;
-    }
-
     for (CEnumerator enumValue : enumType.getEnumerators()) {
       enumValue.setEnum(enumType);
-      // enumerator type was not set above, because it is enum underlying type
-      if (enumValue.getType().equals(CNumericTypes.BOOL)) {
-        enumValue.setType(enumIntegerType);
-      }
     }
     return enumType;
   }
@@ -3018,7 +3007,9 @@ class ASTConverter {
    */
   private CSimpleType getEnumerationType(boolean pPacked, final List<CEnumerator> pEnumerators) {
     LongSummaryStatistics enumStatistics =
-        pEnumerators.stream().mapToLong(CEnumerator::getValue).summaryStatistics();
+        pEnumerators.stream().filter(a -> a.getValue() != null)
+            .mapToLong(pCEnumerator -> pCEnumerator.getValue().longValueExact())
+            .summaryStatistics();
 
     Preconditions.checkState(
         enumStatistics.getCount() > 0, "enumeration does not provide any values");
@@ -3048,7 +3039,6 @@ class ASTConverter {
 
   private CEnumerator convert(IASTEnumerationSpecifier.IASTEnumerator e, BigInteger lastValue) {
     BigInteger enumeratorValue = null;
-    CSimpleType enumeratorType = null;
 
     if (e.getValue() == null) {
       enumeratorValue = lastValue.add(BigInteger.ONE);
@@ -3076,20 +3066,10 @@ class ASTConverter {
       }
     }
 
-    BigInteger intMin = machinemodel.getMinimalIntegerValue(CNumericTypes.SIGNED_INT);
-    BigInteger intMax = machinemodel.getMaximalIntegerValue(CNumericTypes.SIGNED_INT);
-    if (enumeratorValue.compareTo(intMax) <= 0 && enumeratorValue.compareTo(intMin) >= 0) {
-      enumeratorType = CNumericTypes.SIGNED_INT;
-    } else {
-      // may be uint or greater than int
-      // replace with enum compatible type later
-      enumeratorType = CNumericTypes.BOOL;
-    }
-
     String name = convert(e.getName());
     CEnumerator result =
         new CEnumerator(
-            getLocation(e), name, scope.createScopedNameOf(name), enumeratorType, enumeratorValue);
+            getLocation(e), name, scope.createScopedNameOf(name), enumeratorValue);
     scope.registerDeclaration(result);
     return result;
   }

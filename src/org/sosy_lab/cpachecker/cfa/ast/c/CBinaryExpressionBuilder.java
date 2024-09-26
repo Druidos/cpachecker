@@ -216,10 +216,10 @@ public class CBinaryExpressionBuilder {
      * But GCC allows long constants and packed enums, so return enum's integer type.
      */
     if (pType instanceof CEnumType) {
-      return ((CEnumType) pType).getIntegerType();
+      return ((CEnumType) pType).getCompatibleType();
     } else if (pType instanceof CElaboratedType
         && ((CElaboratedType) pType).getKind() == ComplexTypeKind.ENUM) {
-      return ((CEnumType) ((CElaboratedType) pType).getRealType()).getIntegerType();
+      return ((CEnumType) ((CElaboratedType) pType).getRealType()).getCompatibleType();
     } else if (pType instanceof CBitFieldType bitFieldType) {
       CType handledInnerType = handleEnum(bitFieldType.getType());
       if (handledInnerType == bitFieldType.getType()) {

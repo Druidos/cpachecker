@@ -30,9 +30,9 @@ import org.sosy_lab.cpachecker.cpa.automaton.AutomatonState;
 import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentMultimap;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.CFAUtils;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentMultimap;
 
 /** Class responsible for extracting coverage information. */
 public abstract class CoverageCollector {

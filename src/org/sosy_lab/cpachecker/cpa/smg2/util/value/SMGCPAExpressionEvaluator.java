@@ -41,6 +41,7 @@ import org.sosy_lab.cpachecker.cfa.model.CFANode;
 import org.sosy_lab.cpachecker.cfa.model.c.CDeclarationEdge;
 import org.sosy_lab.cpachecker.cfa.types.BaseSizeofVisitor;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
+import org.sosy_lab.cpachecker.cfa.types.c.Alignment;
 import org.sosy_lab.cpachecker.cfa.types.c.CArrayType;
 import org.sosy_lab.cpachecker.cfa.types.c.CBasicType;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType;
@@ -1195,7 +1196,7 @@ public class SMGCPAExpressionEvaluator {
     if (pMachineModel.getSizeof(canonicalType).intValueExact()
         >= pMachineModel.getSizeof(CNumericTypes.LONG_LONG_INT)) {
       return new CSimpleType(
-          false, false, CBasicType.INT128, false, false, true, false, false, false, false);
+          false, false, Alignment.NO_SPECIFIERS, CBasicType.INT128, false, false, true, false, false, false, false);
     }
 
     return CNumericTypes.LONG_LONG_INT;

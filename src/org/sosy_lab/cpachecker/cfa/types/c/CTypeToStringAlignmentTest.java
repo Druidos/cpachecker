@@ -219,7 +219,7 @@ public class CTypeToStringAlignmentTest {
         (CType)
             parser
                 .parseString(Path.of("dummy"), stringRepr + ";")
-                .getGlobalDeclarations()
+                .globalDeclarations()
                 .get(0)
                 .getFirst()
                 .getType();

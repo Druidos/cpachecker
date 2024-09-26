@@ -336,9 +336,9 @@ public class ExpressionSimplificationVisitor
     final CType type = expr.getExpressionType();
 
     // enum constant
-    if (decl instanceof CEnumType.CEnumerator && ((CEnumType.CEnumerator) decl).hasValue()) {
+    if (decl instanceof CEnumerator && ((CEnumerator) decl).getValue() != null) {
       return new CIntegerLiteralExpression(
-          expr.getFileLocation(), type, ((CEnumType.CEnumerator) decl).getValue());
+          expr.getFileLocation(), type, ((CEnumerator) decl).getValue());
     }
 
     // const variable, inline initializer casted to variable type
@@ -355,7 +355,7 @@ public class ExpressionSimplificationVisitor
 
           if (decl.getType() instanceof CSimpleType) {
             if (((CSimpleType) type).getType().isIntegerType()) {
-              return new CIntegerLiteralExpression(expr.getFileLocation(), type, v.bigInteger());
+              return new CIntegerLiteralExpression(expr.getFileLocation(), type, v.bigIntegerValue());
             } else {
               return new CFloatLiteralExpression(expr.getFileLocation(), type, v.bigDecimalValue());
             }

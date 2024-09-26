@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.nio.ByteOrder;
 import java.util.Map;
 import java.util.Optional;
+import org.sosy_lab.cpachecker.cfa.types.c.Alignment;
 import org.sosy_lab.cpachecker.cfa.types.c.CBasicType;
 import org.sosy_lab.cpachecker.cfa.types.c.CBitFieldType;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType.ComplexTypeKind;
@@ -583,6 +584,23 @@ public enum MachineModel {
     return Math.max(maxAlign, getAlignofFloat128());
   }
 
+  public int alignmentFromAttributes(Alignment pAlignment) {
+    int aligned = pAlignment.getVarAligned();
+    int alignas = pAlignment.getAlignas();
+    // Biggest applies. NO_SPECIFIER is smaller than any specified alignment.
+    if (aligned < alignas) {
+      aligned = alignas;
+    }
+    if (aligned == Alignment.NO_SPECIFIER) {
+      // If 'variable' has no alignment, 'type' can still have some.
+      aligned = pAlignment.getTypeAligned();
+    }
+    if (aligned != Alignment.NO_SPECIFIER) {
+      return aligned;
+    }
+    // If no alignment, but in a packed structure, return 1
+    return pAlignment.isInsidePacked() ? 1 : Alignment.NO_SPECIFIER;
+  }
   /** returns INT, if the type is smaller than INT, else the type itself. */
   public CType applyIntegerPromotion(CType pType) {
     checkArgument(CTypes.isIntegerType(pType), "Integer promotion cannot be applied to %s", pType);

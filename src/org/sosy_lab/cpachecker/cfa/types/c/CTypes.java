@@ -379,11 +379,11 @@ public final class CTypes {
     if (pTypeA instanceof CEnumType && pTypeB instanceof CSimpleType) {
       return pTypeB
           .getCanonicalType()
-          .equals(((CEnumType) pTypeA).getIntegerType().getCanonicalType());
+          .equals(((CEnumType) pTypeA).getCompatibleType().getCanonicalType());
     } else if (pTypeA instanceof CSimpleType && pTypeB instanceof CEnumType) {
       return pTypeA
           .getCanonicalType()
-          .equals(((CEnumType) pTypeB).getIntegerType().getCanonicalType());
+          .equals(((CEnumType) pTypeB).getCompatibleType().getCanonicalType());
     }
 
     if ((pTypeA instanceof CArrayType arrayA && pTypeB instanceof CArrayType arrayB)
@@ -779,7 +779,7 @@ public final class CTypes {
           t.isVolatile(),
           alignment,
           t.isPacked(),
-          t.getIntegerType(),
+          t.getCompatibleType(),
           t.getEnumerators(),
           t.getName(),
           t.getOrigName());
@@ -807,13 +807,13 @@ public final class CTypes {
           t.isVolatile(),
           alignment,
           t.getType(),
-          t.isLong(),
-          t.isShort(),
-          t.isSigned(),
-          t.isUnsigned(),
-          t.isComplex(),
-          t.isImaginary(),
-          t.isLongLong());
+          t.hasLongSpecifier(),
+          t.hasShortSpecifier(),
+          t.hasSignedSpecifier(),
+          t.hasUnsignedSpecifier(),
+          t.hasComplexSpecifier(),
+          t.hasImaginarySpecifier(),
+          t.hasLongLongSpecifier());
     }
 
     @Override

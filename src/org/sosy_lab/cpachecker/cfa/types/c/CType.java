@@ -41,10 +41,10 @@ public sealed interface CType extends Type
   boolean isVolatile();
 
   /**
-   * @return alignment <i>x</i> specified in <code>__attribute__((aligned(<i>x</i>)))</code> for the
-   *     C type, alignment specified in attribute for the variable of the C type, alignment
-   *     specified in <code>_Alignas</code> specifier for the same variable, and if it is actually a
-   *     member of a packed struct/union.
+   * Returns alignment <i>x</i> specified in <code>__attribute__((aligned(<i>x</i>)))</code> for the
+   * C type, alignment specified in attribute for the variable of the C type, alignment
+   * specified in <code>_Alignas</code> specifier for the same variable, and if it is actually a
+   * member of a packed struct/union.
    */
   Alignment getAlignment();
 

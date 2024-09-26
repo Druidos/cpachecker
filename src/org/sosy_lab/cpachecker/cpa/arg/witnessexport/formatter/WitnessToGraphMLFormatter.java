@@ -17,7 +17,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.core.interfaces.Targetable.TargetInformation;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.Edge;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.Witness;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentSet;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.ElementType;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.GraphMlBuilder;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;

@@ -44,6 +44,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymbolicValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGUnknownValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
+import org.sosy_lab.cpachecker.cpa.value.type.NumericValue;
 import org.sosy_lab.cpachecker.cpa.value.type.Value;
 import org.sosy_lab.cpachecker.exceptions.CPATransferException;
 import org.sosy_lab.cpachecker.exceptions.UnrecognizedCodeException;
@@ -83,8 +84,13 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
       return SMGExplicitValueAndState.of(v.getState(), SMGUnknownValue.INSTANCE);
     }
 
-    return SMGExplicitValueAndState.of(
-        v.getState(), SMGKnownExpValue.valueOf(val.asNumericValue().bigInteger()));
+    NumericValue numericValue = val.asNumericValue();
+    if (numericValue == null) {
+      return SMGExplicitValueAndState.of(v.getState(), SMGUnknownValue.INSTANCE);
+    } else {
+      return SMGExplicitValueAndState.of(
+          v.getState(), SMGKnownExpValue.valueOf(numericValue.bigIntegerValue()));
+    }
   }
 
   public SMGState deriveFurtherInformation(

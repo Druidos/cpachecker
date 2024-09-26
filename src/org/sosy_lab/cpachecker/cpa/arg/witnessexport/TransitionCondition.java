@@ -19,24 +19,23 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.ast.ASimpleDeclaration;
 import org.sosy_lab.cpachecker.cfa.ast.AVariableDeclaration;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentSet;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 
 /** an immutable map of facts about the transition. */
 public class TransitionCondition implements Comparable<TransitionCondition> {
 
   private static final TransitionCondition EMPTY = new TransitionCondition();
 
-  private static final Comparator<Iterable<Map.Entry<KeyDef, PersistentSet>>> KEY_VALUES_COMPARATOR =
+  private static final Comparator<Iterable<Map.Entry<KeyDef, PersistentSet<String>>>> KEY_VALUES_COMPARATOR =
       Comparators.lexicographical(
-          Map.Entry.<KeyDef, PersistentSet>comparingByKey().thenComparing(Map.Entry.comparingByValue()));
+          Map.Entry.<KeyDef, PersistentSet<String>>comparingByKey().thenComparing(Map.Entry.comparingByValue((set1, set2) -> set1.getComparator().compare(set1, set2))));
 
   private final EnumMap<KeyDef, PersistentSet<String>> keyValues;
 
@@ -69,7 +68,7 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
     Optional<Scope> newScope = scope.mergeWith(tc.scope);
     checkArgument(newScope.isPresent(), "Cannot merge transitions due to conflicting scopes.");
     EnumMap<KeyDef, PersistentSet<String>> newMap = null;
-    for (Entry<KeyDef, PersistentSet<String>> e : keyValues.entrySet()) {
+    for (Map.Entry<KeyDef, PersistentSet<String>> e : keyValues.entrySet()) {
       if (!tc.keyValues.containsKey(e.getKey())) {
         if (newMap == null) {
           newMap = tc.keyValues.clone();

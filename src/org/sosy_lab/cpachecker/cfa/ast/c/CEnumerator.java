@@ -13,6 +13,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serial;
 import java.util.Objects;
+import java.math.BigInteger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.ast.AbstractSimpleDeclaration;
 import org.sosy_lab.cpachecker.cfa.ast.FileLocation;
@@ -23,7 +24,7 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
 
   @Serial private static final long serialVersionUID = -2526725372840523651L;
 
-  private final long value;
+  private final @Nullable BigInteger value;
   private @Nullable CEnumType enumType;
   private final String qualifiedName;
 
@@ -31,7 +32,7 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
       final FileLocation pFileLocation,
       final String pName,
       final String pQualifiedName,
-      final long pValue) {
+      final @Nullable BigInteger pValue) {
     super(pFileLocation, pName);
 
     checkNotNull(pName);
@@ -52,7 +53,7 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
 
     return obj instanceof CEnumerator other
         && super.equals(obj)
-        && value == other.value
+        && Objects.equals(value, other.value)
         && qualifiedName.equals(other.qualifiedName);
     // do not compare the enumType, comparing it with == is wrong because types which
     // are the same but not identical would lead to wrong results
@@ -82,7 +83,7 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
     return enumType.getCompatibleType();
   }
 
-  public long getValue() {
+  public @Nullable BigInteger getValue() {
     return value;
   }
 

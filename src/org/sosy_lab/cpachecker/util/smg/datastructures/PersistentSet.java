@@ -11,6 +11,7 @@ package org.sosy_lab.cpachecker.util.smg.datastructures;
 import com.google.errorprone.annotations.Immutable;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import org.sosy_lab.common.collect.PathCopyingPersistentTreeMap;
@@ -21,7 +22,8 @@ import org.sosy_lab.common.collect.PersistentMap;
  * internal value for the map.
  */
 @Immutable(containerOf = "K")
-public class PersistentSet<K extends Comparable<? super K>> implements Set<K> {
+public class PersistentSet<K extends Comparable<? super K>>
+    implements Set<K> {
 
   private final PersistentMap<K, Void> delegate;
 
@@ -155,4 +157,22 @@ public class PersistentSet<K extends Comparable<? super K>> implements Set<K> {
   public String toString() {
     return delegate.keySet().toString();
   }
+
+  public Comparator<PersistentSet<K>> getComparator() {
+    return (pSet, pT1) -> {
+      Iterator<K> iteratorThis = pSet.iterator();
+      Iterator<K> iteratorSet = pT1.iterator();
+      while (iteratorThis.hasNext()) {
+        if (!iteratorSet.hasNext()) {
+          return 1;
+        }
+        int res = iteratorThis.next().compareTo(iteratorSet.next());
+        if (res != 0) {
+          return res;
+        }
+      }
+      return iteratorSet.hasNext() ? -1 : 0;
+    };
+  }
+
 }

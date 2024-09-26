@@ -15,7 +15,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.Serial;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -197,7 +196,7 @@ public final class CEnumType implements CComplexType {
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked
-        && integerType.equals(other.integerType)
+        && compatibleType.equals(other.compatibleType)
         && Objects.equals(name, other.name)
         && Objects.equals(enumerators, other.enumerators);
   }
@@ -213,7 +212,7 @@ public final class CEnumType implements CComplexType {
         && isVolatile == other.isVolatile
         && alignment.equals(other.alignment)
         && isPacked == other.isPacked
-        && integerType.equals(other.integerType)
+        && compatibleType.equals(other.compatibleType)
         && (Objects.equals(name, other.name) || (origName.isEmpty() && other.origName.isEmpty()))
         && Objects.equals(enumerators, other.enumerators);
   }

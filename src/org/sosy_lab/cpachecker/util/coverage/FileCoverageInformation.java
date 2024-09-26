@@ -24,7 +24,7 @@ import org.sosy_lab.common.collect.PersistentMap;
 import org.sosy_lab.common.time.TimeSpan;
 import org.sosy_lab.cpachecker.cfa.model.AssumeEdge;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentMultimap;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentMultimap;
 
 class FileCoverageInformation {
 

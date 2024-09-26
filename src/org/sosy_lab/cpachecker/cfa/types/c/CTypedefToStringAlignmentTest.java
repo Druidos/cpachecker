@@ -144,7 +144,7 @@ public class CTypedefToStringAlignmentTest {
         (CTypedefType)
             parser
                 .parseString(Path.of("dummy"), typedef + "; " + declaration + ";")
-                .getGlobalDeclarations()
+                .globalDeclarations()
                 .get(1)
                 .getFirst()
                 .getType();

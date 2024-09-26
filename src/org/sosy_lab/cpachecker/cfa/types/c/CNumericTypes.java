@@ -264,5 +264,5 @@ public final class CNumericTypes {
           false);
 
   public static final CType SIZE_T =
-      new CSimpleType(false, false, CBasicType.INT, true, false, false, true, false, false, false);
+      new CSimpleType(false, false, Alignment.NO_SPECIFIERS, CBasicType.INT, true, false, false, true, false, false, false);
 }

@@ -21,8 +21,7 @@ import org.sosy_lab.cpachecker.cfa.model.AssumeEdge;
 import org.sosy_lab.cpachecker.cfa.model.CFAEdge;
 import org.sosy_lab.cpachecker.cfa.model.FunctionEntryNode;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentMultimap;
-import org.sosy_lab.cpachecker.util.CFAUtils;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentMultimap;
 
 public final class CoverageData {
 

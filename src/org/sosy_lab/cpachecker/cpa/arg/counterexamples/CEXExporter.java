@@ -117,7 +117,6 @@ public class CEXExporter {
   private final HarnessExporter harnessExporter;
   private final FaultLocalizationInfoExporter faultExporter;
   private TestCaseExporter testExporter;
-  private final CFA cfa;
 
   public CEXExporter(
       Configuration config,

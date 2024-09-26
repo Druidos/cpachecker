@@ -1181,7 +1181,7 @@ public class SMGTransferRelation
     }
     // create char array from string and call list init
     List<CInitializer> charInitialziers = new ArrayList<>();
-    CArrayType arrayType = pExpression.transformTypeToArrayType();
+    CArrayType arrayType = pExpression.getExpressionType();
     for (CCharLiteralExpression charLiteralExp : pExpression.expandStringLiteral(arrayType)) {
       charInitialziers.add(new CInitializerExpression(pFileLocation, charLiteralExp));
     }

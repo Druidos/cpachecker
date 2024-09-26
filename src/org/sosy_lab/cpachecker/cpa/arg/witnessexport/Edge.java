@@ -17,7 +17,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.TransitionCondition.Scope;
-import org.sosy_lab.cpachecker.cpa.smg.util.PersistentSet;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
 
 /**
