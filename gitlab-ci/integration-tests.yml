@@ -1,0 +1,52 @@
+# This file is part of CPAchecker,
+# a tool for configurable software verification:
+# https://cpachecker.sosy-lab.org
+#
+# SPDX-FileCopyrightText: 2007-2020 Dirk Beyer <https://www.sosy-lab.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+stages:
+  - smaller
+  - bigger
+
+# this is used to run the tests
+.integration-tests-short:
+  # cancel whole pipeline on a new commit on the same ref
+  interruptible: true
+  tags:
+    - docker
+  stage: smaller
+  image: ${CI_REGISTRY_IMAGE}/test:jdk-11
+  needs:
+    - pipeline: $PARENT_PIPELINE_ID
+      job: build-tar
+  variables:
+    CI_DIR: test/test-sets/gitlab-ci
+  before_script:
+    - tar -xjf cpachecker.tar.bz2 -C ..
+    - ln -sv /test/programs/benchmarks test/programs/benchmarks
+    - ln -sv /test/programs/ldv-benchmarks test/programs/ldv-benchmarks
+  script:
+    - gitlab-ci/check-regressions.sh || exit $?
+  allow_failure:
+    exit_codes:
+      - 116  # EUCLEAN for 'some improvements, maybe update previous results'
+  artifacts:
+    paths:
+      - "output-*"
+      - "current.*"
+      - "with-previous.*"
+      - "*.csv"
+    when: always
+
+.integration-tests-long:
+  extends: .integration-tests-short
+  stage: bigger
+  variables:
+    CI_DIR: test/test-sets/gitlab-ci/long
+  rules:
+  - if: $PARENT_CI_PIPELINE_SOURCE == "web"
+  - if: $PARENT_CI_PIPELINE_SOURCE == "schedule"
+  - when: manual
+    allow_failure: true

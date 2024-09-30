@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="juliet-memsafety.smg-ldv.CWE416_Use_After_Free" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="flaky-timeouts">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_01_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_01_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.418609893s"/>
+    <column title="memory" value="204861440B"/>
+    <column title="reached" value="187"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.865s"/>
+    <column title="walltime" value="7.477274756878614s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.418609893s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:25:16.021878+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_03_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_03_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.691616277s"/>
+    <column title="memory" value="207114240B"/>
+    <column title="reached" value="194"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.699s"/>
+    <column title="walltime" value="6.743900545872748s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.691616277s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:25:23.653823+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_08_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_08_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.624635176s"/>
+    <column title="memory" value="202833920B"/>
+    <column title="reached" value="213"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.724s"/>
+    <column title="walltime" value="6.664369433186948s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.624635176s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:25:30.538885+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.881797148s"/>
+    <column title="memory" value="203911168B"/>
+    <column title="reached" value="198"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.734s"/>
+    <column title="walltime" value="6.943316267803311s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.881797148s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:25:37.450776+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_16_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_char_16_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="6.631694771s"/>
+    <column title="memory" value="203649024B"/>
+    <column title="reached" value="200"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.710s"/>
+    <column title="walltime" value="6.675132101401687s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.631694771s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:25:44.685811+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.433101134s"/>
+    <column title="memory" value="269508608B"/>
+    <column title="reached" value="1237"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.421s"/>
+    <column title="transfer" value="2.610s"/>
+    <column title="walltime" value="21.535449139773846s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.433101134s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:46:13.746720+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_03_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_03_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="15.592693474s"/>
+    <column title="memory" value="268537856B"/>
+    <column title="reached" value="780"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.151s"/>
+    <column title="transfer" value="1.877s"/>
+    <column title="walltime" value="15.683854211121798s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.592693474s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:26:18.474447+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_04_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_04_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.495745665s"/>
+    <column title="memory" value="262246400B"/>
+    <column title="reached" value="1303"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.453s"/>
+    <column title="transfer" value="2.784s"/>
+    <column title="walltime" value="21.593420893885195s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.495745665s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:46:53.881596+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_06_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_06_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.382910903s"/>
+    <column title="memory" value="259964928B"/>
+    <column title="reached" value="1248"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.403s"/>
+    <column title="transfer" value="2.647s"/>
+    <column title="walltime" value="21.483566268347204s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.382910903s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:47:15.630065+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="16.562788742s"/>
+    <column title="memory" value="275070976B"/>
+    <column title="reached" value="784"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.716s"/>
+    <column title="transfer" value="1.887s"/>
+    <column title="walltime" value="16.62449100613594s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="16.562788742s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:27:29.254048+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="17.045350663s"/>
+    <column title="memory" value="268210176B"/>
+    <column title="reached" value="783"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.842s"/>
+    <column title="transfer" value="1.741s"/>
+    <column title="walltime" value="17.113082299008965s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.045350663s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:27:46.033533+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_13_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_13_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.433466301s"/>
+    <column title="memory" value="257376256B"/>
+    <column title="reached" value="1277"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.813s"/>
+    <column title="transfer" value="2.602s"/>
+    <column title="walltime" value="21.529443086124957s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.433466301s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:48:14.471677+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int64_t_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.443507671s"/>
+    <column title="memory" value="260214784B"/>
+    <column title="reached" value="1260"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.900s"/>
+    <column title="transfer" value="2.475s"/>
+    <column title="walltime" value="21.529654243029654s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.443507671s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:48:36.158290+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="15.945704054s"/>
+    <column title="memory" value="262799360B"/>
+    <column title="reached" value="782"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.062s"/>
+    <column title="transfer" value="1.877s"/>
+    <column title="walltime" value="16.019338935613632s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.945704054s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:28:59.472637+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_12_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_12_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="21.359314046s"/>
+    <column title="memory" value="261025792B"/>
+    <column title="reached" value="1322"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.800s"/>
+    <column title="transfer" value="2.661s"/>
+    <column title="walltime" value="21.43636862002313s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.359314046s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:49:16.192618+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="15.556233252s"/>
+    <column title="memory" value="265732096B"/>
+    <column title="reached" value="782"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.015s"/>
+    <column title="transfer" value="1.762s"/>
+    <column title="walltime" value="15.609932149760425s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.556233252s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:29:39.170826+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.527043106s"/>
+    <column title="memory" value="267448320B"/>
+    <column title="reached" value="1248"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.498s"/>
+    <column title="transfer" value="2.471s"/>
+    <column title="walltime" value="21.62181605026126s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.527043106s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:49:56.358172+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="17.425342884s"/>
+    <column title="memory" value="266469376B"/>
+    <column title="reached" value="785"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.875s"/>
+    <column title="transfer" value="1.865s"/>
+    <column title="walltime" value="17.48198855947703s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.425342884s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:30:22.622792+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.45131146s"/>
+    <column title="memory" value="261349376B"/>
+    <column title="reached" value="1313"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.839s"/>
+    <column title="transfer" value="2.580s"/>
+    <column title="walltime" value="21.57282653078437s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.45131146s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:50:37.375330+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_17_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_17_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.490571637s"/>
+    <column title="memory" value="261443584B"/>
+    <column title="reached" value="1268"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.596s"/>
+    <column title="transfer" value="2.551s"/>
+    <column title="walltime" value="21.618191421031952s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.490571637s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:50:59.100171+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_63_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_63_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="16.824776931s"/>
+    <column title="memory" value="267935744B"/>
+    <column title="reached" value="783"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.160s"/>
+    <column title="transfer" value="1.965s"/>
+    <column title="walltime" value="16.885042346082628s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="16.824776931s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:31:33.524334+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_64_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_int_64_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="17.78434413s"/>
+    <column title="memory" value="258211840B"/>
+    <column title="reached" value="797"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="7.519s"/>
+    <column title="transfer" value="2.022s"/>
+    <column title="walltime" value="17.841939413920045s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.78434413s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:31:50.586328+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="17.076716996s"/>
+    <column title="memory" value="264339456B"/>
+    <column title="reached" value="779"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="7.629s"/>
+    <column title="transfer" value="2.055s"/>
+    <column title="walltime" value="17.126945084892213s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.076716996s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:32:08.601598+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_03_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_03_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.398217235s"/>
+    <column title="memory" value="257363968B"/>
+    <column title="reached" value="1303"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.141s"/>
+    <column title="transfer" value="2.763s"/>
+    <column title="walltime" value="21.534166174940765s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.398217235s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:52:16.222757+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_16_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_16_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="21.437661233s"/>
+    <column title="memory" value="258228224B"/>
+    <column title="reached" value="1294"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="11.076s"/>
+    <column title="transfer" value="2.760s"/>
+    <column title="walltime" value="21.563188862986863s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="21.437661233s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:52:37.935865+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_63_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_long_63_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="17.219241496s"/>
+    <column title="memory" value="268369920B"/>
+    <column title="reached" value="796"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="7.731s"/>
+    <column title="transfer" value="1.990s"/>
+    <column title="walltime" value="17.28198425564915s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.219241496s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:33:18.270975+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_struct_08_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_struct_08_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.340690859s"/>
+    <column title="memory" value="270110720B"/>
+    <column title="reached" value="2250"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="20.735s"/>
+    <column title="transfer" value="3.758s"/>
+    <column title="walltime" value="31.431685053743422s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.340690859s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:33:35.733493+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_struct_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__malloc_free_struct_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="20.045226061s"/>
+    <column title="memory" value="257323008B"/>
+    <column title="reached" value="900"/>
+    <column title="status" value="TIMEOUT (true)"/>
+    <column title="stop" value="10.875s"/>
+    <column title="transfer" value="2.392s"/>
+    <column title="walltime" value="20.159887187182903s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="20.045226061s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-07T09:53:38.637040+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_01_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_01_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.170789019s"/>
+    <column title="memory" value="207659008B"/>
+    <column title="reached" value="307"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.303s"/>
+    <column title="transfer" value="1.017s"/>
+    <column title="walltime" value="8.206498397514224s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.170789019s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:34:27.765754+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.120430425s"/>
+    <column title="memory" value="205709312B"/>
+    <column title="reached" value="308"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.275s"/>
+    <column title="transfer" value="0.849s"/>
+    <column title="walltime" value="7.151391910389066s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.120430425s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:34:36.116616+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.359764728s"/>
+    <column title="memory" value="206643200B"/>
+    <column title="reached" value="307"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.327s"/>
+    <column title="transfer" value="0.866s"/>
+    <column title="walltime" value="7.394972061738372s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.359764728s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:34:43.413429+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.257323308s"/>
+    <column title="memory" value="206295040B"/>
+    <column title="reached" value="307"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.312s"/>
+    <column title="transfer" value="0.916s"/>
+    <column title="walltime" value="7.2881954200565815s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.257323308s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:34:50.949621+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_16_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_16_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.143856674s"/>
+    <column title="memory" value="204488704B"/>
+    <column title="reached" value="308"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.268s"/>
+    <column title="transfer" value="0.868s"/>
+    <column title="walltime" value="7.181349718011916s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.143856674s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:34:58.410904+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_17_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE416_Use_After_Free---CWE416_Use_After_Free__return_freed_ptr_17_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.611799055s"/>
+    <column title="memory" value="211259392B"/>
+    <column title="reached" value="318"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.344s"/>
+    <column title="transfer" value="1.046s"/>
+    <column title="walltime" value="7.644727673381567s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.611799055s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-05T19:35:05.736090+00:00" hidden="true"/>
+  </run>
+  
+</result>

@@ -1,0 +1,1441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="juliet-memsafety.smg-ldv.CWE401_Memory_Leak__int3264" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_04_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_04_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.773364842s"/>
+    <column title="memory" value="133496832B"/>
+    <column title="reached" value="262"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.743s"/>
+    <column title="walltime" value="6.795696864021011s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.773364842s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:08:39.544468+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_06_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_06_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.85200582s"/>
+    <column title="memory" value="129867776B"/>
+    <column title="reached" value="261"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.736s"/>
+    <column title="walltime" value="6.864959122962318s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.85200582s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:08:46.484896+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_11_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_11_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.266982183s"/>
+    <column title="memory" value="136224768B"/>
+    <column title="reached" value="198"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.764s"/>
+    <column title="walltime" value="7.288965676911175s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.266982183s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:08:53.506384+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_11_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_11_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.00396826s"/>
+    <column title="memory" value="130048000B"/>
+    <column title="reached" value="316"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.836s"/>
+    <column title="walltime" value="7.025703871971928s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.00396826s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:00.932445+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.572570268s"/>
+    <column title="memory" value="129146880B"/>
+    <column title="reached" value="260"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.702s"/>
+    <column title="walltime" value="6.592006041901186s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.572570268s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:08.100961+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.834986126s"/>
+    <column title="memory" value="133525504B"/>
+    <column title="reached" value="276"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="0.699s"/>
+    <column title="walltime" value="6.85608168609906s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.834986126s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:14.830213+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_32_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_32_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.463377299s"/>
+    <column title="memory" value="132616192B"/>
+    <column title="reached" value="185"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.743s"/>
+    <column title="walltime" value="7.485683250008151s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.463377299s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:21.831054+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_42_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_42_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.63574304s"/>
+    <column title="memory" value="131493888B"/>
+    <column title="reached" value="222"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.645s"/>
+    <column title="walltime" value="6.6531753410818055s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.63574304s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:29.466715+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_44_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_44_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.626950531s"/>
+    <column title="memory" value="131940352B"/>
+    <column title="reached" value="229"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.020s"/>
+    <column title="transfer" value="0.658s"/>
+    <column title="walltime" value="6.645316162030213s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.626950531s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:36.271981+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_51_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_51_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.099478092s"/>
+    <column title="memory" value="133320704B"/>
+    <column title="reached" value="185"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.745s"/>
+    <column title="walltime" value="7.12338687304873s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.099478092s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:43.065137+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.944025096s"/>
+    <column title="memory" value="131592192B"/>
+    <column title="reached" value="252"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.012s"/>
+    <column title="transfer" value="0.715s"/>
+    <column title="walltime" value="6.963131016003899s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.944025096s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:50.335052+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_61_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_61_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.864331833s"/>
+    <column title="memory" value="129351680B"/>
+    <column title="reached" value="222"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.623s"/>
+    <column title="walltime" value="6.8756845040479675s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.864331833s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:09:57.462182+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.412282057s"/>
+    <column title="memory" value="130334720B"/>
+    <column title="reached" value="229"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.659s"/>
+    <column title="walltime" value="6.430062744999304s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.412282057s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:04.497157+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_02_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_02_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.129109085s"/>
+    <column title="memory" value="134283264B"/>
+    <column title="reached" value="180"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.713s"/>
+    <column title="walltime" value="7.138611069996841s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.129109085s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:11.074960+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.778340851s"/>
+    <column title="memory" value="129884160B"/>
+    <column title="reached" value="244"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.735s"/>
+    <column title="walltime" value="6.789429860073142s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.778340851s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:18.354027+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_03_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_03_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.087986844s"/>
+    <column title="memory" value="133918720B"/>
+    <column title="reached" value="180"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.012s"/>
+    <column title="transfer" value="0.736s"/>
+    <column title="walltime" value="7.101350529002957s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.087986844s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:25.282026+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_04_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_04_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.899450535s"/>
+    <column title="memory" value="132878336B"/>
+    <column title="reached" value="262"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.701s"/>
+    <column title="walltime" value="6.9186959019862115s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.899450535s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:32.545084+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_06_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_06_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.627300143s"/>
+    <column title="memory" value="131563520B"/>
+    <column title="reached" value="261"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.701s"/>
+    <column title="walltime" value="6.638194259023294s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.627300143s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:39.645396+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_12_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_12_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.380301614s"/>
+    <column title="memory" value="134270976B"/>
+    <column title="reached" value="220"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.031s"/>
+    <column title="transfer" value="0.858s"/>
+    <column title="walltime" value="7.395376472035423s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.380301614s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:46.493005+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.237519108s"/>
+    <column title="memory" value="131428352B"/>
+    <column title="reached" value="184"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="0.719s"/>
+    <column title="walltime" value="7.248649046057835s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.237519108s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:10:54.029173+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_21_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_21_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.155138282s"/>
+    <column title="memory" value="134397952B"/>
+    <column title="reached" value="189"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.754s"/>
+    <column title="walltime" value="7.177905582007952s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.155138282s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:01.422738+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_32_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_32_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.730187081s"/>
+    <column title="memory" value="129183744B"/>
+    <column title="reached" value="222"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.667s"/>
+    <column title="walltime" value="6.744082243996672s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.730187081s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:08.835432+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_54_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_54_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.447307093s"/>
+    <column title="memory" value="133099520B"/>
+    <column title="reached" value="200"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.833s"/>
+    <column title="walltime" value="7.470816754968837s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.447307093s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:15.737039+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.905607208s"/>
+    <column title="memory" value="130674688B"/>
+    <column title="reached" value="252"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.678s"/>
+    <column title="walltime" value="6.920275944983587s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.905607208s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:23.347697+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_67_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_67_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.408432141s"/>
+    <column title="memory" value="132296704B"/>
+    <column title="reached" value="190"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.726s"/>
+    <column title="walltime" value="7.421088375966065s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.408432141s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:30.406347+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.344328633s"/>
+    <column title="memory" value="135270400B"/>
+    <column title="reached" value="204"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.859s"/>
+    <column title="walltime" value="7.357142084045336s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.344328633s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:37.966023+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_01_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_01_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.745749493s"/>
+    <column title="memory" value="128786432B"/>
+    <column title="reached" value="236"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.628s"/>
+    <column title="walltime" value="6.76717755291611s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.745749493s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:45.472217+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.970747601s"/>
+    <column title="memory" value="137428992B"/>
+    <column title="reached" value="292"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.823s"/>
+    <column title="walltime" value="6.9933569569839165s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.970747601s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:52.402941+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_03_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_03_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.157212512s"/>
+    <column title="memory" value="133046272B"/>
+    <column title="reached" value="204"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.824s"/>
+    <column title="walltime" value="7.168875034083612s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.157212512s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:11:59.557052+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_09_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_09_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.512822332s"/>
+    <column title="memory" value="132419584B"/>
+    <column title="reached" value="208"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.832s"/>
+    <column title="walltime" value="7.534658514079638s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.512822332s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:06.873322+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_10_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_10_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.34623279s"/>
+    <column title="memory" value="130949120B"/>
+    <column title="reached" value="308"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.862s"/>
+    <column title="walltime" value="7.364647448994219s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.34623279s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:14.551875+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_12_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_12_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.448270102s"/>
+    <column title="memory" value="133763072B"/>
+    <column title="reached" value="362"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.094s"/>
+    <column title="transfer" value="1.013s"/>
+    <column title="walltime" value="7.4682537040207535s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.448270102s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:22.072125+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.945408644s"/>
+    <column title="memory" value="131166208B"/>
+    <column title="reached" value="308"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.889s"/>
+    <column title="walltime" value="6.9557593209901825s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.945408644s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:29.766676+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_16_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_16_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.669993582s"/>
+    <column title="memory" value="131960832B"/>
+    <column title="reached" value="248"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.683s"/>
+    <column title="walltime" value="6.68841207807418s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.669993582s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:36.943587+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_34_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_34_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.695118414s"/>
+    <column title="memory" value="129138688B"/>
+    <column title="reached" value="244"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.684s"/>
+    <column title="walltime" value="6.715871237916872s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.695118414s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:43.791423+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_44_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_44_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.428322123s"/>
+    <column title="memory" value="134238208B"/>
+    <column title="reached" value="212"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.796s"/>
+    <column title="walltime" value="7.447967129060999s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.428322123s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:50.644197+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_52_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_52_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.348241871s"/>
+    <column title="memory" value="133554176B"/>
+    <column title="reached" value="214"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.833s"/>
+    <column title="walltime" value="7.359547663945705s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.348241871s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:12:58.250145+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_53_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_53_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.086723779s"/>
+    <column title="memory" value="131612672B"/>
+    <column title="reached" value="266"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.709s"/>
+    <column title="walltime" value="7.104655654053204s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.086723779s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:05.758984+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_66_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_66_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.963322079s"/>
+    <column title="memory" value="128720896B"/>
+    <column title="reached" value="252"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.777s"/>
+    <column title="walltime" value="6.982800914905965s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.963322079s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:13.085489+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_05_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_05_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.995663504s"/>
+    <column title="memory" value="132091904B"/>
+    <column title="reached" value="261"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.015s"/>
+    <column title="transfer" value="0.728s"/>
+    <column title="walltime" value="7.007797700003721s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.995663504s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:20.227855+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.207051982s"/>
+    <column title="memory" value="136613888B"/>
+    <column title="reached" value="184"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.712s"/>
+    <column title="walltime" value="7.216206680051982s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.207051982s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:27.426495+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_09_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_09_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.768132281s"/>
+    <column title="memory" value="132124672B"/>
+    <column title="reached" value="259"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="0.682s"/>
+    <column title="walltime" value="6.777487972052768s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.768132281s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:34.781937+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.303035742s"/>
+    <column title="memory" value="135262208B"/>
+    <column title="reached" value="183"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.742s"/>
+    <column title="walltime" value="7.32574073295109s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.303035742s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:41.697794+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.070367176s"/>
+    <column title="memory" value="133197824B"/>
+    <column title="reached" value="183"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.710s"/>
+    <column title="walltime" value="7.082863121991977s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.070367176s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:49.162009+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.052335351s"/>
+    <column title="memory" value="129753088B"/>
+    <column title="reached" value="259"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.759s"/>
+    <column title="walltime" value="7.071078000008129s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.052335351s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:13:56.393853+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_17_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_17_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.211565476s"/>
+    <column title="memory" value="133951488B"/>
+    <column title="reached" value="201"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.045s"/>
+    <column title="transfer" value="0.742s"/>
+    <column title="walltime" value="7.237192780012265s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.211565476s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:03.631118+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_21_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_21_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.473164238s"/>
+    <column title="memory" value="132341760B"/>
+    <column title="reached" value="256"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.790s"/>
+    <column title="walltime" value="7.501011108979583s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.473164238s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:11.009100+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_31_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_31_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.203014565s"/>
+    <column title="memory" value="130629632B"/>
+    <column title="reached" value="215"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.588s"/>
+    <column title="walltime" value="7.222708577988669s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.203014565s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:18.658231+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_32_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_32_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.604764499s"/>
+    <column title="memory" value="128696320B"/>
+    <column title="reached" value="221"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.650s"/>
+    <column title="walltime" value="6.620458459947258s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.604764499s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:26.021330+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_41_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_41_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.944221559s"/>
+    <column title="memory" value="133058560B"/>
+    <column title="reached" value="221"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.664s"/>
+    <column title="walltime" value="6.971763771027327s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.944221559s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:32.785650+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_42_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_42_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.55731004s"/>
+    <column title="memory" value="133337088B"/>
+    <column title="reached" value="184"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.756s"/>
+    <column title="walltime" value="7.575358639005572s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.55731004s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:39.911033+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_44_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_44_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.215451635s"/>
+    <column title="memory" value="133840896B"/>
+    <column title="reached" value="228"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.645s"/>
+    <column title="walltime" value="7.234088286058977s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.215451635s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:47.642694+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.072771413s"/>
+    <column title="memory" value="134987776B"/>
+    <column title="reached" value="227"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.702s"/>
+    <column title="walltime" value="7.098118350026198s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.072771413s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:14:55.018378+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.878608976s"/>
+    <column title="memory" value="131145728B"/>
+    <column title="reached" value="251"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.693s"/>
+    <column title="walltime" value="6.897090169019066s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.878608976s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:02.261894+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_66_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_66_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.871888474s"/>
+    <column title="memory" value="132112384B"/>
+    <column title="reached" value="227"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.676s"/>
+    <column title="walltime" value="6.899813976022415s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.871888474s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:09.305554+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.84957152s"/>
+    <column title="memory" value="132063232B"/>
+    <column title="reached" value="228"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.031s"/>
+    <column title="transfer" value="0.639s"/>
+    <column title="walltime" value="6.87693826504983s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.84957152s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:16.399093+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_04_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_04_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.994471198s"/>
+    <column title="memory" value="129789952B"/>
+    <column title="reached" value="261"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.705s"/>
+    <column title="walltime" value="7.0071081559872255s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.994471198s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:23.436219+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_05_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_05_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.197647314s"/>
+    <column title="memory" value="135475200B"/>
+    <column title="reached" value="184"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.727s"/>
+    <column title="walltime" value="7.216827175929211s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.197647314s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:30.582688+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_06_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_06_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.682277399s"/>
+    <column title="memory" value="132435968B"/>
+    <column title="reached" value="260"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.660s"/>
+    <column title="walltime" value="6.695854121935554s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.682277399s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:37.997563+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.071255112s"/>
+    <column title="memory" value="131735552B"/>
+    <column title="reached" value="183"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.716s"/>
+    <column title="walltime" value="7.082532417029142s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.071255112s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:44.831168+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_14_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_14_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.299392683s"/>
+    <column title="memory" value="132849664B"/>
+    <column title="reached" value="183"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.747s"/>
+    <column title="walltime" value="7.319245802005753s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.299392683s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:52.092803+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.957322203s"/>
+    <column title="memory" value="131690496B"/>
+    <column title="reached" value="275"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.679s"/>
+    <column title="walltime" value="6.977998289046809s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.957322203s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:15:59.561664+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_32_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_32_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.914730905s"/>
+    <column title="memory" value="131293184B"/>
+    <column title="reached" value="221"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.661s"/>
+    <column title="walltime" value="6.932952256058343s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.914730905s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:06.687070+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.717225811s"/>
+    <column title="memory" value="129880064B"/>
+    <column title="reached" value="198"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.610s"/>
+    <column title="walltime" value="6.728387097013183s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.717225811s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:13.767016+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_53_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_53_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.05440065s"/>
+    <column title="memory" value="136597504B"/>
+    <column title="reached" value="194"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.779s"/>
+    <column title="walltime" value="7.064872173941694s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.05440065s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:20.648322+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_54_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_54_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.256749171s"/>
+    <column title="memory" value="138706944B"/>
+    <column title="reached" value="199"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.779s"/>
+    <column title="walltime" value="7.276933062006719s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.256749171s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:27.863048+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.790824365s"/>
+    <column title="memory" value="129671168B"/>
+    <column title="reached" value="251"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.686s"/>
+    <column title="walltime" value="6.80319267208688s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.790824365s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:35.311886+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_07_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_07_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.045734027s"/>
+    <column title="memory" value="132694016B"/>
+    <column title="reached" value="308"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.811s"/>
+    <column title="walltime" value="7.06567654106766s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.045734027s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:42.260331+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_09_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_09_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.303946097s"/>
+    <column title="memory" value="132194304B"/>
+    <column title="reached" value="207"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.800s"/>
+    <column title="walltime" value="7.326503996970132s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.303946097s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:49.477721+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_09_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_09_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.051949465s"/>
+    <column title="memory" value="130363392B"/>
+    <column title="reached" value="307"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.833s"/>
+    <column title="walltime" value="7.0643261899240315s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.051949465s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:16:56.952392+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_11_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_11_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.34203194s"/>
+    <column title="memory" value="134086656B"/>
+    <column title="reached" value="221"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.806s"/>
+    <column title="walltime" value="7.351415911107324s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.34203194s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:04.180402+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_12_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_12_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.447999824s"/>
+    <column title="memory" value="131903488B"/>
+    <column title="reached" value="361"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.061s"/>
+    <column title="transfer" value="1.090s"/>
+    <column title="walltime" value="7.466616319026798s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.447999824s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:11.685629+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_13_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_13_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.921162848s"/>
+    <column title="memory" value="130650112B"/>
+    <column title="reached" value="307"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.791s"/>
+    <column title="walltime" value="6.9417690669652075s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.921162848s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:19.310177+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.046347094s"/>
+    <column title="memory" value="133369856B"/>
+    <column title="reached" value="323"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="0.826s"/>
+    <column title="walltime" value="7.058080413029529s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.046347094s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:26.437813+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.270991827s"/>
+    <column title="memory" value="137576448B"/>
+    <column title="reached" value="207"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.792s"/>
+    <column title="walltime" value="7.280441874056123s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.270991827s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:33.637096+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_53_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_53_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.609448446s"/>
+    <column title="memory" value="132358144B"/>
+    <column title="reached" value="218"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.881s"/>
+    <column title="walltime" value="7.63373464695178s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.609448446s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:41.062318+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_03_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_03_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.499476847s"/>
+    <column title="memory" value="138436608B"/>
+    <column title="reached" value="247"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="1.023s"/>
+    <column title="walltime" value="7.510186231927946s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.499476847s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:48.856666+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_04_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_04_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.675244438s"/>
+    <column title="memory" value="133890048B"/>
+    <column title="reached" value="257"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.976s"/>
+    <column title="walltime" value="7.68638855102472s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.675244438s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:17:56.528891+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int64_t_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.653385046s"/>
+    <column title="memory" value="132849664B"/>
+    <column title="reached" value="248"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.020s"/>
+    <column title="transfer" value="0.936s"/>
+    <column title="walltime" value="7.664899425930344s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.653385046s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:18:04.364041+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_02_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_02_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.373154358s"/>
+    <column title="memory" value="135385088B"/>
+    <column title="reached" value="214"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.901s"/>
+    <column title="walltime" value="7.393589189974591s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.373154358s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:18:12.166721+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.435532336s"/>
+    <column title="memory" value="137990144B"/>
+    <column title="reached" value="216"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.836s"/>
+    <column title="walltime" value="7.453784468001686s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.435532336s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:18:19.716101+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.497781412s"/>
+    <column title="memory" value="137781248B"/>
+    <column title="reached" value="216"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.916s"/>
+    <column title="walltime" value="7.517184347030707s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.497781412s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:18:27.315783+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_18_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__malloc_realloc_int_18_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.497469012s"/>
+    <column title="memory" value="136933376B"/>
+    <column title="reached" value="220"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.916s"/>
+    <column title="walltime" value="7.512086585047655s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.497469012s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:18:34.975734+00:00" hidden="true"/>
+  </run>
+  
+</result>

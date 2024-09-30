@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="drivers.smg-ldv-nohabst.cast" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="flaky-timeouts">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/ldv-benchmarks/memsafety/cast/linux-v5.5.9-memsafety/drivers__media__platform__omap3isp__omap3-isp.yml" files="[test/programs/ldv-benchmarks/memsafety/cast/linux-v5.5.9-memsafety/drivers__media__platform__omap3isp__omap3-isp.i]" properties="valid-memsafety" propertyFile="test/programs/ldv-benchmarks/memsafety/cast/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.385557955s"/>
+    <column title="memory" value="267743232B"/>
+    <column title="reached" value="1909"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="21.707s"/>
+    <column title="walltime" value="31.40883244699944s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="9" hidden="true"/>
+    <column title="cputime-cpu9" value="31.385557955s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:33:56.314502+03:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/ldv-benchmarks/memsafety/cast/linux-v5.7-rc7-memsafety/drivers__media__i2c__saa6588.yml" files="[test/programs/ldv-benchmarks/memsafety/cast/linux-v5.7-rc7-memsafety/drivers__media__i2c__saa6588.i]" properties="valid-memsafety" propertyFile="test/programs/ldv-benchmarks/memsafety/cast/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.171369655s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 4159:"/>
+    <column title="memory" value="142249984B"/>
+    <column title="reached" value="1309"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.030s"/>
+    <column title="transfer" value="1.002s"/>
+    <column title="walltime" value="6.186852900998929s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="9" hidden="true"/>
+    <column title="cputime-cpu9" value="6.171369655s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T17:34:28.012429+03:00" hidden="true"/>
+  </run>
+  
+</result>

@@ -543,7 +543,7 @@ final class SMGJoinValues {
 
     SMGJoinStatus newJoinStatus =
         pTarget.getKind() == SMGObjectKind.OPTIONAL
-            ? SMGJoinStatus.RIGHT_ENTAIL
+            ? SMGJoinStatus.LEFT_ENTAIL
             : SMGJoinStatus.INCOMPARABLE;
 
     SMGJoinStatus updatedStatus = pStatus.updateWith(newJoinStatus);
@@ -804,7 +804,7 @@ final class SMGJoinValues {
 
     SMGJoinStatus newJoinStatus =
         pTarget.getKind() == SMGObjectKind.OPTIONAL
-            ? SMGJoinStatus.LEFT_ENTAIL
+            ? SMGJoinStatus.RIGHT_ENTAIL
             : SMGJoinStatus.INCOMPARABLE;
 
     SMGJoinStatus updatedStatus = pStatus.updateWith(newJoinStatus);
@@ -1035,11 +1035,15 @@ final class SMGJoinValues {
 
     // Algorithm 9 from FIT-TR-2012-04, line 6
     SMGJoinStatus newJoinStatus =
-        length == 0 ? SMGJoinStatus.LEFT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
+        length == 0 ? SMGJoinStatus.RIGHT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
 
     newStatus = newStatus.updateWith(newJoinStatus);
 
     int lvlDiff = pPrevDestLevel - pTarget.getLevel();
+    // nesting level of the child can't be lower than its parent.
+    if (lvlDiff < 0) {
+      lvlDiff = 0;
+    }
 
     if (level1 < level2) {
       lvlDiff = lvlDiff + 1;
@@ -1304,11 +1308,15 @@ final class SMGJoinValues {
     }
 
     SMGJoinStatus newJoinStatus =
-        length == 0 ? SMGJoinStatus.RIGHT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
+        length == 0 ? SMGJoinStatus.LEFT_ENTAIL : SMGJoinStatus.INCOMPARABLE;
 
     newStatus = newStatus.updateWith(newJoinStatus);
 
     int levelDiff = pPrevDestLevel - pTarget.getLevel();
+    // nesting level of the child can't be lower than its parent.
+    if (levelDiff < 0) {
+      levelDiff = 0;
+    }
 
     if (level1 > level2) {
       levelDiff = levelDiff + 1;

@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="400MB" cpuCores="1">
+    <option name="-heap">300M</option>
+    <option name="-noout"/>
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+
+    <rundefinition name="smg">
+        <option name="-smg"/>
+    </rundefinition>
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+    </rundefinition>
+
+    <!-- 42 tasks -->
+    <tasks name="busybox">
+        <includesfile>../../programs/benchmarks/SoftwareSystems-BusyBox-MemSafety.set</includesfile>
+        <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+    <!-- 4 tasks, for all parsing failed: Unrecognized attribute in declaration of kcopy: bounded -->
+    <tasks name="openbsd">
+        <includesfile>../../programs/benchmarks/SoftwareSystems-OpenBSD-MemSafety.set</includesfile>
+        <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+    <!-- 138 tasks, for all NPE because of __aligned__ parsing -->
+    <tasks name="uthash">
+        <includesfile>../../programs/benchmarks/SoftwareSystems-uthash-MemSafety.set</includesfile>
+        <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

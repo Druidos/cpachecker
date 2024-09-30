@@ -27,11 +27,10 @@ variables:
   ANT_PROPS_BUILD: "-Divy.disable=true"
   ANT_PROPS_CHECKS: "-Divy.disable=true -DskipBuild=true"
 
-
 # Download dependencies and provide them to later stages
 build-dependencies:
   stage: dependencies
-  dependencies: []
+  needs: []
   script: "ant build-dependencies"
   interruptible: true
   cache:
@@ -49,6 +48,7 @@ build-dependencies:
 # Build binaries and provide them to later stages
 .build: &build
   stage: build
+  needs: [build-dependencies]
   script: "ant $ANT_PROPS_BUILD jar"
   interruptible: true
   artifacts:
@@ -277,15 +277,44 @@ deploy-gh-pages:
     - mkdir -p /root/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --dockerfile $CI_PROJECT_DIR/$DOCKERFILE --destination $CI_REGISTRY_IMAGE$IMAGE $EXTRA_ARGS
-  only:
-    - schedules
-    - web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+
+get-partial-benchmarks:
+  extends: .build-docker
+  image:
+    name: python:3.8
+    entrypoint: [""]
+  before_script:
+    - pip install pyyaml defusedxml
+    - mkdir /full-benchmarks
+  script:
+    # get SV benchmarks
+    - wget https://gitlab.com/sosy-lab/benchmarking/sv-benchmarks/-/archive/main/sv-benchmarks-main.tar.bz2 --progress=dot:giga
+    - tar -xjf sv-benchmarks-main.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/sv-benchmarks-main/c test/programs/benchmarks
+    # get LDV benchmarks
+    - wget https://gitlab.ispras.ru/verification/ldv-benchmarks/-/archive/main/ldv-benchmarks-main.tar.bz2 --progress=dot:giga
+    - tar -xjf ldv-benchmarks-main.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/ldv-benchmarks-main test/programs/ldv-benchmarks
+    # copy necessary files in gitlab-ci/test and tar it all with generated yml
+    - python3 gitlab-ci/copy-from-benchmarks.py
+    - tar -cjf regression-tests.tar.bz2 gitlab-ci/test
+  artifacts:
+    paths:
+      - regression-tests.tar.bz2
 
 build-docker:test:jdk-11:
   extends: .build-docker
+  needs: [get-partial-benchmarks]
+  before_script:
+    - tar -xjf regression-tests.tar.bz2
   variables:
-    DOCKERFILE: build/gitlab-ci.Dockerfile.jdk-11
+    DOCKERFILE: gitlab-ci/jdk11-with-benchexec.Dockerfile
     IMAGE: /test:jdk-11
+    EXTRA_ARGS: "--context dir://gitlab-ci"
 
 build-docker:test:jdk-17:
   extends: .build-docker

@@ -108,6 +108,8 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
       return;
     }
 
+    boolean startObjectIsDLL = pObject.getKind() == SMGObjectKind.DLL;
+
     for (final SMGEdgeHasValue hveNext : hvesOfObject) {
 
       SMGValue nextPointer = hveNext.getValue();
@@ -150,12 +152,28 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
       }
 
       long nfo = hveNext.getOffset();
+      boolean nextObjectIsDLL = nextObject.getKind() == SMGObjectKind.DLL;
+
       for (SMGEdgeHasValue hvePrev : nextObjectHves) {
 
         long pfo = hvePrev.getOffset();
 
         if (!(nfo < pfo)) {
           continue;
+        }
+
+        if (startObjectIsDLL) {
+          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList) pObject);
+          if (hfo != dll.getHfo() || nfo != dll.getNfo() || pfo != dll.getPfo()) {
+            continue;
+          }
+        }
+
+        if (nextObjectIsDLL) {
+          SMGDoublyLinkedList dll = ((SMGDoublyLinkedList) nextObject);
+          if (hfo != dll.getHfo() || nfo != dll.getNfo() || pfo != dll.getPfo()) {
+            continue;
+          }
         }
 
         SMGValue prevPointer = hvePrev.getValue();

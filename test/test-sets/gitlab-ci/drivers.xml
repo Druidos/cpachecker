@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="400MB" cpuCores="1">
+    <option name="-64"/>
+    <option name="-noout"/>
+    <option name="-heap">300M</option>
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    <option name="-setprop">analysis.traversal.order=dfs</option>
+    <option name="-setprop">parser.readLineDirectives=false</option>
+
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+        <option name="-setprop">cpa.smg.enableHeapAbstraction=true</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv-nohabst">
+        <option name="-smg-ldv"/>
+        <option name="-setprop">cpa.smg.enableHeapAbstraction=false</option>
+    </rundefinition>
+
+    <!-- 21 tasks -->
+    <tasks name="abstraction">
+        <includesfile>../../programs/ldv-benchmarks/memsafety/abstraction/Tasks.set</includesfile>
+        <propertyfile>../../programs/ldv-benchmarks/memsafety/abstraction/valid-memsafety.prp</propertyfile>
+    </tasks>
+    <!-- 2 tasks -->
+    <tasks name="cast">
+        <includesfile>../../programs/ldv-benchmarks/memsafety/cast/Tasks.set</includesfile>
+        <propertyfile>../../programs/ldv-benchmarks/memsafety/cast/valid-memsafety.prp</propertyfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

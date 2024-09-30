@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="1100MB" cpuCores="1">
+    <option name="-heap">1000M</option>
+    <option name="-noout"/>
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    <option name="-setprop">parser.readLineDirectives=false</option>
+
+    <rundefinition name="smg">
+        <option name="-smg"/>
+        <option name="-setprop">cpa.smg.handleUnknownFunctions=assume_safe</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+    </rundefinition>
+
+    <propertyfile>../../../programs/ldv-benchmarks/linux-4.18-rc5-memsafety/valid-memsafety.prp</propertyfile>
+
+    <!-- 82 tasks -->
+    <tasks name="unsafe">
+        <includesfile>linux-4-18-rc5-unsafe.set</includesfile>
+    </tasks>
+    <!-- 156 tasks -->
+    <tasks name="safe">
+        <includesfile>linux-4-18-rc5-safe.set</includesfile>
+    </tasks>
+    <!-- 72 tasks -->
+    <tasks name="unknown">
+        <includesfile>linux-4-18-rc5-unknown.set</includesfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

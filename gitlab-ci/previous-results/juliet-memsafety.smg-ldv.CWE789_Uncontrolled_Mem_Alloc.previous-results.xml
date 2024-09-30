@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="juliet-memsafety.smg-ldv.CWE789_Uncontrolled_Mem_Alloc" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.385104839s"/>
+    <column title="memory" value="208498688B"/>
+    <column title="reached" value="245"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="1.028s"/>
+    <column title="walltime" value="8.436930454336107s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.385104839s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:25:50.434018+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_08_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_08_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.036015778s"/>
+    <column title="memory" value="204689408B"/>
+    <column title="reached" value="253"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="1.046s"/>
+    <column title="walltime" value="8.078963719308376s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.036015778s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:25:59.029147+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_11_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_11_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.265690755s"/>
+    <column title="memory" value="211402752B"/>
+    <column title="reached" value="267"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="1.059s"/>
+    <column title="walltime" value="8.323741210624576s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.265690755s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:07.246857+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_16_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_16_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.359577384s"/>
+    <column title="memory" value="206057472B"/>
+    <column title="reached" value="244"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="1.079s"/>
+    <column title="walltime" value="8.42238262295723s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.359577384s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:15.711477+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_16_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_16_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.340639124s"/>
+    <column title="memory" value="204800000B"/>
+    <column title="reached" value="251"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="1.025s"/>
+    <column title="walltime" value="8.401214963756502s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.340639124s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:24.317768+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_17_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_17_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.410184929s"/>
+    <column title="memory" value="206405632B"/>
+    <column title="reached" value="248"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.063s"/>
+    <column title="transfer" value="1.029s"/>
+    <column title="walltime" value="8.483907681889832s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.410184929s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:32.867429+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_42_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_42_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.51866075s"/>
+    <column title="memory" value="207785984B"/>
+    <column title="reached" value="252"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.046s"/>
+    <column title="transfer" value="1.085s"/>
+    <column title="walltime" value="8.58644994162023s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.51866075s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:41.495401+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_44_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_44_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.345509476s"/>
+    <column title="memory" value="209043456B"/>
+    <column title="reached" value="245"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.013s"/>
+    <column title="transfer" value="0.911s"/>
+    <column title="walltime" value="8.40021955780685s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.345509476s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:50.233128+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_52_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_52_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.057154747s"/>
+    <column title="memory" value="207392768B"/>
+    <column title="reached" value="374"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.268s"/>
+    <column title="transfer" value="1.314s"/>
+    <column title="walltime" value="9.114968840964139s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.057154747s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:26:58.808182+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_61_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_61_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.227455321s"/>
+    <column title="memory" value="209993728B"/>
+    <column title="reached" value="368"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.234s"/>
+    <column title="transfer" value="1.360s"/>
+    <column title="walltime" value="9.284416873939335s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.227455321s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:08.068800+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_66_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_66_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.833502604s"/>
+    <column title="memory" value="210857984B"/>
+    <column title="reached" value="372"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.232s"/>
+    <column title="transfer" value="1.337s"/>
+    <column title="walltime" value="8.882561657577753s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.833502604s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:17.503168+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_68_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_connect_socket_68_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.005747363s"/>
+    <column title="memory" value="210563072B"/>
+    <column title="reached" value="373"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.304s"/>
+    <column title="transfer" value="1.325s"/>
+    <column title="walltime" value="9.054758364334702s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.005747363s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:26.538012+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_02_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_02_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.13837703s"/>
+    <column title="memory" value="208113664B"/>
+    <column title="reached" value="377"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.360s"/>
+    <column title="transfer" value="1.480s"/>
+    <column title="walltime" value="9.19399238191545s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.13837703s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:35.739294+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_04_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_04_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.987284621s"/>
+    <column title="memory" value="212348928B"/>
+    <column title="reached" value="385"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.334s"/>
+    <column title="transfer" value="1.458s"/>
+    <column title="walltime" value="9.032494022510946s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.987284621s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:45.079618+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_11_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_11_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.879627809s"/>
+    <column title="memory" value="207736832B"/>
+    <column title="reached" value="404"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.266s"/>
+    <column title="transfer" value="1.498s"/>
+    <column title="walltime" value="8.93170122243464s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.879627809s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:27:54.274074+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.137746342s"/>
+    <column title="memory" value="210796544B"/>
+    <column title="reached" value="384"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.325s"/>
+    <column title="transfer" value="1.534s"/>
+    <column title="walltime" value="9.194752747192979s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.137746342s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:03.370969+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_15_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_15_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.07673882s"/>
+    <column title="memory" value="212504576B"/>
+    <column title="reached" value="391"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.251s"/>
+    <column title="transfer" value="1.483s"/>
+    <column title="walltime" value="9.132678160443902s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.07673882s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:12.718311+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_21_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_21_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.659926467s"/>
+    <column title="memory" value="207654912B"/>
+    <column title="reached" value="393"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.360s"/>
+    <column title="transfer" value="1.515s"/>
+    <column title="walltime" value="9.719394880346954s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.659926467s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:22.114304+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_21_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_21_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.808762491s"/>
+    <column title="memory" value="223784960B"/>
+    <column title="reached" value="510"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.316s"/>
+    <column title="transfer" value="1.889s"/>
+    <column title="walltime" value="9.866279926151037s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.808762491s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:31.996584+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_31_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_31_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.199699003s"/>
+    <column title="memory" value="237641728B"/>
+    <column title="reached" value="518"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.459s"/>
+    <column title="transfer" value="1.921s"/>
+    <column title="walltime" value="10.263673398643732s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.199699003s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:42.022812+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_32_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_32_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.418985204s"/>
+    <column title="memory" value="210362368B"/>
+    <column title="reached" value="384"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.286s"/>
+    <column title="transfer" value="1.604s"/>
+    <column title="walltime" value="9.47369232494384s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.418985204s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:28:52.430501+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_34_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_34_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.73386152s"/>
+    <column title="memory" value="238182400B"/>
+    <column title="reached" value="522"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.460s"/>
+    <column title="transfer" value="1.707s"/>
+    <column title="walltime" value="9.788027719594538s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.73386152s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:02.081954+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_44_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_44_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.09525776s"/>
+    <column title="memory" value="240779264B"/>
+    <column title="reached" value="535"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.424s"/>
+    <column title="transfer" value="1.881s"/>
+    <column title="walltime" value="10.15515258628875s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.09525776s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:12.043988+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_45_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.183780255s"/>
+    <column title="memory" value="210542592B"/>
+    <column title="reached" value="391"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.274s"/>
+    <column title="transfer" value="1.479s"/>
+    <column title="walltime" value="9.234751993790269s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.183780255s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:22.342816+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_51_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_51_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.032336241s"/>
+    <column title="memory" value="239656960B"/>
+    <column title="reached" value="526"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.420s"/>
+    <column title="transfer" value="1.869s"/>
+    <column title="walltime" value="10.086649784818292s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.032336241s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:31.724909+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_52_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_52_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.784140593s"/>
+    <column title="memory" value="239882240B"/>
+    <column title="reached" value="540"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.444s"/>
+    <column title="transfer" value="1.744s"/>
+    <column title="walltime" value="9.84460476692766s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.784140593s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:41.962764+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_61_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_61_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.930796501s"/>
+    <column title="memory" value="207618048B"/>
+    <column title="reached" value="384"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.327s"/>
+    <column title="transfer" value="1.407s"/>
+    <column title="walltime" value="8.988683354109526s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.930796501s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:29:51.949257+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_61_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_61_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.879823616s"/>
+    <column title="memory" value="236126208B"/>
+    <column title="reached" value="524"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.433s"/>
+    <column title="transfer" value="1.795s"/>
+    <column title="walltime" value="9.943258850835264s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.879823616s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:01.086752+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_65_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_65_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.375098413s"/>
+    <column title="memory" value="212422656B"/>
+    <column title="reached" value="391"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.313s"/>
+    <column title="transfer" value="1.337s"/>
+    <column title="walltime" value="9.426024617627263s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.375098413s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:11.171127+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_66_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_66_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.260396657s"/>
+    <column title="memory" value="210153472B"/>
+    <column title="reached" value="391"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.287s"/>
+    <column title="transfer" value="1.492s"/>
+    <column title="walltime" value="9.313216348178685s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.260396657s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:20.785922+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_67_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_67_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.385134881s"/>
+    <column title="memory" value="208568320B"/>
+    <column title="reached" value="393"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.363s"/>
+    <column title="transfer" value="1.559s"/>
+    <column title="walltime" value="9.446769093163311s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.385134881s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:30.247615+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_67_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fgets_67_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.379045968s"/>
+    <column title="memory" value="237367296B"/>
+    <column title="reached" value="536"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.450s"/>
+    <column title="transfer" value="1.739s"/>
+    <column title="walltime" value="10.435113176703453s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.379045968s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:39.843686+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_02_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_02_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.913783728s"/>
+    <column title="memory" value="205008896B"/>
+    <column title="reached" value="549"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.366s"/>
+    <column title="transfer" value="1.725s"/>
+    <column title="walltime" value="8.965637457557023s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.913783728s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:50.430550+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_03_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_03_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.22770099s"/>
+    <column title="memory" value="207634432B"/>
+    <column title="reached" value="549"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.452s"/>
+    <column title="transfer" value="1.677s"/>
+    <column title="walltime" value="9.276168952696025s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.22770099s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:30:59.552172+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_12_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_12_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.85018471s"/>
+    <column title="memory" value="216215552B"/>
+    <column title="reached" value="568"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.426s"/>
+    <column title="transfer" value="1.589s"/>
+    <column title="walltime" value="8.928758782334626s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.85018471s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:08.978000+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.631056436s"/>
+    <column title="memory" value="196653056B"/>
+    <column title="reached" value="252"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.188s"/>
+    <column title="transfer" value="0.847s"/>
+    <column title="walltime" value="7.673547354526818s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.631056436s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:18.048676+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_14_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_14_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.703609071s"/>
+    <column title="memory" value="211398656B"/>
+    <column title="reached" value="564"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.460s"/>
+    <column title="transfer" value="1.697s"/>
+    <column title="walltime" value="9.764035820960999s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.703609071s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:25.876211+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_53_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_53_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.387572862s"/>
+    <column title="memory" value="202199040B"/>
+    <column title="reached" value="399"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.339s"/>
+    <column title="transfer" value="1.128s"/>
+    <column title="walltime" value="8.43883435614407s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.387572862s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:35.790457+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_54_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_fscanf_54_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.527920053s"/>
+    <column title="memory" value="208482304B"/>
+    <column title="reached" value="409"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.334s"/>
+    <column title="transfer" value="1.326s"/>
+    <column title="walltime" value="8.563748995773494s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.527920053s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:44.377486+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.584939419s"/>
+    <column title="memory" value="205619200B"/>
+    <column title="reached" value="285"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="1.220s"/>
+    <column title="walltime" value="8.624576959758997s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.584939419s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:31:53.099486+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_07_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_07_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.833743952s"/>
+    <column title="memory" value="219738112B"/>
+    <column title="reached" value="300"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="1.199s"/>
+    <column title="walltime" value="8.881738222204149s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.833743952s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:01.869143+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_10_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_10_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.706800345s"/>
+    <column title="memory" value="214773760B"/>
+    <column title="reached" value="299"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.028s"/>
+    <column title="transfer" value="1.137s"/>
+    <column title="walltime" value="8.767714897170663s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.706800345s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:10.926944+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.424773681s"/>
+    <column title="memory" value="206262272B"/>
+    <column title="reached" value="285"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="1.119s"/>
+    <column title="walltime" value="8.462308509275317s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.424773681s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:19.847894+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_32_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_32_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.049871332s"/>
+    <column title="memory" value="208809984B"/>
+    <column title="reached" value="286"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="1.182s"/>
+    <column title="walltime" value="9.092827267944813s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.049871332s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:28.516130+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_52_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_52_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.293843444s"/>
+    <column title="memory" value="214605824B"/>
+    <column title="reached" value="414"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.292s"/>
+    <column title="transfer" value="1.505s"/>
+    <column title="walltime" value="9.33600412402302s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.293843444s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:37.793967+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_65_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_65_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.397802675s"/>
+    <column title="memory" value="212537344B"/>
+    <column title="reached" value="285"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.006s"/>
+    <column title="transfer" value="1.141s"/>
+    <column title="walltime" value="8.445291134528816s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.397802675s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:47.278392+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_68_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_listen_socket_68_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.15693012s"/>
+    <column title="memory" value="213622784B"/>
+    <column title="reached" value="413"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.278s"/>
+    <column title="transfer" value="1.352s"/>
+    <column title="walltime" value="9.213830605149269s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.15693012s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:32:55.865668+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_03_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_03_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.364609845s"/>
+    <column title="memory" value="205549568B"/>
+    <column title="reached" value="340"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.234s"/>
+    <column title="transfer" value="1.375s"/>
+    <column title="walltime" value="9.43554822448641s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.364609845s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:05.231859+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.584530091s"/>
+    <column title="memory" value="204111872B"/>
+    <column title="reached" value="292"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.261s"/>
+    <column title="transfer" value="1.177s"/>
+    <column title="walltime" value="8.639243398793042s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.584530091s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:14.824292+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_13_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_13_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.586112927s"/>
+    <column title="memory" value="204042240B"/>
+    <column title="reached" value="291"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.245s"/>
+    <column title="transfer" value="1.215s"/>
+    <column title="walltime" value="8.641766990534961s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.586112927s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:23.640026+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_15_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_15_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.027481092s"/>
+    <column title="memory" value="216592384B"/>
+    <column title="reached" value="347"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.299s"/>
+    <column title="transfer" value="1.307s"/>
+    <column title="walltime" value="9.078190360218287s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.027481092s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:32.438681+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_42_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_42_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="8.946331018s"/>
+    <column title="memory" value="204894208B"/>
+    <column title="reached" value="292"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.281s"/>
+    <column title="transfer" value="1.156s"/>
+    <column title="walltime" value="9.000152473337948s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.946331018s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:41.674216+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_63_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_63_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.300556188s"/>
+    <column title="memory" value="207425536B"/>
+    <column title="reached" value="293"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.206s"/>
+    <column title="transfer" value="1.295s"/>
+    <column title="walltime" value="9.370715881697834s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.300556188s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:33:50.816529+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_67_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_67_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="9.283057672s"/>
+    <column title="memory" value="208437248B"/>
+    <column title="reached" value="297"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.266s"/>
+    <column title="transfer" value="1.275s"/>
+    <column title="walltime" value="9.340252144262195s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.283057672s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:34:00.343997+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_67_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE789_Uncontrolled_Mem_Alloc---s01---CWE789_Uncontrolled_Mem_Alloc__malloc_char_rand_67_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.766972825s"/>
+    <column title="memory" value="222285824B"/>
+    <column title="reached" value="438"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.329s"/>
+    <column title="transfer" value="1.538s"/>
+    <column title="walltime" value="9.824889619834721s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.766972825s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T18:34:09.826817+00:00" hidden="true"/>
+  </run>
+  
+</result>

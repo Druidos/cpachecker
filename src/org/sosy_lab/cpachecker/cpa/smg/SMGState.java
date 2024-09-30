@@ -575,6 +575,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.addHeapObject(newObject);
     heap.setValidity(newObject, heap.isObjectValid(pOptionalObject));
 
+    if (heap.isObjectExternallyAllocated(pOptionalObject)) {
+      heap.setExternallyAllocatedFlag(newObject, true);
+    }
+
     heap.markHeapObjectDeletedAndRemoveEdges(pOptionalObject);
 
     for (SMGEdgeHasValue edge : fields) {
@@ -615,9 +619,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.markHeapObjectDeletedAndRemoveEdges(pListSeg);
 
-    heap.replaceValue(nextPointer, firstPointer);
+    if (firstPointer != null) {
+      heap.removePointsToEdge(firstPointer);
+      heap.replaceValue(nextPointer, firstPointer);
+    }
 
-    if (firstPointer.equals(pPointerToAbstractObject.getValue())) {
+    if (firstPointer != null && firstPointer.equals(pPointerToAbstractObject.getValue())) {
       return getPointerFromValue(nextPointer);
     } else {
       throw new AssertionError(
@@ -694,6 +701,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
               + pPointerToAbstractObject.getTargetSpecifier());
     }
 
+    boolean sllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
+
     SMGRegion newConcreteRegion =
         new SMGRegion(pListSeg.getSize(), "concrete sll segment ID " + SMGCPA.getNewValue(), 0);
     heap.addHeapObject(newConcreteRegion);
@@ -739,6 +748,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.addHeapObject(newSll);
     heap.setValidity(newSll, true);
 
+    if (sllHasExternalObject) {
+      heap.setExternallyAllocatedFlag(newConcreteRegion, true);
+      heap.setExternallyAllocatedFlag(newSll, true);
+    }
+
     /*Check if pointer was already created due to All target Specifier*/
     SMGValue newPointerToNewRegion = getAddress(newConcreteRegion, hfo);
 
@@ -749,8 +763,6 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     SMGEdgePointsTo newPtEdgeToNewRegionFromOutsideSMG =
         new SMGEdgePointsTo(oldPointerToSll, newConcreteRegion, hfo);
-
-    SMGSymbolicValue newPointerToSll = SMGKnownSymValue.of();
 
     /*If you can't find the pointer, use generic pointer type*/
     long sizeOfPointerToSll;
@@ -764,12 +776,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       sizeOfPointerToSll = fieldsContainingOldPointerToSll.iterator().next().getSizeInBits();
     }
 
-    SMGEdgePointsTo newPtEToSll =
-        new SMGEdgePointsTo(newPointerToSll, newSll, hfo, SMGTargetSpecifier.FIRST);
-
-    newPointerToSll = SMGKnownAddressValue.valueOf(newPtEToSll);
+    SMGSymbolicValue newPointerToSll = SMGKnownSymValue.of();
 
     writeValue(newConcreteRegion, nfo, sizeOfPointerToSll, newPointerToSll);
+
+    SMGEdgePointsTo newPtEToSll =
+        new SMGEdgePointsTo(newPointerToSll, newSll, hfo, SMGTargetSpecifier.FIRST);
 
     for (SMGEdgeHasValue hve : oldFieldsEdges) {
       heap.addHasValueEdge(
@@ -797,6 +809,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       throws SMGInconsistentException {
 
     logger.log(Level.ALL, "Materialise ", pListSeg, " in state id ", getId());
+
+    boolean dllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
 
     SMGRegion newConcreteRegion =
         new SMGRegion(pListSeg.getSize(), "concrete dll segment ID " + SMGCPA.getNewValue(), 0);
@@ -878,6 +892,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.addHeapObject(newDll);
     heap.setValidity(newDll, true);
+
+    if (dllHasExternalObject) {
+      heap.setExternallyAllocatedFlag(newConcreteRegion, true);
+      heap.setExternallyAllocatedFlag(newDll, true);
+    }
 
     /*Check if pointer was already created due to All target Specifier*/
     SMGValue newPointerToNewRegion = getAddress(newConcreteRegion, hfo);
@@ -2308,7 +2327,15 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     final SMGAbstractionManager manager;
     boolean usesHeapInterpolation = true; // TODO do we need this flag?
     if (usesHeapInterpolation) {
-      manager = new SMGAbstractionManager(logger, heap, this, blocks, 2, 2, 2);
+      manager =
+          new SMGAbstractionManager(
+              logger,
+              heap,
+              this,
+              blocks,
+              options.getSeqLengthEqualityThreshold(),
+              options.getSeqLengthEntailmentThreshold(),
+              options.getSeqLengthIncomparableThreshold());
     } else {
       manager = new SMGAbstractionManager(logger, heap, this, blocks, 2, 2, 3);
     }
@@ -2335,7 +2362,15 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
   public SMGAbstractionCandidate executeHeapAbstractionOneStep(Set<SMGAbstractionBlock> pResult)
       throws SMGInconsistentException {
-    SMGAbstractionManager manager = new SMGAbstractionManager(logger, heap, this, pResult, 2, 2, 2);
+    SMGAbstractionManager manager =
+        new SMGAbstractionManager(
+            logger,
+            heap,
+            this,
+            pResult,
+            options.getSeqLengthEqualityThreshold(),
+            options.getSeqLengthEntailmentThreshold(),
+            options.getSeqLengthIncomparableThreshold());
     SMGAbstractionCandidate result = manager.executeOneStep();
     performConsistencyCheck(SMGRuntimeCheck.HALF);
     return result;

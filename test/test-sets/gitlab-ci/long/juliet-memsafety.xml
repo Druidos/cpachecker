@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!--
+2122 pseudorandom tasks with memsafety property from Juliet.
+Note, false tasks don't specify violated subproperty and can violate more than one.
+SV-COMP includes only true tasks of the following categories (see Memsafety-Juliet.set):
+
+CWE415_Double_Free
+CWE476_NULL_Pointer_Dereference
+some of CWE121_Stack_Based_Buffer_Overflow
+some of CWE401_Memory_Leak
+CWE590_Free_Memory_Not_on_Heap
+-->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="40s" hardtimelimit="50s" memlimit="400MB" cpuCores="1">
+    <option name="-heap">300M</option>
+    <option name="-noout"/>
+    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    <!-- Juliet tasks call external functions like "time" which are irrelevant for the task itself -->
+    <option name="-setprop">cpa.smg.handleUnknownFunctions=ASSUME_SAFE</option>
+
+    <rundefinition name="smg">
+        <option name="-smg"/>
+    </rundefinition>
+    <rundefinition name="smg-ldv">
+        <option name="-smg-ldv"/>
+    </rundefinition>
+
+    <propertyfile>../../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+
+    <tasks name="CWE121_Stack_Based_Buffer_Overflow__CWE1xx">
+        <includesfile>CWE121_Stack_Based_Buffer_Overflow__CWE1xx.set</includesfile>
+    </tasks>
+    <tasks name="CWE121_Stack_Based_Buffer_Overflow__CWE80x">
+        <includesfile>CWE121_Stack_Based_Buffer_Overflow__CWE80x.set</includesfile>
+    </tasks>
+    <tasks name="CWE121_Stack_Based_Buffer_Overflow__Other">
+        <includesfile>CWE121_Stack_Based_Buffer_Overflow__Other.set</includesfile>
+    </tasks>
+    <tasks name="CWE122_Heap_Based_Buffer_Overflow__CWE1xx">
+        <includesfile>CWE122_Heap_Based_Buffer_Overflow__CWE1xx.set</includesfile>
+    </tasks>
+    <tasks name="CWE122_Heap_Based_Buffer_Overflow__CWE80x">
+        <includesfile>CWE122_Heap_Based_Buffer_Overflow__CWE80x.set</includesfile>
+    </tasks>
+    <tasks name="CWE122_Heap_Based_Buffer_Overflow__Other">
+        <includesfile>CWE122_Heap_Based_Buffer_Overflow__Other.set</includesfile>
+    </tasks>
+    <tasks name="CWE124_Buffer_Underwrite__CWE839">
+        <includesfile>CWE124_Buffer_Underwrite__CWE839.set</includesfile>
+    </tasks>
+    <tasks name="CWE124_Buffer_Underwrite__Other">
+        <includesfile>CWE124_Buffer_Underwrite__Other.set</includesfile>
+    </tasks>
+    <tasks name="CWE126_Buffer_Overread">
+        <includesfile>CWE126_Buffer_Overread.set</includesfile>
+    </tasks>
+    <tasks name="CWE127_Buffer_Underread__CWE839">
+        <includesfile>CWE127_Buffer_Underread__CWE839.set</includesfile>
+    </tasks>
+    <tasks name="CWE127_Buffer_Underread__Other">
+        <includesfile>CWE127_Buffer_Underread__Other.set</includesfile>
+    </tasks>
+    <tasks name="CWE401_Memory_Leak__Other">
+        <includesfile>CWE401_Memory_Leak__Other.set</includesfile>
+    </tasks>
+    <tasks name="CWE401_Memory_Leak__int3264">
+        <includesfile>CWE401_Memory_Leak__int3264.set</includesfile>
+    </tasks>
+    <tasks name="CWE415_Double_Free">
+        <includesfile>CWE415_Double_Free.set</includesfile>
+    </tasks>
+    <tasks name="CWE416_Use_After_Free">
+        <includesfile>CWE416_Use_After_Free.set</includesfile>
+    </tasks>
+    <tasks name="CWE476_NULL_Pointer_Dereference">
+        <includesfile>CWE476_NULL_Pointer_Dereference.set</includesfile>
+    </tasks>
+    <tasks name="CWE590_Free_Memory_Not_on_Heap">
+        <includesfile>CWE590_Free_Memory_Not_on_Heap.set</includesfile>
+    </tasks>
+    <tasks name="CWE690_NULL_Deref_From_Return">
+        <includesfile>CWE690_NULL_Deref_From_Return.set</includesfile>
+    </tasks>
+    <tasks name="CWE761_Free_Pointer_Not_at_Start_of_Buffer">
+        <includesfile>CWE761_Free_Pointer_Not_at_Start_of_Buffer.set</includesfile>
+    </tasks>
+    <tasks name="CWE789_Uncontrolled_Mem_Alloc">
+        <includesfile>CWE789_Uncontrolled_Mem_Alloc.set</includesfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>
