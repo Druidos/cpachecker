@@ -1,0 +1,402 @@
+# This file is part of SoSy-Lab Java-Project Template,
+# a collection of common files and build definitions for Java projects:
+# https://gitlab.com/sosy-lab/software/java-project-template
+#
+# SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# This is GitLab CI for the ISP RAS fork,
+# based on inlined build/gitlab-ci.yml and .gitlab-ci.yml.
+# Keep this file updated upon merges from the LMU upstream.
+
+stages:
+  - images
+  - build
+  - source-checks
+  - binary-checks
+  - deploy
+  - regression
+
+default:
+  image: ${CI_REGISTRY_IMAGE}/test:jdk-17
+  # cancel whole pipeline on a new commit on the same ref
+  interruptible: true
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"  # TODO do not interrupt?
+    # do not duplicate pipelines after merges
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+
+variables:
+  IVY_CACHE_DIR: "${CI_PROJECT_DIR}/.ivy2"
+  ANT_PROPS_BUILD: "-Divy.disable=true"
+  ANT_PROPS_CHECKS: "-Divy.disable=true -DskipBuild=true"
+  PROJECT_PATH: "sosy-lab/software/cpachecker"
+  # Version of https://gitlab.com/sosy-lab/software/refaster/ to use
+  REFASTER_REPO_REVISION: bba447e6b8e1df7ef8cdb6864319a4569e3e275b
+  # Needs to be synchronized with Error Prone version in lib/ivy.xml
+  REFASTER_VERSION: 2.27.1
+  PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+  npm_config_cache: "${CI_PROJECT_DIR}/.cache/npm"
+  npm_config_prefer_offline: "true"
+
+# Download dependencies and provide them to later stages
+build-dependencies:
+  stage: build
+  needs: []
+  script: "ant build-dependencies"
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - ".ivy2/"
+      - "lib/java/"
+  artifacts:
+    paths:
+      - "lib/java/"
+
+# Build binaries and provide them to later stages
+build:
+  stage: build
+  needs:
+    - build-dependencies
+  script: "ant $ANT_PROPS_BUILD jar"
+  artifacts:
+    paths:
+      - "classes/"
+      - "*.jar"
+
+# For checks that only need the source code, not the binaries
+.source-check: &source-check
+  stage: source-checks
+  needs:
+    - build-dependencies
+
+build-project-ecj:
+  <<: *source-check
+  script: "ant $ANT_PROPS_BUILD build-project-ecj"
+
+check-format:
+  <<: *source-check
+  script: "ant $ANT_PROPS_CHECKS format-source && git diff -s --exit-code"
+
+checkstyle:
+  <<: *source-check
+  script:
+    - "ant $ANT_PROPS_CHECKS checkstyle"
+    - "ant $ANT_PROPS_CHECKS run-checkstyle -Dcheckstyle.output=plain && cat Checkstyle*.xml && test $(cat Checkstyle*xml | grep -vic audit) -eq 0"
+  artifacts:
+    paths:
+      - "Checkstyle*html"
+    when: on_failure
+
+refaster:
+  <<: *source-check
+  before_script:
+    - 'test -d refaster || git clone https://gitlab.com/sosy-lab/software/refaster.git'
+    - 'cd refaster'
+    - 'git fetch'
+    - 'git checkout $REFASTER_REPO_REVISION'
+    - 'ant build-refaster-rule -Drefaster.source.pattern=**/*.java -Drefaster.rule.file=../rule.refaster -Derrorprone.version=$REFASTER_VERSION'
+    - 'cd -'
+  script:
+    - 'ant $ANT_PROPS_BUILD refaster -Drefaster.rule.file=rule.refaster'
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - ".ivy2/"
+      - "refaster/"
+  artifacts:
+    paths:
+      - "error-prone.patch"
+      - "rule.refaster"
+    when: on_failure
+  except:
+    variables:
+      - $REFASTER_REPO_REVISION == null # required for job
+      - $REFASTER_VERSION == null # required for job
+
+# check license declarations etc.
+reuse:
+  stage: source-checks
+  needs: []
+  image:
+    name: fsfe/reuse:3
+    entrypoint: [""]
+  script:
+    - reuse lint
+
+check-code-patterns:
+  stage: source-checks
+  script: "build/check-code-patterns.sh"
+  needs: []
+  # image: ubuntu:20.04  # TODO jdk-17 is based on sufficient linux?
+
+# For checks that need the binaries
+.binary-check: &binary-check
+  stage: binary-checks
+  needs:
+    - build-dependencies
+    - build
+
+spotbugs:
+  <<: *binary-check
+  script:
+    - 'ant $ANT_PROPS_CHECKS spotbugs'
+    - 'test \! -f SpotBugs.html'
+  artifacts:
+    paths:
+      - "SpotBugs.html"
+    when: on_failure
+
+forbidden-apis:
+  <<: *binary-check
+  script: "ant $ANT_PROPS_CHECKS forbiddenapis"
+
+unit-tests:
+  <<: *binary-check
+  # No coverage is computed for CPAchecker
+  # script: "ant $ANT_PROPS_CHECKS unit-tests-coverage"
+  script: "ant $ANT_PROPS_CHECKS unit-tests"
+  artifacts:
+    paths:
+      - "JUnit.html"
+      - "JUnit-coverage/"
+      - "junit/coverage.xml"
+    when: always
+    reports:
+      # junit: "junit/TESTS-TestSuites.xml"
+      junit: "output/junit/TESTS-TestSuites.xml"
+
+
+# Checks for Python code
+.pip-cache: &pip-cache
+  stage: source-checks
+  needs: []
+  image: python  # or python:3.8
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - ".cache/pip"
+
+check-format-python:
+  <<: *pip-cache
+  before_script:
+    - pip install 'black[jupyter]<25'
+  script:
+    - black . --check --diff
+
+flake8:
+  <<: *pip-cache
+  before_script:
+    - "pip install 'flake8<6' flake8-awesome"
+  script:
+    - flake8
+
+python-unit-tests:
+  <<: *binary-check
+  script: "ant $ANT_PROPS_CHECKS python-unit-tests"
+
+
+# JavaScript tests
+.node-cache: &node-cache
+  stage: source-checks
+  needs: []
+  image: ${CI_REGISTRY_IMAGE}/test:node
+  before_script:
+    - cd src/org/sosy_lab/cpachecker/core/counterexample/
+    - npm ci
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - ".cache/npm"
+
+javascript-build:
+  <<: *node-cache
+  script:
+    - npm run build
+    - git diff --stat --exit-code
+  artifacts:
+    paths:
+      -  src/org/sosy_lab/cpachecker/core/counterexample/build
+    when: on_failure
+
+javascript-unit-tests:
+  <<: *node-cache
+  script:
+    - npm test
+  cache:
+    paths:
+    - "src/org/sosy_lab/cpachecker/core/counterexample/node_modules/"
+  artifacts:
+    paths:
+      - src/org/sosy_lab/cpachecker/core/counterexample/unit_testing_report.html
+    when: always
+
+javascript-eslint:
+  <<: *node-cache
+  script:
+    - npm run lint
+
+javascript-e2e-tests:
+  <<: *binary-check
+  image: ${CI_REGISTRY_IMAGE}/test:java-node
+  before_script:
+      # generate example report
+    - bin/cpachecker -predicateAnalysis test/programs/simple/SSAMap-bug.c
+    - cd src/org/sosy_lab/cpachecker/core/counterexample/
+    - npm ci
+    - "npx webdriver-manager update --versions.chrome $(dpkg-query --showformat='${Version}' --show google-chrome-stable)"
+  script:
+    - npm run e2e-test
+  cache:
+    paths:
+    - src/org/sosy_lab/cpachecker/core/counterexample/node_modules/
+  artifacts:
+    paths:
+      - output/Counterexample.1.html
+      - src/org/sosy_lab/cpachecker/core/counterexample/e2e-tests-report
+    when: always
+
+
+# Configuration checks  # TODO can be moved in source-checks?
+configuration-checks:
+  <<: *binary-check
+  script: "ant $ANT_PROPS_CHECKS configuration-checks"
+  artifacts:
+    paths:
+      - "ConfigurationChecks.html"
+      - "hs_err_pid*.log"
+    when: always
+    reports:
+      junit: "output/configuration-checks/TESTS-TestSuites.xml"
+
+configuration-documentation:
+  <<: *binary-check
+  script:
+    - "cp doc/ConfigurationOptions.txt doc/ConfigurationOptions.txt.old"
+    - "ant $ANT_PROPS_CHECKS build-documentation -Ddocumentation.uptodate=false"
+    - "diff doc/ConfigurationOptions.txt.old doc/ConfigurationOptions.txt"
+
+configuration-plot:
+  stage: source-checks
+  script:
+    - "mkdir -p output"
+    - "touch output/AssumptionAutomaton.txt"
+    - "scripts/configViz.py > ConfigurationPlot.dot"
+    - "dot -Tsvg ConfigurationPlot.dot -O"
+  needs: []
+  artifacts:
+    paths:
+      - "ConfigurationPlot.dot.svg"
+
+
+build-tar:
+  stage: deploy
+  needs:
+    - build-dependencies
+    - build
+  script: "ant $ANT_PROPS_CHECKS dist-unix -Dnamet=cpachecker"
+  artifacts:
+    paths:
+      - "cpachecker.tar.bz2"
+
+
+# Build Docker images
+# following this guideline: https://docs.gitlab.com/ee/ci/docker/using_kaniko.html
+.build-docker:
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    EXTRA_ARGS: ""
+  script:
+    - mkdir -p /root/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --dockerfile $CI_PROJECT_DIR/$DOCKERFILE --destination $CI_REGISTRY_IMAGE$IMAGE $EXTRA_ARGS
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: true
+
+
+build-docker:test:jdk-17:
+  extends: .build-docker
+  needs:
+    - get-partial-benchmarks
+  before_script:
+    - tar -xjf regression-tests.tar.bz2
+  variables:
+    DOCKERFILE: gitlab-ci/jdk-17.Dockerfile
+    IMAGE: /test:jdk-17
+    EXTRA_ARGS: "--context dir://gitlab-ci"
+
+build-docker:test:java-node:
+  extends: .build-docker
+  variables:
+    DOCKERFILE: build/gitlab-ci.Dockerfile.java-node
+    IMAGE: /test:java-node
+
+build-docker:test:node:
+  extends: .build-docker
+  variables:
+    DOCKERFILE: build/gitlab-ci.Dockerfile.node
+    IMAGE: /test:node
+
+
+# TODO python image
+get-partial-benchmarks:
+  extends: .build-docker
+  image:
+    name: python:3.8
+    entrypoint: [""]
+  before_script:
+    - pip install pyyaml defusedxml
+    - mkdir /full-benchmarks
+  script:
+    # get SV benchmarks
+    - wget https://gitlab.com/sosy-lab/benchmarking/sv-benchmarks/-/archive/main/sv-benchmarks-main.tar.bz2 --progress=dot:giga
+    - tar -xjf sv-benchmarks-main.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/sv-benchmarks-main/c test/programs/benchmarks
+    # get LDV benchmarks
+    - wget https://gitlab.ispras.ru/verification/ldv-benchmarks/-/archive/main/ldv-benchmarks-main.tar.bz2 --progress=dot:giga
+    - tar -xjf ldv-benchmarks-main.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/ldv-benchmarks-main test/programs/ldv-benchmarks
+    # copy necessary files in gitlab-ci/test and tar it all with generated yml
+    - python3 gitlab-ci/copy-from-benchmarks.py
+    - tar -cjf regression-tests.tar.bz2 gitlab-ci/test
+  artifacts:
+    paths:
+      - regression-tests.tar.bz2
+
+generate-child-pipeline:
+  image:
+    name: python:3.8
+    entrypoint: [""]
+  stage: regression
+  needs:
+    - job: build-tar  # so the child pipeline does not start early
+      artifacts: false
+  script:
+    # check xml test sets and generate child pipeline for the tests
+    - pip install defusedxml
+    - python3 gitlab-ci/check-and-generate-integration-tests-pipeline.py
+  artifacts:
+    paths:
+      - 'generated-ci.yml'
+
+run-integration-tests-pipeline:
+  stage: regression
+  needs:
+    - generate-child-pipeline
+  trigger:
+    include:
+      - artifact: 'generated-ci.yml'
+        job: generate-child-pipeline
+    strategy: depend
+  variables:
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+    PARENT_CI_PIPELINE_SOURCE: $CI_PIPELINE_SOURCE
