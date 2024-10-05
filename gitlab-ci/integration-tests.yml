@@ -17,7 +17,7 @@ stages:
   tags:
     - docker
   stage: smaller
-  image: ${CI_REGISTRY_IMAGE}/test:jdk-11
+  image: ${CI_REGISTRY_IMAGE}/test:jdk-17
   needs:
     - pipeline: $PARENT_PIPELINE_ID
       job: build-tar
@@ -27,6 +27,11 @@ stages:
     - tar -xjf cpachecker.tar.bz2 -C ..
     - ln -sv /test/programs/benchmarks test/programs/benchmarks
     - ln -sv /test/programs/ldv-benchmarks test/programs/ldv-benchmarks
+    # BenchExec compares times between src and .jar and fails so it
+    # does not start if jar is 'outdated'. This happens for some child pipelines.
+    # TODO double check why this happens and if it is safe to proceed
+    # see https://github.com/sosy-lab/benchexec/commit/b2ea4d4b1ec4101d8f575a06d5e14507bfba81d5
+    - rm -rf src
   script:
     - gitlab-ci/check-regressions.sh || exit $?
   allow_failure:
@@ -46,7 +51,7 @@ stages:
   variables:
     CI_DIR: test/test-sets/gitlab-ci/long
   rules:
-  - if: $PARENT_CI_PIPELINE_SOURCE == "web"
-  - if: $PARENT_CI_PIPELINE_SOURCE == "schedule"
-  - when: manual
-    allow_failure: true
+    - if: $PARENT_CI_PIPELINE_SOURCE == "web"
+    - if: $PARENT_CI_PIPELINE_SOURCE == "schedule"
+    - when: manual
+      allow_failure: false

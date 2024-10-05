@@ -46,7 +46,7 @@ variables:
 # Download dependencies and provide them to later stages
 build-dependencies:
   stage: build
-  needs: []
+  needs: [ ]
   script: "ant build-dependencies"
   cache:
     key: "$CI_JOB_NAME"
@@ -121,17 +121,17 @@ refaster:
 # check license declarations etc.
 reuse:
   stage: source-checks
-  needs: []
+  needs: [ ]
   image:
     name: fsfe/reuse:3
-    entrypoint: [""]
+    entrypoint: [ "" ]
   script:
     - reuse lint
 
 check-code-patterns:
   stage: source-checks
   script: "build/check-code-patterns.sh"
-  needs: []
+  needs: [ ]
   # image: ubuntu:20.04  # TODO jdk-17 is based on sufficient linux?
 
 # For checks that need the binaries
@@ -174,7 +174,7 @@ unit-tests:
 # Checks for Python code
 .pip-cache: &pip-cache
   stage: source-checks
-  needs: []
+  needs: [ ]
   image: python  # or python:3.8
   cache:
     key: "${CI_JOB_NAME}"
@@ -203,7 +203,7 @@ python-unit-tests:
 # JavaScript tests
 .node-cache: &node-cache
   stage: source-checks
-  needs: []
+  needs: [ ]
   image: ${CI_REGISTRY_IMAGE}/test:node
   before_script:
     - cd src/org/sosy_lab/cpachecker/core/counterexample/
@@ -220,7 +220,7 @@ javascript-build:
     - git diff --stat --exit-code
   artifacts:
     paths:
-      -  src/org/sosy_lab/cpachecker/core/counterexample/build
+      - src/org/sosy_lab/cpachecker/core/counterexample/build
     when: on_failure
 
 javascript-unit-tests:
@@ -229,7 +229,7 @@ javascript-unit-tests:
     - npm test
   cache:
     paths:
-    - "src/org/sosy_lab/cpachecker/core/counterexample/node_modules/"
+      - "src/org/sosy_lab/cpachecker/core/counterexample/node_modules/"
   artifacts:
     paths:
       - src/org/sosy_lab/cpachecker/core/counterexample/unit_testing_report.html
@@ -244,7 +244,7 @@ javascript-e2e-tests:
   <<: *binary-check
   image: ${CI_REGISTRY_IMAGE}/test:java-node
   before_script:
-      # generate example report
+    # generate example report
     - bin/cpachecker -predicateAnalysis test/programs/simple/SSAMap-bug.c
     - cd src/org/sosy_lab/cpachecker/core/counterexample/
     - npm ci
@@ -253,7 +253,7 @@ javascript-e2e-tests:
     - npm run e2e-test
   cache:
     paths:
-    - src/org/sosy_lab/cpachecker/core/counterexample/node_modules/
+      - src/org/sosy_lab/cpachecker/core/counterexample/node_modules/
   artifacts:
     paths:
       - output/Counterexample.1.html
@@ -287,7 +287,7 @@ configuration-plot:
     - "touch output/AssumptionAutomaton.txt"
     - "scripts/configViz.py > ConfigurationPlot.dot"
     - "dot -Tsvg ConfigurationPlot.dot -O"
-  needs: []
+  needs: [ ]
   artifacts:
     paths:
       - "ConfigurationPlot.dot.svg"
@@ -310,7 +310,7 @@ build-tar:
   stage: images
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+    entrypoint: [ "" ]
   variables:
     EXTRA_ARGS: ""
   script:
@@ -352,19 +352,27 @@ get-partial-benchmarks:
   extends: .build-docker
   image:
     name: python:3.8
-    entrypoint: [""]
+    entrypoint: [ "" ]
   before_script:
     - pip install pyyaml defusedxml
     - mkdir /full-benchmarks
+  variables:
+    # use fixed commits so we don't have problems with changed paths or files
+    SV_COMMIT: 0ea9290d64d1cb37e56b525caacac0c3aaac8015
+    SV_BASE: https://gitlab.com/sosy-lab/benchmarking/sv-benchmarks
+    SV_LINK: $SV_BASE/-/archive/$SV_COMMIT/sv-benchmarks-$SV_COMMIT.tar.bz2
+    LDV_COMMIT: 0b53b7f55ad1e14b2065a609bc348b2e922e9494
+    LDV_BASE: https://gitlab.ispras.ru/verification/ldv-benchmarks
+    LDV_LINK: $LDV_BASE/-/archive/$LDV_COMMIT/ldv-benchmarks-$LDV_COMMIT.tar.bz2
   script:
     # get SV benchmarks
-    - wget https://gitlab.com/sosy-lab/benchmarking/sv-benchmarks/-/archive/main/sv-benchmarks-main.tar.bz2 --progress=dot:giga
-    - tar -xjf sv-benchmarks-main.tar.bz2 -C /full-benchmarks
-    - ln -sv /full-benchmarks/sv-benchmarks-main/c test/programs/benchmarks
+    - wget $SV_LINK --progress=dot:giga
+    - tar -xjf sv-benchmarks-$SV_COMMIT.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/sv-benchmarks-$SV_COMMIT/c test/programs/benchmarks
     # get LDV benchmarks
-    - wget https://gitlab.ispras.ru/verification/ldv-benchmarks/-/archive/main/ldv-benchmarks-main.tar.bz2 --progress=dot:giga
-    - tar -xjf ldv-benchmarks-main.tar.bz2 -C /full-benchmarks
-    - ln -sv /full-benchmarks/ldv-benchmarks-main test/programs/ldv-benchmarks
+    - wget $LDV_LINK --progress=dot:giga
+    - tar -xjf ldv-benchmarks-$LDV_COMMIT.tar.bz2 -C /full-benchmarks
+    - ln -sv /full-benchmarks/ldv-benchmarks-$LDV_COMMIT test/programs/ldv-benchmarks
     # copy necessary files in gitlab-ci/test and tar it all with generated yml
     - python3 gitlab-ci/copy-from-benchmarks.py
     - tar -cjf regression-tests.tar.bz2 gitlab-ci/test
@@ -375,7 +383,7 @@ get-partial-benchmarks:
 generate-child-pipeline:
   image:
     name: python:3.8
-    entrypoint: [""]
+    entrypoint: [ "" ]
   stage: regression
   needs:
     - job: build-tar  # so the child pipeline does not start early
