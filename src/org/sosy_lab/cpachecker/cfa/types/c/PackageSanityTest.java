@@ -24,7 +24,15 @@ public class PackageSanityTest extends AbstractPackageSanityTests {
     setDistinctValues(
         CComplexType.class,
         new CElaboratedType(false, false, ComplexTypeKind.STRUCT, "type", "type", null),
-        new CEnumType(false, false, Alignment.NO_SPECIFIERS, false, CNumericTypes.INT, ImmutableList.of(), "e", "e"));
+        new CEnumType(
+            false,
+            false,
+            Alignment.NO_SPECIFIERS,
+            false,
+            CNumericTypes.INT,
+            ImmutableList.of(),
+            "e",
+            "e"));
     setDistinctValues(CType.class, CVoidType.VOID, CNumericTypes.INT);
     setDistinctValues(CSimpleType.class, CNumericTypes.INT, CNumericTypes.DOUBLE);
     setDefault(CExpression.class, CIntegerLiteralExpression.ONE);

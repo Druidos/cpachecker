@@ -17,7 +17,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.core.interfaces.Targetable.TargetInformation;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.Edge;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.Witness;
-import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.ElementType;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.GraphMlBuilder;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
@@ -25,6 +24,7 @@ import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.NodeFlag;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.NodeType;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTree;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTrees;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.w3c.dom.Element;
 
 public class WitnessToGraphMLFormatter extends WitnessToOutputFormatter<Element> {

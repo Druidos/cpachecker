@@ -263,31 +263,31 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
         if (!isBitfield || isZeroLength || hasAlignedAttr) {
           // Usual fields, bit-fields with length 0, and bit-fields
           // with alignment attributes guarantee that
-            // the next bitfield starts at the beginning of the
-            // next address an object of the declaring
-            // type could be addressed by.
-            //
-            // E.g., if you have a struct like this:
-            //   struct s { int a : 8; char : 0; char b; };
-            //
-            // then the struct will be aligned to the size of int
-            // (4 Bytes) and will occupy 4 Bytes of memory.
-            //
-            // A struct like this:
-            //   struct t { int a : 8; int : 0; char b; };
-            //
-            // will also be aligned to the size of int, but
-            // since the 'int : 0;' member adjusts the next object
-            // to the next int-like addressable unit, t will
-            // occupy 8 Bytes instead of 4 (the char b is placed
-            // at the next 4-Byte addressable unit).
-            //
-            // At last, a struct like this:
-            //   struct u { char a : 4; char : 0; char b : 4; };
-            //
-            // will be aligned to size of char and occupy 2 Bytes
-            // in memory, while the same struct without the
-            // 'char : 0;' member would just occupy 1 Byte.
+          // the next bitfield starts at the beginning of the
+          // next address an object of the declaring
+          // type could be addressed by.
+          //
+          // E.g., if you have a struct like this:
+          //   struct s { int a : 8; char : 0; char b; };
+          //
+          // then the struct will be aligned to the size of int
+          // (4 Bytes) and will occupy 4 Bytes of memory.
+          //
+          // A struct like this:
+          //   struct t { int a : 8; int : 0; char b; };
+          //
+          // will also be aligned to the size of int, but
+          // since the 'int : 0;' member adjusts the next object
+          // to the next int-like addressable unit, t will
+          // occupy 8 Bytes instead of 4 (the char b is placed
+          // at the next 4-Byte addressable unit).
+          //
+          // At last, a struct like this:
+          //   struct u { char a : 4; char : 0; char b : 4; };
+          //
+          // will be aligned to size of char and occupy 2 Bytes
+          // in memory, while the same struct without the
+          // 'char : 0;' member would just occupy 1 Byte.
           bitOffset = model.calculatePaddedBitsize(bitOffset, effectiveType, sizeOfByte);
 
         } else if (!pOwnerType.isPacked()) {
@@ -297,7 +297,6 @@ public class BaseSizeofVisitor<X extends Exception> implements CTypeVisitor<BigI
               model.calculateNecessaryBitfieldOffset(
                   bitOffset, effectiveType, sizeOfByte, fieldSizeInBits);
         }
-
 
         if (typeMember.getName().equals(pFieldName)) {
           // just escape the loop and return the current offset

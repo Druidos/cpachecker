@@ -1196,7 +1196,17 @@ public class SMGCPAExpressionEvaluator {
     if (pMachineModel.getSizeof(canonicalType).intValueExact()
         >= pMachineModel.getSizeof(CNumericTypes.LONG_LONG_INT)) {
       return new CSimpleType(
-          false, false, Alignment.NO_SPECIFIERS, CBasicType.INT128, false, false, true, false, false, false, false);
+          false,
+          false,
+          Alignment.NO_SPECIFIERS,
+          CBasicType.INT128,
+          false,
+          false,
+          true,
+          false,
+          false,
+          false,
+          false);
     }
 
     return CNumericTypes.LONG_LONG_INT;

@@ -22,8 +22,7 @@ import org.sosy_lab.common.collect.PersistentMap;
  * internal value for the map.
  */
 @Immutable(containerOf = "K")
-public class PersistentSet<K extends Comparable<? super K>>
-    implements Set<K> {
+public class PersistentSet<K extends Comparable<? super K>> implements Set<K> {
 
   private final PersistentMap<K, Void> delegate;
 
@@ -174,5 +173,4 @@ public class PersistentSet<K extends Comparable<? super K>>
       return iteratorSet.hasNext() ? -1 : 0;
     };
   }
-
 }

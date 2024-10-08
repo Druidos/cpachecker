@@ -355,7 +355,8 @@ public class ExpressionSimplificationVisitor
 
           if (decl.getType() instanceof CSimpleType) {
             if (((CSimpleType) type).getType().isIntegerType()) {
-              return new CIntegerLiteralExpression(expr.getFileLocation(), type, v.bigIntegerValue());
+              return new CIntegerLiteralExpression(
+                  expr.getFileLocation(), type, v.bigIntegerValue());
             } else {
               return new CFloatLiteralExpression(expr.getFileLocation(), type, v.bigDecimalValue());
             }

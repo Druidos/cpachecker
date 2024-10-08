@@ -12,8 +12,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serial;
-import java.util.Objects;
 import java.math.BigInteger;
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.ast.AbstractSimpleDeclaration;
 import org.sosy_lab.cpachecker.cfa.ast.FileLocation;

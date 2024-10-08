@@ -11,9 +11,9 @@ package org.sosy_lab.cpachecker.cfa.types.c;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.Serial;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -2791,8 +2791,8 @@ class ASTConverter {
               t.isConst(),
               t.isVolatile(),
               t.getAlignment(),
-                CBasicType.INT,
-                t.hasLongSpecifier(),
+              CBasicType.INT,
+              t.hasLongSpecifier(),
               t.hasShortSpecifier(),
               t.hasSignedSpecifier(),
               t.hasUnsignedSpecifier(),
@@ -2968,7 +2968,8 @@ class ASTConverter {
   }
 
   private static final ImmutableList<CSimpleType> PACKED_ENUM_REPRESENTATION_CANDIDATE_TYPES =
-      ImmutableList.of( // list of types with incrementing size, less than int
+      // list of types with incrementing size, less than int
+      ImmutableList.of(
           CNumericTypes.UNSIGNED_CHAR,
           CNumericTypes.SIGNED_CHAR,
           CNumericTypes.UNSIGNED_SHORT_INT,
@@ -3007,7 +3008,8 @@ class ASTConverter {
    */
   private CSimpleType getEnumerationType(boolean pPacked, final List<CEnumerator> pEnumerators) {
     LongSummaryStatistics enumStatistics =
-        pEnumerators.stream().filter(a -> a.getValue() != null)
+        pEnumerators.stream()
+            .filter(a -> a.getValue() != null)
             .mapToLong(pCEnumerator -> pCEnumerator.getValue().longValueExact())
             .summaryStatistics();
 
@@ -3068,8 +3070,7 @@ class ASTConverter {
 
     String name = convert(e.getName());
     CEnumerator result =
-        new CEnumerator(
-            getLocation(e), name, scope.createScopedNameOf(name), enumeratorValue);
+        new CEnumerator(getLocation(e), name, scope.createScopedNameOf(name), enumeratorValue);
     scope.registerDeclaration(result);
     return result;
   }

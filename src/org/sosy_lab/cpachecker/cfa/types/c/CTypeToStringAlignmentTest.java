@@ -60,55 +60,67 @@ public class CTypeToStringAlignmentTest {
   public static Object[][] types() {
     return new Object[][] {
       // NUMERICS
-      { // declare var as 1-aligned int
+      {
+        // declare var as 1-aligned int
         "int var " + aligned(1), CTypes.updateAlignment(CNumericTypes.INT, Alignment.ofVar(1)),
       },
-      { // declare var as const volatile 2-aligned int
+      {
+        // declare var as const volatile 2-aligned int
         "const volatile int var " + aligned(2),
         CTypes.updateAlignment(CONST_VOLATILE_INT, Alignment.ofVar(2)),
       },
-      { // declare var as const 4-aligned short
+      {
+        // declare var as const 4-aligned short
         "const signed short int var " + aligned(4),
         CTypes.updateAlignment(
             CNumericTypes.SHORT_INT.getCanonicalType(true, false), Alignment.ofVar(4)),
       },
-      { // declare var as alignas-4 short
+      {
+        // declare var as alignas-4 short
         "_Alignas(4) short int var",
         CTypes.updateAlignment(CNumericTypes.SHORT_INT, Alignment.ofAlignas(4)),
       },
-      { // declare var as alignas-4 short
+      {
+        // declare var as alignas-4 short
         "_Alignas(4) unsigned char var",
         CTypes.updateAlignment(CNumericTypes.UNSIGNED_CHAR, Alignment.ofAlignas(4)),
       },
-      { // declare var as alignas-8 volatile unsigned int
+      {
+        // declare var as alignas-8 volatile unsigned int
         "_Alignas(8) volatile unsigned int var",
         CTypes.updateAlignment(
             CNumericTypes.UNSIGNED_INT.getCanonicalType(false, true), Alignment.ofAlignas(8)),
       },
-      { // declare var as alignas-16 2-aligned signed long long
+      {
+        // declare var as alignas-16 2-aligned signed long long
         "_Alignas(16) signed long long int var " + aligned(2),
         CTypes.updateAlignment(
             CNumericTypes.SIGNED_LONG_LONG_INT, Alignment.ofAlignas(16).withVarAligned(2)),
       },
-      { // declare var as 1-aligned long double
+      {
+        // declare var as 1-aligned long double
         "long double var " + aligned(1),
         CTypes.updateAlignment(CNumericTypes.LONG_DOUBLE, Alignment.ofVar(1)),
       },
-      { // declare var as alignas-8 16-aligned float
+      {
+        // declare var as alignas-8 16-aligned float
         "_Alignas(8) float var " + aligned(16),
         CTypes.updateAlignment(CNumericTypes.FLOAT, Alignment.ofVar(16).withAlignas(8)),
       },
 
       // POINTERS
-      { // declare var as 1-aligned pointer to char
+      {
+        // declare var as 1-aligned pointer to char
         "char *var " + aligned(1),
         new CPointerType(false, false, Alignment.ofVar(1), CNumericTypes.CHAR),
       },
-      { // declare var as 16-aligned pointer to unsigned short int
+      {
+        // declare var as 16-aligned pointer to unsigned short int
         "unsigned short int *var " + aligned(16),
         new CPointerType(false, false, Alignment.ofVar(16), CNumericTypes.UNSIGNED_SHORT_INT),
       },
-      { // declare var as alignas-16 pointer to double
+      {
+        // declare var as alignas-16 pointer to double
         "_Alignas(16) int *var",
         new CPointerType(false, false, Alignment.ofAlignas(16), CNumericTypes.INT),
       },
@@ -160,25 +172,30 @@ public class CTypeToStringAlignmentTest {
       */
 
       // ARRAYS
-      { // declare array of char, 1-aligned
+      {
+        // declare array of char, 1-aligned
         "char var[3] " + aligned(1),
         new CArrayType(false, false, Alignment.ofVar(1), CNumericTypes.CHAR, THREE),
       },
-      { // declare array of char, alignas-2
+      {
+        // declare array of char, alignas-2
         "_Alignas(2) char var[3]",
         new CArrayType(false, false, Alignment.ofAlignas(2), CNumericTypes.CHAR, THREE),
       },
-      { // declare array of char, alignas-2 1-aligned
+      {
+        // declare array of char, alignas-2 1-aligned
         "_Alignas(2) char var[3] " + aligned(1),
         new CArrayType(
             false, false, Alignment.ofAlignas(2).withVarAligned(1), CNumericTypes.CHAR, THREE),
       },
-      { // declare array of char, alignas-2 1-aligned
+      {
+        // declare array of char, alignas-2 1-aligned
         "_Alignas(2) const char var[3] " + aligned(4),
         new CArrayType(
             true, false, Alignment.ofAlignas(2).withVarAligned(4), CNumericTypes.CHAR, THREE),
       },
-      { // declare matrix of long double, alignas-16 1-aligned
+      {
+        // declare matrix of long double, alignas-16 1-aligned
         "_Alignas(16) long double var[3][3] " + aligned(1),
         new CArrayType(
             false,

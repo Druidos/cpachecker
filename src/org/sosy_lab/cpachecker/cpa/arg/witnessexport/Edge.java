@@ -17,8 +17,8 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.TransitionCondition.Scope;
-import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 
 /**
  * An edge corresponds to the transfer from one node to another. This class is intended to be

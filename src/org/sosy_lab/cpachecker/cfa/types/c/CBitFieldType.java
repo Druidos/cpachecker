@@ -12,8 +12,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import java.io.Serial;
 import com.google.common.base.Strings;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -183,8 +183,7 @@ public final class CBitFieldType implements CType {
     }
     return pObj instanceof CBitFieldType other
         && bitFieldSize == other.bitFieldSize
-          && alignment.equals(other.alignment)
-          && type.equals(other.type);
-
+        && alignment.equals(other.alignment)
+        && type.equals(other.type);
   }
 }

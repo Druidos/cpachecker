@@ -601,6 +601,7 @@ public enum MachineModel {
     // If no alignment, but in a packed structure, return 1
     return pAlignment.isInsidePacked() ? 1 : Alignment.NO_SPECIFIER;
   }
+
   /** returns INT, if the type is smaller than INT, else the type itself. */
   public CType applyIntegerPromotion(CType pType) {
     checkArgument(CTypes.isIntegerType(pType), "Integer promotion cannot be applied to %s", pType);

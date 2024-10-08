@@ -220,11 +220,11 @@ public class SMGExpressionEvaluator {
           " does not fit object ",
           pObject,
           ".");
-      String readVariable = "";
+      StringBuilder readVariable = new StringBuilder();
       for (Entry<String, SMGValue> entry : errState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = errState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pObject.equals(pointer.getObject())) {
-          readVariable = readVariable + (" '" + entry.getKey() + "' variable");
+          readVariable.append(" '").append(entry.getKey()).append("' variable");
           errState.addInvalidRead(entry.getKey(), entry.getValue());
         }
       }

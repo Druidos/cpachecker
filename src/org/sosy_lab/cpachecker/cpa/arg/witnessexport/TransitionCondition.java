@@ -33,9 +33,13 @@ public class TransitionCondition implements Comparable<TransitionCondition> {
 
   private static final TransitionCondition EMPTY = new TransitionCondition();
 
-  private static final Comparator<Iterable<Map.Entry<KeyDef, PersistentSet<String>>>> KEY_VALUES_COMPARATOR =
-      Comparators.lexicographical(
-          Map.Entry.<KeyDef, PersistentSet<String>>comparingByKey().thenComparing(Map.Entry.comparingByValue((set1, set2) -> set1.getComparator().compare(set1, set2))));
+  private static final Comparator<Iterable<Map.Entry<KeyDef, PersistentSet<String>>>>
+      KEY_VALUES_COMPARATOR =
+          Comparators.lexicographical(
+              Map.Entry.<KeyDef, PersistentSet<String>>comparingByKey()
+                  .thenComparing(
+                      Map.Entry.comparingByValue(
+                          (set1, set2) -> set1.getComparator().compare(set1, set2))));
 
   private final EnumMap<KeyDef, PersistentSet<String>> keyValues;
 

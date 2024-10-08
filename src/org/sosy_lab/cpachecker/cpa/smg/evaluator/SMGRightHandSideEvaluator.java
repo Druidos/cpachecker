@@ -136,11 +136,11 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
           " does not fit object ",
           pObject,
           ".");
-      String readVariable = "";
+      StringBuilder readVariable = new StringBuilder();
       for (Entry<String, SMGValue> entry : errState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = errState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pObject.equals(pointer.getObject())) {
-          readVariable = readVariable + (" '" + entry.getKey() + "' variable");
+          readVariable.append(" '").append(entry.getKey()).append("' variable");
         }
       }
       final String description;
@@ -210,11 +210,11 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
                   pRValueType.toASTString(""),
                   pMemoryOfField));
       SMGState newState = pState.withInvalidWrite();
-      String readVariable = "";
+      StringBuilder readVariable = new StringBuilder();
       for (Entry<String, SMGValue> entry : newState.getReadValues().entrySet()) {
         SMGEdgePointsTo pointer = newState.getHeap().getPointer(entry.getValue());
         if (pointer != null && pMemoryOfField.equals(pointer.getObject())) {
-          readVariable = readVariable + (" on '" + entry.getKey() + "' variable");
+          readVariable.append(" on '").append(entry.getKey()).append("' variable");
         }
       }
       if (!pMemoryOfField.equals(SMGNullObject.INSTANCE)) {

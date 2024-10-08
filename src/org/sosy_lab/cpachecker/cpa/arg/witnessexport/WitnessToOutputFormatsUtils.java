@@ -12,8 +12,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.logging.Level.WARNING;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -33,12 +33,12 @@ import org.sosy_lab.cpachecker.core.counterexample.ReportGenerator;
 import org.sosy_lab.cpachecker.cpa.arg.ARGState;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.formatter.WitnessToDotFormatter;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.formatter.WitnessToGraphMLFormatter;
-import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 import org.sosy_lab.cpachecker.util.NumericIdProvider;
 import org.sosy_lab.cpachecker.util.StringUtil;
 import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTree;
 import org.sosy_lab.cpachecker.util.expressions.ExpressionTrees;
+import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentSet;
 
 public final class WitnessToOutputFormatsUtils {
 

@@ -53,58 +53,71 @@ public class CTypedefToStringAlignmentTest {
   @Parameters(name = "{0}; {1}; // {2}")
   public static Object[][] types() {
     return new Object[][] {
-      { // declare var as foo [int]
+      // typedef int
+      {
+        // declare var as foo [int]
         "typedef int foo", "foo var", FOO,
       },
-      { // declare var as 1-aligned foo [int]
+      {
+        // declare var as 1-aligned foo [int]
         "typedef int foo", "foo var " + aligned(1), CTypes.updateAlignment(FOO, Alignment.ofVar(1)),
       },
-      { // declare var as alignas-16 foo [int]
+      {
+        // declare var as alignas-16 foo [int]
         "typedef int foo",
         "_Alignas(16) foo var",
         CTypes.updateAlignment(FOO, Alignment.ofAlignas(16)),
       },
-      { // declare var as alignas-16 2-aligned foo [int]
+      {
+        // declare var as alignas-16 2-aligned foo [int]
         "typedef int foo",
         "_Alignas(16) foo var " + aligned(2),
         CTypes.updateAlignment(FOO, Alignment.ofAlignas(16).withVarAligned(2)),
       },
 
-      //
-      { // declare var as fooc [const int]
+      // typedef const int
+      {
+        // declare var as fooc [const int]
         "typedef const int fooc", "fooc var", FOOC,
       },
-      { // declare var as 2-aligned fooc [const int]
+      {
+        // declare var as 2-aligned fooc [const int]
         "typedef const int fooc",
         "fooc var " + aligned(2),
         CTypes.updateAlignment(FOOC, Alignment.ofVar(2)),
       },
-      { // declare var as alignas-16 fooc [const int]
+      {
+        // declare var as alignas-16 fooc [const int]
         "typedef const int fooc",
         "_Alignas(16) fooc var",
         CTypes.updateAlignment(FOOC, Alignment.ofAlignas(16)),
       },
-      { // declare var as alignas-16 2-aligned fooc [int]
+      {
+        // declare var as alignas-16 2-aligned fooc [int]
         "typedef const int fooc",
         "_Alignas(16) fooc var " + aligned(2),
         CTypes.updateAlignment(FOOC, Alignment.ofAlignas(16).withVarAligned(2)),
       },
 
-      //
-      { // declare var as fooa [1-aligned int]
+      // typedef 1-aligned int
+      {
+        // declare var as fooa [1-aligned int]
         "typedef int " + aligned(1) + " fooa", "fooa var", FOOA,
       },
-      { // declare var as 2-aligned fooa [1-aligned int]
+      {
+        // declare var as 2-aligned fooa [1-aligned int]
         "typedef int " + aligned(1) + " fooa",
         "fooa var " + aligned(2),
         CTypes.updateAlignment(FOOA, Alignment.ofVar(2)),
       },
-      { // declare var as alignas-16 fooa [1-aligned int]
+      {
+        // declare var as alignas-16 fooa [1-aligned int]
         "typedef int " + aligned(1) + " fooa",
         "_Alignas(16) fooa var",
         CTypes.updateAlignment(FOOA, Alignment.ofAlignas(16)),
       },
-      { // declare var as alignas-16 2-aligned fooa [1-aligned int]
+      {
+        // declare var as alignas-16 2-aligned fooa [1-aligned int]
         "typedef int " + aligned(1) + " fooa",
         "_Alignas(16) fooa var " + aligned(2),
         CTypes.updateAlignment(FOOA, Alignment.ofAlignas(16).withVarAligned(2)),
