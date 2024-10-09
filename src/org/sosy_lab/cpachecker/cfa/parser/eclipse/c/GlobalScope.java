@@ -416,7 +416,8 @@ class GlobalScope extends AbstractScope {
 
       for (CEnumerator c : oldEnumType.getEnumerators()) {
         CEnumerator newC =
-            new CEnumerator(c.getFileLocation(), c.getName(), c.getQualifiedName(), c.getValue());
+            new CEnumerator(
+                c.getFileLocation(), c.getName(), c.getQualifiedName(), c.getValue(), c.getType());
         list.add(newC);
       }
 

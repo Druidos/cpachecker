@@ -472,7 +472,11 @@ class FunctionCloner implements CFAVisitor {
 
       } else if (ast instanceof CEnumerator decl) {
         return new CEnumerator(
-            loc, decl.getName(), changeQualifiedName(decl.getQualifiedName()), decl.getValue());
+            loc,
+            decl.getName(),
+            changeQualifiedName(decl.getQualifiedName()),
+            decl.getValue(),
+            decl.getType());
       }
 
     } else if (ast instanceof CStatement) {
@@ -699,7 +703,8 @@ class FunctionCloner implements CFAVisitor {
                 e.getFileLocation(),
                 e.getName(),
                 changeQualifiedName(e.getQualifiedName()),
-                e.getValue()));
+                e.getValue(),
+                e.getType()));
       }
       CEnumType enumType =
           new CEnumType(

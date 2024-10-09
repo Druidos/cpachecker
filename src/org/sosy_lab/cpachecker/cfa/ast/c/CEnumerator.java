@@ -24,20 +24,22 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
 
   @Serial private static final long serialVersionUID = -2526725372840523651L;
 
-  private final @Nullable BigInteger value;
+  private final BigInteger value;
   private @Nullable CEnumType enumType;
+  private @Nullable CSimpleType actualType;
   private final String qualifiedName;
 
   public CEnumerator(
       final FileLocation pFileLocation,
       final String pName,
       final String pQualifiedName,
-      final @Nullable BigInteger pValue) {
+      final BigInteger pValue,
+      final @Nullable CSimpleType pActualType) {
     super(pFileLocation, pName);
-
     checkNotNull(pName);
-    value = pValue;
+    value = checkNotNull(pValue);
     qualifiedName = checkNotNull(pQualifiedName);
+    actualType = pActualType;
   }
 
   /** Get the enum that declared this enumerator. */
@@ -53,13 +55,14 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
 
     return obj instanceof CEnumerator other
         && super.equals(obj)
-        && Objects.equals(value, other.value)
+        && value.equals(other.value)
         && qualifiedName.equals(other.qualifiedName);
     // do not compare the enumType, comparing it with == is wrong because types which
     // are the same but not identical would lead to wrong results
     // comparing it with equals is no good choice, too. This would lead to a stack
     // overflow
     //  && (enumType == other.enumType);
+    // enumerator have to have unique names anyway
   }
 
   @Override
@@ -71,6 +74,10 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
   public void setEnum(CEnumType pEnumType) {
     checkState(enumType == null);
     enumType = checkNotNull(pEnumType);
+    if (actualType == null) {
+      // if value does not fit in int, it is of the enum-compatible bigger type
+      actualType = enumType.getCompatibleType();
+    }
   }
 
   @Override
@@ -78,12 +85,27 @@ public final class CEnumerator extends AbstractSimpleDeclaration implements CSim
     return qualifiedName;
   }
 
+  /**
+   * С11 §6.7.2.2 (2) The expression that defines the value of an enumeration constant shall be an
+   * integer constant expression that has a value representable as an int.
+   *
+   * <p>С11 §6.7.2.2 (3) The identifiers in an enumerator list are declared as constants that have
+   * type int and may appear wherever such are permitted.
+   *
+   * <p>Thus, enumerator of any enumerated type has type <code>int</code> if its value is inside
+   * <code>int</code> bounds. GCC allows enumerators with values out of <code>int</code> bounds
+   * (breaks (2)). The type for such enumerator is the compatible integer type of the enum.
+   *
+   * @return <code>int</code> or the enum-compatible simple numeric type.
+   */
   @Override
   public CSimpleType getType() {
-    return enumType.getCompatibleType();
+    // actual type is null only if it is not int and has no enum type set
+    checkState(actualType != null, "enumerator has no enum type");
+    return actualType;
   }
 
-  public @Nullable BigInteger getValue() {
+  public BigInteger getValue() {
     return value;
   }
 

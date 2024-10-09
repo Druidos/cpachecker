@@ -3060,9 +3060,16 @@ class ASTConverter {
       }
     }
 
+    boolean fitsInt =
+        machinemodel.getMaximalIntegerValue(CNumericTypes.INT).compareTo(enumeratorValue) >= 0;
+    fitsInt &=
+        machinemodel.getMinimalIntegerValue(CNumericTypes.INT).compareTo(enumeratorValue) <= 0;
+    CSimpleType actualType = fitsInt ? CNumericTypes.INT : null;
+
     String name = convert(e.getName());
     CEnumerator result =
-        new CEnumerator(getLocation(e), name, scope.createScopedNameOf(name), enumeratorValue);
+        new CEnumerator(
+            getLocation(e), name, scope.createScopedNameOf(name), enumeratorValue, actualType);
     scope.registerDeclaration(result);
     return result;
   }
