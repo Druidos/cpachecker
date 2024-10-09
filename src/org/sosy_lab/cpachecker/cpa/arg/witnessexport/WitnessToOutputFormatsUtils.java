@@ -55,7 +55,7 @@ public final class WitnessToOutputFormatsUtils {
         IO.writeFile(filename, Charset.defaultCharset(), content);
       }
     } catch (IOException e) {
-      logger.logfException(WARNING, e, "Violation witness export to %s failed.", filename);
+      logger.logUserException(WARNING, e, "Violation witness export to " + filename + " failed.");
     }
   }
 
