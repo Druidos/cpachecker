@@ -27,7 +27,6 @@ import java.util.Deque;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.Optional;
 import java.util.logging.Level;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -3007,16 +3006,19 @@ class ASTConverter {
    * @return integer type compatible with this enum
    */
   private CSimpleType getEnumerationType(boolean pPacked, final List<CEnumerator> pEnumerators) {
-    LongSummaryStatistics enumStatistics =
-        pEnumerators.stream()
-            .filter(a -> a.getValue() != null)
-            .mapToLong(pCEnumerator -> pCEnumerator.getValue().longValueExact())
-            .summaryStatistics();
+    BigInteger minValue = null;
+    BigInteger maxValue = null;
+    for (CEnumerator enumerator : pEnumerators) {
+      if (minValue == null || enumerator.getValue().compareTo(minValue) < 0) {
+        minValue = enumerator.getValue();
+      }
+      if (maxValue == null || enumerator.getValue().compareTo(maxValue) > 0) {
+        maxValue = enumerator.getValue();
+      }
+    }
 
     Preconditions.checkState(
-        enumStatistics.getCount() > 0, "enumeration does not provide any values");
-    final BigInteger minValue = BigInteger.valueOf(enumStatistics.getMin());
-    final BigInteger maxValue = BigInteger.valueOf(enumStatistics.getMax());
+        minValue != null && maxValue != null, "enumeration does not provide any values");
 
     if (pPacked) {
       for (CSimpleType integerType : PACKED_ENUM_REPRESENTATION_CANDIDATE_TYPES) {
