@@ -1479,52 +1479,44 @@ class ASTConverter {
 
     // declaration may still be null here,
     // for example when parsing AST patterns for the AutomatonCPA.
-
-    if (declaration != null) {
-      name = declaration.getName(); // may have been renamed
+    if (declaration == null) {
+      CType type = typeConverter.convert(e.getExpressionType());
+      return new CIdExpression(getLocation(e), type, name, null);
     }
 
-    CType type;
+    name = declaration.getName(); // may have been renamed
+
+    if (!(declaration instanceof CEnumerator enumerator)) {
+      // no tricky enumerators
+      CType type = declaration.getType();
+      return new CIdExpression(getLocation(e), type, name, declaration);
+    }
+
+    if (enumerator.getEnum() != null) {
+      // enumerator is not tricky
+      return new CIdExpression(getLocation(e), enumerator.getType(), name, enumerator);
+    }
+
     // Use declaration type when possible to fix issues with anonymous composites, problem types
     // etc. There are two tricky cases here:
     // (A) References to values of an anonymous enum like "enum { e }". Such types cannot be looked
     //     up, and thus the CElaboratedType misses the reference to the enum type.
+    //     XXX is it a possible problem?
     // (B) While converting an enum like "enum e { e1, e2 = e1 }" the CEnumType for e does not yet
     //     exist while handling the expression "e1" for the value of e2, and we do not know the type
     //     of e and e1 because these can depend on later values.
-    if (declaration != null
-        // We cannot use declaration in case (B).
-        && !(declaration instanceof CEnumerator enumerator && enumerator.getEnum() == null)) {
-      type = declaration.getType();
-    } else {
-      type = typeConverter.convert(e.getExpressionType());
+
+    CType type = typeConverter.convert(e.getExpressionType());
+    if (type instanceof CElaboratedType elaboratedType && elaboratedType.getRealType() == null) {
+      assert elaboratedType.getKind() == ComplexTypeKind.ENUM
+          : enumerator + " has weird type " + elaboratedType.getKind();
+      assert enumerator.getEnum() == null : "enum appeared for " + enumerator;
+      // Case (A) + (B): The resulting type can be wrong, but at least this influences only the
+      // calculations of other enumerators of this enums, not any further calculations.
+      type = CNumericTypes.INT;
     }
-
-    if (declaration instanceof CEnumerator enumerator
-        && type instanceof CElaboratedType elaboratedType
-        && elaboratedType.getKind() == ComplexTypeKind.ENUM
-        && elaboratedType.getRealType() == null) {
-      // Case (A)
-      CEnumType enumType = enumerator.getEnum();
-
-      // We want to fix the type, but can do so properly only if we are not also in case (B).
-      if (enumType != null) {
-        type =
-            new CElaboratedType(
-                type.isConst(),
-                type.isVolatile(),
-                ComplexTypeKind.ENUM,
-                enumType.getName(),
-                enumType.getOrigName(),
-                enumType);
-      } else {
-        // Case (A) + (B): The resulting type can be wrong, but at least this influences only the
-        // calculations of other enumerators of this enums, not any further calculations.
-        type = CNumericTypes.INT;
-      }
-    }
-
-    return new CIdExpression(getLocation(e), type, name, declaration);
+    // type is not elaborated || real is not null
+    return new CIdExpression(getLocation(e), type, name, enumerator);
   }
 
   private CAstNode convert(final IASTUnaryExpression e) {
