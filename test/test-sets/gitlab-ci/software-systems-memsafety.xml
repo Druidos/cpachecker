@@ -10,15 +10,18 @@
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
 <benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="400MB" cpuCores="1">
-    <option name="-heap">300M</option>
-    <option name="-noout"/>
-    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
+    <option name="--heap">300M</option>
+    <option name="--no-output-files"/>
+    <option name="--option">cpa.smg.runtimeCheck=FULL</option>
 
     <rundefinition name="smg">
-        <option name="-smg"/>
+        <option name="--smg-ldv"/>
+        <option name="--option">cpa.smg.trackPredicates=false</option>
+        <option name="--option">cpa.smg.trackErrorPredicates=false</option>
+        <option name="--option">cpa.smg.verifyPredicates=false</option>
     </rundefinition>
     <rundefinition name="smg-ldv">
-        <option name="-smg-ldv"/>
+        <option name="--smg-ldv"/>
     </rundefinition>
 
     <!-- 42 tasks -->

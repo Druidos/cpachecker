@@ -16,34 +16,42 @@ See also: ../programs/c_attributes/enums/README.txt
 -->
 
 <benchmark hardtimelimit="300" timelimit="270" tool="cpachecker">
-    <option name="-heap">4000m</option>
-    <option name="-noout"/>
+    <option name="--heap">4000m</option>
+    <option name="--no-output-files"/>
 
     <rundefinition name="64">
-        <option name="-64"/>
+        <option name="--64"/>
         <tasks name="memcpy">
-            <option name="-smg"/>
+            <option name="--smg-ldv"/>
+            <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
+            <option name="--option">cpa.smg.trackPredicates=false</option>
+            <option name="--option">cpa.smg.trackErrorPredicates=false</option>
+            <option name="--option">cpa.smg.verifyPredicates=false</option>
             <include>../programs/c_attributes/enums/memcpy*/*.yml</include>
             <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
         </tasks>
         <tasks name="shift">
-            <option name="-predicateAnalysis"/>
+            <option name="--predicateAnalysis"/>
             <include>../programs/c_attributes/enums/shift*/*.yml</include>
             <propertyfile>../config/properties/unreach-label.prp</propertyfile>
         </tasks>
     </rundefinition>
 
     <rundefinition name="32">
-        <option name="-32"/>
+        <option name="--32"/>
         <tasks name="memcpy">
-            <option name="-smg"/>
+            <option name="--smg-ldv"/>
+            <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
+            <option name="--option">cpa.smg.trackPredicates=false</option>
+            <option name="--option">cpa.smg.trackErrorPredicates=false</option>
+            <option name="--option">cpa.smg.verifyPredicates=false</option>
             <include>../programs/c_attributes/enums/memcpy*/*.yml</include>
             <!-- long and int are same size -->
             <exclude>../programs/c_attributes/enums/memcpy-unsafe*/*-long-*.yml</exclude>
             <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
         </tasks>
         <tasks name="shift">
-            <option name="-predicateAnalysis"/>
+            <option name="--predicateAnalysis"/>
             <include>../programs/c_attributes/enums/shift*/*.yml</include>
             <propertyfile>../config/properties/unreach-label.prp</propertyfile>
         </tasks>

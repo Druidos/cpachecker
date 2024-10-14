@@ -8,20 +8,20 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
 <benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="400MB" cpuCores="1">
-    <option name="-64"/>
-    <option name="-noout"/>
-    <option name="-heap">300M</option>
-    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
-    <option name="-setprop">analysis.traversal.order=dfs</option>
-    <option name="-setprop">parser.readLineDirectives=false</option>
+    <option name="--64"/>
+    <option name="--no-output-files"/>
+    <option name="--heap">300M</option>
+    <option name="--option">cpa.smg.runtimeCheck=FULL</option>
+    <option name="--option">analysis.traversal.order=dfs</option>
+    <option name="--option">parser.readLineDirectives=false</option>
 
     <rundefinition name="smg-ldv">
-        <option name="-smg-ldv"/>
-        <option name="-setprop">cpa.smg.enableHeapAbstraction=true</option>
+        <option name="--smg-ldv"/>
+        <option name="--option">cpa.smg.enableHeapAbstraction=true</option>
     </rundefinition>
     <rundefinition name="smg-ldv-nohabst">
-        <option name="-smg-ldv"/>
-        <option name="-setprop">cpa.smg.enableHeapAbstraction=false</option>
+        <option name="--smg-ldv"/>
+        <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
     </rundefinition>
 
     <!-- 21 tasks -->

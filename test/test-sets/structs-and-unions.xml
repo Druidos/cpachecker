@@ -16,17 +16,21 @@ See also: ../programs/c_attributes/structs-and-unions/README.txt
 -->
 
 <benchmark hardtimelimit="300" timelimit="270" tool="cpachecker">
-    <option name="-heap">4000m</option>
-    <option name="-noout"/>
-    <option name="-64"/>
+    <option name="--heap">4000m</option>
+    <option name="--no-output-files"/>
+    <option name="--64"/>
 
     <rundefinition name="smg">
-        <option name="-smg"/>
+        <option name="--smg-ldv"/>
+        <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
+        <option name="--option">cpa.smg.trackPredicates=false</option>
+        <option name="--option">cpa.smg.trackErrorPredicates=false</option>
+        <option name="--option">cpa.smg.verifyPredicates=false</option>
         <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
     </rundefinition>
 
     <rundefinition name="predicate">
-        <option name="-predicateAnalysis"/>
+        <option name="--predicateAnalysis"/>
         <propertyfile>../config/properties/unreach-label.prp</propertyfile>
     </rundefinition>
 

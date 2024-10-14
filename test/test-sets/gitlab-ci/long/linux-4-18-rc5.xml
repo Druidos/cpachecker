@@ -10,17 +10,21 @@
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
 <benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="1100MB" cpuCores="1">
-    <option name="-heap">1000M</option>
-    <option name="-noout"/>
-    <option name="-setprop">cpa.smg.runtimeCheck=FULL</option>
-    <option name="-setprop">parser.readLineDirectives=false</option>
+    <option name="--heap">1000M</option>
+    <option name="--no-output-files"/>
+    <option name="--option">cpa.smg.runtimeCheck=FULL</option>
+    <option name="--option">parser.readLineDirectives=false</option>
 
     <rundefinition name="smg">
-        <option name="-smg"/>
-        <option name="-setprop">cpa.smg.handleUnknownFunctions=assume_safe</option>
+        <option name="--smg-ldv"/>
+        <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
+        <option name="--option">cpa.smg.trackPredicates=false</option>
+        <option name="--option">cpa.smg.trackErrorPredicates=false</option>
+        <option name="--option">cpa.smg.verifyPredicates=false</option>
+        <option name="--option">cpa.smg.handleUnknownFunctions=assume_safe</option>
     </rundefinition>
     <rundefinition name="smg-ldv">
-        <option name="-smg-ldv"/>
+        <option name="--smg-ldv"/>
     </rundefinition>
 
     <propertyfile>../../../programs/ldv-benchmarks/linux-4.18-rc5-memsafety/valid-memsafety.prp</propertyfile>
