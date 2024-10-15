@@ -22,11 +22,7 @@ See also: ../programs/c_attributes/enums/README.txt
     <rundefinition name="64">
         <option name="--64"/>
         <tasks name="memcpy">
-            <option name="--smg-ldv"/>
-            <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
-            <option name="--option">cpa.smg.trackPredicates=false</option>
-            <option name="--option">cpa.smg.trackErrorPredicates=false</option>
-            <option name="--option">cpa.smg.verifyPredicates=false</option>
+            <option name="--smg-old"/>
             <include>../programs/c_attributes/enums/memcpy*/*.yml</include>
             <propertyfile>../config/properties/valid-memsafety.prp</propertyfile>
         </tasks>
@@ -40,11 +36,7 @@ See also: ../programs/c_attributes/enums/README.txt
     <rundefinition name="32">
         <option name="--32"/>
         <tasks name="memcpy">
-            <option name="--smg-ldv"/>
-            <option name="--option">cpa.smg.enableHeapAbstraction=false</option>
-            <option name="--option">cpa.smg.trackPredicates=false</option>
-            <option name="--option">cpa.smg.trackErrorPredicates=false</option>
-            <option name="--option">cpa.smg.verifyPredicates=false</option>
+            <option name="--smg-old"/>
             <include>../programs/c_attributes/enums/memcpy*/*.yml</include>
             <!-- long and int are same size -->
             <exclude>../programs/c_attributes/enums/memcpy-unsafe*/*-long-*.yml</exclude>
