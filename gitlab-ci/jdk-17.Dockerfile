@@ -28,8 +28,8 @@ RUN apt-get update && apt-get install -y \
   python3 \
   clang-9 \
   software-properties-common
-RUN add-apt-repository ppa:sosy-lab/benchmarking
-RUN apt-get update && apt-get install -y --no-install-recommends benchexec
-RUN rm -rf /var/lib/apt/lists/*
-
+RUN add-apt-repository ppa:sosy-lab/benchmarking \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends benchexec \
+    && rm -rf /var/lib/apt/lists/*
 COPY test/ /test/

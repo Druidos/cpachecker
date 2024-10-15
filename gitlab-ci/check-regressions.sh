@@ -44,4 +44,5 @@ else
 fi
 
 cat stats.txt
+bzip2 $CURR  # so it's easy to download from gitlab
 python3 gitlab-ci/log-table-generator-diff.py < stats.txt || exit $?
