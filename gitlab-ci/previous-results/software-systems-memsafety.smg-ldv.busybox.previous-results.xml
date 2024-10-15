@@ -27,34 +27,40 @@ SPDX-License-Identifier: Apache-2.0
   </columns>
 
   <run name="test/programs/benchmarks/busybox-1.22.0/basename-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/basename-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="131.014347317s"/>
-    <column title="memory" value="149721088B"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="walltime" value="131.04070194403175s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="8.635795984s"/>
+    <column title="memory" value="139632640B"/>
+    <column title="reached" value="1365"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.811s"/>
+    <column title="transfer" value="2.542s"/>
+    <column title="walltime" value="8.652461690828204s"/>
+    <column title="blkio-read" value="65536B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="131.014347317s" hidden="true"/>
-    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="cputime-cpu0" value="8.635234372s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000561612s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T13:47:32.995047+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:18:43.807033+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/basename-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/basename-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="131.017552099s"/>
-    <column title="memory" value="148627456B"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="walltime" value="131.04334288899554s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="9.498691126s"/>
+    <column title="memory" value="142942208B"/>
+    <column title="reached" value="1740"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.818s"/>
+    <column title="transfer" value="3.284s"/>
+    <column title="walltime" value="9.52811816520989s"/>
+    <column title="blkio-read" value="65536B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="131.017552099s" hidden="true"/>
-    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="cputime-cpu0" value="9.498519453s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000171673s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T13:49:44.183688+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:18:52.674446+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/chgrp-incomplete-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/chgrp-incomplete-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
     <column title="cputime" value="13.04346175s"/>
@@ -145,19 +151,22 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-08-01T13:52:44.303555+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/dirname-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/dirname-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="131.012059195s"/>
-    <column title="memory" value="158568448B"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="walltime" value="131.0378261540318s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="9.453128511s"/>
+    <column title="memory" value="140771328B"/>
+    <column title="reached" value="1408"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="2.706s"/>
+    <column title="transfer" value="2.112s"/>
+    <column title="walltime" value="9.475647278130054s"/>
+    <column title="blkio-read" value="57344B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="131.012059195s" hidden="true"/>
-    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="cputime-cpu0" value="9.452946413s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000182098s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T13:52:55.957338+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:19:46.692582+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/du-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/du-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="12.908479951s"/>
@@ -699,34 +708,40 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-08-01T14:08:40.627457+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/test-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/test-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="131.012945743s"/>
-    <column title="memory" value="169705472B"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="walltime" value="131.03895714099053s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="16.028944806s"/>
+    <column title="memory" value="154275840B"/>
+    <column title="reached" value="2362"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="2.896s"/>
+    <column title="transfer" value="6.485s"/>
+    <column title="walltime" value="16.056624239310622s"/>
+    <column title="blkio-read" value="135168B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="131.012945743s" hidden="true"/>
-    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="cputime-cpu0" value="16.028609147s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000335659s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T14:08:53.407693+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:28:21.752841+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/test-incomplete-1.yml" files="[test/programs/benchmarks/busybox-1.22.0/test-incomplete-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="131.012136743s"/>
-    <column title="memory" value="169873408B"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="walltime" value="131.03572659404017s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="14.545040907s"/>
+    <column title="memory" value="156139520B"/>
+    <column title="reached" value="2356"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="1.648s"/>
+    <column title="transfer" value="6.264s"/>
+    <column title="walltime" value="14.579996583983302s"/>
+    <column title="blkio-read" value="135168B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="131.012136743s" hidden="true"/>
-    <column title="exitsignal" value="9" hidden="true"/>
+    <column title="cputime-cpu0" value="14.54165276s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.003388147s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T14:11:04.590651+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:28:38.018831+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/touch-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/touch-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
     <column title="cputime" value="12.010797105s"/>
@@ -747,21 +762,23 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-08-01T14:13:15.838778+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/uname-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/uname-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="26.878818099s"/>
-    <column title="memory" value="182472704B"/>
-    <column title="reached" value="2122"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="5.513s"/>
-    <column title="transfer" value="11.566s"/>
-    <column title="walltime" value="26.892228947021067s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="19.785633002s"/>
+    <column title="error" value="line 2508: Unsupported feature"/>
+    <column title="memory" value="154333184B"/>
+    <column title="reached" value="2147"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="4.306s"/>
+    <column title="transfer" value="9.515s"/>
+    <column title="walltime" value="19.821033829823136s"/>
+    <column title="blkio-read" value="118784B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="wrong" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="26.878818099s" hidden="true"/>
+    <column title="cputime-cpu0" value="19.785460756s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000172246s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T14:13:28.061117+00:00" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:29:01.584291+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/uniq-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/uniq-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="11.846380395s"/>
@@ -852,21 +869,23 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-08-01T14:14:45.797157+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/who-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/who-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="13.143000813s"/>
-    <column title="memory" value="157589504B"/>
-    <column title="reached" value="1276"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="1.226s"/>
-    <column title="transfer" value="2.583s"/>
-    <column title="walltime" value="13.16449533199193s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="8.243166525s"/>
+    <column title="error" value="line 2631: Unsupported feature"/>
+    <column title="memory" value="144171008B"/>
+    <column title="reached" value="1259"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="1.039s"/>
+    <column title="transfer" value="1.460s"/>
+    <column title="walltime" value="8.268586203455925s"/>
+    <column title="blkio-read" value="126976B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="wrong" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="13.143000813s" hidden="true"/>
+    <column title="cputime-cpu0" value="8.242983337s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000183188s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T14:15:01.196566+00:00" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:30:07.528421+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/whoami-incomplete-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/whoami-incomplete-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="17.387991649s"/>
@@ -886,21 +905,22 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-08-01T14:15:14.505273+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/busybox-1.22.0/yes-2.yml" files="[test/programs/benchmarks/busybox-1.22.0/yes-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="11.993064407s"/>
-    <column title="memory" value="147431424B"/>
-    <column title="reached" value="1272"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.927s"/>
-    <column title="transfer" value="2.546s"/>
-    <column title="walltime" value="12.01411950000329s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="9.014246539s"/>
+    <column title="memory" value="149966848B"/>
+    <column title="reached" value="1437"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.799s"/>
+    <column title="transfer" value="2.390s"/>
+    <column title="walltime" value="9.036064932122827s"/>
+    <column title="blkio-read" value="98304B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="wrong" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="11.993064407s" hidden="true"/>
+    <column title="cputime-cpu0" value="9.014083801s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000162738s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-01T14:15:32.075987+00:00" hidden="true"/>
+    <column title="starttime" value="2024-10-15T12:30:24.531835+00:00" hidden="true"/>
   </run>
   
 </result>
