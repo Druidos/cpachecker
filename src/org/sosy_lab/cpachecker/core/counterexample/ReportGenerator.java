@@ -23,6 +23,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.io.Resources;
@@ -85,6 +86,7 @@ import org.sosy_lab.cpachecker.cpa.arg.witnessexport.WitnessExporter;
 import org.sosy_lab.cpachecker.cpa.arg.witnessexport.WitnessToOutputFormatsUtils;
 import org.sosy_lab.cpachecker.util.AbstractStates;
 import org.sosy_lab.cpachecker.util.BiPredicates;
+import org.sosy_lab.cpachecker.util.automaton.AutomatonGraphmlCommon.KeyDef;
 import org.sosy_lab.cpachecker.util.faultlocalization.FaultLocalizationInfo;
 import org.sosy_lab.cpachecker.util.predicates.smt.FormulaToCVisitor;
 
@@ -392,34 +394,60 @@ public class ReportGenerator {
     return visitor.getString();
   }
 
+  private static void writeJSONString(Multimap<String, Object> edgeWithNotes, Writer writer)
+      throws IOException {
+    boolean first = true;
+    writer.append('{');
+    for (Map.Entry<String, Collection<Object>> entry : edgeWithNotes.asMap().entrySet()) {
+      if (first) {
+        first = false;
+      } else {
+        writer.write(", ");
+      }
+
+      JSON.writeJSONString(entry.getKey(), writer);
+      writer.write(": ");
+
+      if (entry.getKey().equals(KeyDef.NOTE.toString())) {
+        JSON.writeJSONString(Joiner.on("\\n").join(entry.getValue()), writer);
+      } else {
+        JSON.writeJSONString(Iterables.getOnlyElement(entry.getValue()).toString(), writer);
+      }
+    }
+    writer.write('}');
+  }
+
   private void insertArgJson(Writer writer) throws IOException {
     writer.write("var argJson = {");
     if (!argNodes.isEmpty() && !argEdges.isEmpty()) {
       writer.write("\n\"nodes\":");
       JSON.writeJSONString(argNodes.values(), writer);
-      writer.write(",\n\"edges\":");
+      writer.write(",\n\"edges\":[");
       for (Multimap<String, Object> edge : argEdges.values()) {
-        JSON.writeJSONString(edge.asMap(), writer);
+        writeJSONString(edge, writer);
+        writer.write(",");
       }
-      writer.write("\n");
+      writer.write("],\n");
     }
     if (!argRelevantEdges.isEmpty() && !argRelevantNodes.isEmpty()) {
-      writer.write(",\n\"relevantnodes\":");
+      writer.write("\"relevantnodes\":");
       JSON.writeJSONString(argRelevantNodes.values(), writer);
-      writer.write(",\n\"relevantedges\":");
+      writer.write(",\n\"relevantedges\":[");
       for (Multimap<String, Object> relevantEdge : argRelevantEdges.values()) {
-        JSON.writeJSONString(relevantEdge.asMap(), writer);
+        writeJSONString(relevantEdge, writer);
+        writer.write(",");
       }
-      writer.write("\n");
+      writer.write("],\n");
     }
     if (!argReducedEdges.isEmpty() || !argReducedNodes.isEmpty()) {
-      writer.write(",\n\"reducednodes\":");
+      writer.write("\"reducednodes\":");
       JSON.writeJSONString(argReducedNodes.values(), writer);
-      writer.write(",\n\"reducededges\":");
+      writer.write(",\n\"reducededges\":[");
       for (Multimap<String, Object> reducedEdge : argReducedEdges.values()) {
-        JSON.writeJSONString(reducedEdge.asMap(), writer);
+        writeJSONString(reducedEdge, writer);
+        writer.write(",");
       }
-      writer.write("\n");
+      writer.write("]\n");
     }
     writer.write("}\n");
     writer.write("window.argJson = argJson;\n");
