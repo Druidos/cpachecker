@@ -12,7 +12,6 @@ Module with C operators and expressions for address-of, pointer dereference, arr
 subscript and sum.
 """
 
-
 from enum import Enum, IntEnum
 from .misc import RValueException
 from .ctypes import Pointer, Number, Array, standard_types
@@ -144,64 +143,67 @@ class Operator(Enum):
         return self.operator
 
     nop = (None, OperatorKind.nop, lambda x: x)
-
-    # post_inc = ('++', OperatorKind.postfix, Expression.post_inc)
-    # post_dec = ('--', OperatorKind.postfix, Expression.post_dec)
-    # call = ('()', OperatorKind.postpar, Expression.__call__)
     subscript = ("[]", OperatorKind.postpar, Expression.__getitem__)
-    # dot = ('.', OperatorKind.postfix, Expression.dot)
-    # arrow = ('->', OperatorKind.postfix, Expression.arrow)
-    # compound_literal = ('{}', OperatorKind.postpar, None)
-
-    # pre_inc = ('++', OperatorKind.prefix, Expression.pre_inc)  # cant be of type cast
-    # pre_dec = ('--', OperatorKind.prefix, Expression.pre_dec)  # cant be of type cast
-    # pos = ('+', OperatorKind.prefix, Expression.__pos__)
-    # neg = ('-', OperatorKind.prefix, Expression.__neg__)
-    # logic_not = ('!', OperatorKind.prefix, Expression.logic_not)
-    # bit_not = ('~', OperatorKind.prefix, Expression.__invert__)
-    # cast = ('()', OperatorKind.prepar, Expression.cast)
     pointer = ("*", OperatorKind.prefix, lambda x: Expression.__rmul__(x, None))
     addressof = ("&", OperatorKind.prefix, lambda x: Expression.__rand__(x, None))
     sizeof = ("sizeof", OperatorKind.prefix, None)  # cant be of type cast
     alignof = ("_Alignof", OperatorKind.prefix, None)
-
-    # mul = ('*', OperatorKind.multiplicative, Expression.__mul__)
-    # div = ('/', OperatorKind.multiplicative, Expression.__truediv__)
-    # mod = ('%', OperatorKind.multiplicative, Expression.__mod__)
     add = ("+", OperatorKind.additive, Expression.__add__)
-    # sub = ('-', OperatorKind.additive, Expression.__sub__)
-    # bit_left = ('<<', OperatorKind.bit_shift, Expression.__lshift__)
-    # bit_right = ('<<', OperatorKind.bit_shift, Expression.__rshift__)
 
-    # lt = ('<', OperatorKind.ordinal, Expression.__lt__)
-    # le = ('<=', OperatorKind.ordinal, Expression.__le__)
-    # gt = ('>', OperatorKind.ordinal, Expression.__gt__)
-    # ge = ('>=', OperatorKind.ordinal, Expression.__ge__)
-    # eq = ('==', OperatorKind.equality, Expression.__eq__)
-    # ne = ('!=', OperatorKind.equality, Expression.__ne__)
+    # These C operators were not implemented:
+    """
+    post_inc = ('++', OperatorKind.postfix, Expression.post_inc)
+    post_dec = ('--', OperatorKind.postfix, Expression.post_dec)
+    call = ('()', OperatorKind.postpar, Expression.__call__)
+    dot = ('.', OperatorKind.postfix, Expression.dot)
+    arrow = ('->', OperatorKind.postfix, Expression.arrow)
+    compound_literal = ('{}', OperatorKind.postpar, None)
 
-    # bit_and = ('&', OperatorKind.bit_and, Expression.__and__)
-    # bit_xor = ('^', OperatorKind.bit_xor, Expression.__xor__)
-    # bit_or = ('|', OperatorKind.bit_or, Expression.__or__)
-    # logic_and = ('&&', OperatorKind.logic_and, Expression.logic_and)
-    # logic_or = ('||', OperatorKind.logic_or, Expression.logic_or)
+    pre_inc = ('++', OperatorKind.prefix, Expression.pre_inc)  # cant be of type cast
+    pre_dec = ('--', OperatorKind.prefix, Expression.pre_dec)  # cant be of type cast
+    pos = ('+', OperatorKind.prefix, Expression.__pos__)
+    neg = ('-', OperatorKind.prefix, Expression.__neg__)
+    logic_not = ('!', OperatorKind.prefix, Expression.logic_not)
+    bit_not = ('~', OperatorKind.prefix, Expression.__invert__)
+    cast = ('()', OperatorKind.prepar, Expression.cast)
 
-    # ternary = ('?:', OperatorKind.ternary, None)
-    # assign = ('=', OperatorKind.assign, Expression.assign)
+    mul = ('*', OperatorKind.multiplicative, Expression.__mul__)
+    div = ('/', OperatorKind.multiplicative, Expression.__truediv__)
+    mod = ('%', OperatorKind.multiplicative, Expression.__mod__)
+    sub = ('-', OperatorKind.additive, Expression.__sub__)
+    bit_left = ('<<', OperatorKind.bit_shift, Expression.__lshift__)
+    bit_right = ('<<', OperatorKind.bit_shift, Expression.__rshift__)
 
-    # add_assign = ('+=', OperatorKind.assign, Expression.__iadd__)
-    # sub_assign = ('-=', OperatorKind.assign, Expression.__isub__)
-    # mul_assign = ('*=', OperatorKind.assign, Expression.__imul__)
-    # div_assign = ('/=', OperatorKind.assign, Expression.__idiv__)
-    # mod_assign = ('%=', OperatorKind.assign, Expression.__imod__)
+    lt = ('<', OperatorKind.ordinal, Expression.__lt__)
+    le = ('<=', OperatorKind.ordinal, Expression.__le__)
+    gt = ('>', OperatorKind.ordinal, Expression.__gt__)
+    ge = ('>=', OperatorKind.ordinal, Expression.__ge__)
+    eq = ('==', OperatorKind.equality, Expression.__eq__)
+    ne = ('!=', OperatorKind.equality, Expression.__ne__)
 
-    # bls_assign = ('<<=', OperatorKind.assign, Expression.__ilshift__)
-    # brs_assign = ('>>=', OperatorKind.assign, Expression.__irshift__)
-    # band_assign = ('&=', OperatorKind.assign, Expression.__iand__)
-    # bxor_assign = ('^=', OperatorKind.assign, Expression.__ixor__)
-    # bor_assign = ('|=', OperatorKind.assign, Expression.__ior__)
+    bit_and = ('&', OperatorKind.bit_and, Expression.__and__)
+    bit_xor = ('^', OperatorKind.bit_xor, Expression.__xor__)
+    bit_or = ('|', OperatorKind.bit_or, Expression.__or__)
+    logic_and = ('&&', OperatorKind.logic_and, Expression.logic_and)
+    logic_or = ('||', OperatorKind.logic_or, Expression.logic_or)
 
-    # comma = (',', OperatorKind.comma, Experssion.comma)
+    ternary = ('?:', OperatorKind.ternary, None)
+    assign = ('=', OperatorKind.assign, Expression.assign)
+
+    add_assign = ('+=', OperatorKind.assign, Expression.__iadd__)
+    sub_assign = ('-=', OperatorKind.assign, Expression.__isub__)
+    mul_assign = ('*=', OperatorKind.assign, Expression.__imul__)
+    div_assign = ('/=', OperatorKind.assign, Expression.__idiv__)
+    mod_assign = ('%=', OperatorKind.assign, Expression.__imod__)
+
+    bls_assign = ('<<=', OperatorKind.assign, Expression.__ilshift__)
+    brs_assign = ('>>=', OperatorKind.assign, Expression.__irshift__)
+    band_assign = ('&=', OperatorKind.assign, Expression.__iand__)
+    bxor_assign = ('^=', OperatorKind.assign, Expression.__ixor__)
+    bor_assign = ('|=', OperatorKind.assign, Expression.__ior__)
+
+    comma = (',', OperatorKind.comma, Expression.comma)
+    """
 
 
 class BinaryExpression(Expression):

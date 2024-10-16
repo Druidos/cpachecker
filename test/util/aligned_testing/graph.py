@@ -14,7 +14,6 @@ Generate expressions and text to check their alignment.
 2. TODO expressions of two+ varibles?
 """
 
-
 import logging
 
 from .machines import Machine
@@ -357,26 +356,16 @@ class Graph:
                     ("sizeof(%s) == %s" % (expr, size), end_msg),
                 ]
                 if mode == "prints":
-                    yield (
-                        'printf("'
-                        + str(expr)
-                        + "\\ta:%ld, s:%ld  //  expected a:"
-                        + str(align)
-                        + ", s:"
-                        + str(size)
-                        + "  //  "
-                        + node.align_class.__doc__
-                        + '\\n", _Alignof('
-                        + str(expr)
-                        + "), sizeof("
-                        + str(expr)
-                        + "));\n"
-                    )
+                    result = f'printf("{expr}\\ta:%ld, s:%ld  //  '
+                    result += f"expected a:{align}, s:{size}  //  "
+                    result += f'{node.align_class.__doc__}\\n", '
+                    result += f"_Alignof({expr}), sizeof({expr}));\n"
+                    yield result
                 elif mode == "static asserts":
                     for check, message in asserts:
                         yield '_Static_assert(%s, "%s");\n' % (check, message)
                 elif mode == "asserts":
-                    for check, message in asserts:
+                    for check, _message in asserts:
                         yield "assert(%s);\n" % check
                 else:
                     raise ValueError("unrecognised mode " + mode)
@@ -551,7 +540,7 @@ class ExpressionGenerator:
 
         graph = self.__graph_variable(variable)
         if mode == "graph":
-            return
+            return None
         assert machine
 
         prefix = ["extern void abort( void );\n"]

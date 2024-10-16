@@ -12,7 +12,6 @@ Module with two machines described: 64- and 32-bits (match ``-m64`` and ``-m32``
 target options).
 """
 
-
 from .misc import Alignment
 from .ctypes import Void, Number, Pointer, Array
 
@@ -125,7 +124,7 @@ class Machine:
 machine_models = [
     Machine(
         name="linux32",
-        cpa_option="-32",
+        cpa_option="--32",
         gcc_option="-m32",
         clang_option="-m32",
         char=1,
@@ -146,7 +145,7 @@ machine_models = [
     ),
     Machine(
         name="linux64",
-        cpa_option="-64",
+        cpa_option="--64",
         gcc_option="-m64",
         clang_option="-m64",
         char=1,

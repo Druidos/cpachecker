@@ -9,7 +9,6 @@
 
 """Module with C number, pointer and array types."""
 
-
 import re
 from typing import NamedTuple
 
@@ -82,7 +81,8 @@ class CType:
         :param bool as_string: if to return just a declaration string, not a Variable
         :rtype: str | Variable
         """
-        d = " ".join((self._typedecl[-1].typeid, name, align.attr)).strip() + ";\n"
+        d = "%s %s %s" % (self._typedecl[-1].typeid, name, align.attr)
+        d = d.strip() + ";\n"
         if as_string:
             return d
         return Variable(name=name, align=align, ctype=self, declaration=d)
@@ -193,7 +193,8 @@ class Pointer(CType):
     def declare(self, name, align, as_string=False):
         if len(self._typedecl) > 1:
             # just a typedef variable
-            d = " ".join((self._typedecl[-1].typeid, name, align.attr)).strip() + ";\n"
+            d = "%s %s %s" % (self._typedecl[-1].typeid, name, align.attr)
+            d = d.strip() + ";\n"
 
         else:
             declarator = name
@@ -251,7 +252,8 @@ class Array(Pointer):
 
     def declare(self, name, align, as_string=False):
         if len(self._typedecl) > 1:
-            d = " ".join((self._typedecl[-1].typeid, name, align.attr)).strip() + ";\n"
+            d = "%s %s %s" % (self._typedecl[-1].typeid, name, align.attr)
+            d = d.strip() + ";\n"
         else:
             d = self.ref_type.declare(name + "[%s]" % self.size, align, as_string=True)
         if as_string:

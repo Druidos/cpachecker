@@ -14,7 +14,6 @@ This script uses ``aligned_testing`` package to generate and execute test progra
 ``__aligned__`` C attribute.
 """
 
-
 import argparse
 import logging
 import os
@@ -27,10 +26,6 @@ from aligned_testing.graph import ExpressionGenerator
 from aligned_testing.machines import machine_models
 from aligned_testing.expressions import LiteralExpression
 
-sys.dont_write_bytecode = True  # prevent creation of .pyc files
-# os.environ['PYTHONPATH'] += (
-#     os.pathsep + os.path.abspath('.')
-#     + os.pathsep + os.path.abspath('../../scripts'))
 logger = logging.getLogger(__name__)
 
 
@@ -166,7 +161,7 @@ def __check_type(args, subdir: str, ctype: CType, eg: ExpressionGenerator):
     os.makedirs(fdir, exist_ok=True)
 
     for machine in machine_models:
-        logger.info("\tchecking machine " + machine.name)
+        logger.info("\tchecking machine %s", machine.name)
         if args.all_alignments:
             alignments_to_check = Alignment.__members__.values()
         else:
@@ -175,12 +170,12 @@ def __check_type(args, subdir: str, ctype: CType, eg: ExpressionGenerator):
             alignments_to_check = [Alignment.NoAttr, a1, a2]
 
         for ta in alignments_to_check:
-            logger.info("\t\tchecking type align " + str(ta.code))
+            logger.info("\t\tchecking type align %s", ta.code)
             if ta != Alignment.NoAttr:
                 ctype.add_typedef(typeid=ctype.typenick + str(ta.code), align=ta)
 
             for va in alignments_to_check:
-                logger.info("\t\t\tchecking var align " + str(va.code))
+                logger.info("\t\t\tchecking var align %s", va.code)
                 v = ctype.declare(name="v", align=va)
                 fprefix = fdir + "/" + str(ta.code) + "v" + str(va.code)
 
@@ -209,15 +204,13 @@ def __check_type(args, subdir: str, ctype: CType, eg: ExpressionGenerator):
 
 
 ALIGNED_DIR = "test/programs/c_attributes/aligned"
-CPA_COMMAND = (
-    "scripts/cpa.sh -preprocess -default -benchmark -heap 1200M -nolog -noout ".split()
-)
+CPA_COMMAND = "bin/cpachecker --preprocess --benchmark --heap 1200M -nolog ".split()
 CPA_PRINTS = (
-    "scripts/cpa.sh -preprocess -default -heap 1200M -nolog "
-    "-setprop cfa.callgraph.export=false "
-    "-setprop cfa.export=false "
-    "-setprop cfa.exportPerFunction=false "
-    "-setprop cfa.exportToC=true ".split()
+    "scripts/cpa.sh --preprocess --heap 1200M -nolog "
+    "--option cfa.callgraph.export=false "
+    "--option cfa.export=false "
+    "--option cfa.exportPerFunction=false "
+    "--option cfa.exportToC=true ".split()
 )
 
 
@@ -360,9 +353,9 @@ def parse_arguments():
         dest="declarators",
         action="store",
         help="Specify pointer&array modifiers as letter string ('p' for pointer to... and 'a' for "
-        "array of...). Variables will be declared as such type. Separate strings with comma to "
-        "check different declarators in a row. Examples: 1. '' is same as --numbers. 2. 'p' is "
-        "same as --pointers. 3. 'pp', for given types void, int, char*, declare variables "
+        "array of...). Variables will be declared as such type. Separate strings with comma "
+        "to check different declarators in a row. Examples: 1. '' is same as --numbers. 2. 'p'"
+        " is same as --pointers. 3. 'pp', for given types void, int, char*, declare variables "
         "as void**, int**, char***. 4. 'ap,paa', for given type char, declare variables as "
         "`char (*v)[5]` and `char *v[5][5]`.",
     )
@@ -404,26 +397,26 @@ def parse_graph_options(parser):
         "--number-arithmetic",
         dest="number_arithmetic",
         action="store_true",
-        help="For number expressions v add loops and edges for 'v+0', 'v+zero' "
-        "where possible.",
+        help="For number expressions v add loops and edges for 'v+0', 'v+zero' where possible.",
     )
 
 
 def parse_compiler_args(parser):
     compilers = parser.add_mutually_exclusive_group()
-    # sana = (
-    #     "-fsanitize=address -fsanitize=pointer-compare "
-    #     "-fsanitize=pointer-subtract -fsanitize=leak "
-    # )
     sans = "-fsanitize=shadow-call-stack "
-    # sant = "-fsanitize=thread "
-    # sanu = "-fsanitize=undefined "
-    strict = "-std=c11 -Wall -Werror -Wno-unused-value -Wno-format "  # + sana + sanu
-    strict2 = (
-        sans + "-Wno-gnu-alignof-expression "
+    # Other 'strict' compiler options:
+    # Address sanitizing
+    # -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=leak
+    # Thread sanitizing -fsanitize=thread
+    # Undefined behaviour san. -fsanitize=undefined
+    strict = "-std=c11 -Wall -Werror -Wno-unused-value -Wno-format "  # + address + UB
+    strict_clang = strict + sans
+    strict_clang += (
+        "-Wno-gnu-alignof-expression "
         "-Wno-sizeof-array-decay "
         "-Wno-address-of-packed-member "
     )
+
     compilers.add_argument(
         "--gcc",
         dest="cc_command",
@@ -436,7 +429,7 @@ def parse_compiler_args(parser):
         "--clang",
         dest="cc_command",
         action="store_const",
-        const=("clang " + strict + strict2).split(),
+        const=("clang " + strict_clang).split(),
         help="Use Clang to check testing model. Generate program with static asserts "
         "and try to compile it with Clang.",
     )
