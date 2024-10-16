@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.cfa.types.c;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
 import java.util.Objects;
@@ -123,18 +124,12 @@ public class Alignment implements Serializable, Comparable<Alignment> {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
+  public boolean equals(@Nullable Object pOther) {
+    if (this == pOther) {
       return true;
     }
-
-    if (!(obj instanceof Alignment)) {
-      return false;
-    }
-
-    Alignment other = (Alignment) obj;
-
-    return typeAligned == other.typeAligned
+    return pOther instanceof Alignment other
+        && typeAligned == other.typeAligned
         && varAligned == other.varAligned
         && alignas == other.alignas
         && insidePacked == other.insidePacked;
@@ -142,18 +137,12 @@ public class Alignment implements Serializable, Comparable<Alignment> {
 
   @Override
   public int compareTo(Alignment pOther) {
-    if (insidePacked != pOther.insidePacked) {
-      return !insidePacked && pOther.insidePacked ? 1 : -1;
-    }
-    int r = Integer.compare(typeAligned, pOther.typeAligned);
-    if (r != 0) {
-      return r;
-    }
-    r = Integer.compare(varAligned, pOther.varAligned);
-    if (r != 0) {
-      return r;
-    }
-    return Integer.compare(alignas, pOther.alignas);
+    return ComparisonChain.start()
+        .compareTrueFirst(insidePacked, pOther.insidePacked)
+        .compare(typeAligned, pOther.typeAligned)
+        .compare(varAligned, pOther.varAligned)
+        .compare(alignas, pOther.alignas)
+        .result();
   }
 
   @Override
