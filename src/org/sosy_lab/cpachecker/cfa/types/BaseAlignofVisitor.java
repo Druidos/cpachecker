@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.cfa.types;
 
+import org.sosy_lab.cpachecker.cfa.types.c.Alignment;
 import org.sosy_lab.cpachecker.cfa.types.c.CArrayType;
 import org.sosy_lab.cpachecker.cfa.types.c.CBitFieldType;
 import org.sosy_lab.cpachecker.cfa.types.c.CComplexType.ComplexTypeKind;
@@ -31,22 +32,52 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
     this.model = model;
   }
 
+  private int alignmentFromAttributes(Alignment pAlignment) {
+    int aligned = pAlignment.getVarAligned();
+    int alignas = pAlignment.getAlignas();
+    // Biggest applies. NO_SPECIFIER is smaller than any specified alignment.
+    if (aligned < alignas) {
+      aligned = alignas;
+    }
+    if (aligned == Alignment.NO_SPECIFIER) {
+      // If 'variable' has no alignment, 'type' can still have some.
+      aligned = pAlignment.getTypeAligned();
+    }
+    if (aligned != Alignment.NO_SPECIFIER) {
+      return aligned;
+    }
+    // If no alignment, but in a packed structure, return 1
+    return pAlignment.isInsidePacked() ? 1 : Alignment.NO_SPECIFIER;
+  }
+
   @Override
   public Integer visit(CArrayType pArrayType) throws IllegalArgumentException {
     // the alignment of an array is the same as the alignment of an member of the array
+    int result = alignmentFromAttributes(pArrayType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
+
     return pArrayType.getType().accept(this);
   }
 
   @Override
   public Integer visit(CCompositeType pCompositeType) throws IllegalArgumentException {
-
     switch (pCompositeType.getKind()) {
       case STRUCT:
       case UNION:
-        int alignof = 1;
+        int alignof = Math.max(1, alignmentFromAttributes(pCompositeType.getAlignment()));
+        int alignOfType = 0;
         // TODO: Take possible padding into account
         for (CCompositeTypeMemberDeclaration decl : pCompositeType.getMembers()) {
-          int alignOfType = decl.getType().accept(this);
+          CType memberType = decl.getType();
+          if (memberType instanceof CBitFieldType
+              && ((CBitFieldType) memberType).getBitFieldSize() == 0) {
+            // zero bit-fields are ignored
+            continue;
+          } else {
+            alignOfType = memberType.accept(this);
+          }
           alignof = Math.max(alignof, alignOfType);
         }
         return alignof;
@@ -59,13 +90,18 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
 
   @Override
   public Integer visit(CElaboratedType pElaboratedType) throws IllegalArgumentException {
+    int result = alignmentFromAttributes(pElaboratedType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
+
     CType def = pElaboratedType.getRealType();
     if (def != null) {
       return def.accept(this);
     }
 
     if (pElaboratedType.getKind() == ComplexTypeKind.ENUM) {
-      return model.getAlignofInt();
+      return model.getSizeofInt();
     }
 
     throw new IllegalArgumentException(
@@ -74,18 +110,33 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
 
   @Override
   public Integer visit(CEnumType pEnumType) throws IllegalArgumentException {
-    // enums are always ints
-    return model.getAlignofInt();
+    // enums themselves cant have alignment attribute, but variables (elaborated types) can
+    int result = alignmentFromAttributes(pEnumType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
+
+    // return alignment of compatible integer type
+    return pEnumType.getCompatibleType().accept(this);
   }
 
   @Override
   public Integer visit(CFunctionType pFunctionType) throws IllegalArgumentException {
+    int result = alignmentFromAttributes(pFunctionType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
     // function types have per definition the value 1 if compiled with gcc
     return 1;
   }
 
   @Override
   public Integer visit(CPointerType pPointerType) throws IllegalArgumentException {
+    int result = alignmentFromAttributes(pPointerType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
+
     return model.getAlignofPtr();
   }
 
@@ -96,6 +147,11 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
 
   @Override
   public Integer visit(CSimpleType pSimpleType) throws IllegalArgumentException {
+    int result = alignmentFromAttributes(pSimpleType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
+
     switch (pSimpleType.getType()) {
       case BOOL:
         return model.getAlignofBool();
@@ -131,6 +187,10 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
 
   @Override
   public Integer visit(CTypedefType pTypedefType) throws IllegalArgumentException {
+    int result = alignmentFromAttributes(pTypedefType.getAlignment());
+    if (result != Alignment.NO_SPECIFIER) {
+      return result;
+    }
     return pTypedefType.getRealType().accept(this);
   }
 
@@ -141,6 +201,15 @@ class BaseAlignofVisitor implements CTypeVisitor<Integer, IllegalArgumentExcepti
 
   @Override
   public Integer visit(CBitFieldType pCBitFieldType) throws IllegalArgumentException {
-    return pCBitFieldType.getType().accept(this);
+    // this method is called only when computing alignment of containing struct/union
+
+    // alignment attribute applies to the type of bitfield if structure is packed
+    int attrs = alignmentFromAttributes(pCBitFieldType.getAlignment());
+    if (pCBitFieldType.getAlignment().isInsidePacked()) {
+      return attrs;
+    }
+    // or if it is greater than default for declared type
+    int def = pCBitFieldType.getType().accept(this);
+    return Math.max(attrs, def);
   }
 }
