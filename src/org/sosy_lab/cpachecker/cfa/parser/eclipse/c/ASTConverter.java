@@ -1506,16 +1506,14 @@ class ASTConverter {
     //     exist while handling the expression "e1" for the value of e2, and we do not know the type
     //     of e and e1 because these can depend on later values.
 
-    CType type = typeConverter.convert(e.getExpressionType());
-    if (type instanceof CElaboratedType elaboratedType && elaboratedType.getRealType() == null) {
-      assert elaboratedType.getKind() == ComplexTypeKind.ENUM
-          : enumerator + " has weird type " + elaboratedType.getKind();
-      assert enumerator.getEnum() == null : "enum appeared for " + enumerator;
-      // Case (A) + (B): The resulting type can be wrong, but at least this influences only the
-      // calculations of other enumerators of this enums, not any further calculations.
-      type = CNumericTypes.INT;
-    }
-    // type is not elaborated || real is not null
+    // Case (B): The resulting type can be wrong, but at least this influences only the
+    // calculations of other enumerators of this enums, not any further calculations.
+    // FIXME we should use the type of expression here instead of guessing enumerator type.
+    // Choose the biggest possible type so hopefully there won't be any overflow.
+    CType type =
+        enumerator.getValue().signum() < 0
+            ? CNumericTypes.SIGNED_LONG_LONG_INT
+            : CNumericTypes.UNSIGNED_LONG_LONG_INT;
     return new CIdExpression(getLocation(e), type, name, enumerator);
   }
 
