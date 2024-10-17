@@ -1450,21 +1450,21 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T12:35:39.114462+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength4.yml" files="[test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength4.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="26.139495224s"/>
-    <column title="memory" value="262758400B"/>
+    <column title="cputime" value="30.11134507s"/>
+    <column title="memory" value="139120640B"/>
     <column title="reached" value="4624"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="10.831s"/>
-    <column title="transfer" value="8.437s"/>
-    <column title="walltime" value="26.285068877972662s"/>
+    <column title="status" value="TIMEOUT (true)"/>
+    <column title="stop" value="12.980s"/>
+    <column title="transfer" value="10.470s"/>
+    <column title="walltime" value="30.246171072125435s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="26.139495224s" hidden="true"/>
+    <column title="cputime-cpu0" value="30.11134507s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:35:45.656276+00:00" hidden="true"/>
+    <column title="starttime" value="2024-10-17T11:07:31.458853+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength5.yml" files="[test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength5.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="18.765610522s"/>
@@ -1484,21 +1484,22 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T12:36:12.104787+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength6.yml" files="[test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength6.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="27.125533948s"/>
-    <column title="memory" value="263438336B"/>
-    <column title="reached" value="4657"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="11.727s"/>
-    <column title="transfer" value="8.697s"/>
-    <column title="walltime" value="27.270966509357095s"/>
+    <column title="cputime" value="31.313577389s"/>
+    <column title="memory" value="148844544B"/>
+    <column title="reached" value="4643"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="14.434s"/>
+    <column title="transfer" value="10.382s"/>
+    <column title="walltime" value="31.47642912529409s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="27.125533948s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.313577389s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:36:31.126900+00:00" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-10-17T11:08:22.503697+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength_-read.yml" files="[test/programs/benchmarks/ldv-memsafety/ArraysOfVariableLength_-read.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
     <column title="cputime" value="5.919201133s"/>

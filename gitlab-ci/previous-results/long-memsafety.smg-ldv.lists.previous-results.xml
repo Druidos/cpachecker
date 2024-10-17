@@ -396,21 +396,19 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T12:29:48.386928+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.881462064s"/>
-    <column title="memory" value="170975232B"/>
-    <column title="reached" value="442"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.046s"/>
-    <column title="transfer" value="0.707s"/>
-    <column title="walltime" value="4.902010262012482s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="28.589958448s"/>
+    <column title="exception" value="Cannot invoke &quot;java.lang.Integer.intValue"/>
+    <column title="memory" value="172548096B"/>
+    <column title="status" value="EXCEPTION"/>
+    <column title="walltime" value="28.63711929321289s"/>
+    <column title="blkio-read" value="122880B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="wrong" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.881462064s" hidden="true"/>
+    <column title="cputime-cpu0" value="28.589958448s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:29:53.539317+00:00" hidden="true"/>
+    <column title="returnvalue" value="1" hidden="true"/>
+    <column title="starttime" value="2024-10-17T10:57:50.909475+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="5.236849541s"/>
