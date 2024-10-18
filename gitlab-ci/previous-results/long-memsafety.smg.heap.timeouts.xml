@@ -1155,21 +1155,22 @@ SPDX-License-Identifier: Apache-2.0
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/list-ext-properties/simple-ext_1.yml" files="[test/programs/benchmarks/list-ext-properties/simple-ext_1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="15.211454082s"/>
-    <column title="memory" value="207245312B"/>
-    <column title="reached" value="6932"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="3.431s"/>
-    <column title="transfer" value="7.673s"/>
-    <column title="walltime" value="15.248935531824827s"/>
+    <column title="cputime" value="31.263549684s"/>
+    <column title="memory" value="159047680B"/>
+    <column title="reached" value="6847"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="7.253s"/>
+    <column title="transfer" value="16.099s"/>
+    <column title="walltime" value="31.469900446012616s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="15.211454082s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.263549684s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:22.960057+00:00" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-10-25T13:31:29.871907+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/list-ext-properties/test-0019_1-1.yml" files="[test/programs/benchmarks/list-ext-properties/test-0019_1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
     <column title="cputime" value="4.092978321s"/>

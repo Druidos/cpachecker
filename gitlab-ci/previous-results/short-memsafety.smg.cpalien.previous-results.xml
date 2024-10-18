@@ -384,6 +384,40 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T12:37:11.362991+00:00" hidden="true"/>
   </run>
+  <run name="test/programs/cpalien/enum-sign.yml" files="[test/programs/cpalien/enum-sign.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="5.179124264s"/>
+    <column title="memory" value="108957696B"/>
+    <column title="reached" value="33"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.260s"/>
+    <column title="walltime" value="5.211015298962593s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.179124264s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-18T15:15:29.880571+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/enum-size.yml" files="[test/programs/cpalien/enum-size.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="5.048427067s"/>
+    <column title="memory" value="110682112B"/>
+    <column title="reached" value="28"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.258s"/>
+    <column title="walltime" value="5.082884483039379s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.048427067s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-10-18T15:15:35.441001+00:00" hidden="true"/>
+  </run>
   <run name="test/programs/cpalien/explicit_value_access.yml" files="[test/programs/cpalien/explicit_value_access.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="4.958237652s"/>
     <column title="memory" value="119087104B"/>
