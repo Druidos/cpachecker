@@ -13,9 +13,9 @@ void assert(int cond) {
   }
 }
 
-// Enumerators are signed int (C11§6.7.2.2 2),
+// Enumeration constants (enumerators) are of type signed int (C11§6.7.2.2 2),
 // but GCC and Clang allow enumerators that don't fit in int.
-// Those get the same type as their enum.
+// Those get the same type as their enumeration type (enum).
 // Packed attribute does not make enumerators smaller than int.
 
 enum EnumTag {

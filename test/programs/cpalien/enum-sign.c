@@ -13,16 +13,21 @@ void assert(int cond) {
   }
 }
 
-// Enums are unsigned if possible (in GCC and Clang),
-// but enumerators are signed int (C11§6.7.2.2 2) if possible.
+// An enumeration type (enum) has an unsigned underlying
+// (compatible) type if possible, i.e. if it has no negative
+// values (in GCC and Clang).
+// But enumeration constants (enumerators) are of type
+// signed int (C11§6.7.2.2 2) if possible.
+// Both GCC and Clang allow values that do not fit in int
+// and thus break the C11 standard.
 
 enum UnsignedEnum {
-  plusOne = 1,
-} unsignedVar;
+  plusOne = 1, // signed constant
+} unsignedVar; // unsigned enum
 
 enum SignedEnum {
-  minusOne = -1,
-} signedVar;
+  minusOne = -1, // signed constant
+} signedVar; // signed enum
 
 int main () {
   unsignedVar = -1ll;
@@ -36,6 +41,7 @@ int main () {
   unsigned a = 1;
   assert(a - 2 > 0);
   assert(plusOne - 2 < 0);
+  assert(minusOne < 0);
 
   return 0;
 }
