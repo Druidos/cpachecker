@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!--
+Test structs/unions with (aligned) (bit-)fields.
+See also: ../../../programs/c_attributes/structs-and-unions/README.txt
+-->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark hardtimelimit="300" timelimit="270" tool="cpachecker" memlimit="400MB" cpuCores="1">
+    <option name="--heap">300m</option>
+    <option name="--no-output-files"/>
+    <option name="--64"/>
+
+    <rundefinition name="smg">
+        <option name="--smg-old"/>
+        <propertyfile>../../../config/properties/valid-memsafety.prp</propertyfile>
+    </rundefinition>
+    <rundefinition name="predicate">
+        <option name="--predicateAnalysis"/>
+        <propertyfile>../../../config/properties/unreach-label.prp</propertyfile>
+    </rundefinition>
+
+    <tasks name="union+empties+specific">
+        <include>../../../programs/c_attributes/structs-and-unions/common/empties/*.yml</include>
+        <include>../../../programs/c_attributes/structs-and-unions/common/*union*/*.yml</include>
+        <include>../../../programs/c_attributes/structs-and-unions/gcc-specific/*/*/*.yml</include>
+        <include>../../../programs/c_attributes/structs-and-unions/clang-specific/*/*/*.yml</include>
+    </tasks>
+
+    <tasks name="struct-char">
+        <include>../../../programs/c_attributes/structs-and-unions/common/not-packed-struct-with-2-members/not-aligned-*-char/*.yml</include>
+    </tasks>
+    <tasks name="struct-int">
+        <include>../../../programs/c_attributes/structs-and-unions/common/not-packed-struct-with-2-members/not-aligned-*-int/*.yml</include>
+    </tasks>
+    <tasks name="struct-aligned">
+        <include>../../../programs/c_attributes/structs-and-unions/common/not-packed-struct-with-2-members/2-aligned-*/*.yml</include>
+        <include>../../../programs/c_attributes/structs-and-unions/common/not-packed-struct-with-2-members/e-aligned-*/*.yml</include>
+    </tasks>
+
+    <tasks name="packed-struct-char">
+        <include>../../../programs/c_attributes/structs-and-unions/common/packed-struct-with-2-members/not-aligned-*-char/*.yml</include>
+    </tasks>
+    <tasks name="packed-struct-int">
+        <include>../../../programs/c_attributes/structs-and-unions/common/packed-struct-with-2-members/not-aligned-*-int/*.yml</include>
+    </tasks>
+    <tasks name="packed-struct-aligned">
+        <include>../../../programs/c_attributes/structs-and-unions/common/packed-struct-with-2-members/2-aligned-*/*.yml</include>
+        <include>../../../programs/c_attributes/structs-and-unions/common/packed-struct-with-2-members/e-aligned-*/*.yml</include>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>
