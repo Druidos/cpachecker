@@ -164,9 +164,6 @@ public interface UnmodifiableSMGState extends LatticeAbstractState<UnmodifiableS
 
   boolean isTrackPredicatesEnabled();
 
-  /** Checks if it is comparison of external memory and Null pointer */
-  boolean comparisonAgainstExternalMemory(SMGObject pObject1, SMGObject pObject2);
-
   SMGPredicateRelation getPathPredicateRelation();
 
   SMGPredicateRelation getErrorPredicateRelation();
@@ -181,7 +178,7 @@ public interface UnmodifiableSMGState extends LatticeAbstractState<UnmodifiableS
 
   boolean hasEdgeCorrespondedToRead(SMGReadParams pParams, SMGValue pValue);
 
-  boolean areNonEqual(SMGValue pValue1, SMGValue pValue2);
+  boolean areNotEqual(SMGKnownSymbolicValue pValue1, SMGKnownSymbolicValue pValue2);
 
   SMGObject getObjectForFunction(CFunctionDeclaration pDeclaration);
 

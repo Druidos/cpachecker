@@ -30,7 +30,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownAddressValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 import org.sosy_lab.cpachecker.util.smg.datastructures.PersistentMultimap;
@@ -564,6 +563,22 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
 
     addValue(fresh);
 
+    SMGEdgePointsTo oldPte = pt_edges.getEdgeWithValue(old);
+    SMGEdgePointsTo newPte = pt_edges.getEdgeWithValue(fresh);
+    SMGObject oldObject = oldPte == null ? null : oldPte.getObject();
+    SMGObject newObject = newPte == null ? null : newPte.getObject();
+    boolean oldHasExternalAllocation = oldObject != null && isObjectExternallyAllocated(oldObject);
+    boolean newHasExternalAllocation = newObject != null && isObjectExternallyAllocated(newObject);
+    if (oldHasExternalAllocation && newHasExternalAllocation) {
+      // external objects are considered equal only when both are null
+      assert hv_edges.getEdgesForObject(newObject).isEmpty()
+              && hv_edges.getEdgesForObject(oldObject).isEmpty()
+          : oldPte + " merges with " + newPte + " into 0->Null";
+      replaceValue(SMGZeroValue.INSTANCE, old);
+      replaceValue(SMGZeroValue.INSTANCE, fresh);
+      return;
+    }
+
     neq = neq.replaceValueAndCopy(fresh, old);
     pathPredicate.replace(fresh, old);
     errorPredicate.replace(fresh, old);
@@ -576,25 +591,33 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
       hv_edges = hv_edges.addEdgeAndCopy(newHvEdge);
     }
 
-    if (pt_edges.containsEdgeWithValue(old)) {
-      SMGEdgePointsTo pt_edge = pt_edges.getEdgeWithValue(old);
-      pt_edges = pt_edges.removeAndCopy(pt_edge);
-      // Workaround for removed object
-      if (pt_edges.containsEdgeWithValue(fresh) && !fresh.isZero()) {
-        assert !getHVEdges(SMGEdgeHasValueFilter.valueFilter(fresh)).iterator().hasNext();
-        pt_edges = pt_edges.removeEdgeWithValueAndCopy(fresh);
-      }
-      Preconditions.checkArgument(
-          !pt_edges.containsEdgeWithValue(fresh)
-              || fresh.equals(SMGZeroValue.INSTANCE)
-              || (old instanceof SMGKnownAddressValue
-                  && !isObjectValid(((SMGKnownAddressValue) old).getObject())));
-      pt_edges =
-          pt_edges.addAndCopy(
-              new SMGEdgePointsTo(
-                  fresh, pt_edge.getObject(), pt_edge.getOffset(), pt_edge.getTargetSpecifier()));
+    if (oldPte == null) {
+      removeValue(old);
+      return;
     }
 
+    pt_edges = pt_edges.removeAndCopy(oldPte);
+    if (fresh.isZero()) {
+      // just drop old pte
+      // it's ok to drop invalid objects (?)
+      // and external allocations can actually be null if they have no HVE
+      assert !isObjectValid(oldObject)
+              || (isObjectExternallyAllocated(oldObject)
+                  && hv_edges.getEdgesForObject(oldObject).isEmpty())
+          : "0->Null replaces " + oldPte;
+      removeValue(old);
+      return;
+    }
+
+    // Workaround for removed object
+    // it's ok to replace newPte if nobody had these values anyway
+    assert newPte == null
+            || !getHVEdges(SMGEdgeHasValueFilter.valueFilter(fresh)).iterator().hasNext()
+        : oldPte + " replaces " + newPte;
+    // add pte fresh->oldObject
+    pt_edges =
+        pt_edges.addAndCopy(
+            new SMGEdgePointsTo(fresh, oldObject, oldPte.getOffset(), oldPte.getTargetSpecifier()));
     removeValue(old);
   }
 

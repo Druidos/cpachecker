@@ -615,7 +615,7 @@ public class SMGTransferRelation
           }
           if (val1 != null && val2 != null) {
             if (impliesEqOn) {
-              if (newState.areNonEqual(val1, val2)) {
+              if (newState.areNotEqual(val1, val2)) {
                 // Assumption does not hold
                 continue;
               } else {

@@ -2257,35 +2257,124 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   @Override
-  public boolean areNonEqual(SMGValue pValue1, SMGValue pValue2) {
-
-    if (pValue1.isUnknown() || pValue2.isUnknown() || pValue1.equals(pValue2)) {
+  public boolean areNotEqual(SMGKnownSymbolicValue pValue1, SMGKnownSymbolicValue pValue2) {
+    if (pValue1.equals(pValue2)) {
       return false;
-    } else if (pValue1 instanceof SMGExplicitValue && pValue2 instanceof SMGExplicitValue) {
-      return !pValue1.equals(pValue2);
-    } else if (isExplicit(pValue1) && isExplicit(pValue2)) {
-      return !getExplicit(pValue1).equals(getExplicit(pValue2));
-    } else if (heap.isPointer(pValue1) && heap.isPointer(pValue2)) {
-      SMGObject object1 = heap.getObjectPointedBy(pValue1);
-      SMGObject object2 = heap.getObjectPointedBy(pValue2);
-      if (comparisonAgainstExternalMemory(object1, object2)) {
-        return false;
-      }
-      if (!object1.equals(object2)) {
-        return !heap.arePossibleEquals(object1, object2);
-      }
     }
-    return heap.haveNeqRelation(pValue1, pValue2);
+    if (isExplicit(pValue1) && isExplicit(pValue2)) {
+      assert !getExplicit(pValue1).equals(getExplicit(pValue2))
+          : "different symbolic values have same explicit";
+      return true;
+    }
+    if (heap.haveNeqRelation(pValue1, pValue2)) {
+      return true;
+    }
+    SMGAddress a1 = getAddress(pValue1);
+    SMGAddress a2 = getAddress(pValue2);
+    if (a1 == null || a2 == null) {
+      // ?
+      return false;
+    }
+    return areNotEqualPointers(a1, a2);
   }
 
-  @Override
-  public boolean comparisonAgainstExternalMemory(SMGObject pObject1, SMGObject pObject2) {
-    return (pObject2.equals(SMGNullObject.INSTANCE)
-            && heap.isObjectExternallyAllocated(pObject1)
-            && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty())
-        || (pObject1.equals(SMGNullObject.INSTANCE)
-            && heap.isObjectExternallyAllocated(pObject2)
-            && heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1)).isEmpty());
+  // TODO just use PTE when there are no more SMGAddressValues in code.
+  @Nullable
+  private SMGAddress getAddress(SMGKnownSymbolicValue pValue) {
+    SMGEdgePointsTo pte = heap.getPointer(pValue);
+    if (pValue instanceof SMGKnownAddressValue) {
+      SMGAddress result = ((SMGKnownAddressValue) pValue).getAddress();
+      assert pte == null
+              || (result.getObject().equals(pte.getObject())
+                  && result.getOffset().getAsLong() == pte.getOffset())
+          : pValue + " is inconsistent with present PTE " + pte;
+      return result;
+    }
+    return pte == null ? null : SMGAddress.valueOf(pte.getObject(), pte.getOffset());
+  }
+
+  /**
+   * @return whether the pObject is known to be not the {@link SMGNullObject} object. Only an
+   *     externally allocated object can be 'equal' to the Null. Assume it is not if it has a value.
+   */
+  private boolean isNotNull(SMGObject pObject) {
+    return pObject != SMGNullObject.INSTANCE
+        && !(heap.isObjectExternallyAllocated(pObject)
+            && heap.getHVEdges().getEdgesForObject(pObject).isEmpty());
+  }
+
+  /**
+   * Return whether two pointers are different.
+   *
+   * <p>If the pointed objects are known to be different (not overlap), return <code>true</code>.
+   *
+   * <p>The objects can overlap if
+   *
+   * <ul>
+   *   <li>one is {@link SMGNullObject} and another can be Null (see {@link #isNotNull};
+   *   <li>one is a stack object on top of a previously invalidated stack object;
+   *   <li>one is a heap object on top of a previously invalidated heap object;
+   *   <li>both are externally allocated memory.
+   * </ul>
+   *
+   * <p>For the two new-on-top-of-invalidated-memory cases we cannot say anything, return <code>
+   * false</code>.
+   *
+   * <p>For external allocations, check validity and has-value edges. If they 'are different', the
+   * analysis already implies pointers point to different memory locations, so return <code>true
+   * </code>.
+   */
+  private boolean areNotEqualPointers(SMGAddress pEdge1, SMGAddress pEdge2) {
+    SMGObject obj1 = pEdge1.getObject();
+    SMGObject obj2 = pEdge2.getObject();
+    long ofs1 = pEdge1.getOffset().getValue().longValueExact();
+    long ofs2 = pEdge2.getOffset().getValue().longValueExact();
+
+    if (obj1.equals(obj2)) {
+      return ofs1 != ofs2;
+    }
+    if (obj1 == SMGNullObject.INSTANCE) {
+      return isNotNull(obj2);
+    }
+    if (obj2 == SMGNullObject.INSTANCE) {
+      return isNotNull(obj1);
+    }
+
+    boolean isExternal1 = heap.isObjectExternallyAllocated(obj1);
+    boolean isExternal2 = heap.isObjectExternallyAllocated(obj2);
+    if (isExternal1 != isExternal2) {
+      // externally allocated objects cannot overlap 'internal' objects
+      return true;
+    }
+    if (!isExternal1) {
+      // both are 'internal'
+      // we kept track of new objects possibly appearing on top of invalid objects
+      return !heap.arePossibleEquals(obj1, obj2);
+    }
+
+    // both are externally allocated
+    // we cannot distinguish external allocations
+    // but analysis may have already done it
+    boolean isValid1 = heap.isObjectValid(obj1);
+    boolean isValid2 = heap.isObjectValid(obj2);
+    if (isValid1 != isValid2) {
+      // even if they are truly the same region, analysis already thinks
+      // one pointer is invalid and the other is valid.
+      return true;
+    }
+    if (!isValid1) {
+      // both are invalid, no HV-edges
+      return false;
+    }
+
+    SMGHasValueEdges hves1 = heap.getHVEdges().getEdgesForObject(obj1);
+    SMGHasValueEdges hves2 = heap.getHVEdges().getEdgesForObject(obj2);
+    if (hves1.isEmpty() && hves2.isEmpty()) {
+      // both can be null
+      return false;
+    }
+    // assume extern pointers point to different regions
+    return true;
   }
 
   @Override

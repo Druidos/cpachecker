@@ -174,7 +174,6 @@ public class AssumeVisitor extends ExpressionValueVisitor {
     if (object1 == object2) {
       long offset1 = pV1.getOffset().getAsLong();
       long offset2 = pV2.getOffset().getAsLong();
-
       return switch (pOp) {
         case GREATER_EQUAL -> offset1 >= offset2;
         case GREATER_THAN -> offset1 > offset2;
@@ -184,27 +183,26 @@ public class AssumeVisitor extends ExpressionValueVisitor {
         case NOT_EQUALS -> offset1 != offset2;
         default -> throw new AssertionError("Impossible case thrown");
       };
-    } else if (getInitialSmgState().comparisonAgainstExternalMemory(object1, object2)) {
-      return true;
+
     } else if (pOp == BinaryOperator.NOT_EQUALS
-        && (getInitialSmgState().getHeap().isObjectValid(object1)
-            || SMGNullObject.INSTANCE.equals(object1))
-        && (getInitialSmgState().getHeap().isObjectValid(object2)
-            || SMGNullObject.INSTANCE.equals(object2))) {
-      // We can't evaluate whether new object is not the same as freed object
+        && getInitialSmgState()
+            .areNotEqual((SMGKnownSymbolicValue) pV1, (SMGKnownSymbolicValue) pV2)) {
       return true;
     }
     return false;
   }
 
   private SMGValueAndState evaluateBinaryAssumptionOfConcreteSymbolicValues(
-      SMGState pNewState, BinaryOperator pOp, SMGValue pV1, SMGValue pV2) {
+      SMGState pNewState,
+      BinaryOperator pOp,
+      SMGKnownSymbolicValue pV1,
+      SMGKnownSymbolicValue pV2) {
 
     boolean isPointerOp1 = pV1 instanceof SMGKnownAddressValue;
     boolean isPointerOp2 = pV2 instanceof SMGKnownAddressValue;
 
     boolean areEqual = pV1.equals(pV2);
-    boolean areNonEqual = pNewState.areNonEqual(pV1, pV2);
+    boolean areNonEqual = pNewState.areNotEqual(pV1, pV2);
 
     boolean isTrue = false;
     boolean isFalse = false;
@@ -270,14 +268,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
         isTrue =
             comparePointer(
                 (SMGKnownAddressValue) pV1,
-                SMGKnownAddressValue.valueOf(
-                    (SMGKnownSymbolicValue) pV2, SMGNullObject.INSTANCE, explicit2),
+                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.INSTANCE, explicit2),
                 pOp);
         isFalse =
             comparePointer(
                 (SMGKnownAddressValue) pV1,
-                SMGKnownAddressValue.valueOf(
-                    (SMGKnownSymbolicValue) pV2, SMGNullObject.INSTANCE, explicit2),
+                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.INSTANCE, explicit2),
                 pOp.getOppositLogicalOperator());
       }
     } else if (isPointerOp2 && !pV1.isUnknown()) {
@@ -285,14 +281,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
       if (explicit1 != null) {
         isTrue =
             comparePointer(
-                SMGKnownAddressValue.valueOf(
-                    (SMGKnownSymbolicValue) pV1, SMGNullObject.INSTANCE, explicit1),
+                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.INSTANCE, explicit1),
                 (SMGKnownAddressValue) pV2,
                 pOp);
         isFalse =
             comparePointer(
-                SMGKnownAddressValue.valueOf(
-                    (SMGKnownSymbolicValue) pV1, SMGNullObject.INSTANCE, explicit1),
+                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.INSTANCE, explicit1),
                 (SMGKnownAddressValue) pV2,
                 pOp.getOppositLogicalOperator());
       }
@@ -337,8 +331,20 @@ public class AssumeVisitor extends ExpressionValueVisitor {
         SMGValue operand2 = operand2AndState.getObject();
         SMGState newState = operand2AndState.getSmgState();
 
+        if (operand1 instanceof SMGKnownExpValue) {
+          operand1 = newState.getSymbolicOfExplicit((SMGKnownExpValue) operand1);
+        }
+        if (operand2 instanceof SMGKnownExpValue) {
+          operand2 = newState.getSymbolicOfExplicit((SMGKnownExpValue) operand2);
+        }
+        if (operand1 == null || operand1.isUnknown() || operand2 == null || operand2.isUnknown()) {
+          result.add(SMGValueAndState.withUnknownValue(newState));
+          continue;
+        }
+
         SMGValueAndState resultValueAndState =
-            evaluateBinaryAssumptionOfConcreteSymbolicValues(newState, pOp, operand1, operand2);
+            evaluateBinaryAssumptionOfConcreteSymbolicValues(
+                newState, pOp, (SMGKnownSymbolicValue) operand1, (SMGKnownSymbolicValue) operand2);
         result.add(resultValueAndState);
       }
     }

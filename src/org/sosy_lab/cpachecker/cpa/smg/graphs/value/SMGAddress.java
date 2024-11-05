@@ -83,7 +83,7 @@ public final class SMGAddress {
         && Objects.equals(offset, other.offset);
   }
 
-  public static SMGAddress valueOf(SMGObject pObj, int pOffset) {
+  public static SMGAddress valueOf(SMGObject pObj, long pOffset) {
     return new SMGAddress(pObj, SMGKnownExpValue.valueOf(pOffset));
   }
 }
