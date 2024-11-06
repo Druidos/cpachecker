@@ -537,22 +537,21 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T10:15:25.714992+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.21212585s"/>
-    <column title="error" value="SMG was found inconsistent during a check on state id 49:"/>
-    <column title="memory" value="152645632B"/>
-    <column title="reached" value="13"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.216s"/>
-    <column title="walltime" value="3.21928471326828s"/>
+    <column title="cputime" value="3.375976201s"/>
+    <column title="memory" value="103145472B"/>
+    <column title="reached" value="22"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.187s"/>
+    <column title="walltime" value="3.3879118151962757s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.21212585s" hidden="true"/>
+    <column title="cputime-cpu0" value="3.375976201s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:15:29.199217+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-05T16:20:05.838435+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-2.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="3.415591623s"/>
@@ -606,58 +605,55 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T10:15:40.191341+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="3.257960779s"/>
-    <column title="error" value="SMG was found inconsistent during a check on state id 46:"/>
-    <column title="memory" value="155062272B"/>
-    <column title="reached" value="13"/>
-    <column title="status" value="ERROR"/>
+    <column title="cputime" value="3.369926233s"/>
+    <column title="memory" value="104767488B"/>
+    <column title="reached" value="19"/>
+    <column title="status" value="false(valid-deref)"/>
     <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.233s"/>
-    <column title="walltime" value="3.2764754816889763s"/>
+    <column title="transfer" value="0.250s"/>
+    <column title="walltime" value="3.3880945928394794s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.257960779s" hidden="true"/>
+    <column title="cputime-cpu0" value="3.369926233s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:15:43.667345+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-05T16:20:20.486409+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-6.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-5.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="3.24156989s"/>
-    <column title="error" value="SMG was found inconsistent during a check on state id 46:"/>
-    <column title="memory" value="154968064B"/>
-    <column title="reached" value="13"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.251s"/>
-    <column title="walltime" value="3.248604469001293s"/>
+    <column title="cputime" value="3.43340946s"/>
+    <column title="memory" value="103981056B"/>
+    <column title="reached" value="19"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.208s"/>
+    <column title="walltime" value="3.451850850135088s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.24156989s" hidden="true"/>
+    <column title="cputime-cpu0" value="3.43340946s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:15:47.171016+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-05T16:20:24.082456+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-7.yml" files="[test/programs/smg_External_Allocation_Test/undefinedPointerFromLongValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.290608998s"/>
-    <column title="error" value="SMG was found inconsistent during a check on state id 49:"/>
-    <column title="memory" value="154714112B"/>
-    <column title="reached" value="13"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.283s"/>
-    <column title="walltime" value="3.3086409606039524s"/>
+    <column title="cputime" value="3.431482604s"/>
+    <column title="memory" value="103837696B"/>
+    <column title="reached" value="22"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.207s"/>
+    <column title="walltime" value="3.448379836976528s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.290608998s" hidden="true"/>
+    <column title="cputime-cpu0" value="3.431482604s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:15:50.647281+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-05T16:20:27.830446+00:00" hidden="true"/>
   </run>
   <run name="test/programs/smg_External_Allocation_Test/undefinedValue-1.yml" files="[test/programs/smg_External_Allocation_Test/undefinedValue-1.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="3.429493791s"/>
