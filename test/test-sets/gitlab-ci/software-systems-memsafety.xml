@@ -26,14 +26,30 @@
         <includesfile>../../programs/benchmarks/SoftwareSystems-BusyBox-MemSafety.set</includesfile>
         <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
     </tasks>
-    <!-- 4 tasks, for all parsing failed: Unrecognized attribute in declaration of kcopy: bounded -->
+
+    <!--
+    5 tasks, for all parsing failed:
+    Local variable declared extern is unsupported: *rtcounters (full line is extern struct cpumem *rtcounters;))
+    (See src/org/sosy_lab/cpachecker/cfa/parser/eclipse/c/ASTConverter.java:2122)
+
     <tasks name="openbsd">
         <includesfile>../../programs/benchmarks/SoftwareSystems-OpenBSD-MemSafety.set</includesfile>
         <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
     </tasks>
-    <!-- 138 tasks, for all NPE because of __aligned__ parsing -->
-    <tasks name="uthash">
-        <includesfile>../../programs/benchmarks/SoftwareSystems-uthash-MemSafety.set</includesfile>
+    -->
+
+    <!-- 192/2 tasks -->
+    <tasks name="uthash-BER+FNV+JEN">
+        <include>../../programs/benchmarks/uthash-2.0.2/*BER*.yml</include>
+        <include>../../programs/benchmarks/uthash-2.0.2/*FNV*.yml</include>
+        <include>../../programs/benchmarks/uthash-2.0.2/*JEN*.yml</include>
+        <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
+    </tasks>
+    <!-- 192/2 tasks -->
+    <tasks name="uthash-OAT+SAX+SFH">
+        <include>../../programs/benchmarks/uthash-2.0.2/*OAT*.yml</include>
+        <include>../../programs/benchmarks/uthash-2.0.2/*SAX*.yml</include>
+        <include>../../programs/benchmarks/uthash-2.0.2/*SFH*.yml</include>
         <propertyfile>../../programs/benchmarks/properties/valid-memsafety.prp</propertyfile>
     </tasks>
 

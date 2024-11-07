@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.eclipse.cdt.core.dom.ast.IASTAlignmentSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTArrayDeclarator;
@@ -73,6 +74,7 @@ import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTStandardFunctionDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTStatement;
 import org.eclipse.cdt.core.dom.ast.IASTToken;
+import org.eclipse.cdt.core.dom.ast.IASTTokenList;
 import org.eclipse.cdt.core.dom.ast.IASTTypeId;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdExpression;
 import org.eclipse.cdt.core.dom.ast.IASTTypeIdInitializerExpression;
@@ -89,10 +91,13 @@ import org.eclipse.cdt.core.dom.ast.c.ICASTDesignator;
 import org.eclipse.cdt.core.dom.ast.c.ICASTFieldDesignator;
 import org.eclipse.cdt.core.dom.ast.gnu.IGNUASTCompoundStatementExpression;
 import org.eclipse.cdt.core.dom.ast.gnu.c.IGCCASTArrayRangeDesignator;
+import org.eclipse.cdt.internal.core.dom.parser.ASTTokenList;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTDeclarator;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTLiteralExpression;
+import org.sosy_lab.common.ShutdownNotifier;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.common.log.LogManagerWithoutDuplicates;
+import org.sosy_lab.cpachecker.cfa.CParser;
 import org.sosy_lab.cpachecker.cfa.ast.FileLocation;
 import org.sosy_lab.cpachecker.cfa.ast.c.CAddressOfLabelExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CArrayDesignator;
@@ -141,6 +146,7 @@ import org.sosy_lab.cpachecker.cfa.ast.c.CTypeIdExpression.TypeIdOperator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CUnaryExpression;
 import org.sosy_lab.cpachecker.cfa.ast.c.CUnaryExpression.UnaryOperator;
 import org.sosy_lab.cpachecker.cfa.ast.c.CVariableDeclaration;
+import org.sosy_lab.cpachecker.cfa.parser.Parsers;
 import org.sosy_lab.cpachecker.cfa.parser.Parsers.EclipseCParserOptions;
 import org.sosy_lab.cpachecker.cfa.parser.Scope;
 import org.sosy_lab.cpachecker.cfa.simplification.ExpressionSimplificationVisitor;
@@ -169,6 +175,7 @@ import org.sosy_lab.cpachecker.cfa.types.c.CTypedefType;
 import org.sosy_lab.cpachecker.cfa.types.c.CTypes;
 import org.sosy_lab.cpachecker.cfa.types.c.CVoidType;
 import org.sosy_lab.cpachecker.cfa.types.c.DefaultCTypeVisitor;
+import org.sosy_lab.cpachecker.exceptions.CParserException;
 import org.sosy_lab.cpachecker.exceptions.NoException;
 import org.sosy_lab.cpachecker.exceptions.UnrecognizedCodeException;
 import org.sosy_lab.cpachecker.util.BuiltinOverflowFunctions;
@@ -2291,26 +2298,87 @@ class ASTConverter {
 
   int getBiggerAlignmentFromAttributes(IASTAttribute[] attributeArray, int aligned) {
     for (IASTAttribute attribute : attributeArray) {
-      String name = getAttributeString(attribute.getName());
-      if (name.equals("aligned")) {
-        int cur = machinemodel.getMaxAlign();
-        IASTToken argumentClause = attribute.getArgumentClause();
-        try {
-          if (argumentClause != null) {
-            String arg = getAttributeString(argumentClause.getTokenCharImage());
-            cur = Integer.parseInt(arg);
-          }
-        } catch (NumberFormatException e) {
-          // default (biggest) alignment as clause was not specified
-          // XXX is empty clause always the same as BIGGEST_ALIGNMENT?
-          cur = machinemodel.getMaxAlign();
+      String attributeName = getAttributeString(attribute.getName());
+      if (!attributeName.equals("aligned")) {
+        continue;
+      }
+
+      IASTToken argumentClause = attribute.getArgumentClause();
+      if (argumentClause == null) {
+        // no parenthesis at all: ((__aligned__))
+        return machinemodel.getMaxAlign();
+      }
+
+      IASTToken[] tokens = ((IASTTokenList) argumentClause).getTokens();
+      if (tokens.length == 0) {
+        // default (biggest) alignment
+        return machinemodel.getMaxAlign();
+
+      } else if (tokens.length == 1) {
+        char[] tokenChars = argumentClause.getTokenCharImage();
+        String onlyToken = String.valueOf(tokenChars);
+        if (onlyToken.contains("BIGGEST_ALIGNMENT")) {
+          // default (biggest) alignment
+          return machinemodel.getMaxAlign();
         }
+      }
+
+      try {
+        int cur = parseClauseTokens(argumentClause);
         if (aligned < cur) {
           aligned = cur;
         }
+      } catch (CParserException e) {
+        // catching here is not nice, but I don't want to propagate it
+        logger.logUserException(Level.SEVERE, e, "Cannot parse __aligned__ clause");
+      } catch (InterruptedException e) {
+        // dummy notifier means no interrupt possible here
+        throw new AssertionError(e);
       }
     }
     return aligned;
+  }
+
+  private int parseClauseTokens(IASTToken argumentClause)
+      throws CParserException, InterruptedException {
+    // TODO even variables can be argument of alignof/sizeof, but they will be missing
+    String clause = getFlatStringFromToken(argumentClause);
+    CParser parser =
+        Parsers.getCParser(
+            LogManager.createTestLogManager(),
+            new EclipseCParserOptions(),
+            machinemodel,
+            ShutdownNotifier.createDummy());
+    String wrappedAsFunctionBody = "void f() {" + clause + "; }";
+    CAstNode astNode = parser.parseSingleStatement(wrappedAsFunctionBody, scope);
+    if (!(astNode instanceof CExpressionStatement cExprStatement)) {
+      throw new CParserException(
+          "expected an expression statement (integer constant) in __aligned__ clause, but got: "
+              + astNode.toASTString());
+    }
+
+    CExpression expr = cExprStatement.getExpression();
+    if (expr instanceof CCharLiteralExpression charLiteral) {
+      return charLiteral.getCharacter();
+    } else if (expr instanceof CIntegerLiteralExpression intLiteral) {
+      return intLiteral.getValue().intValueExact();
+    }
+    throw new CParserException(
+        "expected an integer constant in __aligned__ clause, but got: " + expr);
+  }
+
+  private static String getFlatStringFromToken(IASTToken pToken) {
+    if (pToken == null) {
+      return "null";
+    }
+
+    if (pToken.getTokenCharImage() != null) {
+      return String.valueOf(pToken.getTokenCharImage());
+    }
+
+    return Arrays.stream(((ASTTokenList) pToken).getTokens())
+        .map(ASTConverter::getFlatStringFromToken)
+        .collect(Collectors.joining(" "));
   }
 
   boolean hasPackedAttribute(IASTAttribute[] attributeArray) {

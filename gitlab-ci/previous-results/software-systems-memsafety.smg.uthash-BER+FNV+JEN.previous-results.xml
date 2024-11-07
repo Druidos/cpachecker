@@ -1,0 +1,1737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="software-systems-memsafety.smg.uthash-BER+FNV+JEN" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.434387156s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127102976B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.255s"/>
+    <column title="transfer" value="4.901s"/>
+    <column title="walltime" value="12.462767656892538s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.434387156s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:37:56.034342+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.659811812s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="135475200B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.177s"/>
+    <column title="transfer" value="5.063s"/>
+    <column title="walltime" value="12.688528258353472s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.659811812s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:08.675503+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.467984827s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="123039744B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.028s"/>
+    <column title="transfer" value="1.474s"/>
+    <column title="walltime" value="9.505504386499524s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.467984827s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:21.530725+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.885260257s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="123289600B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.030s"/>
+    <column title="transfer" value="1.345s"/>
+    <column title="walltime" value="8.909688664600253s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.885260257s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:31.219949+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.000738957s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="126603264B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.037s"/>
+    <column title="transfer" value="1.412s"/>
+    <column title="walltime" value="9.023856606334448s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.000738957s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:40.311017+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.946385518s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="126304256B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.018s"/>
+    <column title="transfer" value="1.369s"/>
+    <column title="walltime" value="8.968876345083117s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.946385518s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:49.503917+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.997446576s"/>
+    <column title="memory" value="127303680B"/>
+    <column title="reached" value="865"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.100s"/>
+    <column title="transfer" value="2.325s"/>
+    <column title="walltime" value="10.009478921070695s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.997446576s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:38:58.645387+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="10.274125988s"/>
+    <column title="memory" value="127782912B"/>
+    <column title="reached" value="899"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.093s"/>
+    <column title="transfer" value="2.519s"/>
+    <column title="walltime" value="10.292171403765678s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.274125988s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:39:08.836141+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_nondet_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.534291327s"/>
+    <column title="memory" value="173780992B"/>
+    <column title="reached" value="14607"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.098s"/>
+    <column title="transfer" value="50.646s"/>
+    <column title="walltime" value="61.555993381887674s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.534291327s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:39:19.295588+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.767152857s"/>
+    <column title="memory" value="132968448B"/>
+    <column title="reached" value="1769"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.218s"/>
+    <column title="transfer" value="5.339s"/>
+    <column title="walltime" value="12.78898168541491s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.767152857s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:40:21.020304+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.799122072s"/>
+    <column title="memory" value="133046272B"/>
+    <column title="reached" value="2191"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.304s"/>
+    <column title="transfer" value="6.316s"/>
+    <column title="walltime" value="13.812849832698703s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.799122072s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:40:33.977908+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.446775304s"/>
+    <column title="memory" value="163680256B"/>
+    <column title="reached" value="6406"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.630s"/>
+    <column title="transfer" value="51.535s"/>
+    <column title="walltime" value="61.47311901114881s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.446775304s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:40:47.950283+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.434307244s"/>
+    <column title="memory" value="159809536B"/>
+    <column title="reached" value="6553"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.605s"/>
+    <column title="transfer" value="51.813s"/>
+    <column title="walltime" value="61.4573365598917s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.434307244s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:41:49.601303+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test10-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.475894867s"/>
+    <column title="memory" value="160444416B"/>
+    <column title="reached" value="6399"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.500s"/>
+    <column title="transfer" value="52.255s"/>
+    <column title="walltime" value="61.50279638543725s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.475894867s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:42:51.239854+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.95699014s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="128466944B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.180s"/>
+    <column title="transfer" value="4.483s"/>
+    <column title="walltime" value="12.97858364135027s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.95699014s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:43:52.918610+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.634025366s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129007616B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.287s"/>
+    <column title="transfer" value="4.878s"/>
+    <column title="walltime" value="12.653942501172423s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.634025366s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:44:06.073155+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.506983744s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133562368B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.206s"/>
+    <column title="transfer" value="4.723s"/>
+    <column title="walltime" value="12.519105445593596s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.506983744s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:44:18.896898+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.496628839s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="126156800B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.264s"/>
+    <column title="transfer" value="4.459s"/>
+    <column title="walltime" value="12.507992796599865s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.496628839s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:44:31.580062+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="18.849825842s"/>
+    <column title="memory" value="138235904B"/>
+    <column title="reached" value="2847"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.267s"/>
+    <column title="transfer" value="10.839s"/>
+    <column title="walltime" value="18.87478400208056s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.849825842s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:44:44.250534+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="20.118584248s"/>
+    <column title="memory" value="136830976B"/>
+    <column title="reached" value="3269"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.480s"/>
+    <column title="transfer" value="11.809s"/>
+    <column title="walltime" value="20.130640670657158s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="20.118584248s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:45:03.307942+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="22.24807925s"/>
+    <column title="memory" value="147095552B"/>
+    <column title="reached" value="3643"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.559s"/>
+    <column title="transfer" value="13.502s"/>
+    <column title="walltime" value="22.262231178581715s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="22.24807925s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:45:23.612166+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="19.110495429s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="141459456B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.321s"/>
+    <column title="transfer" value="10.048s"/>
+    <column title="walltime" value="19.131760224699974s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="19.110495429s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:45:46.042533+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="18.089743618s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="145084416B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.360s"/>
+    <column title="transfer" value="9.910s"/>
+    <column title="walltime" value="18.120125714689493s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.089743618s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:46:05.362034+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test5-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="18.451728922s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="137961472B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.409s"/>
+    <column title="transfer" value="9.455s"/>
+    <column title="walltime" value="18.46492140367627s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.451728922s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:46:23.647935+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test6-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test6-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.537500177s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129675264B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.205s"/>
+    <column title="transfer" value="4.683s"/>
+    <column title="walltime" value="12.548852302134037s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.537500177s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:46:42.274422+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test6-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test6-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.807922485s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="134176768B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.229s"/>
+    <column title="transfer" value="4.746s"/>
+    <column title="walltime" value="12.820056485012174s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.807922485s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:46:54.986883+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test7-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test7-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.443404812s"/>
+    <column title="memory" value="153530368B"/>
+    <column title="reached" value="6247"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.536s"/>
+    <column title="transfer" value="52.781s"/>
+    <column title="walltime" value="61.469298001378775s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.443404812s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:47:07.984327+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test7-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test7-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.420086361s"/>
+    <column title="memory" value="155156480B"/>
+    <column title="reached" value="6222"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.574s"/>
+    <column title="transfer" value="52.763s"/>
+    <column title="walltime" value="61.44565324112773s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.420086361s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:48:09.631266+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test8-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test8-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.424545516s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127524864B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.176s"/>
+    <column title="transfer" value="4.587s"/>
+    <column title="walltime" value="12.445868894457817s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.424545516s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:49:11.282437+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test8-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test8-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.664688473s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127434752B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.250s"/>
+    <column title="transfer" value="4.472s"/>
+    <column title="walltime" value="12.675979843363166s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.664688473s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:49:23.915222+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test9-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test9-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.455354234s"/>
+    <column title="memory" value="185196544B"/>
+    <column title="reached" value="6138"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.547s"/>
+    <column title="transfer" value="50.075s"/>
+    <column title="walltime" value="61.478336757048965s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.455354234s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:49:36.748204+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_BER_test9-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_BER_test9-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.415011676s"/>
+    <column title="memory" value="186318848B"/>
+    <column title="reached" value="6079"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.554s"/>
+    <column title="transfer" value="49.472s"/>
+    <column title="walltime" value="61.442342307418585s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.415011676s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:50:38.435093+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.026013803s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="123691008B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.243s"/>
+    <column title="transfer" value="4.612s"/>
+    <column title="walltime" value="12.037085512652993s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.026013803s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:51:40.065373+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.51338666s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="136171520B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.255s"/>
+    <column title="transfer" value="4.920s"/>
+    <column title="walltime" value="12.52765535376966s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.51338666s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:51:52.293835+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.060594278s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="126595072B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.021s"/>
+    <column title="transfer" value="1.554s"/>
+    <column title="walltime" value="9.071378899738193s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.060594278s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:04.995865+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.550502824s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="118697984B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.025s"/>
+    <column title="transfer" value="1.485s"/>
+    <column title="walltime" value="9.57073095627129s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.550502824s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:14.252367+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.250090669s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="116850688B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.028s"/>
+    <column title="transfer" value="1.379s"/>
+    <column title="walltime" value="9.270651269704103s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.250090669s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:24.001473+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="8.626482813s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="114909184B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.012s"/>
+    <column title="transfer" value="1.287s"/>
+    <column title="walltime" value="8.636941509321332s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.626482813s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:33.455576+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.817363734s"/>
+    <column title="memory" value="127762432B"/>
+    <column title="reached" value="865"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.087s"/>
+    <column title="transfer" value="2.412s"/>
+    <column title="walltime" value="9.828177878633142s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.817363734s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:42.265920+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.764410595s"/>
+    <column title="memory" value="119664640B"/>
+    <column title="reached" value="899"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.075s"/>
+    <column title="transfer" value="2.318s"/>
+    <column title="walltime" value="9.78306658565998s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.764410595s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:52:52.380448+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_nondet_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.613188346s"/>
+    <column title="memory" value="177201152B"/>
+    <column title="reached" value="14897"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.207s"/>
+    <column title="transfer" value="50.570s"/>
+    <column title="walltime" value="61.64061591401696s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.613188346s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:53:02.327231+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.519704907s"/>
+    <column title="memory" value="132837376B"/>
+    <column title="reached" value="1769"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.165s"/>
+    <column title="transfer" value="5.442s"/>
+    <column title="walltime" value="12.530797649174929s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.519704907s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:54:04.140650+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="14.389435502s"/>
+    <column title="memory" value="132329472B"/>
+    <column title="reached" value="2191"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.342s"/>
+    <column title="transfer" value="6.349s"/>
+    <column title="walltime" value="14.400945650413632s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="14.389435502s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:54:16.843225+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.426342708s"/>
+    <column title="memory" value="162676736B"/>
+    <column title="reached" value="6432"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.677s"/>
+    <column title="transfer" value="51.993s"/>
+    <column title="walltime" value="61.44952174834907s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.426342708s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:54:31.417733+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.527395298s"/>
+    <column title="memory" value="162693120B"/>
+    <column title="reached" value="6337"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.617s"/>
+    <column title="transfer" value="51.355s"/>
+    <column title="walltime" value="61.55361411161721s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.527395298s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:55:33.068757+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test10-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.485989853s"/>
+    <column title="memory" value="159842304B"/>
+    <column title="reached" value="6396"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.579s"/>
+    <column title="transfer" value="51.645s"/>
+    <column title="walltime" value="61.5023501701653s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.485989853s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:56:34.798892+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.089224561s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="126033920B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.173s"/>
+    <column title="transfer" value="4.522s"/>
+    <column title="walltime" value="12.100501898676157s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.089224561s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:57:36.471735+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.179665979s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129490944B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.208s"/>
+    <column title="transfer" value="4.601s"/>
+    <column title="walltime" value="12.20018282532692s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.179665979s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:57:48.773709+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.25779248s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133238784B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.264s"/>
+    <column title="transfer" value="4.605s"/>
+    <column title="walltime" value="12.271216178312898s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.25779248s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:58:01.148910+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.220138892s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="125845504B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.196s"/>
+    <column title="transfer" value="4.547s"/>
+    <column title="walltime" value="12.231844410300255s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.220138892s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:58:13.607015+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="19.03742179s"/>
+    <column title="memory" value="142716928B"/>
+    <column title="reached" value="2847"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.370s"/>
+    <column title="transfer" value="10.574s"/>
+    <column title="walltime" value="19.059197157621384s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="19.03742179s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:58:26.017673+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="20.406323091s"/>
+    <column title="memory" value="141430784B"/>
+    <column title="reached" value="3269"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.502s"/>
+    <column title="transfer" value="11.657s"/>
+    <column title="walltime" value="20.418408321216702s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="20.406323091s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:58:45.265792+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="22.35321063s"/>
+    <column title="memory" value="148697088B"/>
+    <column title="reached" value="3643"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.640s"/>
+    <column title="transfer" value="13.525s"/>
+    <column title="walltime" value="22.36773249693215s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="22.35321063s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:59:05.887408+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="18.031925236s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="131801088B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.340s"/>
+    <column title="transfer" value="9.700s"/>
+    <column title="walltime" value="18.04381206072867s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.031925236s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:59:28.438907+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="17.879407275s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133591040B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.404s"/>
+    <column title="transfer" value="9.500s"/>
+    <column title="walltime" value="17.90099493972957s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.879407275s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T15:59:46.655358+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test5-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="18.690171215s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="138285056B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.389s"/>
+    <column title="transfer" value="10.140s"/>
+    <column title="walltime" value="18.701656762510538s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.690171215s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:00:04.735761+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test6-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test6-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.645729388s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129277952B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.194s"/>
+    <column title="transfer" value="4.719s"/>
+    <column title="walltime" value="12.666258238255978s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.645729388s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:00:23.606386+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test6-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test6-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.271096918s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127266816B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.219s"/>
+    <column title="transfer" value="4.772s"/>
+    <column title="walltime" value="13.282318383455276s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.271096918s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:00:36.443958+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test7-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test7-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.487817529s"/>
+    <column title="memory" value="153800704B"/>
+    <column title="reached" value="6245"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.626s"/>
+    <column title="transfer" value="53.012s"/>
+    <column title="walltime" value="61.50464684702456s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.487817529s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:00:49.911209+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test7-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test7-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.4806593s"/>
+    <column title="memory" value="155131904B"/>
+    <column title="reached" value="6149"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.604s"/>
+    <column title="transfer" value="52.091s"/>
+    <column title="walltime" value="61.49739179946482s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.4806593s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:01:51.604206+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test8-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test8-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.605292788s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133967872B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.256s"/>
+    <column title="transfer" value="4.895s"/>
+    <column title="walltime" value="12.616876125335693s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.605292788s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:02:53.281322+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test8-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test8-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.862208788s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="128741376B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.244s"/>
+    <column title="transfer" value="4.737s"/>
+    <column title="walltime" value="12.881158605217934s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.862208788s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:03:06.087652+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test9-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test9-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.510485673s"/>
+    <column title="memory" value="173850624B"/>
+    <column title="reached" value="6154"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.624s"/>
+    <column title="transfer" value="49.691s"/>
+    <column title="walltime" value="61.52726376615465s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.510485673s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:03:19.188064+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test9-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_FNV_test9-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.471518086s"/>
+    <column title="memory" value="183443456B"/>
+    <column title="reached" value="6218"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.685s"/>
+    <column title="transfer" value="49.860s"/>
+    <column title="walltime" value="61.48800450563431s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.471518086s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:04:20.921806+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.582886292s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127115264B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.246s"/>
+    <column title="transfer" value="5.104s"/>
+    <column title="walltime" value="12.605783188715577s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.582886292s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:05:22.605714+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.914364256s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133685248B"/>
+    <column title="reached" value="1584"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.246s"/>
+    <column title="transfer" value="4.947s"/>
+    <column title="walltime" value="12.931150110438466s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.914364256s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:05:35.378702+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.194554507s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="123084800B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="1.491s"/>
+    <column title="walltime" value="9.225857708603144s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.194554507s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:05:48.479157+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.28856s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="120885248B"/>
+    <column title="reached" value="628"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.037s"/>
+    <column title="transfer" value="1.398s"/>
+    <column title="walltime" value="9.31452420912683s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.28856s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:05:57.872645+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="9.28488329s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="123568128B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.022s"/>
+    <column title="transfer" value="1.440s"/>
+    <column title="walltime" value="9.309397209435701s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.28488329s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:06:07.367944+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="9.065887564s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="125702144B"/>
+    <column title="reached" value="590"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="1.450s"/>
+    <column title="walltime" value="9.091003347188234s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="9.065887564s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:06:16.868851+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="10.166952372s"/>
+    <column title="memory" value="126971904B"/>
+    <column title="reached" value="865"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.069s"/>
+    <column title="transfer" value="2.505s"/>
+    <column title="walltime" value="10.194380689412355s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.166952372s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:06:26.144336+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="10.570566902s"/>
+    <column title="memory" value="129380352B"/>
+    <column title="reached" value="899"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.137s"/>
+    <column title="transfer" value="2.644s"/>
+    <column title="walltime" value="10.589066887274384s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="10.570566902s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:06:36.507057+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_nondet_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.530834918s"/>
+    <column title="memory" value="177942528B"/>
+    <column title="reached" value="14463"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.188s"/>
+    <column title="transfer" value="50.143s"/>
+    <column title="walltime" value="61.56154970265925s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.530834918s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:06:47.283315+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test1-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test1-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="13.404954461s"/>
+    <column title="memory" value="130252800B"/>
+    <column title="reached" value="1769"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.245s"/>
+    <column title="transfer" value="5.432s"/>
+    <column title="walltime" value="13.428596017882228s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.404954461s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:07:49.030883+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test1-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test1-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="15.303384866s"/>
+    <column title="memory" value="135258112B"/>
+    <column title="reached" value="2191"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.439s"/>
+    <column title="transfer" value="6.580s"/>
+    <column title="walltime" value="15.320445416495204s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.303384866s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:08:02.637698+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.519418836s"/>
+    <column title="memory" value="158539776B"/>
+    <column title="reached" value="6356"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.609s"/>
+    <column title="transfer" value="51.980s"/>
+    <column title="walltime" value="61.55145366117358s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.519418836s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:08:18.124922+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.479540692s"/>
+    <column title="memory" value="162795520B"/>
+    <column title="reached" value="6451"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.431s"/>
+    <column title="transfer" value="51.787s"/>
+    <column title="walltime" value="61.50703495554626s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.479540692s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:09:19.880693+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test10-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.461909326s"/>
+    <column title="memory" value="161591296B"/>
+    <column title="reached" value="6397"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.596s"/>
+    <column title="transfer" value="51.709s"/>
+    <column title="walltime" value="61.49394406937063s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.461909326s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:10:21.574777+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test2-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test2-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.498186096s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="133021696B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.156s"/>
+    <column title="transfer" value="4.721s"/>
+    <column title="walltime" value="12.518329378217459s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.498186096s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:11:23.255795+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test2-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.047363052s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127586304B"/>
+    <column title="reached" value="1659"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.253s"/>
+    <column title="transfer" value="4.935s"/>
+    <column title="walltime" value="13.06033007055521s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.047363052s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:11:35.945637+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test3-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test3-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.462547215s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129474560B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.158s"/>
+    <column title="transfer" value="4.690s"/>
+    <column title="walltime" value="12.485495751723647s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.462547215s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:11:49.175700+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test3-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test3-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.115658087s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="136372224B"/>
+    <column title="reached" value="1619"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.190s"/>
+    <column title="transfer" value="4.593s"/>
+    <column title="walltime" value="12.13780427724123s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.115658087s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:12:01.852252+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="18.682447185s"/>
+    <column title="memory" value="137080832B"/>
+    <column title="reached" value="2847"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.406s"/>
+    <column title="transfer" value="10.557s"/>
+    <column title="walltime" value="18.707153225317597s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="18.682447185s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:12:14.170346+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="20.763071602s"/>
+    <column title="memory" value="141627392B"/>
+    <column title="reached" value="3269"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.556s"/>
+    <column title="transfer" value="12.444s"/>
+    <column title="walltime" value="20.78760250657797s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="20.763071602s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:12:33.070613+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test4-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="22.589716677s"/>
+    <column title="memory" value="146497536B"/>
+    <column title="reached" value="3643"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.535s"/>
+    <column title="transfer" value="13.333s"/>
+    <column title="walltime" value="22.6079708263278s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="22.589716677s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:12:54.041108+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="17.34658411s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="135241728B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.380s"/>
+    <column title="transfer" value="9.021s"/>
+    <column title="walltime" value="17.35900610126555s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.34658411s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:13:16.854580+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="17.102402225s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129880064B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.285s"/>
+    <column title="transfer" value="8.791s"/>
+    <column title="walltime" value="17.114071413874626s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.102402225s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:13:34.392901+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-3.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test5-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="17.77767612s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="136314880B"/>
+    <column title="reached" value="2699"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.337s"/>
+    <column title="transfer" value="9.269s"/>
+    <column title="walltime" value="17.789596712216735s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="17.77767612s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:13:51.684947+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test6-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test6-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="13.36059181s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="130424832B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.188s"/>
+    <column title="transfer" value="4.623s"/>
+    <column title="walltime" value="13.372095694765449s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="13.36059181s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:14:09.650365+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test6-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test6-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.908110526s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="134021120B"/>
+    <column title="reached" value="1847"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.231s"/>
+    <column title="transfer" value="4.892s"/>
+    <column title="walltime" value="12.919724380597472s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.908110526s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:14:23.192182+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test7-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test7-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.4210364s"/>
+    <column title="memory" value="150372352B"/>
+    <column title="reached" value="6255"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.602s"/>
+    <column title="transfer" value="52.477s"/>
+    <column title="walltime" value="61.43804046139121s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.4210364s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:14:36.284913+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test7-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test7-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.465422835s"/>
+    <column title="memory" value="153653248B"/>
+    <column title="reached" value="6229"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.692s"/>
+    <column title="transfer" value="52.710s"/>
+    <column title="walltime" value="61.49327298812568s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.465422835s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:15:37.902765+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test8-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test8-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="12.638734106s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="127066112B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.254s"/>
+    <column title="transfer" value="4.502s"/>
+    <column title="walltime" value="12.650149488821626s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.638734106s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:16:39.586929+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test8-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test8-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="12.095047554s"/>
+    <column title="error" value="Unknown function 'memcmp' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="129191936B"/>
+    <column title="reached" value="1804"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.158s"/>
+    <column title="transfer" value="4.405s"/>
+    <column title="walltime" value="12.11672799102962s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="12.095047554s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:16:52.416962+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test9-1.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test9-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="61.440697125s"/>
+    <column title="memory" value="190500864B"/>
+    <column title="reached" value="6159"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.681s"/>
+    <column title="transfer" value="49.895s"/>
+    <column title="walltime" value="61.46276396512985s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.440697125s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:17:04.707703+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test9-2.yml" files="[test/programs/benchmarks/uthash-2.0.2/uthash_JEN_test9-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.466054784s"/>
+    <column title="memory" value="186212352B"/>
+    <column title="reached" value="6182"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.666s"/>
+    <column title="transfer" value="50.203s"/>
+    <column title="walltime" value="61.48298057168722s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="61.466054784s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-11-06T16:18:06.394635+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  
+</result>

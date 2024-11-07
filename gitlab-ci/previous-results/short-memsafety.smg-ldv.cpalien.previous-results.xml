@@ -26,449 +26,465 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
-  <run name="test/programs/cpalien/0001-memleak.yml" files="[test/programs/cpalien/0001-memleak.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="3.491735177s"/>
-    <column title="memory" value="152629248B"/>
+  <run name="test/programs/cpalien/0001-memleak.yml" files="[test/programs/cpalien/0001-memleak.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="3.437792161s"/>
+    <column title="memory" value="110485504B"/>
     <column title="reached" value="8"/>
     <column title="status" value="false(valid-memtrack)"/>
     <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.175s"/>
-    <column title="walltime" value="3.507534929551184s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="transfer" value="0.129s"/>
+    <column title="walltime" value="4.395549597000354s"/>
+    <column title="blkio-read" value="2088960B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.491735177s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.437792161s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:15:59.847858+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:51:54.745405+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0002-memleak.yml" files="[test/programs/cpalien/0002-memleak.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="3.558740372s"/>
-    <column title="memory" value="154550272B"/>
+  <run name="test/programs/cpalien/0002-memleak.yml" files="[test/programs/cpalien/0002-memleak.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="3.409500241s"/>
+    <column title="memory" value="109522944B"/>
     <column title="reached" value="11"/>
     <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.190s"/>
-    <column title="walltime" value="3.569444175809622s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.131s"/>
+    <column title="walltime" value="3.4235820199992304s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.558740372s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.409500241s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:03.546063+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:51:59.392811+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0003-simple_function.yml" files="[test/programs/cpalien/0003-simple_function.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.457055172s"/>
-    <column title="memory" value="152842240B"/>
+  <run name="test/programs/cpalien/0003-simple_function.yml" files="[test/programs/cpalien/0003-simple_function.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.212617193s"/>
+    <column title="memory" value="105541632B"/>
     <column title="reached" value="19"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.158s"/>
-    <column title="walltime" value="3.4780057687312365s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.138s"/>
+    <column title="walltime" value="3.2189979670001776s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.457055172s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.212617193s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:07.299850+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:03.109609+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0004-simple_function.yml" files="[test/programs/cpalien/0004-simple_function.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.584405639s"/>
-    <column title="memory" value="153747456B"/>
+  <run name="test/programs/cpalien/0004-simple_function.yml" files="[test/programs/cpalien/0004-simple_function.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.473655361s"/>
+    <column title="memory" value="115539968B"/>
     <column title="reached" value="16"/>
     <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.205s"/>
-    <column title="walltime" value="3.6039362493902445s"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.157s"/>
+    <column title="walltime" value="3.479603877000045s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.584405639s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.473655361s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:11.057802+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:06.593192+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0005-memleak.yml" files="[test/programs/cpalien/0005-memleak.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="3.624673914s"/>
-    <column title="memory" value="154484736B"/>
+  <run name="test/programs/cpalien/0005-memleak.yml" files="[test/programs/cpalien/0005-memleak.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="3.367486311s"/>
+    <column title="memory" value="109674496B"/>
     <column title="reached" value="17"/>
     <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.260s"/>
-    <column title="walltime" value="3.6345091247931123s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.187s"/>
+    <column title="walltime" value="3.3835623640006816s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.624673914s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.367486311s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:14.874127+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:10.329101+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0006-ptr-return.yml" files="[test/programs/cpalien/0006-ptr-return.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.442764923s"/>
-    <column title="memory" value="150458368B"/>
+  <run name="test/programs/cpalien/0006-ptr-return.yml" files="[test/programs/cpalien/0006-ptr-return.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.216047896s"/>
+    <column title="memory" value="104988672B"/>
     <column title="reached" value="19"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.103s"/>
-    <column title="walltime" value="3.4630508683621883s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.111s"/>
+    <column title="walltime" value="3.23839050999959s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.442764923s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.216047896s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:18.688044+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:14.054363+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0007-ptr-traverse.yml" files="[test/programs/cpalien/0007-ptr-traverse.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.447136514s"/>
-    <column title="memory" value="148488192B"/>
+  <run name="test/programs/cpalien/0007-ptr-traverse.yml" files="[test/programs/cpalien/0007-ptr-traverse.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.320928385s"/>
+    <column title="memory" value="106622976B"/>
     <column title="reached" value="24"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.151s"/>
-    <column title="walltime" value="3.4849539818242192s"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.123s"/>
+    <column title="walltime" value="3.340749340999537s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.447136514s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.320928385s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:22.389798+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:17.990663+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0008-ptr-traverse_deref_freed.yml" files="[test/programs/cpalien/0008-ptr-traverse_deref_freed.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.652461479s"/>
-    <column title="memory" value="153735168B"/>
+  <run name="test/programs/cpalien/0008-ptr-traverse_deref_freed.yml" files="[test/programs/cpalien/0008-ptr-traverse_deref_freed.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="3.688778615s"/>
+    <column title="memory" value="111099904B"/>
     <column title="reached" value="24"/>
     <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.302s"/>
-    <column title="walltime" value="3.666882975026965s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.215s"/>
+    <column title="walltime" value="3.7055954829993425s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.652461479s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.688778615s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:26.378164+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:21.611434+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0009-ptr-traverse_double_free.yml" files="[test/programs/cpalien/0009-ptr-traverse_double_free.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
-    <column title="cputime" value="3.715905227s"/>
-    <column title="memory" value="154419200B"/>
+  <run name="test/programs/cpalien/0009-ptr-traverse_double_free.yml" files="[test/programs/cpalien/0009-ptr-traverse_double_free.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="3.60646929s"/>
+    <column title="memory" value="110620672B"/>
     <column title="reached" value="26"/>
     <column title="status" value="false(valid-free)"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.263s"/>
-    <column title="walltime" value="3.7358996272087097s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.179s"/>
+    <column title="walltime" value="3.612253988001612s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.715905227s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.60646929s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:30.259471+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:25.618640+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0010-trivial-join.yml" files="[test/programs/cpalien/0010-trivial-join.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.288290056s"/>
-    <column title="memory" value="157392896B"/>
+  <run name="test/programs/cpalien/0010-trivial-join.yml" files="[test/programs/cpalien/0010-trivial-join.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.031480115s"/>
+    <column title="memory" value="114995200B"/>
     <column title="reached" value="290"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.312s"/>
-    <column title="walltime" value="4.310299056582153s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.362s"/>
+    <column title="walltime" value="4.041598982999858s"/>
+    <column title="blkio-read" value="217088B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.288290056s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.031480115s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:34.185308+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:29.623263+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0011-trivial-cycle.yml" files="[test/programs/cpalien/0011-trivial-cycle.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="4.68609458s"/>
-    <column title="memory" value="164274176B"/>
+  <run name="test/programs/cpalien/0011-trivial-cycle.yml" files="[test/programs/cpalien/0011-trivial-cycle.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="4.520351861s"/>
+    <column title="memory" value="127012864B"/>
     <column title="reached" value="287"/>
     <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.464s"/>
-    <column title="walltime" value="4.709121714346111s"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.438s"/>
+    <column title="walltime" value="4.539158927000244s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.68609458s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.520351861s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:38.687100+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:34.026741+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0012-trivial-tree.yml" files="[test/programs/cpalien/0012-trivial-tree.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.80344823s"/>
-    <column title="error" value="SMG was found inconsistent during a check on state id 1231:"/>
-    <column title="memory" value="170926080B"/>
-    <column title="reached" value="377"/>
+  <run name="test/programs/cpalien/0012-trivial-tree.yml" files="[test/programs/cpalien/0012-trivial-tree.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="10.583918808s"/>
+    <column title="error" value="SMG was found inconsistent during a check on state id 11402:"/>
+    <column title="memory" value="142962688B"/>
+    <column title="reached" value="2869"/>
     <column title="status" value="ERROR"/>
-    <column title="stop" value="0.050s"/>
-    <column title="transfer" value="0.669s"/>
-    <column title="walltime" value="4.830179275944829s"/>
+    <column title="stop" value="2.928s"/>
+    <column title="transfer" value="3.236s"/>
+    <column title="walltime" value="10.600735361000261s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.80344823s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="10.583918808s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:43.611298+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:38.906547+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0013-assume-edge-eq0.yml" files="[test/programs/cpalien/0013-assume-edge-eq0.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.235229383s"/>
-    <column title="memory" value="156835840B"/>
-    <column title="reached" value="285"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.007s"/>
-    <column title="transfer" value="0.340s"/>
-    <column title="walltime" value="4.256236874498427s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.235229383s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:48.644846+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/cpalien/0014-assume-edge-neq0.yml" files="[test/programs/cpalien/0014-assume-edge-neq0.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.269241052s"/>
-    <column title="memory" value="157937664B"/>
-    <column title="reached" value="285"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.011s"/>
-    <column title="transfer" value="0.361s"/>
-    <column title="walltime" value="4.2925215139985085s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.269241052s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:53.131610+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/cpalien/0015-assume-edge-eq0.yml" files="[test/programs/cpalien/0015-assume-edge-eq0.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.231067974s"/>
-    <column title="memory" value="157917184B"/>
+  <run name="test/programs/cpalien/0013-assume-edge-eq0.yml" files="[test/programs/cpalien/0013-assume-edge-eq0.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.862560767s"/>
+    <column title="memory" value="113704960B"/>
     <column title="reached" value="285"/>
     <column title="status" value="true"/>
     <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.323s"/>
-    <column title="walltime" value="4.253919114358723s"/>
+    <column title="transfer" value="0.326s"/>
+    <column title="walltime" value="3.8688845750002656s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.231067974s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.862560767s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:16:57.663558+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:49.852734+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0016-assume-edge-nullwrite.yml" files="[test/programs/cpalien/0016-assume-edge-nullwrite.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.555399267s"/>
-    <column title="memory" value="161136640B"/>
-    <column title="reached" value="280"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.007s"/>
-    <column title="transfer" value="0.415s"/>
-    <column title="walltime" value="4.567915710620582s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.555399267s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:02.139408+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/cpalien/0017-assume-edge-deref-dangling.yml" files="[test/programs/cpalien/0017-assume-edge-deref-dangling.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.584965301s"/>
-    <column title="memory" value="161464320B"/>
-    <column title="reached" value="282"/>
-    <column title="status" value="false(valid-free)"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.450s"/>
-    <column title="walltime" value="4.599477703683078s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="unknown" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.584965301s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:06.916930+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/cpalien/0018-builtins.yml" files="[test/programs/cpalien/0018-builtins.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.358880961s"/>
-    <column title="memory" value="152260608B"/>
-    <column title="reached" value="26"/>
+  <run name="test/programs/cpalien/0014-assume-edge-neq0.yml" files="[test/programs/cpalien/0014-assume-edge-neq0.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.028424537s"/>
+    <column title="memory" value="115429376B"/>
+    <column title="reached" value="285"/>
     <column title="status" value="true"/>
     <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.132s"/>
-    <column title="walltime" value="3.374534768052399s"/>
+    <column title="transfer" value="0.298s"/>
+    <column title="walltime" value="4.038052106001487s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.358880961s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.028424537s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:11.717268+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:54.051008+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0019-assume-edge-eq0.yml" files="[test/programs/cpalien/0019-assume-edge-eq0.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.257604321s"/>
-    <column title="memory" value="155426816B"/>
-    <column title="reached" value="282"/>
+  <run name="test/programs/cpalien/0015-assume-edge-eq0.yml" files="[test/programs/cpalien/0015-assume-edge-eq0.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.848396622s"/>
+    <column title="memory" value="106172416B"/>
+    <column title="reached" value="285"/>
     <column title="status" value="true"/>
     <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.338s"/>
-    <column title="walltime" value="4.2835058914497495s"/>
+    <column title="transfer" value="0.359s"/>
+    <column title="walltime" value="3.861353226000574s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.257604321s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.848396622s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:15.305473+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:52:58.407270+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0020-ugly-list.yml" files="[test/programs/cpalien/0020-ugly-list.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.495297558s"/>
-    <column title="memory" value="163573760B"/>
-    <column title="reached" value="324"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.045s"/>
-    <column title="transfer" value="0.455s"/>
-    <column title="walltime" value="4.511218877509236s"/>
+  <run name="test/programs/cpalien/0016-assume-edge-nullwrite.yml" files="[test/programs/cpalien/0016-assume-edge-nullwrite.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.287410188s"/>
+    <column title="memory" value="128614400B"/>
+    <column title="reached" value="280"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.412s"/>
+    <column title="walltime" value="4.303843273999519s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.495297558s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.287410188s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:19.788620+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:02.557961+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/0021-ugly-list.yml" files="[test/programs/cpalien/0021-ugly-list.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.758891024s"/>
-    <column title="memory" value="164950016B"/>
-    <column title="reached" value="300"/>
+  <run name="test/programs/cpalien/0017-assume-edge-deref-dangling.yml" files="[test/programs/cpalien/0017-assume-edge-deref-dangling.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.20239549s"/>
+    <column title="memory" value="116510720B"/>
+    <column title="reached" value="282"/>
     <column title="status" value="false(valid-free)"/>
-    <column title="stop" value="0.036s"/>
-    <column title="transfer" value="0.475s"/>
-    <column title="walltime" value="4.7735407361760736s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.422s"/>
+    <column title="walltime" value="4.218407586999092s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="unknown" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.758891024s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.20239549s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:24.606154+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:07.178908+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/enum-sign.yml" files="[test/programs/cpalien/enum-sign.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="5.657569913s"/>
-    <column title="memory" value="110616576B"/>
-    <column title="reached" value="33"/>
+  <run name="test/programs/cpalien/0018-builtins.yml" files="[test/programs/cpalien/0018-builtins.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.129230552s"/>
+    <column title="memory" value="96710656B"/>
+    <column title="reached" value="26"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.019s"/>
-    <column title="transfer" value="0.280s"/>
-    <column title="walltime" value="5.695123529061675s"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.119s"/>
+    <column title="walltime" value="3.1449249970009987s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.657569913s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.129230552s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-10-18T15:19:07.335439+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:11.667495+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/enum-size.yml" files="[test/programs/cpalien/enum-size.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="5.073411257s"/>
-    <column title="memory" value="111919104B"/>
-    <column title="reached" value="28"/>
+  <run name="test/programs/cpalien/0019-assume-edge-eq0.yml" files="[test/programs/cpalien/0019-assume-edge-eq0.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.912343106s"/>
+    <column title="memory" value="114233344B"/>
+    <column title="reached" value="282"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.217s"/>
-    <column title="walltime" value="5.103448688983917s"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.328s"/>
+    <column title="walltime" value="3.9213670389999606s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.073411257s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.912343106s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-10-18T15:19:13.201199+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:15.124639+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/explicit_value_access.yml" files="[test/programs/cpalien/explicit_value_access.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.439703169s"/>
-    <column title="memory" value="150183936B"/>
-    <column title="reached" value="18"/>
+  <run name="test/programs/cpalien/0020-ugly-list.yml" files="[test/programs/cpalien/0020-ugly-list.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.232646518s"/>
+    <column title="memory" value="123105280B"/>
+    <column title="reached" value="345"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.094s"/>
+    <column title="transfer" value="0.520s"/>
+    <column title="walltime" value="4.243763516000399s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.232646518s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:19.317977+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/0021-ugly-list.yml" files="[test/programs/cpalien/0021-ugly-list.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.440251373s"/>
+    <column title="memory" value="128413696B"/>
+    <column title="reached" value="300"/>
+    <column title="status" value="false(valid-free)"/>
+    <column title="stop" value="0.011s"/>
+    <column title="transfer" value="0.452s"/>
+    <column title="walltime" value="4.457473665999714s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.440251373s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:23.904149+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/aligned.yml" files="[test/programs/cpalien/aligned.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.064260908s"/>
+    <column title="memory" value="97529856B"/>
+    <column title="reached" value="14"/>
     <column title="status" value="true"/>
     <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.121s"/>
-    <column title="walltime" value="3.4567272178828716s"/>
+    <column title="transfer" value="0.064s"/>
+    <column title="walltime" value="3.0778292659997533s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.439703169s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.064260908s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:29.571489+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:28.678108+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/pointer_case_diff.yml" files="[test/programs/cpalien/pointer_cast_diff.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.217912752s"/>
-    <column title="memory" value="160595968B"/>
+  <run name="test/programs/cpalien/enum-sign.yml" files="[test/programs/cpalien/enum-sign.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.19169715s"/>
+    <column title="memory" value="101138432B"/>
+    <column title="reached" value="38"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.173s"/>
+    <column title="walltime" value="3.2083013800001936s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.19169715s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:32.047770+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/enum-size.yml" files="[test/programs/cpalien/enum-size.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.115078898s"/>
+    <column title="memory" value="105717760B"/>
+    <column title="reached" value="28"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.119s"/>
+    <column title="walltime" value="3.122151825000401s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.115078898s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:35.617785+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/explicit_value_access.yml" files="[test/programs/cpalien/explicit_value_access.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="3.273759215s"/>
+    <column title="memory" value="105979904B"/>
+    <column title="reached" value="18"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.124s"/>
+    <column title="walltime" value="3.2836337640001148s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="3.273759215s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:39.090507+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/cpalien/pointer_case_diff.yml" files="[test/programs/cpalien/pointer_cast_diff.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.149155579s"/>
+    <column title="memory" value="124071936B"/>
     <column title="reached" value="121"/>
     <column title="status" value="false(valid-free)"/>
-    <column title="stop" value="0.059s"/>
-    <column title="transfer" value="0.564s"/>
-    <column title="walltime" value="4.228569205850363s"/>
+    <column title="stop" value="0.061s"/>
+    <column title="transfer" value="0.509s"/>
+    <column title="walltime" value="4.1648734049995255s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="wrong" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.217426842s" hidden="true"/>
-    <column title="cputime-cpu3" value="0.00048591s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.149155579s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:33.207312+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:42.692675+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/cpalien/pointer_diff.yml" files="[test/programs/cpalien/pointer_diff.c]" options="-preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.653242092s"/>
-    <column title="memory" value="156917760B"/>
+  <run name="test/programs/cpalien/pointer_diff.yml" files="[test/programs/cpalien/pointer_diff.c]" options="--preprocess" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.040232684s"/>
+    <column title="memory" value="108736512B"/>
     <column title="reached" value="48"/>
     <column title="status" value="true"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.237s"/>
-    <column title="walltime" value="3.6770425187423825s"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.379s"/>
+    <column title="walltime" value="4.051293550999617s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.653242092s" hidden="true"/>
+    <column title="cpuCores" value="15" hidden="true"/>
+    <column title="cputime-cpu15" value="4.040232684s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T10:17:37.651407+00:00" hidden="true"/>
+    <column title="starttime" value="2024-11-06T17:53:47.149761+03:00" hidden="true"/>
   </run>
   
 </result>

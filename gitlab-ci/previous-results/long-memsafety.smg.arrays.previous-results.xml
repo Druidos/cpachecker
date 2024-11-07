@@ -2178,259 +2178,304 @@ SPDX-License-Identifier: Apache-2.0
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/basename-3.yml" files="[test/programs/benchmarks/termination-dietlibc/basename-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.327150426s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123518976B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.347543206065893s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.103365645s"/>
+    <column title="error" value="line 532: Unsupported feature"/>
+    <column title="memory" value="108515328B"/>
+    <column title="reached" value="269"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.011s"/>
+    <column title="transfer" value="0.338s"/>
+    <column title="walltime" value="4.121165439486504s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.327150426s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.103365645s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:23.624834+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:19.604973+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/dirname-2.yml" files="[test/programs/benchmarks/termination-dietlibc/dirname-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.346916724s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="124846080B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.3694574907422066s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.086489106s"/>
+    <column title="error" value="line 535: Unsupported feature"/>
+    <column title="memory" value="106967040B"/>
+    <column title="reached" value="269"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.021s"/>
+    <column title="transfer" value="0.341s"/>
+    <column title="walltime" value="4.10426676645875s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.346916724s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.086489106s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:27.143844+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:24.109939+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/stpcpy.yml" files="[test/programs/benchmarks/termination-dietlibc/stpcpy.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.561688139s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123973632B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.5895137758925557s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.0828702s"/>
+    <column title="error" value="line 513: Unsupported feature"/>
+    <column title="memory" value="108859392B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="0.338s"/>
+    <column title="walltime" value="4.10077303647995s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.561688139s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.0828702s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:30.730565+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:28.461491+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strcasecmp.yml" files="[test/programs/benchmarks/termination-dietlibc/strcasecmp.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.534852869s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126373888B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.5644430788233876s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.095038376s"/>
+    <column title="error" value="line 525: Unsupported feature"/>
+    <column title="memory" value="107270144B"/>
+    <column title="reached" value="269"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.370s"/>
+    <column title="walltime" value="4.104730233550072s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.534852869s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.095038376s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:34.462709+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:32.785469+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strcat.yml" files="[test/programs/benchmarks/termination-dietlibc/strcat.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.635929782s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="125874176B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.6634956784546375s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.136679542s"/>
+    <column title="error" value="line 527: Unsupported feature"/>
+    <column title="memory" value="108728320B"/>
+    <column title="reached" value="269"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="0.391s"/>
+    <column title="walltime" value="4.157035127282143s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.635929782s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.136679542s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:38.178884+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:37.229457+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strcat_short.yml" files="[test/programs/benchmarks/termination-dietlibc/strcat_short.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.450311002s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126402560B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.473260429687798s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.076402234s"/>
+    <column title="error" value="line 524: Unsupported feature"/>
+    <column title="memory" value="108302336B"/>
+    <column title="reached" value="269"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.355s"/>
+    <column title="walltime" value="4.093929748982191s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.450311002s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.076402234s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:42.071891+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:41.708681+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strchr-1.yml" files="[test/programs/benchmarks/termination-dietlibc/strchr-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.273518685s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126357504B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.2932373713701963s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.100695075s"/>
+    <column title="error" value="line 520: Unsupported feature"/>
+    <column title="memory" value="109166592B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.379s"/>
+    <column title="walltime" value="4.110025208443403s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.273518685s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.100695075s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:45.685752+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:46.093150+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strchr_short.yml" files="[test/programs/benchmarks/termination-dietlibc/strchr_short.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.548354103s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="124248064B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.5733382999897003s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.090662816s"/>
+    <column title="error" value="line 517: Unsupported feature"/>
+    <column title="memory" value="108855296B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.355s"/>
+    <column title="walltime" value="4.1075661070644855s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.548354103s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.090662816s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:49.123630+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:50.473538+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strcpy_small.yml" files="[test/programs/benchmarks/termination-dietlibc/strcpy_small.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.792633817s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123928576B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.818548229523003s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.10335987s"/>
+    <column title="error" value="line 514: Unsupported feature"/>
+    <column title="memory" value="108863488B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.358s"/>
+    <column title="walltime" value="4.1129014529287815s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.792633817s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.10335987s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:52.842657+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:55.000631+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strcspn.yml" files="[test/programs/benchmarks/termination-dietlibc/strcspn.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.390009776s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126894080B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.412964977324009s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.041178703s"/>
+    <column title="error" value="line 520: Unsupported feature"/>
+    <column title="memory" value="104333312B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.388s"/>
+    <column title="walltime" value="4.058063667267561s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.390009776s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.041178703s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:56.803954+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:12:59.344097+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strlcat.yml" files="[test/programs/benchmarks/termination-dietlibc/strlcat.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.538103072s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123518976B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.565695570781827s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="2.227559014s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="70680576B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.233289707452059s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.538103072s" hidden="true"/>
+    <column title="cputime-cpu0" value="2.227559014s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:00.360472+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:03.603524+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strlcpy.yml" files="[test/programs/benchmarks/termination-dietlibc/strlcpy.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.454439881s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126033920B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.4784865379333496s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="2.239455209s"/>
+    <column title="error" value="Parsing failed"/>
+    <column title="memory" value="70586368B"/>
+    <column title="status" value="ERROR (parsing failed)"/>
+    <column title="walltime" value="2.2451064847409725s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.454439881s" hidden="true"/>
+    <column title="cputime-cpu0" value="2.239455209s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:04.080456+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:06.113468+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strlen.yml" files="[test/programs/benchmarks/termination-dietlibc/strlen.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.13619095s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123674624B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.156460507772863s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="3.951882596s"/>
+    <column title="error" value="line 515: Unsupported feature"/>
+    <column title="memory" value="100552704B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.372s"/>
+    <column title="walltime" value="3.9685619212687016s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.13619095s" hidden="true"/>
+    <column title="cputime-cpu0" value="3.951882596s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:07.699298+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:08.705372+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strrchr_short.yml" files="[test/programs/benchmarks/termination-dietlibc/strrchr_short.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.444620875s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="124903424B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.473792316392064s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.089911341s"/>
+    <column title="error" value="line 518: Unsupported feature"/>
+    <column title="memory" value="110030848B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.016s"/>
+    <column title="transfer" value="0.381s"/>
+    <column title="walltime" value="4.106583498418331s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.444620875s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.089911341s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:11.068828+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:12.893454+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strspn.yml" files="[test/programs/benchmarks/termination-dietlibc/strspn.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="3.537260511s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123990016B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.569743189960718s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.077405132s"/>
+    <column title="error" value="line 522: Unsupported feature"/>
+    <column title="memory" value="110329856B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.397s"/>
+    <column title="walltime" value="4.094155270606279s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.537260511s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.077405132s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:14.737205+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:17.289451+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/strtok_r.yml" files="[test/programs/benchmarks/termination-dietlibc/strtok_r.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.474702464s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="123998208B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.5004993276670575s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.124433236s"/>
+    <column title="error" value="line 545: Unsupported feature"/>
+    <column title="memory" value="108593152B"/>
+    <column title="reached" value="270"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.391s"/>
+    <column title="walltime" value="4.142848812043667s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.474702464s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.124433236s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:18.448803+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:21.777547+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-dietlibc/wcsstr.yml" files="[test/programs/benchmarks/termination-dietlibc/wcsstr.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="3.359661965s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="124035072B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="3.383460119366646s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="cputime" value="4.095415865s"/>
+    <column title="error" value="line 517: Unsupported feature"/>
+    <column title="memory" value="101306368B"/>
+    <column title="reached" value="268"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.014s"/>
+    <column title="transfer" value="0.399s"/>
+    <column title="walltime" value="4.11164390668273s"/>
+    <column title="blkio-read" value="24576B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.359661965s" hidden="true"/>
+    <column title="cputime-cpu0" value="4.095415865s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:22.087070+00:00" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-11-05T14:13:26.177459+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-memory-alloca/Avery-2006FLOPS-Tabel1_true-alloca.yml" files="[test/programs/benchmarks/termination-memory-alloca/Avery-2006FLOPS-Tabel1_true-alloca.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="31.409428022s"/>
