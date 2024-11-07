@@ -125,11 +125,12 @@ def print_counts(rows, ignore_flapping_timeouts):
     print(f"regressions:       {regressions:3d}\n")
     if regressions > 0:
         sys.exit(f"{red_color}There are {regressions} regressions, "
-                 f"{problem_changes} changed problems,"
+                 f"{problem_changes} changed problems, "
                  f"and {improvements} improvements{no_color}.\n")
     elif problem_changes > 0:
-        print(f"{red_color}There are no lost verdicts, but"
-              f"{problem_changes} changed problems and {improvements} improvements{no_color}.\n")
+        print(f"{red_color}There are no lost verdicts, but "
+              f"{problem_changes} changed problems and "
+              f"{improvements} improvements{no_color}.\n")
         sys.exit(116)  # inspired by EUCLEAN
     elif improvements > 0:
         print(f"{red_color}There are no regressions and {improvements} improvements{no_color}.\n")

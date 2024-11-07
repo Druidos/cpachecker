@@ -15,6 +15,7 @@ from defusedxml.minidom import parse
 
 red_color = '\033[1;31m'
 green_color = '\033[1;32m'
+yellow_color = '\033[1;33m'
 no_color = '\033[0m'  # No Color
 
 common_header = """<?xml version="1.0" encoding="utf-8"?>
@@ -67,90 +68,100 @@ def parse_document(document):
         for column in r.childNodes
         if column.nodeType == column.ELEMENT_NODE and column.getAttribute('title') == 'status'
     ]
-    return zip(results, filenames, statuses)
+    return {file: (status, dom) for (dom, file, status) in zip(results, filenames, statuses)}
 
 
 # fix paths in case manual results
 def fix_paths_in_dom(dom):
     for atr in ['name', 'propertyFile', 'files']:
         old = dom.getAttribute(atr)
-        if '/programs/' not in old:
-            continue
-        new = 'test/programs/' + old.split('/programs/', 2)[1]
-        dom.setAttribute(atr, new)
+        if '/programs/' in old:
+            new = 'test/programs/' + old.split('/programs/', 2)[1]
+            dom.setAttribute(atr, new)
+        elif '/config/' in old:
+            new = 'test/config/' + old.split('/config/', 2)[1]
+            dom.setAttribute(atr, new)
     # 'files' is always an array with only element
     dom.setAttribute('files', '[' + dom.getAttribute('files'))
 
 
-def compose_two_bodies(key_triple, parsed_triples):
+def choose_dom(row, timeouts):
+    statuses = {status for (status, _) in row if status.startswith('TIMEOUT') == timeouts}
+
+    if len(statuses) == 0:
+        return None
+
+    if len(statuses) > 1:
+        print('found multiple outcomes for ' + filename + ': ' + ', '.join(statuses))
+
+    prefered = None
+    if timeouts or len(statuses) == 1:
+        # it is either the only status or all are timeouts so choose any
+        prefered = statuses.pop()
+    if 'TIMEOUT' in statuses:
+        # ...but prefer a clean timeout
+        prefered = 'TIMEOUT'
+    if prefered:
+        for (status, dom) in row:
+            if status == prefered:
+                return dom
+        raise AssertionError()
+
+    if not timeouts and len(statuses) > 2:
+        sys.exit('expected at most two non-timeouts: an old and a new one')
+
+    new_status, new_dom = row[-1]
+    correct_verdicts = {dom.getAttribute('expectedVerdict') for (_, dom) in row}
+    if len(correct_verdicts) == 0:
+        correct_verdict = 'absent'
+        color = red_color
+    elif len(correct_verdicts) == 1:
+        correct_verdict = correct_verdicts.pop()
+        color = green_color if new_status == correct_verdict else red_color
+    else:
+        correct_verdict = ', '.join(correct_verdicts)
+        color = red_color
+    print('choosing', color + new_status + no_color, '(correct verdict is',
+          correct_verdict + ')')
+    return new_dom
+
+
+def compose_two_bodies(key_triple, tables):
     primary = []
     secondary = []
     any_flaky = False
 
-    for row in zip(*parsed_triples):
-        filename = {name for (_, name, _) in row}
-        if len(filename) > 1:
-            sys.exit('comparing results for different files: %s' % filename)
-        filename = filename.pop()
+    all_files = {file for table in tables for file in table}
+    for filename in all_files:
+        if filename not in tables[-1]:
+            print(f'{yellow_color}Removing{no_color}', "a file from the test set:", filename)
+            continue
 
-        non_timeout = {status for (_, _, status) in row if not status.startswith('TIMEOUT')}
-        last_non_timeout = row[-1][2]  # new files are last so choose from them
-        if len(non_timeout) == 0:
-            non_timeout = None
-        elif len(non_timeout) == 1:
-            non_timeout = non_timeout.pop()
-            # replace with dom
-            for (dom, _, status) in row:
-                if status == non_timeout:
-                    non_timeout = dom
-                    break
-            fix_paths_in_dom(non_timeout)
-            primary.append(non_timeout)
-        elif len(non_timeout) == 2:
-            print('found multiple outcomes for', filename + ':', ', '.join(non_timeout))
-            correct_verdict = {dom.getAttribute('expectedVerdict') for (dom, _, _) in row}
-            if len(correct_verdict) == 0:
-                correct_verdict = 'absent'
-                color = red_color
-            elif len(correct_verdict) == 1:
-                correct_verdict = correct_verdict.pop()
-                color = green_color if last_non_timeout == correct_verdict else red_color
-            else:
-                correct_verdict = ', '.join(correct_verdict)
-                color = red_color
-            print('choosing', color + last_non_timeout + no_color, '(correct verdict is',
-                  correct_verdict + ')')
-            non_timeout = row[-1][0]  # replace with dom
-            fix_paths_in_dom(non_timeout)
-            primary.append(non_timeout)
-        else:
-            sys.exit('found multiple outcomes for ' + filename + ': ' + ', '.join(non_timeout)
-                     + ' (expected at most two: an old and a new one)')
+        any_old_have_file = any(filename in table for table in tables[:-1])
+        if not any_old_have_file:
+            print(f'{yellow_color}Adding{no_color}', "a file to the test set:", filename)
+            row = [tables[-1][filename]]
 
-        timeout = {status for (_, _, status) in row if status.startswith('TIMEOUT')}
-        if len(timeout) == 0:
-            timeout = None
-            # no timeouts among outcomes
-            secondary.append(non_timeout)
-            continue  # to next row
-        if 'TIMEOUT' in timeout:
-            timeout = 'TIMEOUT'
         else:
-            if len(timeout) > 1:
-                print('found multiple outcomes for ' + filename + ': ' + ', '.join(timeout))
-            timeout = timeout.pop()
-        # replace with dom
-        for (dom, _, status) in row:
-            if status == timeout:
-                timeout = dom
-                break
+            all_old_have_file = all(filename in table for table in tables[:-1])
+            if not all_old_have_file:
+                sys.exit("File %s was missing in some tables" % filename)
+            row = [table[filename] for table in tables]
 
-        fix_paths_in_dom(timeout)
-        if non_timeout is None:
-            primary.append(timeout)
-        else:
+        non_timeout_dom = choose_dom(row, timeouts=False)
+        if non_timeout_dom:
+            fix_paths_in_dom(non_timeout_dom)
+        timeout_dom = choose_dom(row, timeouts=True)
+        if timeout_dom:
+            fix_paths_in_dom(timeout_dom)
+        if non_timeout_dom is None and timeout_dom is None:
+            sys.exit("File %s has no outcome" % filename)
+        if non_timeout_dom and timeout_dom:
             any_flaky = True
-        secondary.append(timeout)
+        primary_dom = non_timeout_dom or timeout_dom
+        secondary_dom = timeout_dom or non_timeout_dom
+        primary.append(primary_dom)
+        secondary.append(secondary_dom)
 
     testset, rundef, tasks = key_triple
     prefix = f'gitlab-ci/previous-results/{testset}.{rundef}.{tasks}'
