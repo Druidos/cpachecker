@@ -433,10 +433,14 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     if (pAddress.isUnknown()) {
       return singletonList(SMGAddressValueAndState.of(this));
     }
+
     SMGObject target = pAddress.getObject();
     SMGExplicitValue offset = pAddress.getOffset();
-    if (target instanceof SMGRegion) {
-      SMGValue address = getAddress((SMGRegion) target, offset.getAsLong());
+
+    if (target instanceof SMGRegion || target == SMGNullObject.INSTANCE) {
+      // ignoring tag may be meh, but for regions it should always be reg
+      // and for null it should always be unknown
+      SMGValue address = getAddress(target, offset.getAsLong(), null);
       if (address == null) {
         return singletonList(
             SMGAddressValueAndState.of(
@@ -444,12 +448,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       }
       return getPointerFromValue(address);
     }
-    if (target == SMGNullObject.INSTANCE) {
-      // TODO return NULL_POINTER instead of new object?
-      return singletonList(
-          SMGAddressValueAndState.of(
-              this, new SMGEdgePointsTo(SMGZeroValue.INSTANCE, target, offset.getAsLong())));
-    }
+
     if (target.isAbstract()) {
       performConsistencyCheck(SMGRuntimeCheck.HALF);
       SMGKnownSymbolicValue symbolicValue = SMGKnownSymValue.of();
