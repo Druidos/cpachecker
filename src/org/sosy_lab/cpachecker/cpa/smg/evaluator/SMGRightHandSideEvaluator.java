@@ -299,8 +299,42 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
       long structOffset = structAddress.getOffset().getAsLong();
 
       // FIXME Does not work with variable array length.
-      long structSize = structOffset + getBitSizeof(pCfaEdge, pRValueType, pNewState);
-      return pNewState.copy(source, pMemoryOfField, structOffset, structSize, pFieldOffset);
+      long bitsize = getBitSizeof(pCfaEdge, pRValueType, pNewState);
+      long structEndOffset = structOffset + bitsize;
+      assert structOffset <= structEndOffset : "negative size " + bitsize + " for " + pRValueType;
+
+      if (!pNewState.getHeap().isObjectValid(source)) {
+        return pNewState
+            .withInvalidRead()
+            .withErrorDescription("Copying (assigning struct) from invalid object");
+      }
+      if (!pNewState.getHeap().isObjectValid(pMemoryOfField)) {
+        return pNewState
+            .withInvalidWrite()
+            .withErrorDescription("Copying (assigning struct) to invalid object");
+      }
+      if (structOffset < 0) {
+        return pNewState
+            .withInvalidRead()
+            .withErrorDescription("Left overread while copying (assigning struct)");
+      }
+      if (structEndOffset > source.getSize()) {
+        return pNewState
+            .withInvalidRead()
+            .withErrorDescription("Right overread while copying (assigning struct)");
+      }
+      if (pFieldOffset < 0) {
+        return pNewState
+            .withInvalidWrite()
+            .withErrorDescription("Left overwrite while copying (assigning struct)");
+      }
+      if (bitsize > pMemoryOfField.getSize()) {
+        return pNewState
+            .withInvalidWrite()
+            .withErrorDescription("Right overwrite while copying (assigning struct)");
+      }
+
+      return pNewState.copy(source, pMemoryOfField, structOffset, structEndOffset, pFieldOffset);
     }
 
     return pNewState;
