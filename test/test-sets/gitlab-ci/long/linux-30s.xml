@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<!-- This file is part of CPAchecker, -->
+<!-- a tool for configurable software verification: -->
+<!-- https://cpachecker.sosy-lab.org -->
+<!-- -->
+<!-- SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org> -->
+<!-- -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
+<benchmark tool="cpachecker" timelimit="30s" hardtimelimit="40s" memlimit="1500MB" cpuCores="1">
+    <option name="--heap">1300M</option>
+    <option name="--no-output-files"/>
+    <option name="--option">cpa.smg.runtimeCheck=FULL</option>
+    <option name="--option">parser.readLineDirectives=false</option>
+
+    <rundefinition name="smg">
+        <option name="--smg-old"/>
+        <option name="--option">cpa.smg.handleUnknownFunctions=assume_safe</option>
+    </rundefinition>
+    <rundefinition name="smg-ldv">
+        <option name="--smg-ldv"/>
+    </rundefinition>
+
+    <propertyfile>../../../programs/ldv-benchmarks/linux-4.18-rc5-memsafety/valid-memsafety.prp</propertyfile>
+
+    <!-- 42 tasks -->
+    <tasks name="timeout">
+        <includesfile>linux-4-18-rc5-timeout.set</includesfile>
+    </tasks>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

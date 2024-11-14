@@ -9,8 +9,8 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
 <!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 2.3//EN" "https://www.sosy-lab.org/benchexec/benchmark-2.3.dtd">
-<benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="1100MB" cpuCores="1">
-    <option name="--heap">1000M</option>
+<benchmark tool="cpachecker" timelimit="60s" hardtimelimit="70s" memlimit="1500MB" cpuCores="1">
+    <option name="--heap">1300M</option>
     <option name="--no-output-files"/>
     <option name="--option">cpa.smg.runtimeCheck=FULL</option>
     <option name="--option">parser.readLineDirectives=false</option>
@@ -32,10 +32,6 @@
     <!-- 156 tasks -->
     <tasks name="safe">
         <includesfile>linux-4-18-rc5-safe.set</includesfile>
-    </tasks>
-    <!-- 72 tasks -->
-    <tasks name="unknown">
-        <includesfile>linux-4-18-rc5-unknown.set</includesfile>
     </tasks>
 
     <columns>
