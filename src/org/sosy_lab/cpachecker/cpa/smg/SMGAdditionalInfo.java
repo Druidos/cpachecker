@@ -34,8 +34,9 @@ public class SMGAdditionalInfo {
     return new SMGAdditionalInfo(pValue, pLevel, false);
   }
 
+  @SuppressWarnings("EnumOrdinal")
   @Override
   public String toString() {
-    return "level=\"" + level + "\" hide=\"" + hide + "\" value=\"" + value + "\"";
+    return "level=\"" + level.ordinal() + "\" hide=\"" + hide + "\" value=\"" + value + "\"";
   }
 }
