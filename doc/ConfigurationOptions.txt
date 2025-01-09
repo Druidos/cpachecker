@@ -485,6 +485,10 @@ analysis.traversal.useReverseLoopstack = false
 # 'analysis.traversal.order'.
 analysis.traversal.useReversePostorder = false
 
+# handle states with a shallow callstack first
+# This needs the CallstackCPA instance to have any effect.
+analysis.traversal.useShallowCallstack = false
+
 # perform a weighted random selection based on the branching depth
 analysis.traversal.weightedBranches = false
 
