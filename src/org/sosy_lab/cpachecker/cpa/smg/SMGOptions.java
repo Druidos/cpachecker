@@ -281,6 +281,13 @@ public class SMGOptions {
     EVERY
   }
 
+  @Option(
+      secure = true,
+      name = "trackNumberOfStopsPerState",
+      description =
+          "Upload information about quantity and duration of stops to additional coverage info")
+  boolean trackNumberOfStopsPerState = false;
+
   public SMGOptions(Configuration config) throws InvalidConfigurationException {
     config.inject(this);
   }
@@ -451,5 +458,9 @@ public class SMGOptions {
 
   public int getSeqLengthIncomparableThreshold() {
     return seqLengthIncomparableThreshold;
+  }
+
+  public boolean isTrackNumberOfStopsPerStateEnabled() {
+    return trackNumberOfStopsPerState;
   }
 }

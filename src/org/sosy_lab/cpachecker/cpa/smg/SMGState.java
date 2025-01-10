@@ -1538,8 +1538,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       return false;
     }
 
-    getMutableStateStatistics().changeStops(1);
-    reachedState.getMutableStateStatistics().changeStops(1);
+    if (options.isTrackNumberOfStopsPerStateEnabled()) {
+      getMutableStateStatistics().changeStops(1);
+      reachedState.getMutableStateStatistics().changeStops(1);
+    }
     Timer timer = new Timer();
     timer.start();
 
