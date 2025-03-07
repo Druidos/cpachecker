@@ -148,7 +148,13 @@ public class SMGEdgeHasValueFilter {
   }
 
   public SMGEdgeHasValueFilter overlapsWith(SMGEdgeHasValue pEdge) {
+    assert object == null || object == pEdge.getObject()
+        : "cannot filter with a set object "
+            + object
+            + " and overlaps from a different object: "
+            + pEdge;
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
+    filter.object = pEdge.getObject();
     filter.overlapsWith = pEdge;
     return filter;
   }
@@ -171,16 +177,8 @@ public class SMGEdgeHasValueFilter {
       return false;
     }
 
-    if (overlapsWith != null) {
-      if (!overlapsWith.getObject().equals(pEdge.getObject())) {
-        return false;
-      }
-      if (overlapsWith.getOffset() > pEdge.getOffset() + pEdge.getSizeInBits()) {
-        return false;
-      }
-      if (overlapsWith.getOffset() + overlapsWith.getSizeInBits() <= pEdge.getOffset()) {
-        return false;
-      }
+    if (overlapsWith != null && !overlapsWith.overlapsWith(pEdge)) {
+      return false;
     }
 
     if (sizeInBits >= 0 && sizeInBits != pEdge.getSizeInBits()) {
