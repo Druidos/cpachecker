@@ -35,6 +35,8 @@ public class SMGEdgeHasValue extends SMGEdge implements Comparable<SMGEdgeHasVal
    */
   public SMGEdgeHasValue(BigInteger pSizeInBits, long pOffset, SMGObject pObject, SMGValue pValue) {
     super(pValue, pObject, pOffset);
+    checkArgument(
+        pSizeInBits.signum() > 0, "cannot construct a HVE with bitsize of %s", pSizeInBits);
     sizeInBits = pSizeInBits;
   }
 

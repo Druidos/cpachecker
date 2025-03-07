@@ -1384,6 +1384,13 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       return new SMGStateEdgePair(newState, null);
     }
 
+    if (pSizeInBits == 0) {
+      // happens for struct v = { } or T array[0] = { }
+      // TODO does it happen for something else?
+      assert pObject.getSize() == 0
+          : "cannot write a value " + pValue + " with 0 bitsize into " + pObject;
+      return new SMGStateEdgePair(this, null);
+    }
     SMGEdgeHasValue new_edge = new SMGEdgeHasValue(pSizeInBits, pOffset, pObject, pValue);
 
     // Check if the edge is  not present already

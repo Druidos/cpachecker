@@ -141,7 +141,7 @@ public class SMGEdgeHasValueFilter {
   }
 
   public SMGEdgeHasValueFilter filterBySize(long pSizeInBits) {
-    Preconditions.checkArgument(pSizeInBits >= 0, "negative sizes not allowed for filtering");
+    Preconditions.checkArgument(pSizeInBits > 0, "cannot filter HVE by size %s", pSizeInBits);
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
     filter.sizeInBits = pSizeInBits;
     return filter;
@@ -154,7 +154,7 @@ public class SMGEdgeHasValueFilter {
   }
 
   public boolean holdsFor(SMGEdgeHasValue pEdge) {
-    assert sizeInBits >= 0 || sizeNotRequired || overlapsWith != null;
+    assert sizeInBits > 0 || sizeNotRequired || overlapsWith != null;
     if (object != null && object != pEdge.getObject()) {
       return false;
     }

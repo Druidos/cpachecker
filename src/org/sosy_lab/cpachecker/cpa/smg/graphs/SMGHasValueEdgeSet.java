@@ -358,16 +358,16 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         if (candidateEntry != null) {
           SMGEdgeHasValue candidate = candidateEntry.getValue();
 
-          if (candidate.getValue().isZero()) {
-            long newSize = candidate.getSizeInBits() - (filterOffset - candidate.getOffset());
-            if (filterSize >= 0 && newSize > filterSize) {
+          // we can return 'sub-edges' for 0-value HVEs
+          long newSize = candidate.getSizeInBits() + candidate.getOffset() - filterOffset;
+          if (candidate.getValue().isZero() && newSize > 0) {
+            if (filterSize != -1 && newSize > filterSize) {
+              assert filterSize > 0 : "HVE filter's bitsize is " + filterSize;
               newSize = filterSize;
             }
-            if (newSize > 0 || (newSize == 0 && candidate.getSizeInBits() == 0)) {
-              candidate =
-                  new SMGEdgeHasValue(
-                      newSize, filterOffset, candidate.getObject(), candidate.getValue());
-            }
+            candidate =
+                new SMGEdgeHasValue(
+                    newSize, filterOffset, candidate.getObject(), candidate.getValue());
           }
 
           if (pFilter.holdsFor(candidate)) {
