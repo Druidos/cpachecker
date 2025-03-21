@@ -32,6 +32,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -221,7 +222,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
    *
    * @return all unreachable objects, e.g. all the objects that represent a memory leak.
    */
-  public Set<SMGObject> pruneUnreachable() {
+  public Set<SMGObject> pruneUnreachable(boolean pCheckColoredMemleak) {
     Set<SMGObject> seen = new HashSet<>();
     Set<SMGValue> seen_values = new HashSet<>();
     collectReachableObjectsAndValues(seen, seen_values);
@@ -238,7 +239,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     // Mark all reachable from ExternallyAllocated objects as safe for remove
     markExternallyAllocatedObjects(stray_objects);
 
-    Set<SMGObject> unreachableObjects = removeObjects(stray_objects);
+    Set<SMGObject> unreachableObjects = removeObjects(stray_objects, pCheckColoredMemleak);
     removeValues(Sets.difference(getValues().asSet(), seen_values));
 
     if (CLangSMG.performChecks()) {
@@ -253,18 +254,23 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
    *
    * @return all removed valid objects, that are not externally allocated and might leak memory.
    */
-  private Set<SMGObject> removeObjects(Collection<SMGObject> objects) {
+  private Set<SMGObject> removeObjects(
+      Collection<SMGObject> objects, boolean pCheckColoredMemleak) {
     Set<SMGObject> unreachableObjects = new LinkedHashSet<>();
     for (SMGObject object : objects) {
-      if (object != SMGNullObject.INSTANCE) {
-        if (isObjectValid(object)
-            && !isObjectExternallyAllocated(object)
-            && !object.getKind().equals(SMGObjectKind.STRING_LITERAL)) {
-          unreachableObjects.add(object);
-        }
-        markHeapObjectDeletedAndRemoveEdges(object);
-        removeObject(object);
+      if (object == SMGNullObject.INSTANCE) {
+        continue;
       }
+      boolean check =
+          isObjectValid(object)
+              && !isObjectExternallyAllocated(object)
+              && object.getKind() != SMGObjectKind.STRING_LITERAL
+              && (pCheckColoredMemleak || object.getColor() == AllocationColor.COLORLESS);
+      if (check) {
+        unreachableObjects.add(object);
+      }
+      markHeapObjectDeletedAndRemoveEdges(object);
+      removeObject(object);
     }
     return unreachableObjects;
   }

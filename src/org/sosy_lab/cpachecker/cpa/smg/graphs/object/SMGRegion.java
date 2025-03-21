@@ -21,6 +21,10 @@ public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
     super(pSize, pLabel, SMGObjectKind.REG);
   }
 
+  public SMGRegion(long pSize, String pLabel, AllocationColor pAllocationColor) {
+    super(pSize, pLabel, SMGObjectKind.REG, pAllocationColor);
+  }
+
   public SMGRegion(long pSize) {
     super(pSize, "ID" + SMGCPA.getNewValue(), SMGObjectKind.REG);
   }

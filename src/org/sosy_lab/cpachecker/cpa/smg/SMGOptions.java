@@ -16,6 +16,7 @@ import org.sosy_lab.common.configuration.InvalidConfigurationException;
 import org.sosy_lab.common.configuration.Option;
 import org.sosy_lab.common.configuration.Options;
 import org.sosy_lab.common.io.PathTemplate;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 
 @Options(prefix = "cpa.smg")
 public class SMGOptions {
@@ -118,6 +119,40 @@ public class SMGOptions {
 
   @Option(secure = true, name = "deallocationFunctions", description = "Deallocation functions")
   private ImmutableSet<String> deallocationFunctions = ImmutableSet.of("free");
+
+  @Option(
+      secure = true,
+      name = "redMemoryFunctions",
+      description =
+          "Memory functions with RED color. Memory that was allocated with a RED-colored function"
+              + " can only be deallocated by a RED-colored function. See also GREEN color and flags"
+              + " for color compatibility rule and colored memleaks.")
+  private ImmutableSet<String> redMemoryFunctions = ImmutableSet.of();
+
+  @Option(
+      secure = true,
+      name = "greenMemoryFunctions",
+      description =
+          "Memory functions with GREEN color. Memory that was allocated with a GREEN-colored"
+              + " function can only be deallocated by a GREEN-colored function. See also RED color"
+              + " and flags for color compatibility rule and colored memleaks.")
+  private ImmutableSet<String> greenMemoryFunctions = ImmutableSet.of();
+
+  @Option(
+      secure = true,
+      name = "checkColorCompatibility",
+      description =
+          "If this option is enabled, check color compatibility:"
+              + " GREEN memory cannot store pointers to RED memory")
+  private boolean checkColorCompatibility = false;
+
+  @Option(
+      secure = true,
+      name = "checkColoredMemleak",
+      description =
+          "If this option is enabled, check colored memory for leaks. "
+              + "Otherwise, assume colored memory is freed automatically.")
+  private boolean checkColoredMemleak = false;
 
   @Option(
       secure = true,
@@ -358,6 +393,23 @@ public class SMGOptions {
 
   public int getExternalAllocationSize() {
     return externalAllocationSize;
+  }
+
+  public AllocationColor getAllocationColor(String pFunctionName) {
+    if (redMemoryFunctions.contains(pFunctionName)) {
+      return AllocationColor.RED;
+    } else if (greenMemoryFunctions.contains(pFunctionName)) {
+      return AllocationColor.GREEN;
+    }
+    return AllocationColor.COLORLESS;
+  }
+
+  public boolean checkColorCompatibility() {
+    return checkColorCompatibility;
+  }
+
+  public boolean getCheckColoredMemleak() {
+    return checkColoredMemleak;
   }
 
   public ImmutableSet<String> getAllocaFunctions() {

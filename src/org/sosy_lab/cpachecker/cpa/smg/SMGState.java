@@ -60,6 +60,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdge
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -1218,7 +1219,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
             SMGKnownAddressValue.valueOf(
                 valueAndState
                     .getSmgState()
-                    .addExternalAllocation(genRecursiveLabel(pObject.getLabel())));
+                    .addExternalAllocation(
+                        genRecursiveLabel(pObject.getLabel()), pObject.getColor()));
         stateAndNewEdge = writeValue(pObject, pOffset, sizeInBits, new_address);
       } else {
         SMGValue newValue = SMGKnownSymValue.of();
@@ -1346,15 +1348,36 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     // If the value represents an address, and the address is known,
     // add the necessary points-To edge.
+    // TODO address always is known as value is not the Unknown value?
     if (pValue instanceof SMGAddressValue) {
       SMGAddress address = ((SMGAddressValue) pValue).getAddress();
-
       if (!address.isUnknown()) {
         addPointsToEdge(address.getObject(), address.getOffset().getAsLong(), value);
       }
     }
 
-    return writeValue0(pObject, pOffset, pSizeInBits, value);
+    SMGStateEdgePair result = writeValue0(pObject, pOffset, pSizeInBits, value);
+
+    SMGEdgePointsTo pte = heap.getPointer(value);
+    if (pte != null && options.checkColorCompatibility()) {
+      AllocationColor storeColor = pObject.getColor();
+      SMGObject pteObject = pte.getObject();
+      AllocationColor pointedColor = pteObject.getColor();
+      if (!storeColor.canStorePointerWithColor(pointedColor)) {
+        SMGState errorState =
+            result
+                .getState()
+                .withInvalidWrite()
+                .withErrorDescription(
+                    "Incompatible colors: %s memory cannot store pointer to %s memory"
+                        .formatted(pObject.getLabel(), pteObject.getLabel()));
+        errorState.addInvalidObject(pObject);
+        errorState.addInvalidObject(pteObject);
+        return new SMGStateEdgePair(errorState, result.getNewEdge());
+      }
+    }
+
+    return result;
   }
 
   public void addPointsToEdge(SMGObject pObject, long pOffset, SMGValue pValue) {
@@ -1661,35 +1684,44 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   /** memory allocated in the heap has to be freed by the user, otherwise this is a memory-leak. */
-  public SMGEdgePointsTo addNewHeapAllocation(int pSize, String pLabel)
-      throws SMGInconsistentException {
-    return addHeapAllocation(pLabel, SMGKnownSymValue.of(), pSize, 0, false);
+  public SMGEdgePointsTo addNewHeapAllocation(
+      int pSize, String pLabel, AllocationColor pAllocationColor) throws SMGInconsistentException {
+    return addHeapAllocation(pLabel, SMGKnownSymValue.of(), pSize, 0, false, pAllocationColor);
   }
 
   /** memory externally allocated could be freed by the user */
-  public SMGEdgePointsTo addExternalAllocation(String pLabel) throws SMGInconsistentException {
+  public SMGEdgePointsTo addExternalAllocation(String pLabel, AllocationColor pAllocationColor)
+      throws SMGInconsistentException {
     return addHeapAllocation(
         pLabel,
         SMGKnownSymValue.of(),
         options.getExternalAllocationSize(),
         options.getExternalAllocationSize() / 2,
-        true);
+        true,
+        pAllocationColor);
   }
 
-  public SMGEdgePointsTo addExternalAllocation(String pLabel, SMGValue pValue)
+  public SMGEdgePointsTo addExternalAllocation(
+      String pLabel, SMGValue pValue, AllocationColor pAllocationColor)
       throws SMGInconsistentException {
     return addHeapAllocation(
         pLabel,
         pValue,
         options.getExternalAllocationSize(),
         options.getExternalAllocationSize() / 2,
-        true);
+        true,
+        pAllocationColor);
   }
 
   private SMGEdgePointsTo addHeapAllocation(
-      String label, SMGValue pValue, int size, int offset, boolean external)
+      String label,
+      SMGValue pValue,
+      int size,
+      int offset,
+      boolean external,
+      AllocationColor pAllocationColor)
       throws SMGInconsistentException {
-    SMGRegion new_object = new SMGRegion(size, label);
+    SMGRegion new_object = new SMGRegion(size, label, pAllocationColor);
     heap.addHeapObject(new_object);
     heap.setValidity(new_object, true);
     heap.addValue(pValue);
@@ -1770,7 +1802,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    * @param smgObject The memory the given Address belongs to.
    * @return returns a possible new State
    */
-  protected SMGState free(Integer offset, SMGObject smgObject) throws SMGInconsistentException {
+  protected SMGState free(Integer offset, SMGObject smgObject, AllocationColor pColor)
+      throws SMGInconsistentException {
 
     boolean objectExternallyAllocated = heap.isObjectExternallyAllocated(smgObject);
     if (!heap.isHeapObject(smgObject) && !objectExternallyAllocated) {
@@ -1802,6 +1835,16 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         description = "Invalid free at " + offset / 8 + " byte offset from allocated is found";
       }
       return newState.withErrorDescription(description);
+    }
+
+    if (smgObject.getColor() != pColor) {
+      SMGState newState =
+          withInvalidFree()
+              .withErrorDescription(
+                  "Incompatible color: %s free() cannot deallocate %s memory"
+                      .formatted(pColor, smgObject.getColor()));
+      newState.addInvalidObject(smgObject);
+      return newState;
     }
 
     heap.setValidity(smgObject, false);
@@ -1909,7 +1952,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   public void pruneUnreachable() throws SMGInconsistentException {
-    Set<SMGObject> unreachable = heap.pruneUnreachable();
+    Set<SMGObject> unreachable = heap.pruneUnreachable(options.getCheckColoredMemleak());
     if (!unreachable.isEmpty()) {
       String error =
           unreachable.stream().map(obj -> obj.getLabel()).collect(Collectors.joining(", "));

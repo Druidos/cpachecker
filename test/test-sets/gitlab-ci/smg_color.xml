@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2007-2025 Dirk Beyer <https://www.sosy-lab.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE benchmark PUBLIC "+//IDN sosy-lab.org//DTD BenchExec benchmark 1.0//EN" "http://www.sosy-lab.org/benchexec/benchmark-1.0.dtd">
+<benchmark tool="cpachecker" timelimit="60 s" hardtimelimit="90 s" memlimit="1 GB" cpuCores="1">
+    <option name="--no-output-files"/>
+    <option name="--heap">512M</option>
+    <option name="--smg-ldv"/>
+    <option name="--preprocess" />
+    <option name="--no-output-files"/>
+    <option name="--stats"/>
+    <option name="--option">cpa.smg.greenMemoryFunctions=green_malloc,green_free</option>
+    <option name="--option">cpa.smg.redMemoryFunctions=red_malloc,red_free</option>
+    <option name="--option">cpa.smg.memoryAllocationFunctions = malloc,green_malloc,red_malloc</option>
+    <option name="--option">cpa.smg.deallocationFunctions = free,green_free,red_free</option>
+    <propertyfile>../../config/properties/valid-memsafety.prp</propertyfile>
+
+    <tasks name="smg_color">
+        <option name="--option">cpa.smg.checkColoredMemleak=true</option>
+        <option name="--option">cpa.smg.checkColorCompatibility=true</option>
+        <includesfile>../../programs/smg_color/smg_color.set</includesfile>
+    </tasks>
+
+    <tasks name="smg_color_no_leak_check">
+        <option name="--option">cpa.smg.checkColoredMemleak=false</option>
+        <includesfile>../../programs/smg_color/other_options/smg_color_leak_no_check.set</includesfile>
+    </tasks>
+
+    <rundefinition name="smg_color"/>
+
+    <columns>
+        <column title="reached">Size of reached set</column>
+        <column title="transfer">Time for transfer relation</column>
+        <column title="stop">Time for stop operator</column>
+        <column title="error">Error</column>
+        <column title="exception">Exception</column>
+    </columns>
+</benchmark>

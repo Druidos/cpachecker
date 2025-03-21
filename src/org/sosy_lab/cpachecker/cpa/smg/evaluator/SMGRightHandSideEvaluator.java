@@ -366,7 +366,8 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
 
               SMGEdgePointsTo newParamValue =
                   pSmgState.addExternalAllocation(
-                      calledFunctionName + "_Param_No_" + i + "_ID" + SMGCPA.getNewValue());
+                      calledFunctionName + "_Param_No_" + i + "_ID" + SMGCPA.getNewValue(),
+                      options.getAllocationColor(calledFunctionName));
               pSmgState =
                   assignFieldToState(
                       pSmgState,
@@ -387,7 +388,9 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
       return Collections.singletonList(
           SMGAddressValueAndState.of(
               pSmgState,
-              pSmgState.addExternalAllocation(calledFunctionName + SMGCPA.getNewValue())));
+              pSmgState.addExternalAllocation(
+                  calledFunctionName + SMGCPA.getNewValue(),
+                  options.getAllocationColor(calledFunctionName))));
     }
     return Collections.singletonList(SMGAddressValueAndState.of(pSmgState));
   }

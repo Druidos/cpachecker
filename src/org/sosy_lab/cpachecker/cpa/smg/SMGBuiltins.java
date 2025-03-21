@@ -252,7 +252,11 @@ public class SMGBuiltins {
             + "_Line:"
             + pFunctionCall.getFileLocation().getStartingLineNumber();
 
-    result.add(SMGAddressValueAndState.of(pState, pState.addExternalAllocation(allocation_label)));
+    result.add(
+        SMGAddressValueAndState.of(
+            pState,
+            pState.addExternalAllocation(
+                allocation_label, options.getAllocationColor(functionName))));
 
     return result;
   }
@@ -486,7 +490,9 @@ public class SMGBuiltins {
       String allocation_label = functionName + "_ID" + SMGCPA.getNewValue();
       SMGEdgePointsTo new_address =
           currentState.addNewHeapAllocation(
-              size * machineModel.getSizeofCharInBits(), allocation_label);
+              size * machineModel.getSizeofCharInBits(),
+              allocation_label,
+              options.getAllocationColor(functionName));
 
       SMGState newState = currentState;
       if (options.getZeroingMemoryAllocation().contains(functionName)) {
@@ -557,7 +563,11 @@ public class SMGBuiltins {
             "is 0");
 
       } else {
-        currentState = currentState.free(address.getOffset().getAsInt(), address.getObject());
+        currentState =
+            currentState.free(
+                address.getOffset().getAsInt(),
+                address.getObject(),
+                options.getAllocationColor(pFunctionCall.getFunctionNameExpression().toString()));
       }
 
       resultStates.add(currentState);

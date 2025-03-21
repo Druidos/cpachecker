@@ -2872,6 +2872,14 @@ cpa.smg.allocateExternalVariables = true
 # Array allocation functions
 cpa.smg.arrayAllocationFunctions = {"calloc"}
 
+# If this option is enabled, check color compatibility: GREEN memory cannot
+# store pointers to RED memory
+cpa.smg.checkColorCompatibility = false
+
+# If this option is enabled, check colored memory for leaks. Otherwise,
+# assume colored memory is freed automatically.
+cpa.smg.checkColoredMemleak = false
+
 # with this option enabled, a check for unreachable memory occurs whenever a
 # function returns, and not only at the end of the main function
 cpa.smg.checkForMemLeaksAtEveryFrameDrop = true
@@ -2900,6 +2908,12 @@ cpa.smg.externalAllocationFunction = {"ext_allocation"}
 
 # Default size of externally allocated memory
 cpa.smg.externalAllocationSize = Integer.MAX_VALUE
+
+# Memory functions with GREEN color. Memory that was allocated with a
+# GREEN-colored function can only be deallocated by a GREEN-colored function.
+# See also RED color and flags for color compatibility rule and colored
+# memleaks.
+cpa.smg.greenMemoryFunctions = {}
 
 # Allocation size of memory that cannot be calculated.
 cpa.smg.guessSize = 2
@@ -2967,6 +2981,12 @@ cpa.smg.produceErrorTraceInsteadOfException = false
 
 # Functions with realloc behavior
 cpa.smg.reallocFunctions = {"realloc"}
+
+# Memory functions with RED color. Memory that was allocated with a
+# RED-colored function can only be deallocated by a RED-colored function. See
+# also GREEN color and flags for color compatibility rule and colored
+# memleaks.
+cpa.smg.redMemoryFunctions = {}
 
 # export interpolant smgs for every path interpolation to this path template
 cpa.smg.refinement.exportInterpolantSMGs = "smg/interpolation-%d/%s"
