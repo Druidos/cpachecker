@@ -71,8 +71,8 @@ public class SMGOptionalObject extends SMGObject implements SMGAbstractObject {
 
     /*Only join if other is region or optional object, otherwise
      * let other object join.*/
-
-    assert getSize() == pOther.getSize();
+    assert getColor() == pOther.getColor() : "cannot join " + this + " and " + pOther;
+    assert getSize() == pOther.getSize() : "cannot join " + this + " and " + pOther;
 
     int level = Math.max(getLevel(), pOther.getLevel());
 

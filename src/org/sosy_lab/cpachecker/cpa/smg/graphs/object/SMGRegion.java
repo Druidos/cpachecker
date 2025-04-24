@@ -58,6 +58,7 @@ public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
 
   @Override
   public SMGObject join(SMGObject pOther, int pDestLevel) {
+    assert getColor() == pOther.getColor() : "cannot join " + this + " and " + pOther;
     if (pOther.isAbstract()) {
       // I am concrete, and the other is abstract: the abstraction should
       // know how to join with me

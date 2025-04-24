@@ -26,6 +26,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -527,6 +528,8 @@ final class SMGJoinValues {
     newLevelMap.put(SMGJoinLevel.valueOf(pLevelV1, pLevelV2), level);
 
     /*Create optional object*/
+    assert pTarget.getColor() == AllocationColor.COLORLESS
+        : "cannot make an optional of a colored " + pTarget;
     SMGObject optionalObject = new SMGOptionalObject(pTarget.getSize(), level);
     mapping2.map(pTarget, optionalObject);
     ((CLangSMG) pDestSMG).addHeapObject(optionalObject);
@@ -788,6 +791,8 @@ final class SMGJoinValues {
     newLevelMap.put(SMGJoinLevel.valueOf(pLevelV1, pLevelV2), level);
 
     /*Create optional object*/
+    assert pTarget.getColor() == AllocationColor.COLORLESS
+        : "cannot make an optional of a colored " + pTarget;
     SMGObject optionalObject = new SMGOptionalObject(pTarget.getSize(), level);
     mapping1.map(pTarget, optionalObject);
     ((CLangSMG) pDestSMG).addHeapObject(optionalObject);

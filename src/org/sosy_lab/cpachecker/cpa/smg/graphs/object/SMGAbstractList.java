@@ -59,6 +59,8 @@ public abstract class SMGAbstractList<S> extends SMGObject implements SMGAbstrac
 
   @Override
   public SMGObject join(SMGObject pOther, int pDestLevel) {
+    assert getColor() == pOther.getColor() : "cannot join " + this + " and " + pOther;
+
     return switch (pOther.getKind()) {
       case DLL, SLL -> {
         SMGAbstractList<?> otherLinkedList = (SMGAbstractList<?>) pOther;

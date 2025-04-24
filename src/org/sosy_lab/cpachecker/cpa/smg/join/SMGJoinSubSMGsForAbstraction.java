@@ -8,6 +8,8 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.join;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.Iterables;
 import java.util.HashSet;
 import java.util.Map.Entry;
@@ -21,6 +23,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGListCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -50,6 +53,15 @@ public final class SMGJoinSubSMGsForAbstraction {
       SMGListCandidate<?> pListCandidate,
       UnmodifiableSMGState pStateOfSmg)
       throws SMGInconsistentException {
+
+    checkArgument(
+        obj1.getColor() == AllocationColor.COLORLESS,
+        "cannot abstract into list a colored object %s",
+        obj1);
+    checkArgument(
+        obj2.getColor() == AllocationColor.COLORLESS,
+        "cannot abstract into list a colored object %s",
+        obj2);
 
     PersistentSet<SMGObject> origObjects = smg.getObjects();
     PersistentSet<SMGValue> origValues = smg.getValues();
