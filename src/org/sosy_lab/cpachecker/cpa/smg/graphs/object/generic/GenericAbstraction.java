@@ -16,13 +16,14 @@ import java.util.Map.Entry;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.SMGCPA;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMG;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectVisitor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
-public class GenericAbstraction extends SMGObject implements SMGAbstractObject {
+public class GenericAbstraction extends SMGAbstractObject {
 
   /**
    * These maps contains as keys abstract pointers and as values concrete pointers. For every
@@ -44,7 +45,7 @@ public class GenericAbstraction extends SMGObject implements SMGAbstractObject {
       String pLabel,
       Map<SMGValue, List<MaterlisationStep>> pMaterlisationSteps,
       Map<SMGValue, SMGValue> pAbstractToConcretePointerMap) {
-    super(pSize, pLabel, SMGObjectKind.GENERIC);
+    super(pSize, pLabel, 0, SMGObjectKind.GENERIC, AllocationColor.COLORLESS);
     abstractToConcretePointerMap = ImmutableMap.copyOf(pAbstractToConcretePointerMap);
     materlisationStepMap = ImmutableMap.copyOf(pMaterlisationSteps);
   }
@@ -55,7 +56,7 @@ public class GenericAbstraction extends SMGObject implements SMGAbstractObject {
       Map<SMGValue, List<MaterlisationStep>> pMaterlisationStepMap,
       Map<SMGValue, SMGValue> pAbstractToConcretePointerMap,
       int pNewLevel) {
-    super(pSize, pLabel, pNewLevel, SMGObjectKind.GENERIC);
+    super(pSize, pLabel, pNewLevel, SMGObjectKind.GENERIC, AllocationColor.COLORLESS);
     abstractToConcretePointerMap = ImmutableMap.copyOf(pAbstractToConcretePointerMap);
     materlisationStepMap = ImmutableMap.copyOf(pMaterlisationStepMap);
   }
@@ -140,11 +141,5 @@ public class GenericAbstraction extends SMGObject implements SMGAbstractObject {
   @Override
   public SMGObject join(SMGObject pOther, int pDestLevel) {
     throw new UnsupportedOperationException("GenericAbstraction does not join"); // TODO why not?
-  }
-
-  @Override
-  public boolean isAbstract() {
-    throw new UnsupportedOperationException(
-        "GenericAbstraction does not know if it is abstract?"); // TODO why not?
   }
 }

@@ -14,7 +14,7 @@ public final class SMGNullObject extends SMGObject {
   public static final SMGNullObject INSTANCE = new SMGNullObject();
 
   private SMGNullObject() {
-    super(0, "NULL", SMGObjectKind.NULL);
+    super(0, "NULL", 0, SMGObjectKind.NULL, AllocationColor.COLORLESS);
   }
 
   @Override

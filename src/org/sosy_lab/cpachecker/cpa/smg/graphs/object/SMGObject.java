@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 
+import org.sosy_lab.common.UniqueIdGenerator;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll.SMGDoublyLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
@@ -22,37 +23,21 @@ public abstract class SMGObject implements Comparable<SMGObject> {
   private final String label;
   private final int level;
   private final SMGObjectKind kind;
-  private static int count;
   private final int id;
   private final AllocationColor color;
+  private static final UniqueIdGenerator uniqueIdGenerator = new UniqueIdGenerator();
 
   public SMGObjectKind getKind() {
     return kind;
   }
 
-  protected SMGObject(long pSize, String pLabel, SMGObjectKind pKind) {
-    this(pSize, pLabel, 0, pKind);
-  }
-
-  protected SMGObject(long pSize, String pLabel, SMGObjectKind pKind, AllocationColor pColor) {
-    this(pSize, pLabel, 0, pKind, getNewId(), pColor);
-  }
-
-  protected SMGObject(long pSize, String pLabel, int pLevel, SMGObjectKind pKind) {
-    this(pSize, pLabel, pLevel, pKind, getNewId(), AllocationColor.COLORLESS);
-  }
-
-  protected SMGObject(SMGObject pOther) {
-    this(pOther.size, pOther.label, pOther.level, pOther.kind, pOther.id, pOther.color);
-  }
-
-  private SMGObject(
-      long pSize, String pLabel, int pLevel, SMGObjectKind pKind, int pId, AllocationColor pColor) {
+  protected SMGObject(
+      long pSize, String pLabel, int pLevel, SMGObjectKind pKind, AllocationColor pColor) {
     size = pSize;
     label = pLabel;
     level = pLevel;
     kind = pKind;
-    id = pId;
+    id = uniqueIdGenerator.getFreshId();
     color = pColor;
   }
 
@@ -94,11 +79,6 @@ public abstract class SMGObject implements Comparable<SMGObject> {
 
   public int getLevel() {
     return level;
-  }
-
-  private static int getNewId() {
-    count++;
-    return count;
   }
 
   public int getId() {

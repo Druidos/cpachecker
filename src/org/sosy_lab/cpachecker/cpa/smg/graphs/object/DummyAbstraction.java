@@ -8,10 +8,15 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 
-public class DummyAbstraction extends SMGObject implements SMGAbstractObject {
+public class DummyAbstraction extends SMGAbstractObject {
 
   public DummyAbstraction(SMGObject pPrototype) {
-    super(pPrototype);
+    super(
+        pPrototype.getSize(),
+        pPrototype.getLabel(),
+        pPrototype.getLevel(),
+        pPrototype.getKind(),
+        pPrototype.getColor());
   }
 
   @Override
@@ -21,11 +26,6 @@ public class DummyAbstraction extends SMGObject implements SMGAbstractObject {
 
   @Override
   public boolean matchSpecificShape(SMGAbstractObject pOther) {
-    return true;
-  }
-
-  @Override
-  public boolean isAbstract() {
     return true;
   }
 

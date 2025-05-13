@@ -8,20 +8,25 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 
-public abstract class SMGAbstractList<S> extends SMGObject implements SMGAbstractObject {
+public abstract class SMGAbstractList<S> extends SMGAbstractObject {
 
   private final int minimumLength;
   private final S shape;
 
   protected SMGAbstractList(
       long pSize, String label, int level, SMGObjectKind kind, S pShape, int pMinLength) {
-    super(pSize, label, level, kind);
+    super(pSize, label, level, kind, AllocationColor.COLORLESS);
     shape = pShape;
     minimumLength = pMinLength;
   }
 
   protected SMGAbstractList(SMGAbstractList<S> other) {
-    super(other.getSize(), other.getLabel(), other.getLevel(), other.getKind());
+    super(
+        other.getSize(),
+        other.getLabel(),
+        other.getLevel(),
+        other.getKind(),
+        AllocationColor.COLORLESS);
     shape = other.shape;
     minimumLength = other.minimumLength;
   }
@@ -76,11 +81,6 @@ public abstract class SMGAbstractList<S> extends SMGObject implements SMGAbstrac
       }
       default -> throw new IllegalArgumentException("join called on unjoinable Objects");
     };
-  }
-
-  @Override
-  public boolean isAbstract() {
-    return true;
   }
 
   protected abstract SMGAbstractList<S> copy(int newlength, int newLevel);

@@ -9,6 +9,7 @@
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.optional;
 
 import org.sosy_lab.cpachecker.cpa.smg.SMGCPA;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -20,21 +21,16 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectVisitor;
  * pointer leading to this object either lead to the concrete region represented by this object, or
  * to the one value leading from this object.
  */
-public class SMGOptionalObject extends SMGObject implements SMGAbstractObject {
+public class SMGOptionalObject extends SMGAbstractObject {
 
   private final int id = SMGCPA.getNewValue();
 
   public SMGOptionalObject(int pSize) {
-    super(pSize, "Optional object", SMGObjectKind.OPTIONAL);
-  }
-
-  @Override
-  public boolean isAbstract() {
-    return true;
+    super(pSize, "Optional object", 0, SMGObjectKind.OPTIONAL, AllocationColor.COLORLESS);
   }
 
   public SMGOptionalObject(long pSize, int pLevel) {
-    super(pSize, "Optional object", pLevel, SMGObjectKind.OPTIONAL);
+    super(pSize, "Optional object", pLevel, SMGObjectKind.OPTIONAL, AllocationColor.COLORLESS);
   }
 
   @Override

@@ -8,13 +8,19 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 
-public interface SMGAbstractObject {
+public abstract class SMGAbstractObject extends SMGObject {
 
-  boolean isAbstract();
+  protected SMGAbstractObject(
+      long pSize, String pLabel, int pLevel, SMGObjectKind pKind, AllocationColor pColor) {
+    super(pSize, pLabel, pLevel, pKind, pColor);
+  }
 
-  boolean matchGenericShape(SMGAbstractObject pOther);
+  @Override
+  public final boolean isAbstract() {
+    return true;
+  }
 
-  boolean matchSpecificShape(SMGAbstractObject pOther);
+  public abstract boolean matchGenericShape(SMGAbstractObject pOther);
 
-  SMGObjectKind getKind();
+  public abstract boolean matchSpecificShape(SMGAbstractObject pOther);
 }

@@ -18,27 +18,23 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
 
   public SMGRegion(long pSize, String pLabel) {
-    super(pSize, pLabel, SMGObjectKind.REG);
+    super(pSize, pLabel, 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
   }
 
   public SMGRegion(long pSize, String pLabel, AllocationColor pAllocationColor) {
-    super(pSize, pLabel, SMGObjectKind.REG, pAllocationColor);
+    super(pSize, pLabel, 0, SMGObjectKind.REG, pAllocationColor);
   }
 
   public SMGRegion(long pSize) {
-    super(pSize, "ID" + SMGCPA.getNewValue(), SMGObjectKind.REG);
-  }
-
-  public SMGRegion(SMGRegion pOther) {
-    super(pOther);
+    super(pSize, "ID" + SMGCPA.getNewValue(), 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
   }
 
   public SMGRegion(long pSize, String pLabel, int pLevel) {
-    super(pSize, pLabel, pLevel, SMGObjectKind.REG);
+    super(pSize, pLabel, pLevel, SMGObjectKind.REG, AllocationColor.COLORLESS);
   }
 
   public SMGRegion(long pSize, String pLabel, SMGObjectKind pKind) {
-    super(pSize, pLabel, pKind);
+    super(pSize, pLabel, 0, pKind, AllocationColor.COLORLESS);
   }
 
   @Override
