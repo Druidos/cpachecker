@@ -131,7 +131,7 @@ def compose_two_bodies(key_triple, tables):
     secondary = []
     any_flaky = False
 
-    all_files = {file for table in tables for file in table}
+    all_files = sorted({file for table in tables for file in table})
     for filename in all_files:
         if filename not in tables[-1]:
             print(f'{yellow_color}Removing{no_color}', "a file from the test set:", filename)
@@ -167,21 +167,19 @@ def compose_two_bodies(key_triple, tables):
     prefix = f'gitlab-ci/previous-results/{testset}.{rundef}.{tasks}'
     with open(prefix + '.previous-results.xml', 'wt', encoding='utf8') as f:
         f.write(common_header % (testset, rundef, tasks, 'previous-results'))
-        f.write(common_newline)
-        f.writelines(r.toxml() + common_newline for r in primary)
+        f.writelines(common_newline + r.toxml() for r in primary)
         f.write(common_footer)
     if any_flaky:
         with open(prefix + '.timeouts.xml', 'wt', encoding='utf8') as f:
             f.write(common_header % (testset, rundef, tasks, 'flaky-timeouts'))
-            f.write(common_newline)
-            f.writelines(r.toxml() + common_newline for r in secondary)
+            f.writelines(common_newline + r.toxml() for r in secondary)
             f.write(common_footer)
 
 
 new_files = re.compile(
-    r'output-'
+    r'(output-)?'
     r'(?P<testset>[^.]+)\.'
-    r'(2024-\d\d-\d\d_\d\d-\d\d-\d\d\.results\.)?'
+    r'(202\d-\d\d-\d\d_\d\d-\d\d-\d\d\.results\.)?'
     r'(?P<rundef>[^.]+)\.'
     r'(?P<tasks>[^.]+)\.xml(\.bz2)?'
 )

@@ -25,24 +25,26 @@ to better check regressions in CI.
 *** HOW TO ADD TESTS ***
 
 1. Use test-set-template-for-smg.xml to add new test sets to run in CI.
+   Add respective .xml in test/test-sets/gitlab-ci[/long], commit and push.
 
-2. Add respective .xml in test/test-sets/gitlab-ci[/long], commit and push.
-
-3. Update :jdk-11 image by starting CI jobs 'get-partial-benchmarks'
-   and 'build-docker:test:jdk-11' manually.
+2. If you have added tests into the CPAchecker repo, skip this step.
+   If you have added tests to the SV- or LDV-benchmarks, you need
+   to update :jdk-17 image by starting CI jobs 'get-partial-benchmarks'
+   and 'build-docker:test:jdk-17' manually.
 
 Note: You can cancel other jobs or use results for your new tests from the same pipeline.
-   The jobs can take ~20 min because of SV- and LDV-benchmarks download,
+   These jobs can take ~20 min because of SV- and LDV-benchmarks download,
    so don't update the image if you know all files are already there.
    Alternatively, prepare docker image locally without using CI jobs
-   (see comments in jdk11-with-benchexec.Dockerfile).
+   (see comments in jdk17.Dockerfile).
 
-4. Copy a result .xml.bz2 (or a few) for each rundef.tasks pair
-   from the new testset into ./previous-results/to-parse.
+3. Run BenchExec with the added rundef.tasks pairs locally or wait for the results
+   from CI. Copy a result .xml.bz2 (or a few, if some programs have multiple flaky statuses)
+   for each rundef.tasks pair from the new testset into ./previous-results/to-parse.
 
-5. Run `python3 gitlab-ci/separate-flaky-timeouts.py`. It should match files
+4. Run `python3 gitlab-ci/separate-flaky-timeouts.py`. It should match files
    automatically (both your new ones and possible previous results) and update the results.
 
-6. Commit new or changed ./previous-results/*.xml.bz2 files.
+5. Commit new or changed ./previous-results/*.xml.bz2 files.
 
 Done: You have added a test set and expected results to check regressions against.
