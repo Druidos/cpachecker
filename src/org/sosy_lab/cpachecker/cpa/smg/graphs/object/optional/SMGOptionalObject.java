@@ -8,8 +8,6 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.optional;
 
-import org.sosy_lab.cpachecker.cpa.smg.SMGCPA;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -23,14 +21,9 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectVisitor;
  */
 public class SMGOptionalObject extends SMGAbstractObject {
 
-  private final int id = SMGCPA.getNewValue();
-
-  public SMGOptionalObject(int pSize) {
-    super(pSize, "Optional object", 0, SMGObjectKind.OPTIONAL, AllocationColor.COLORLESS);
-  }
-
-  public SMGOptionalObject(long pSize, int pLevel) {
-    super(pSize, "Optional object", pLevel, SMGObjectKind.OPTIONAL, AllocationColor.COLORLESS);
+  public SMGOptionalObject(SMGObject pObject, int pLevel) {
+    super(
+        pObject.getSize(), pObject.getLabel(), pLevel, SMGObjectKind.OPTIONAL, pObject.getColor());
   }
 
   @Override
@@ -40,12 +33,12 @@ public class SMGOptionalObject extends SMGAbstractObject {
 
   @Override
   public boolean matchSpecificShape(SMGAbstractObject pOther) {
-    return matchGenericShape(pOther) && getSize() == ((SMGObject) pOther).getSize();
+    return matchGenericShape(pOther) && getSize() == pOther.getSize();
   }
 
   @Override
   public SMGObject copy(int pNewLevel) {
-    return new SMGOptionalObject(getSize(), pNewLevel);
+    return new SMGOptionalObject(this, pNewLevel);
   }
 
   @Override
@@ -80,6 +73,14 @@ public class SMGOptionalObject extends SMGAbstractObject {
 
   @Override
   public String toString() {
-    return "OPTIONAL(id=" + id + " size=" + getSize() + ", level=" + getLevel() + ")";
+    return "OPTIONAL(id="
+        + getId()
+        + " "
+        + getLabel()
+        + " size="
+        + getSize()
+        + ", level="
+        + getLevel()
+        + ")";
   }
 }

@@ -35,6 +35,12 @@ SPDX-License-Identifier: Apache-2.0
         <includesfile>../../programs/smg_color/other_options/smg_color_leak_no_check.set</includesfile>
     </tasks>
 
+    <tasks name="smg_colored_lists">
+        <option name="--option">cpa.smg.checkColoredMemleak=true</option>
+        <option name="--option">cpa.smg.checkColorCompatibility=true</option>
+        <include>../../programs/smg_color/colored_lists/*.yml</include>
+    </tasks>
+
     <rundefinition name="smg_color"/>
 
     <columns>
