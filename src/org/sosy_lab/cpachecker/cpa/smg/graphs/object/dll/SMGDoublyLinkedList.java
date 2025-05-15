@@ -49,11 +49,9 @@ public class SMGDoublyLinkedList extends SMGAbstractList<SMGDoublyLinkedListShap
 
   @Override
   public String toString() {
-    return "DLL(id="
-        + getId()
-        + " size="
-        + getSize()
-        + ", hfo="
+    return "DLL"
+        + super.toString()
+        + "(hfo="
         + getHfo()
         + ", nfo="
         + getNfo()
@@ -61,8 +59,6 @@ public class SMGDoublyLinkedList extends SMGAbstractList<SMGDoublyLinkedListShap
         + getPfo()
         + ", len="
         + getMinimumLength()
-        + ", level="
-        + getLevel()
         + ")";
   }
 

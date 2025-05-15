@@ -89,4 +89,19 @@ public abstract class SMGObject implements Comparable<SMGObject> {
   public int compareTo(SMGObject o) {
     return Integer.compare(getId(), o.getId());
   }
+
+  @Override
+  public String toString() {
+    StringBuilder result = new StringBuilder();
+    result.append('#').append(getId());
+    result.append('(').append(getSize()).append("bits");
+    if (getLevel() > 0) {
+      result.append(',').append(getLevel()).append("lvl");
+    }
+    if (getColor() != AllocationColor.COLORLESS) {
+      result.append(',').append(getColor());
+    }
+    result.append(") ").append(getLabel());
+    return result.toString();
+  }
 }

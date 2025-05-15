@@ -73,14 +73,6 @@ public class SMGOptionalObject extends SMGAbstractObject {
 
   @Override
   public String toString() {
-    return "OPTIONAL(id="
-        + getId()
-        + " "
-        + getLabel()
-        + " size="
-        + getSize()
-        + ", level="
-        + getLevel()
-        + ")";
+    return "OPT" + super.toString();
   }
 }

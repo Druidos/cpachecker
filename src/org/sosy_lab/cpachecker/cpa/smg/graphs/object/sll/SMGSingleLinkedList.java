@@ -44,18 +44,14 @@ public final class SMGSingleLinkedList extends SMGAbstractList<SMGSingleLinkedLi
 
   @Override
   public String toString() {
-    return "SLL(id="
-        + getId()
-        + " size="
-        + getSize()
-        + ", hfo="
+    return "SLL"
+        + super.toString()
+        + "(hfo="
         + getHfo()
         + ", nfo="
         + getNfo()
         + ", len="
         + getMinimumLength()
-        + ", level="
-        + getLevel()
         + ")";
   }
 

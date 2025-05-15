@@ -107,7 +107,9 @@ public class GenericAbstraction extends SMGAbstractObject {
 
   @Override
   public String toString() {
-    return "Generic Abstraction:\n"
+    return "Generic Abstraction"
+        + super.toString()
+        + ":\n"
         + "pointersToThisAbstraction "
         + abstractToConcretePointerMap
         + "\n"
