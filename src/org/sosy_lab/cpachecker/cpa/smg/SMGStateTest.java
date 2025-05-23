@@ -210,11 +210,11 @@ public class SMGStateTest {
     heap.addPointsToEdge(new SMGEdgePointsTo(value6, dll, 0, SMGTargetSpecifier.FIRST));
     heap.addPointsToEdge(new SMGEdgePointsTo(value7, dll, 0, SMGTargetSpecifier.LAST));
 
-    SMGRegion l1 = new SMGRegion(96, "l1", 1);
-    SMGRegion l2 = new SMGRegion(96, "l2", 1);
-    SMGRegion l3 = new SMGRegion(96, "l3", 1);
-    SMGRegion l4 = new SMGRegion(96, "l4", 1);
-    SMGRegion l5 = new SMGRegion(96, "l5", 1);
+    SMGRegion l1 = SMGRegion.forTesting(96, "l1", 1);
+    SMGRegion l2 = SMGRegion.forTesting(96, "l2", 1);
+    SMGRegion l3 = SMGRegion.forTesting(96, "l3", 1);
+    SMGRegion l4 = SMGRegion.forTesting(96, "l4", 1);
+    SMGRegion l5 = SMGRegion.forTesting(96, "l5", 1);
 
     SMGEdgeHasValue l1fn = new SMGEdgeHasValue(ptrSize, 0, l1, value13);
     SMGEdgeHasValue l2fn = new SMGEdgeHasValue(ptrSize, 0, l2, value8);

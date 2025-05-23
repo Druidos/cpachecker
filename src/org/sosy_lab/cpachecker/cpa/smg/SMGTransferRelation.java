@@ -88,6 +88,7 @@ import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGEx
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGValueAndState;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGExpressionEvaluator;
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGRightHandSideEvaluator;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGFunctionParameter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddress;
@@ -408,7 +409,7 @@ public class SMGTransferRelation
       } else {
         size = expressionEvaluator.getBitSizeof(callEdge, cParamType, initialNewState);
       }
-      SMGRegion paramObj = new SMGRegion(size, varName);
+      SMGRegion paramObj = new SMGFunctionParameter(size, varName);
       // get value of actual parameter in caller function context
       for (SMGState newState : newStates) {
         result.addAll(evaluateArgumentValue(callEdge, valuesList, i, exp, paramObj, newState));

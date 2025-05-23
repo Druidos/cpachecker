@@ -8,33 +8,49 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.Immutable;
 import java.util.Map;
-import org.sosy_lab.cpachecker.cpa.smg.SMGCPA;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.generic.SMGObjectTemplate;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.optional.SMGOptionalObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
 @Immutable
-public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
+public sealed class SMGRegion extends SMGObject implements SMGObjectTemplate
+    permits SMGAllocation, SMGFunctionObject, SMGReturnObject, SMGStringLiteral, SMGVariable {
 
+  public static SMGRegion materialize(SMGOptionalObject pObject) {
+    return new SMGRegion(
+        pObject.getSize(),
+        pObject.getLabel(),
+        pObject.getLevel(),
+        SMGObjectKind.REG,
+        pObject.getColor());
+  }
+
+  public static SMGRegion materialize(SMGAbstractList<?> pObject) {
+    return new SMGRegion(
+        pObject.getSize(), pObject.getLabel(), 0, SMGObjectKind.REG, pObject.getColor());
+  }
+
+  @VisibleForTesting
+  public static SMGRegion forTesting(long pSize, String pLabel, int pLevel) {
+    return new SMGRegion(pSize, pLabel, pLevel, SMGObjectKind.REG, AllocationColor.COLORLESS);
+  }
+
+  // only used in tests
+  @VisibleForTesting
   public SMGRegion(long pSize, String pLabel) {
-    super(pSize, pLabel, 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
+    this(pSize, pLabel, 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
   }
 
-  public SMGRegion(long pSize, String pLabel, AllocationColor pAllocationColor) {
-    super(pSize, pLabel, 0, SMGObjectKind.REG, pAllocationColor);
-  }
-
-  public SMGRegion(long pSize) {
-    super(pSize, "ID" + SMGCPA.getNewValue(), 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
-  }
-
-  public SMGRegion(long pSize, String pLabel, int pLevel) {
-    super(pSize, pLabel, pLevel, SMGObjectKind.REG, AllocationColor.COLORLESS);
-  }
-
-  public SMGRegion(long pSize, String pLabel, SMGObjectKind pKind) {
-    super(pSize, pLabel, 0, pKind, AllocationColor.COLORLESS);
+  protected SMGRegion(
+      long pSize,
+      String pLabel,
+      int pLevel,
+      SMGObjectKind pKind,
+      AllocationColor pAllocationColor) {
+    super(pSize, pLabel, pLevel, pKind, pAllocationColor);
   }
 
   @Override
@@ -60,7 +76,7 @@ public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
       // know how to join with me
       return pOther.join(this, pDestLevel);
     } else if (getSize() == pOther.getSize()) {
-      return new SMGRegion(getSize(), getLabel(), pDestLevel);
+      return new SMGRegion(getSize(), getLabel(), pDestLevel, getKind(), getColor());
     }
 
     throw new UnsupportedOperationException("join() called on incompatible SMGObjects");
@@ -68,12 +84,12 @@ public final class SMGRegion extends SMGObject implements SMGObjectTemplate {
 
   @Override
   public SMGRegion createConcreteObject(Map<SMGValue, SMGValue> pAbstractToConcretePointerMap) {
-    return new SMGRegion(getSize(), getLabel() + " ID " + SMGCPA.getNewValue());
+    return new SMGRegion(getSize(), getLabel(), 0, SMGObjectKind.REG, AllocationColor.COLORLESS);
   }
 
   @Override
   public SMGObject copy(int pNewLevel) {
-    return new SMGRegion(getSize(), "ID" + SMGCPA.getNewValue() + " Copy of " + getId(), pNewLevel);
+    return new SMGRegion(getSize(), getLabel(), pNewLevel, getKind(), getColor());
   }
 
   @Override

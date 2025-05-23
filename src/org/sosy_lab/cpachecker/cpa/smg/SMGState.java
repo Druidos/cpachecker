@@ -62,10 +62,13 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAllocation;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGFunctionObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGStringLiteral;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGVariable;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll.SMGDoublyLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.optional.SMGOptionalObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll.SMGSingleLinkedList;
@@ -270,7 +273,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    */
   public SMGRegion addGlobalVariable(long pTypeSize, String pVarName)
       throws SMGInconsistentException {
-    SMGRegion new_object = new SMGRegion(pTypeSize, pVarName);
+    SMGRegion new_object = new SMGVariable(pTypeSize, pVarName);
     getMutableStateStatistics().changeStackAllocatedSize(pTypeSize);
     heap.addGlobalObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
@@ -294,7 +297,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       return Optional.empty();
     }
 
-    SMGRegion new_object = new SMGRegion(pTypeSize, pVarName);
+    SMGRegion new_object = new SMGVariable(pTypeSize, pVarName);
     getMutableStateStatistics().changeStackAllocatedSize(pTypeSize);
     heap.addStackObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
@@ -313,7 +316,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    */
   public SMGRegion addStringLiteral(long pTypeSize, String pStringLiteral)
       throws SMGInconsistentException {
-    SMGRegion new_object = new SMGRegion(pTypeSize, pStringLiteral, SMGObjectKind.STRING_LITERAL);
+    SMGRegion new_object = new SMGStringLiteral(pTypeSize, pStringLiteral);
 
     heap.addGlobalObject(new_object);
     performConsistencyCheck(SMGRuntimeCheck.HALF);
@@ -334,7 +337,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    */
   public void addLocalVariable(long pTypeSize, String pVarName, SMGRegion smgObject)
       throws SMGInconsistentException {
-    SMGRegion new_object2 = new SMGRegion(pTypeSize, pVarName);
+    SMGRegion new_object2 = new SMGVariable(pTypeSize, pVarName);
 
     assert smgObject.getLabel().equals(new_object2.getLabel());
 
@@ -566,11 +569,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     SMGHasValueEdges fields = getHVEdges(SMGEdgeHasValueFilter.objectFilter(pOptionalObject));
 
-    SMGObject newObject =
-        new SMGRegion(
-            pOptionalObject.getSize(),
-            "Concrete object of " + pOptionalObject,
-            pOptionalObject.getLevel());
+    SMGObject newObject = SMGRegion.materialize(pOptionalObject);
 
     heap.addHeapObject(newObject);
     heap.setValidity(newObject, heap.isObjectValid(pOptionalObject));
@@ -703,8 +702,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     boolean sllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
 
-    SMGRegion newConcreteRegion =
-        new SMGRegion(pListSeg.getSize(), "concrete sll segment ID " + SMGCPA.getNewValue(), 0);
+    SMGRegion newConcreteRegion = SMGRegion.materialize(pListSeg);
     heap.addHeapObject(newConcreteRegion);
 
     Set<SMGEdgeHasValue> restriction =
@@ -812,8 +810,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     boolean dllHasExternalObject = heap.isObjectExternallyAllocated(pListSeg);
 
-    SMGRegion newConcreteRegion =
-        new SMGRegion(pListSeg.getSize(), "concrete dll segment ID " + SMGCPA.getNewValue(), 0);
+    SMGRegion newConcreteRegion = SMGRegion.materialize(pListSeg);
     heap.addHeapObject(newConcreteRegion);
 
     Set<SMGEdgeHasValue> restriction =
@@ -1721,7 +1718,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       boolean external,
       AllocationColor pAllocationColor)
       throws SMGInconsistentException {
-    SMGRegion new_object = new SMGRegion(size, label, pAllocationColor);
+    SMGRegion new_object = new SMGAllocation(size, label, pAllocationColor);
     heap.addHeapObject(new_object);
     heap.setValidity(new_object, true);
     heap.addValue(pValue);
@@ -1750,7 +1747,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    */
   public SMGEdgePointsTo addNewStackAllocation(int pSize, String pLabel)
       throws SMGInconsistentException {
-    SMGRegion new_object = new SMGRegion(pSize, pLabel);
+    SMGRegion new_object = new SMGVariable(pSize, pLabel);
     SMGKnownSymbolicValue new_value = SMGKnownSymValue.of();
     heap.addStackObject(new_object);
     heap.addValue(new_value);
@@ -2447,7 +2444,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     assert heap.getObjectForVisibleVariable(functionQualifiedSMGName) == null;
 
-    return addGlobalVariable(0, functionQualifiedSMGName);
+    SMGRegion functionObject = new SMGFunctionObject(functionQualifiedSMGName);
+    heap.addGlobalObject(functionObject);
+    performConsistencyCheck(SMGRuntimeCheck.HALF);
+    return functionObject;
   }
 
   private static String getUniqueFunctionName(CFunctionDeclaration pDeclaration) {

@@ -26,6 +26,7 @@ import org.sosy_lab.cpachecker.cfa.types.c.CType;
 import org.sosy_lab.cpachecker.cfa.types.c.CVoidType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGReturnObject;
 
 /** Represents a C language stack frame. */
 @Immutable
@@ -66,7 +67,7 @@ public final class CLangStackFrame {
       returnValueObject = null;
     } else {
       int return_value_size = pMachineModel.getSizeofInBits(returnType).intValueExact();
-      returnValueObject = new SMGRegion(return_value_size, CLangStackFrame.RETVAL_LABEL);
+      returnValueObject = new SMGReturnObject(return_value_size);
     }
   }
 
