@@ -57,6 +57,10 @@ public abstract class SMGObject implements Comparable<SMGObject> {
 
   public abstract boolean isAbstract();
 
+  public final boolean isNullObject() {
+    return equals(SMGNullObject.getInstance());
+  }
+
   public abstract <T> T accept(SMGObjectVisitor<T> visitor);
 
   /**

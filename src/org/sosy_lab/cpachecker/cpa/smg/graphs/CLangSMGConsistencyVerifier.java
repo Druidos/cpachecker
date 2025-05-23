@@ -140,7 +140,7 @@ public class CLangSMGConsistencyVerifier {
 
     // TODO: Require workaround for free heap objects
     if (!pSmg.getValidObjects()
-        .addAndCopy(SMGNullObject.INSTANCE)
+        .addAndCopy(SMGNullObject.getInstance())
         .containsAll(pSmg.getGlobalObjects().values())) {
       pLogger.log(
           Level.SEVERE,
@@ -164,7 +164,7 @@ public class CLangSMGConsistencyVerifier {
       LogManager pLogger, UnmodifiableCLangSMG pSmg) {
     // Verify that there is no NULL object in global scope
     for (SMGObject obj : pSmg.getGlobalObjects().values()) {
-      if (obj == SMGNullObject.INSTANCE) {
+      if (obj.isNullObject()) {
         pLogger.log(
             Level.SEVERE, "CLangSMG inconsistent: null object in global object set [" + obj + "]");
         return false;
@@ -174,7 +174,7 @@ public class CLangSMGConsistencyVerifier {
     // Verify there is no more than one NULL object in the heap object set
     SMGObject firstNull = null;
     for (SMGObject obj : pSmg.getHeapObjects()) {
-      if (obj == SMGNullObject.INSTANCE) {
+      if (obj.isNullObject()) {
         if (firstNull != null) {
           pLogger.log(
               Level.SEVERE,
@@ -193,7 +193,7 @@ public class CLangSMGConsistencyVerifier {
     // Verify there is no NULL object in the stack object set
     for (CLangStackFrame frame : pSmg.getStackFrames()) {
       for (SMGObject obj : frame.getAllObjects()) {
-        if (obj == SMGNullObject.INSTANCE) {
+        if (obj.isNullObject()) {
           pLogger.log(
               Level.SEVERE, "CLangSMG inconsistent: null object in stack object set [" + obj + "]");
           return false;
@@ -270,7 +270,7 @@ public class CLangSMGConsistencyVerifier {
   private static boolean verifyPointersSize(LogManager pLogger, UnmodifiableCLangSMG pSmg) {
 
     for (SMGEdgePointsTo ptEdge : pSmg.getPTEdges()) {
-      if (!ptEdge.getValue().isZero() && !ptEdge.getObject().equals(SMGNullObject.INSTANCE)) {
+      if (!ptEdge.getValue().isZero() && !ptEdge.getObject().isNullObject()) {
         SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.valueFilter(ptEdge.getValue());
         for (SMGEdgeHasValue hvEdge : pSmg.getHVEdges(filter)) {
           if (hvEdge.getSizeInBits() != pSmg.getSizeofPtrInBits()) {

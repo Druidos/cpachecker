@@ -53,14 +53,14 @@ public class SMGJoinMatchObjectsTest {
             smg2,
             null,
             null,
-            SMGNullObject.INSTANCE,
-            SMGNullObject.INSTANCE);
+            SMGNullObject.getInstance(),
+            SMGNullObject.getInstance());
     assertThat(mo.isDefined()).isFalse();
 
     smg1.addObject(srcObj1);
     mo =
         new SMGJoinMatchObjects(
-            SMGJoinStatus.EQUAL, smg1, smg2, null, null, srcObj1, SMGNullObject.INSTANCE);
+            SMGJoinStatus.EQUAL, smg1, smg2, null, null, srcObj1, SMGNullObject.getInstance());
     assertThat(mo.isDefined()).isFalse();
   }
 

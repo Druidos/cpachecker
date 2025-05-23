@@ -19,7 +19,7 @@ public final class SMGAddress {
 
   public static final SMGAddress UNKNOWN = new SMGAddress(null, SMGUnknownValue.INSTANCE);
   public static final SMGAddress ZERO =
-      new SMGAddress(SMGNullObject.INSTANCE, SMGZeroValue.INSTANCE);
+      new SMGAddress(SMGNullObject.getInstance(), SMGZeroValue.INSTANCE);
 
   /** The SMGObject representing the Memory this address belongs to. */
   private final SMGObject object;

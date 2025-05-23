@@ -64,8 +64,8 @@ public final class SMGIntersectStates {
     heap1 = pSmgState1.getHeap();
     heap2 = pSmgState2.getHeap();
 
-    mapping1.map(SMGNullObject.INSTANCE, SMGNullObject.INSTANCE);
-    mapping2.map(SMGNullObject.INSTANCE, SMGNullObject.INSTANCE);
+    mapping1.map(SMGNullObject.getInstance(), SMGNullObject.getInstance());
+    mapping2.map(SMGNullObject.getInstance(), SMGNullObject.getInstance());
 
     destSMG = new CLangSMG(heap1.getMachineModel());
   }

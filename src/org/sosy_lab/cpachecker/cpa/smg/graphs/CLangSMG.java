@@ -89,7 +89,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     super(pMachineModel);
     global_objects = PathCopyingPersistentTreeMap.of();
     heap_objects = PersistentSet.of();
-    heap_objects = heap_objects.addAndCopy(SMGNullObject.INSTANCE);
+    heap_objects = heap_objects.addAndCopy(SMGNullObject.getInstance());
   }
 
   /**
@@ -258,7 +258,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
       Collection<SMGObject> objects, boolean pCheckColoredMemleak) {
     Set<SMGObject> unreachableObjects = new LinkedHashSet<>();
     for (SMGObject object : objects) {
-      if (object == SMGNullObject.INSTANCE) {
+      if (object.isNullObject()) {
         continue;
       }
       boolean check =
@@ -663,7 +663,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     stack_objects = newStack;
 
     /*May not remove null object.*/
-    heap_objects = heap_objects.addAndCopy(SMGNullObject.INSTANCE);
+    heap_objects = heap_objects.addAndCopy(SMGNullObject.getInstance());
   }
 
   public void removeGlobalVariableAndEdges(String pVariable) {

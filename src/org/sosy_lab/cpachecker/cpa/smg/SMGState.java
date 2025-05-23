@@ -441,7 +441,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGObject target = pAddress.getObject();
     SMGExplicitValue offset = pAddress.getOffset();
 
-    if (target instanceof SMGRegion || target == SMGNullObject.INSTANCE) {
+    if (target instanceof SMGRegion || target.isNullObject()) {
       // ignoring tag may be meh, but for regions it should always be reg
       // and for null it should always be unknown
       SMGValue address = getAddress(target, offset.getAsLong(), null);
@@ -1662,7 +1662,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         // However, when combined with program exit, we can detect property MemCleanup.
         PersistentSet<SMGObject> heapObs = heap.getHeapObjects();
         Preconditions.checkState(
-            heapObs.size() >= 1 && heapObs.contains(SMGNullObject.INSTANCE),
+            heapObs.size() >= 1 && heapObs.contains(SMGNullObject.getInstance()),
             "NULL must always be a heap object");
         for (SMGObject object : heapObs) {
           if (!heap.isObjectValid(object)) {
@@ -1723,7 +1723,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.setValidity(new_object, true);
     heap.addValue(pValue);
     for (SMGObject object : heap.getObjects()) {
-      if (!SMGNullObject.INSTANCE.equals(object) && !heap.isObjectValid(object)) {
+      if (!object.isNullObject() && !heap.isObjectValid(object)) {
         heap.addPossibleEqualObjects(new_object, object);
       }
     }
@@ -1752,7 +1752,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.addStackObject(new_object);
     heap.addValue(new_value);
     for (SMGObject object : heap.getObjects()) {
-      if (!SMGNullObject.INSTANCE.equals(object) && !heap.isObjectValid(object)) {
+      if (!object.isNullObject() && !heap.isObjectValid(object)) {
         heap.addPossibleEqualObjects(new_object, object);
       }
     }
@@ -2346,7 +2346,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
    *     externally allocated object can be 'equal' to the Null. Assume it is not if it has a value.
    */
   private boolean isNotNull(SMGObject pObject) {
-    return pObject != SMGNullObject.INSTANCE
+    return !pObject.isNullObject()
         && !(heap.isObjectExternallyAllocated(pObject)
             && heap.getHVEdges().getEdgesForObject(pObject).isEmpty());
   }
@@ -2381,10 +2381,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     if (obj1.equals(obj2)) {
       return ofs1 != ofs2;
     }
-    if (obj1 == SMGNullObject.INSTANCE) {
+    if (obj1.isNullObject()) {
       return isNotNull(obj2);
     }
-    if (obj2 == SMGNullObject.INSTANCE) {
+    if (obj2.isNullObject()) {
       return isNotNull(obj1);
     }
 

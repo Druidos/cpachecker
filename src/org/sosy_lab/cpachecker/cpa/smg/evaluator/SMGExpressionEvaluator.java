@@ -229,7 +229,7 @@ public class SMGExpressionEvaluator {
         }
       }
       final String description;
-      if (!pObject.equals(SMGNullObject.INSTANCE)) {
+      if (!pObject.isNullObject()) {
         if (typeBitSize % 8 != 0 || fieldOffset % 8 != 0 || objectBitSize % 8 != 0) {
           description =
               String.format(
@@ -378,7 +378,7 @@ public class SMGExpressionEvaluator {
       }
 
       if ((symbolicValue instanceof SMGAddressValue address)
-          && (address.getObject() == SMGNullObject.INSTANCE)) {
+          && address.getObject().isNullObject()) {
         return SMGExplicitValueAndState.of(
             newState,
             SMGKnownExpValue.valueOf(
@@ -719,7 +719,7 @@ public class SMGExpressionEvaluator {
           SMGAddressValueAndState.of(
               smgState,
               SMGKnownAddressValue.valueOf(
-                  (SMGKnownSymbolicValue) pAddressValue, SMGNullObject.INSTANCE, explicit)));
+                  (SMGKnownSymbolicValue) pAddressValue, SMGNullObject.getInstance(), explicit)));
     }
 
     if (!smgState.getHeap().isPointer(pAddressValue)) {

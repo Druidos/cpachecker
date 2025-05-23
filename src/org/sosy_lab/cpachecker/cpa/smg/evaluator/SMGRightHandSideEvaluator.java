@@ -144,7 +144,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
         }
       }
       final String description;
-      if (!pObject.equals(SMGNullObject.INSTANCE)) {
+      if (!pObject.isNullObject()) {
         if (typeBitSize % 8 != 0 || fieldOffset % 8 != 0 || objectBitSize % 8 != 0) {
           description =
               String.format(
@@ -217,7 +217,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
           readVariable.append(" on '").append(entry.getKey()).append("' variable");
         }
       }
-      if (!pMemoryOfField.equals(SMGNullObject.INSTANCE)) {
+      if (!pMemoryOfField.isNullObject()) {
         newState =
             newState.withErrorDescription(
                 String.format(
@@ -241,8 +241,8 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
             && pValue instanceof SMGKnownSymbolicValue knownValue)
         && pState.isExplicit(knownValue)) {
       SMGKnownExpValue explicit = Preconditions.checkNotNull(pState.getExplicit(knownValue));
-      pValue = SMGKnownAddressValue.valueOf(knownValue, SMGNullObject.INSTANCE, explicit);
-      pState.addPointsToEdge(SMGNullObject.INSTANCE, explicit.getAsLong(), pValue);
+      pValue = SMGKnownAddressValue.valueOf(knownValue, SMGNullObject.getInstance(), explicit);
+      pState.addPointsToEdge(SMGNullObject.getInstance(), explicit.getAsLong(), pValue);
     }
     return pState
         .writeValue(
@@ -359,7 +359,7 @@ public class SMGRightHandSideEvaluator extends SMGExpressionEvaluator {
             SMGObject object = smgAddress.getObject();
             SMGExplicitValue offset = smgAddress.getOffset();
             SMGState smgState = addressOfFieldAndState.getSmgState();
-            if (!object.equals(SMGNullObject.INSTANCE)
+            if (!object.isNullObject()
                 && object.getSize() - offset.getAsLong() >= machineModel.getSizeofPtrInBits()
                 && (smgState.getHeap().isObjectValid(object)
                     || smgState.getHeap().isObjectExternallyAllocated(object))) {

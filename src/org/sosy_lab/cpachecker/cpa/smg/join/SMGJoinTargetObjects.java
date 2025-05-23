@@ -23,7 +23,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll.SMGDoublyLinkedList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.generic.SMGGenericAbstractionCandidate;
@@ -55,7 +54,7 @@ final class SMGJoinTargetObjects {
 
   private boolean checkAlreadyJoined(
       SMGObject pObj1, SMGObject pObj2, SMGValue pAddress1, SMGValue pAddress2) {
-    if ((pObj1 == SMGNullObject.INSTANCE && pObj2 == SMGNullObject.INSTANCE)
+    if ((pObj1.isNullObject() && pObj2.isNullObject())
         || (mapping1.containsKey(pObj1)
             && mapping2.containsKey(pObj2)
             && mapping1.get(pObj1) == mapping2.get(pObj2))) {

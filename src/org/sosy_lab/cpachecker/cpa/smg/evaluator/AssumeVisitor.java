@@ -268,12 +268,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
         isTrue =
             comparePointer(
                 (SMGKnownAddressValue) pV1,
-                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.INSTANCE, explicit2),
+                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.getInstance(), explicit2),
                 pOp);
         isFalse =
             comparePointer(
                 (SMGKnownAddressValue) pV1,
-                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.INSTANCE, explicit2),
+                SMGKnownAddressValue.valueOf(pV2, SMGNullObject.getInstance(), explicit2),
                 pOp.getOppositLogicalOperator());
       }
     } else if (isPointerOp2 && !pV1.isUnknown()) {
@@ -281,12 +281,12 @@ public class AssumeVisitor extends ExpressionValueVisitor {
       if (explicit1 != null) {
         isTrue =
             comparePointer(
-                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.INSTANCE, explicit1),
+                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.getInstance(), explicit1),
                 (SMGKnownAddressValue) pV2,
                 pOp);
         isFalse =
             comparePointer(
-                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.INSTANCE, explicit1),
+                SMGKnownAddressValue.valueOf(pV1, SMGNullObject.getInstance(), explicit1),
                 (SMGKnownAddressValue) pV2,
                 pOp.getOppositLogicalOperator());
       }

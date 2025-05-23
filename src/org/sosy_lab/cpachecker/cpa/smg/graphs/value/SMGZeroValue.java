@@ -34,7 +34,7 @@ public final class SMGZeroValue extends SMGKnownExpValue
 
   @Override
   public SMGObject getObject() {
-    return SMGNullObject.INSTANCE;
+    return SMGNullObject.getInstance();
   }
 
   @Override

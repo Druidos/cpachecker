@@ -58,7 +58,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   private final MachineModel machine_model;
 
   private static final SMGEdgePointsTo NULL_POINTER =
-      new SMGEdgePointsTo(SMGZeroValue.INSTANCE, SMGNullObject.INSTANCE, 0);
+      new SMGEdgePointsTo(SMGZeroValue.INSTANCE, SMGNullObject.getInstance(), 0);
   private PersistentMap<SMGValue, SMGValue> trackReplaces = PathCopyingPersistentTreeMap.of();
 
   /**
@@ -144,8 +144,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
    * @param pObj object to add.
    */
   public final void addObject(final SMGObject pObj) {
-    Preconditions.checkArgument(
-        SMGNullObject.INSTANCE != pObj, "NULL can not be added as valid object");
+    Preconditions.checkArgument(!pObj.isNullObject(), "NULL can not be added as valid object");
     addObject(pObj, true, false);
   }
 
@@ -193,7 +192,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
    * @param pObj Object to remove
    */
   public final void markObjectDeletedAndRemoveEdges(final SMGObject pObj) {
-    Preconditions.checkArgument(pObj != SMGNullObject.INSTANCE, "Can not remove NULL from SMG");
+    Preconditions.checkArgument(!pObj.isNullObject(), "Can not remove NULL from SMG");
     setValidity(pObj, false);
     hv_edges = hv_edges.removeAllEdgesOfObjectAndCopy(pObj);
   }
@@ -652,12 +651,12 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   }
 
   private void initializeNullObject() {
-    objects = objects.addAndCopy(SMGNullObject.INSTANCE);
+    objects = objects.addAndCopy(SMGNullObject.getInstance());
   }
 
   public void addPossibleEqualObjects(SMGObject pObject1, SMGObject pObject2) {
-    assert !SMGNullObject.INSTANCE.equals(pObject1);
-    assert !SMGNullObject.INSTANCE.equals(pObject2);
+    assert !pObject1.isNullObject() && !pObject2.isNullObject()
+        : "do not assume " + pObject1 + " and " + pObject2 + " can be equal";
     possibleEquals = possibleEquals.putAndCopy(pObject1, pObject2);
     possibleEquals = possibleEquals.putAndCopy(pObject2, pObject1);
   }

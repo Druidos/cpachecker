@@ -185,7 +185,7 @@ public final class SMGPlotter {
       if (!objectIndex.containsKey(heapObject)) {
         objectIndex.put(heapObject, heapObject.accept(visitor));
       }
-      if (heapObject != SMGNullObject.INSTANCE) {
+      if (!heapObject.isNullObject()) {
         sb.append(newLineWithOffset(objectIndex.get(heapObject).getDefinition()));
       }
     }

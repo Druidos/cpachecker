@@ -26,7 +26,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -1584,7 +1583,7 @@ final class SMGJoinValues {
 
             copyOfReachedObject = reachedObjectSubSmg.copy(newLevel);
             // Avoid adding null object
-            if (!copyOfReachedObject.equals(SMGNullObject.INSTANCE)) {
+            if (!copyOfReachedObject.isNullObject()) {
               pMapping.map(reachedObjectSubSmg, copyOfReachedObject);
               ((CLangSMG) pDestSMG).addHeapObject(copyOfReachedObject);
               pDestSMG.setValidity(

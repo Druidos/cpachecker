@@ -93,7 +93,7 @@ public class SMGJoinTargetObjectsTest {
 
     SMGJoinMatchObjects mo =
         new SMGJoinMatchObjects(
-            SMGJoinStatus.EQUAL, smg1, smg2, mapping1, mapping2, obj1, SMGNullObject.INSTANCE);
+            SMGJoinStatus.EQUAL, smg1, smg2, mapping1, mapping2, obj1, SMGNullObject.getInstance());
     assertThat(mo.isDefined()).isFalse();
     SMGJoinTargetObjects jto =
         new SMGJoinTargetObjects(
@@ -118,8 +118,8 @@ public class SMGJoinTargetObjectsTest {
 
   @Test
   public void joinTargetObjectsDifferentOffsets() throws SMGInconsistentException {
-    SMGEdgePointsTo pt1null = new SMGEdgePointsTo(value1, SMGNullObject.INSTANCE, 2);
-    SMGEdgePointsTo pt2null = new SMGEdgePointsTo(value2, SMGNullObject.INSTANCE, 1);
+    SMGEdgePointsTo pt1null = new SMGEdgePointsTo(value1, SMGNullObject.getInstance(), 2);
+    SMGEdgePointsTo pt2null = new SMGEdgePointsTo(value2, SMGNullObject.getInstance(), 1);
 
     smg1.addObject(obj1);
     smg1.addValue(value1);
@@ -153,8 +153,8 @@ public class SMGJoinTargetObjectsTest {
 
   @Test
   public void joinTargetObjectsAlreadyJoinedNull() throws SMGInconsistentException {
-    SMGEdgePointsTo pt1null = new SMGEdgePointsTo(value1, SMGNullObject.INSTANCE, 0);
-    SMGEdgePointsTo pt2null = new SMGEdgePointsTo(value2, SMGNullObject.INSTANCE, 0);
+    SMGEdgePointsTo pt1null = new SMGEdgePointsTo(value1, SMGNullObject.getInstance(), 0);
+    SMGEdgePointsTo pt2null = new SMGEdgePointsTo(value2, SMGNullObject.getInstance(), 0);
 
     smg1.addValue(value1);
     smg2.addValue(value2);

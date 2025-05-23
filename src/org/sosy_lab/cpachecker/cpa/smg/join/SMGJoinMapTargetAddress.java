@@ -40,14 +40,14 @@ final class SMGJoinMapTargetAddress {
     smg = destSMG;
     mapping1 = pMapping1;
     mapping2 = pMapping2;
-    SMGObject target = SMGNullObject.INSTANCE;
+    SMGObject target = SMGNullObject.getInstance();
 
     // TODO: Ugly, refactor
     SMGEdgePointsTo pt = pSMG1.getPointer(pAddress1);
     SMGEdgePointsTo pt2 = pSMG2.getPointer(pAddress2);
 
     // Algorithm 7 from FIT-TR-2012-04, line 2
-    if (pt.getObject() != SMGNullObject.INSTANCE) {
+    if (!pt.getObject().isNullObject()) {
       target = pMapping1.get(pt.getObject());
     }
 

@@ -31,7 +31,6 @@ import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGAbstractObjectAndState.SMGVa
 import org.sosy_lab.cpachecker.cpa.smg.evaluator.SMGRightHandSideEvaluator;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGAddressValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGExplicitValue;
@@ -739,13 +738,11 @@ public class SMGBuiltins {
               currentState.withInvalidRead().withErrorDescription("Can't evaluate memcpy src");
         }
       }
-      if (!sourceStr2Address.isUnknown()
-          && sourceStr2Address.getObject().equals(SMGNullObject.INSTANCE)) {
+      if (!sourceStr2Address.isUnknown() && sourceStr2Address.getObject().isNullObject()) {
         currentState =
             currentState.withInvalidRead().withErrorDescription("Memcpy src is null pointer");
       }
-      if (!targetStr1Address.isUnknown()
-          && targetStr1Address.getObject().equals(SMGNullObject.INSTANCE)) {
+      if (!targetStr1Address.isUnknown() && targetStr1Address.getObject().isNullObject()) {
         currentState =
             currentState.withInvalidWrite().withErrorDescription("Memcpy to null pointer dst");
       }

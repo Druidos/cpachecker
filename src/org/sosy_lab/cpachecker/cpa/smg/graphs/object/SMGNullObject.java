@@ -11,10 +11,14 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.object;
 /** The {@link SMGNullObject} represents the target of NULL. */
 public final class SMGNullObject extends SMGObject {
 
-  public static final SMGNullObject INSTANCE = new SMGNullObject();
+  private static final SMGNullObject INSTANCE = new SMGNullObject();
 
   private SMGNullObject() {
     super(0, "NULL", 0, SMGObjectKind.NULL, AllocationColor.COLORLESS);
+  }
+
+  public static SMGNullObject getInstance() {
+    return INSTANCE;
   }
 
   @Override
