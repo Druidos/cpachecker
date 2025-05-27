@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!DOCTYPE result
+  PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
+  'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
+<result benchmarkname="function-without-body.strict_fun.undef_fun" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
+  <columns>
+    <column title="status"/>
+    <column title="cputime"/>
+    <column title="walltime"/>
+    <column title="reached"/>
+    <column title="transfer"/>
+    <column title="stop"/>
+    <column title="error"/>
+    <column title="exception"/>
+  </columns>
+
+  <run name="test/programs/smg_options_test/undef_func_false.yml" files="[test/programs/smg_options_test/undef_func.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="1.838187s"/>
+    <column title="memory" value="103526400B"/>
+    <column title="reached" value="6"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.046s"/>
+    <column title="walltime" value="1.8519160030009516s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.613012" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-22T18:15:05.574820+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_options_test/undef_func_return_struct_false.yml" files="[test/programs/smg_options_test/undef_func_return_struct.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="1.940044s"/>
+    <column title="memory" value="111341568B"/>
+    <column title="reached" value="15"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.071s"/>
+    <column title="walltime" value="1.9443028399982722s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.732616" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-22T18:15:07.554423+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_options_test/undef_func_struct2_false.yml" files="[test/programs/smg_options_test/undef_func_struct2.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="1.911425s"/>
+    <column title="memory" value="107888640B"/>
+    <column title="reached" value="10"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.053s"/>
+    <column title="walltime" value="1.9251988270007132s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.691048" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-22T18:15:09.633428+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_options_test/undef_func_struct_false.yml" files="[test/programs/smg_options_test/undef_func_struct.c]" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="1.813448s"/>
+    <column title="memory" value="104628224B"/>
+    <column title="reached" value="8"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.053s"/>
+    <column title="walltime" value="1.8270447540016903s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.569177" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-22T18:15:11.689318+03:00" hidden="true"/>
+  </run>
+</result>
