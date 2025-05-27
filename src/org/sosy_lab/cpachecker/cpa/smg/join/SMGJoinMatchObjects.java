@@ -43,6 +43,7 @@ final class SMGJoinMatchObjects {
   private static boolean checkConsistentObjects(
       SMGObject pObj1, SMGObject pObj2, UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2) {
     return pObj1.getSize() != pObj2.getSize()
+        || pObj1.getColor() != pObj2.getColor()
         || pSMG1.isObjectValid(pObj1) != pSMG2.isObjectValid(pObj2);
   }
 

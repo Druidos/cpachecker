@@ -26,6 +26,63 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
+  <run name="test/programs/smg_color/colored_lists/festoon_colorful.yml" files="[test/programs/smg_color/colored_lists/festoon_colorful.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="60.670453s"/>
+    <column title="memory" value="209485824B"/>
+    <column title="reached" value="18284"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="51.532s"/>
+    <column title="transfer" value="5.998s"/>
+    <column title="walltime" value="60.68538466500013s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="21.005271" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-16T13:02:18.358218+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_color/colored_lists/festoon_green_random.yml" files="[test/programs/smg_color/colored_lists/festoon_green_random.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.219572s"/>
+    <column title="memory" value="111427584B"/>
+    <column title="reached" value="168"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.101s"/>
+    <column title="transfer" value="0.243s"/>
+    <column title="walltime" value="2.2337673429997267s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.949088" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-16T13:03:19.179048+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_color/colored_lists/festoon_red_numbered.yml" files="[test/programs/smg_color/colored_lists/festoon_red_numbered.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.180183s"/>
+    <column title="memory" value="118341632B"/>
+    <column title="reached" value="186"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.099s"/>
+    <column title="transfer" value="0.250s"/>
+    <column title="walltime" value="2.1945250299995678s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="1.896108" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-16T13:03:21.540915+03:00" hidden="true"/>
+  </run>
   <run name="test/programs/smg_color/colored_lists/green_numbered_list.yml" files="[test/programs/smg_color/colored_lists/green_numbered_list.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="61.140337s"/>
     <column title="memory" value="163794944B"/>
