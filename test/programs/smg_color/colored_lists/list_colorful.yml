@@ -8,8 +8,9 @@
 
 format_version: '1.0'
 
-input_files: 'red_bare_list.c'
+input_files: 'list_colorful.c'
 
+# colorful list violates only color compatibility
 properties:
   - property_file: ../../../config/properties/valid-memsafety.prp
-    expected_verdict: true
+    expected_verdict: false

@@ -83,44 +83,63 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2025-05-16T13:03:21.540915+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/smg_color/colored_lists/green_numbered_list.yml" files="[test/programs/smg_color/colored_lists/green_numbered_list.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="61.140337s"/>
-    <column title="memory" value="163794944B"/>
-    <column title="reached" value="4496"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="56.071s"/>
-    <column title="transfer" value="3.001s"/>
-    <column title="walltime" value="61.15880523400119s"/>
-    <column title="blkio-read" value="7577600B" hidden="true"/>
+  <run name="test/programs/smg_color/colored_lists/list_colorful.yml" files="[test/programs/smg_color/colored_lists/list_colorful.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="2.485145s"/>
+    <column title="memory" value="123588608B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.036s"/>
+    <column title="transfer" value="0.309s"/>
+    <column title="walltime" value="2.496286173000044s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="pressure-cpu-some" value="15.328852" hidden="true"/>
-    <column title="pressure-io-some" value="0.010797" hidden="true"/>
+    <column title="pressure-cpu-some" value="2.135706" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
     <column title="pressure-memory-some" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2025-04-30T18:32:59.521250+03:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-16T14:50:26.853975+03:00" hidden="true"/>
   </run>
-  <run name="test/programs/smg_color/colored_lists/red_bare_list.yml" files="[test/programs/smg_color/colored_lists/red_bare_list.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="61.097044s"/>
-    <column title="memory" value="157536256B"/>
-    <column title="reached" value="4245"/>
+  <run name="test/programs/smg_color/colored_lists/list_green_numbered.yml" files="[test/programs/smg_color/colored_lists/list_green_numbered.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.175248s"/>
+    <column title="memory" value="151932928B"/>
+    <column title="reached" value="4408"/>
     <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="55.846s"/>
-    <column title="transfer" value="3.116s"/>
-    <column title="walltime" value="61.11489855500258s"/>
+    <column title="stop" value="55.537s"/>
+    <column title="transfer" value="3.279s"/>
+    <column title="walltime" value="61.18665080400024s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="pressure-cpu-some" value="15.139034" hidden="true"/>
+    <column title="pressure-cpu-some" value="17.002266" hidden="true"/>
     <column title="pressure-io-some" value="0" hidden="true"/>
     <column title="pressure-memory-some" value="0" hidden="true"/>
     <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2025-04-30T18:34:00.811746+03:00" hidden="true"/>
+    <column title="starttime" value="2025-05-16T14:50:29.476037+03:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_color/colored_lists/list_red_bare.yml" files="[test/programs/smg_color/colored_lists/list_red_bare.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="61.195307s"/>
+    <column title="memory" value="148996096B"/>
+    <column title="reached" value="4164"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="55.570s"/>
+    <column title="transfer" value="3.304s"/>
+    <column title="walltime" value="61.208714357000645s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="16.239916" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2025-05-16T14:51:30.789022+03:00" hidden="true"/>
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
 </result>
