@@ -25,7 +25,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -102,11 +101,6 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
       return;
     }
 
-    if (pObject.getColor() != AllocationColor.COLORLESS) {
-      // do not abstract colored objects into lists
-      return;
-    }
-
     boolean startObjectIsSLL = pObject.getKind() == SMGObjectKind.SLL;
 
     for (SMGEdgeHasValue hveNext : pSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject))) {
@@ -159,8 +153,8 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
         continue;
       }
 
-      if (nextObject.getColor() != AllocationColor.COLORLESS) {
-        // do not abstract colored objects into lists
+      if (nextObject.getColor() != pObject.getColor()) {
+        // do not abstract differently colored objects into lists
         return;
       }
 
@@ -234,8 +228,8 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
         return;
       }
 
-      if (nextObject.getColor() != AllocationColor.COLORLESS) {
-        // do not abstract colored objects into lists
+      if (nextObject.getColor() != startObject.getColor()) {
+        // do not abstract differently colored objects into lists
         return;
       }
 

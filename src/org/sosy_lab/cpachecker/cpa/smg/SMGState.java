@@ -736,12 +736,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.markHeapObjectDeletedAndRemoveEdges(pListSeg);
 
     SMGSingleLinkedList newSll =
-        new SMGSingleLinkedList(
-            pListSeg.getSize(),
-            pListSeg.getHfo(),
-            pListSeg.getNfo(),
-            pListSeg.getMinimumLength() > 0 ? pListSeg.getMinimumLength() - 1 : 0,
-            0);
+        pListSeg.copy(pListSeg.getMinimumLength() > 0 ? pListSeg.getMinimumLength() - 1 : 0, 0);
 
     heap.addHeapObject(newSll);
     heap.setValidity(newSll, true);
@@ -879,13 +874,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     heap.markHeapObjectDeletedAndRemoveEdges(pListSeg);
 
     SMGDoublyLinkedList newDll =
-        new SMGDoublyLinkedList(
-            pListSeg.getSize(),
-            pListSeg.getHfo(),
-            pListSeg.getNfo(),
-            pListSeg.getPfo(),
-            pListSeg.getMinimumLength() > 0 ? pListSeg.getMinimumLength() - 1 : 0,
-            0);
+        pListSeg.copy(pListSeg.getMinimumLength() > 0 ? pListSeg.getMinimumLength() - 1 : 0, 0);
 
     heap.addHeapObject(newDll);
     heap.setValidity(newDll, true);

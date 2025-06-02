@@ -189,8 +189,8 @@ public class SMGJoinMatchObjectsTest {
 
   @Test
   public void sameAbstractionMatchTest() {
-    SMGSingleLinkedList sll1 = new SMGSingleLinkedList(128, 0, 8, 7, 0);
-    SMGSingleLinkedList sll2 = new SMGSingleLinkedList(128, 0, 0, 7, 0);
+    SMGSingleLinkedList sll1 = SMGSingleLinkedList.forTesting(128, 0, 8, 7, 0);
+    SMGSingleLinkedList sll2 = SMGSingleLinkedList.forTesting(128, 0, 0, 7, 0);
 
     smg1.addObject(sll1);
     smg2.addObject(sll2);
@@ -203,7 +203,7 @@ public class SMGJoinMatchObjectsTest {
   @Test
   public void differentAbstractionMatch() {
     SMGRegion prototype = new SMGRegion(128, "prototype");
-    SMGSingleLinkedList sll = new SMGSingleLinkedList(128, 0, 8, 3, 0);
+    SMGSingleLinkedList sll = SMGSingleLinkedList.forTesting(128, 0, 8, 3, 0);
     DummyAbstraction dummy = new DummyAbstraction(prototype);
 
     smg1.addObject(sll);
@@ -216,8 +216,8 @@ public class SMGJoinMatchObjectsTest {
 
   @Test
   public void twoAbstractionsTest() {
-    SMGSingleLinkedList sll1 = new SMGSingleLinkedList(128, 0, 8, 2, 0);
-    SMGSingleLinkedList sll2 = new SMGSingleLinkedList(128, 0, 8, 4, 0);
+    SMGSingleLinkedList sll1 = SMGSingleLinkedList.forTesting(128, 0, 8, 2, 0);
+    SMGSingleLinkedList sll2 = SMGSingleLinkedList.forTesting(128, 0, 8, 4, 0);
     smg1.addObject(sll1);
     smg2.addObject(sll2);
 
@@ -226,13 +226,13 @@ public class SMGJoinMatchObjectsTest {
     assertThat(mo.isDefined()).isTrue();
     assertThat(mo.getStatus()).isEqualTo(SMGJoinStatus.LEFT_ENTAIL);
 
-    sll1 = new SMGSingleLinkedList(128, 0, 8, 4, 0);
+    sll1 = SMGSingleLinkedList.forTesting(128, 0, 8, 4, 0);
     smg1.addObject(sll1);
     mo = new SMGJoinMatchObjects(SMGJoinStatus.EQUAL, smg1, smg2, mapping1, mapping2, sll1, sll2);
     assertThat(mo.isDefined()).isTrue();
     assertThat(mo.getStatus()).isEqualTo(SMGJoinStatus.EQUAL);
 
-    sll1 = new SMGSingleLinkedList(128, 0, 8, 8, 0);
+    sll1 = SMGSingleLinkedList.forTesting(128, 0, 8, 8, 0);
     smg1.addObject(sll1);
     mo = new SMGJoinMatchObjects(SMGJoinStatus.EQUAL, smg1, smg2, mapping1, mapping2, sll1, sll2);
     assertThat(mo.isDefined()).isTrue();
@@ -242,7 +242,7 @@ public class SMGJoinMatchObjectsTest {
   @Test
   public void oneAbstractionTest() {
     SMGRegion prototype = new SMGRegion(128, "prototype");
-    SMGSingleLinkedList sll = new SMGSingleLinkedList(128, 0, 8, 8, 0);
+    SMGSingleLinkedList sll = SMGSingleLinkedList.forTesting(128, 0, 8, 8, 0);
 
     smg1.addObject(sll);
     smg2.addObject(sll);
@@ -261,7 +261,7 @@ public class SMGJoinMatchObjectsTest {
     assertThat(mo.isDefined()).isTrue();
     assertThat(mo.getStatus()).isEqualTo(SMGJoinStatus.INCOMPARABLE);
 
-    sll = new SMGSingleLinkedList(128, 0, 8, 0, 0);
+    sll = SMGSingleLinkedList.forTesting(128, 0, 8, 0, 0);
 
     smg1.addObject(sll);
     smg2.addObject(sll);

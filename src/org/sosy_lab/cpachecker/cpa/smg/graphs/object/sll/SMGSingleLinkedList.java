@@ -8,6 +8,8 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll;
 
+import com.google.common.annotations.VisibleForTesting;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -15,18 +17,31 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectVisitor;
 
 public final class SMGSingleLinkedList extends SMGAbstractList<SMGSingleLinkedListShape> {
 
-  public SMGSingleLinkedList(long pSize, long pHfo, long pNfo, int pMinLength, int level) {
-    super(
+  @VisibleForTesting
+  public static SMGSingleLinkedList forTesting(
+      long pSize, long pHfo, long pNfo, int pMinLength, int level) {
+    return new SMGSingleLinkedList(
         pSize,
         "sll",
         level,
-        SMGObjectKind.SLL,
+        AllocationColor.COLORLESS,
         new SMGSingleLinkedListShape(pHfo, pNfo),
         pMinLength);
   }
 
-  public SMGSingleLinkedList(SMGSingleLinkedList other) {
-    super(other);
+  public SMGSingleLinkedList(
+      SMGObject pObject, int pLevel, SMGSingleLinkedListShape pShape, int pMinLength) {
+    this(pObject.getSize(), pObject.getLabel(), pLevel, pObject.getColor(), pShape, pMinLength);
+  }
+
+  private SMGSingleLinkedList(
+      long pBitsize,
+      String pLabel,
+      int pLevel,
+      AllocationColor pColor,
+      SMGSingleLinkedListShape pShape,
+      int pMinLength) {
+    super(pBitsize, pLabel, pLevel, SMGObjectKind.SLL, pColor, pShape, pMinLength);
   }
 
   public long getNfo() {
@@ -62,6 +77,6 @@ public final class SMGSingleLinkedList extends SMGAbstractList<SMGSingleLinkedLi
 
   @Override
   public SMGSingleLinkedList copy(int newLength, int pNewLevel) {
-    return new SMGSingleLinkedList(getSize(), getHfo(), getNfo(), newLength, pNewLevel);
+    return new SMGSingleLinkedList(this, pNewLevel, getShape(), newLength);
   }
 }

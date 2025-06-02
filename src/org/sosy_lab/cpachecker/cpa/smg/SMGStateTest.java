@@ -197,7 +197,7 @@ public class SMGStateTest {
     SMGValue value12 = SMGKnownSymValue.valueOf(12);
     SMGValue value13 = SMGKnownSymValue.valueOf(13);
 
-    SMGObject dll = new SMGDoublyLinkedList(96, 0, 0, 32, 0, 0);
+    SMGObject dll = SMGDoublyLinkedList.forTesting(96, 0, 0, 32, 0, 0);
     SMGEdgeHasValue dllN = new SMGEdgeHasValue(ptrSize, 0, dll, value5);
     SMGEdgeHasValue dllP = new SMGEdgeHasValue(ptrSize, 32, dll, value5);
     heap.addHeapObject(dll);
@@ -331,7 +331,8 @@ public class SMGStateTest {
     heap.addValue(value8);
     heap.addValue(value9);
 
-    SMGDoublyLinkedList dll = new SMGDoublyLinkedList(sizeInBits, hfo, nfo, pfo, minLength, level);
+    SMGDoublyLinkedList dll =
+        SMGDoublyLinkedList.forTesting(sizeInBits, hfo, nfo, pfo, minLength, level);
     heap.addHeapObject(dll);
     heap.setValidity(dll, true);
     heap.addPointsToEdge(new SMGEdgePointsTo(value6, dll, hfo, SMGTargetSpecifier.FIRST));
@@ -407,7 +408,8 @@ public class SMGStateTest {
     SMGSymbolicValue value6 = SMGKnownSymValue.valueOf(6);
     heap.addValue(value6);
 
-    SMGSingleLinkedList sll = new SMGSingleLinkedList(sizeInBits, hfo, nfo, minLength, level);
+    SMGSingleLinkedList sll =
+        SMGSingleLinkedList.forTesting(sizeInBits, hfo, nfo, minLength, level);
     heap.addHeapObject(sll);
     heap.setValidity(sll, true);
     heap.addPointsToEdge(new SMGEdgePointsTo(value6, sll, hfo, SMGTargetSpecifier.FIRST));

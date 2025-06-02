@@ -18,7 +18,7 @@ public class SMGSingleLinkedListTest {
 
   @Test
   public void basicsTest() {
-    SMGSingleLinkedList sll = new SMGSingleLinkedList(128, 0, 2, 4, 0);
+    SMGSingleLinkedList sll = SMGSingleLinkedList.forTesting(128, 0, 2, 4, 0);
 
     assertThat(sll.isAbstract()).isTrue();
     assertThat(sll.getMinimumLength()).isEqualTo(4);
@@ -29,9 +29,9 @@ public class SMGSingleLinkedListTest {
   @Test
   public void matchGenericShapeTest() {
     SMGRegion prototype = new SMGRegion(128, "prototype");
-    SMGSingleLinkedList sll1 = new SMGSingleLinkedList(128, 0, 0, 4, 0);
-    SMGSingleLinkedList sll2 = new SMGSingleLinkedList(128, 0, 0, 7, 0);
-    SMGSingleLinkedList sll3 = new SMGSingleLinkedList(128, 0, 8, 4, 0);
+    SMGSingleLinkedList sll1 = SMGSingleLinkedList.forTesting(128, 0, 0, 4, 0);
+    SMGSingleLinkedList sll2 = SMGSingleLinkedList.forTesting(128, 0, 0, 7, 0);
+    SMGSingleLinkedList sll3 = SMGSingleLinkedList.forTesting(128, 0, 8, 4, 0);
 
     DummyAbstraction dummy = new DummyAbstraction(prototype);
 
@@ -44,9 +44,9 @@ public class SMGSingleLinkedListTest {
   @Test
   public void matchSpecificShapeTest() {
     SMGRegion prototype = new SMGRegion(128, "prototype");
-    SMGSingleLinkedList sll1 = new SMGSingleLinkedList(128, 0, 0, 4, 0);
-    SMGSingleLinkedList sll2 = new SMGSingleLinkedList(128, 0, 0, 7, 0);
-    SMGSingleLinkedList sll3 = new SMGSingleLinkedList(128, 0, 8, 4, 0);
+    SMGSingleLinkedList sll1 = SMGSingleLinkedList.forTesting(128, 0, 0, 4, 0);
+    SMGSingleLinkedList sll2 = SMGSingleLinkedList.forTesting(128, 0, 0, 7, 0);
+    SMGSingleLinkedList sll3 = SMGSingleLinkedList.forTesting(128, 0, 8, 4, 0);
 
     DummyAbstraction dummy = new DummyAbstraction(prototype);
 

@@ -1449,16 +1449,14 @@ final class SMGJoinValues {
             final SMGDoublyLinkedList dll = (SMGDoublyLinkedList) pList;
             nfo = dll.getNfo();
             pfo = dll.getPfo();
-            long hfo = dll.getHfo();
-            listCopy = new SMGDoublyLinkedList(pList.getSize(), hfo, nfo, pfo, 0, listLevel);
+            listCopy = dll.copy(0, listLevel);
             break;
           }
         case SLL:
           {
             final SMGSingleLinkedList sll = (SMGSingleLinkedList) pList;
             nfo = sll.getNfo();
-            long hfo = sll.getHfo();
-            listCopy = new SMGSingleLinkedList(pList.getSize(), hfo, nfo, 0, listLevel);
+            listCopy = sll.copy(0, listLevel);
             break;
           }
         default:

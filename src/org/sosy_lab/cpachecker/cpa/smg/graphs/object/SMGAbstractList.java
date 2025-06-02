@@ -14,21 +14,16 @@ public abstract class SMGAbstractList<S> extends SMGAbstractObject {
   private final S shape;
 
   protected SMGAbstractList(
-      long pSize, String label, int level, SMGObjectKind kind, S pShape, int pMinLength) {
-    super(pSize, label, level, kind, AllocationColor.COLORLESS);
+      long pSize,
+      String label,
+      int level,
+      SMGObjectKind kind,
+      AllocationColor pColor,
+      S pShape,
+      int pMinLength) {
+    super(pSize, label, level, kind, pColor);
     shape = pShape;
     minimumLength = pMinLength;
-  }
-
-  protected SMGAbstractList(SMGAbstractList<S> other) {
-    super(
-        other.getSize(),
-        other.getLabel(),
-        other.getLevel(),
-        other.getKind(),
-        AllocationColor.COLORLESS);
-    shape = other.shape;
-    minimumLength = other.minimumLength;
   }
 
   @Override

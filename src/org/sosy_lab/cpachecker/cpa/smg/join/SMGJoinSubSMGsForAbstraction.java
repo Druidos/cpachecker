@@ -23,7 +23,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGListCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -55,12 +54,9 @@ public final class SMGJoinSubSMGsForAbstraction {
       throws SMGInconsistentException {
 
     checkArgument(
-        obj1.getColor() == AllocationColor.COLORLESS,
-        "cannot abstract into list a colored object %s",
-        obj1);
-    checkArgument(
-        obj2.getColor() == AllocationColor.COLORLESS,
-        "cannot abstract into list a colored object %s",
+        obj1.getColor() == obj2.getColor(),
+        "cannot abstract into a list differently colored %s and %s",
+        obj1,
         obj2);
 
     PersistentSet<SMGObject> origObjects = smg.getObjects();
@@ -68,7 +64,6 @@ public final class SMGJoinSubSMGsForAbstraction {
 
     long nfo;
     long pfo;
-    long hfo;
 
     SMGEdgeHasValue prevObj1hve = null;
     SMGEdgeHasValue nextObj1hve = null;
@@ -78,14 +73,12 @@ public final class SMGJoinSubSMGsForAbstraction {
     if (pListCandidate instanceof SMGDoublyLinkedListCandidate dllc) {
       nfo = dllc.getShape().getNfo();
       pfo = dllc.getShape().getPfo();
-      hfo = dllc.getShape().getHfo();
 
       int lengthObj1 = getMinLength(obj1);
       int lengthObj2 = getMinLength(obj2);
 
       int length = lengthObj1 + lengthObj2;
-      SMGObject dll =
-          new SMGDoublyLinkedList(obj1.getSize(), hfo, nfo, pfo, length, obj1.getLevel());
+      SMGObject dll = new SMGDoublyLinkedList(obj1, obj1.getLevel(), dllc.getShape(), length);
       smg.addHeapObject(dll);
       newAbstractObject = dll;
 
@@ -122,14 +115,13 @@ public final class SMGJoinSubSMGsForAbstraction {
 
     } else {
       SMGSingleLinkedListCandidate sllc = (SMGSingleLinkedListCandidate) pListCandidate;
-      hfo = sllc.getShape().getHfo();
       nfo = sllc.getShape().getNfo();
 
       int lengthObj1 = getMinLength(obj1);
       int lengthObj2 = getMinLength(obj2);
 
       int length = lengthObj1 + lengthObj2;
-      SMGObject sll = new SMGSingleLinkedList(obj1.getSize(), hfo, nfo, length, obj1.getLevel());
+      SMGObject sll = new SMGSingleLinkedList(obj1, obj1.getLevel(), sllc.getShape(), length);
       smg.addHeapObject(sll);
       newAbstractObject = sll;
 

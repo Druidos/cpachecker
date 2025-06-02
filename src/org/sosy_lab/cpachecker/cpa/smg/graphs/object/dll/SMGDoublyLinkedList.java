@@ -8,6 +8,8 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll;
 
+import com.google.common.annotations.VisibleForTesting;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractList;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -15,19 +17,31 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectVisitor;
 
 public class SMGDoublyLinkedList extends SMGAbstractList<SMGDoublyLinkedListShape> {
 
-  public SMGDoublyLinkedList(
+  @VisibleForTesting
+  public static SMGDoublyLinkedList forTesting(
       long pSize, long pHfo, long pNfo, long pPfo, int pMinLength, int level) {
-    super(
+    return new SMGDoublyLinkedList(
         pSize,
         "dll",
         level,
-        SMGObjectKind.DLL,
+        AllocationColor.COLORLESS,
         new SMGDoublyLinkedListShape(pHfo, pPfo, pNfo),
         pMinLength);
   }
 
-  public SMGDoublyLinkedList(SMGDoublyLinkedList other) {
-    super(other);
+  public SMGDoublyLinkedList(
+      SMGObject pObject, int pLevel, SMGDoublyLinkedListShape pShape, int pMinLength) {
+    this(pObject.getSize(), pObject.getLabel(), pLevel, pObject.getColor(), pShape, pMinLength);
+  }
+
+  private SMGDoublyLinkedList(
+      long pBitsize,
+      String pLabel,
+      int pLevel,
+      AllocationColor pColor,
+      SMGDoublyLinkedListShape pShape,
+      int pMinLength) {
+    super(pBitsize, pLabel, pLevel, SMGObjectKind.DLL, pColor, pShape, pMinLength);
   }
 
   @Override
@@ -68,7 +82,7 @@ public class SMGDoublyLinkedList extends SMGAbstractList<SMGDoublyLinkedListShap
   }
 
   @Override
-  protected SMGDoublyLinkedList copy(int newLength, int newLevel) {
-    return new SMGDoublyLinkedList(getSize(), getHfo(), getNfo(), getPfo(), newLength, newLevel);
+  public SMGDoublyLinkedList copy(int newLength, int newLevel) {
+    return new SMGDoublyLinkedList(this, newLevel, getShape(), newLength);
   }
 }

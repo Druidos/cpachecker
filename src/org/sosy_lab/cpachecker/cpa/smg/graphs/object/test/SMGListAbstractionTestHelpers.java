@@ -80,9 +80,9 @@ public final class SMGListAbstractionTestHelpers {
       SMGObject list =
           switch (pLinkage) {
             case SINGLE_LINKED ->
-                new SMGSingleLinkedList(pSize, pHfo, pNfo, pMinLengths[i], pLevel);
+                SMGSingleLinkedList.forTesting(pSize, pHfo, pNfo, pMinLengths[i], pLevel);
             case DOUBLY_LINKED ->
-                new SMGDoublyLinkedList(pSize, pHfo, pNfo, pPfo, pMinLengths[i], pLevel);
+                SMGDoublyLinkedList.forTesting(pSize, pHfo, pNfo, pPfo, pMinLengths[i], pLevel);
           };
       pSmg.addHeapObject(list);
       lists[i] = list;
