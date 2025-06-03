@@ -27,6 +27,7 @@ import org.sosy_lab.cpachecker.core.waitlist.BranchBasedWeightedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.CallstackSortedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.DepthBasedWeightedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.ExplicitSortedWaitlist;
+import org.sosy_lab.cpachecker.core.waitlist.LocationSortedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.LoopIterationSortedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.LoopstackSortedWaitlist;
 import org.sosy_lab.cpachecker.core.waitlist.PostorderSortedWaitlist;
@@ -73,6 +74,14 @@ public class ReachedSetFactory {
           "handle states with a shallow callstack first"
               + "\nThis needs the CallstackCPA instance to have any effect.")
   private boolean useShallowCallstack = false;
+
+  @Option(
+      secure = true,
+      name = "traversal.useLocationVisitCount",
+      description =
+          "handle states with minimal number of visits to program location first"
+              + "\nThis needs the LocationCPA instance to have any effect.")
+  private boolean useLocationVisitCount = false;
 
   @Option(
       secure = true,
@@ -260,6 +269,9 @@ public class ReachedSetFactory {
     }
     if (useShallowCallstack) {
       waitlistFactory = ShallowCallstackSortedWaitlist.factory(waitlistFactory);
+    }
+    if (useLocationVisitCount) {
+      waitlistFactory = LocationSortedWaitlist.factory(waitlistFactory);
     }
     if (useExplicitInformation) {
       waitlistFactory = ExplicitSortedWaitlist.factory(waitlistFactory);

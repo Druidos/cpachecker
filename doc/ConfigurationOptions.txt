@@ -454,6 +454,10 @@ analysis.traversal.useCallstack = false
 # ExplicitCPA)
 analysis.traversal.useExplicitInformation = false
 
+# handle states with minimal number of visits to program location first
+# This needs the LocationCPA instance to have any effect.
+analysis.traversal.useLocationVisitCount = false
+
 # handle states with more loop iterations first.
 analysis.traversal.useLoopIterationCount = false
 
