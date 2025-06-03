@@ -140,4 +140,59 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2025-05-20T12:46:52.655103+03:00" hidden="true"/>
   </run>
+  <run name="test/programs/smg_color/colored_lists/wreath_colorful.yml" files="[test/programs/smg_color/colored_lists/wreath_colorful.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="7.824087058s"/>
+    <column title="memory" value="122249216B"/>
+    <column title="reached" value="188"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.085s"/>
+    <column title="transfer" value="1.087s"/>
+    <column title="walltime" value="7.876852609217167s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.824087058s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-06-03T08:51:12.781758+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_color/colored_lists/wreath_green_random.yml" files="[test/programs/smg_color/colored_lists/wreath_green_random.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.388342s"/>
+    <column title="memory" value="114032640B"/>
+    <column title="reached" value="274"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.089s"/>
+    <column title="transfer" value="0.311s"/>
+    <column title="walltime" value="2.402201048000279s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="2.136611" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-20T14:44:03.171112+03:00" hidden="true"/>
+  </run>
+  <run name="test/programs/smg_color/colored_lists/wreath_red_shifted.yml" files="[test/programs/smg_color/colored_lists/wreath_red_shifted.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.934577s"/>
+    <column title="memory" value="119226368B"/>
+    <column title="reached" value="676"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.257s"/>
+    <column title="transfer" value="0.565s"/>
+    <column title="walltime" value="2.949020975000167s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="2.701637" hidden="true"/>
+    <column title="pressure-io-some" value="0" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-05-20T14:44:05.704159+03:00" hidden="true"/>
+  </run>
 </result>

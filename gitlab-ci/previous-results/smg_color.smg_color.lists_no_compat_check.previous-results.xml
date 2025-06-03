@@ -44,4 +44,23 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2025-05-27T12:33:24.525893+00:00" hidden="true"/>
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
+  <run name="test/programs/smg_color/other_options/wreath_colorful_ignore_compat.yml" files="[test/programs/smg_color/colored_lists/wreath_colorful.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=false" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="60.754471s"/>
+    <column title="memory" value="273842176B"/>
+    <column title="reached" value="35140"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="47.738s"/>
+    <column title="transfer" value="9.015s"/>
+    <column title="walltime" value="60.77507139399995s"/>
+    <column title="blkio-read" value="716800B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="pressure-cpu-some" value="23.814236" hidden="true"/>
+    <column title="pressure-io-some" value="0.001044" hidden="true"/>
+    <column title="pressure-memory-some" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2025-06-03T12:08:41.694049+03:00" hidden="true"/>
+  </run>
 </result>
