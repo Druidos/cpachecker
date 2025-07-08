@@ -23,7 +23,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -85,16 +84,14 @@ final class SMGJoinSubSMGs {
 
     // Algorithm 4 from FIT-TR-2012-04, line 2 and 3 interleaved
     // TODO seems to be buggy, does not fully match the algorithm from TR.
-    SMGEdgeHasValueFilterByObject filterOnSMG1 = SMGEdgeHasValueFilter.objectFilter(pObj1);
-    SMGEdgeHasValueFilterByObject filterOnSMG2 = SMGEdgeHasValueFilter.objectFilter(pObj2);
     Map<SMGValue, List<SMGGenericAbstractionCandidate>> valueAbstractionCandidates =
         new HashMap<>();
     boolean allValuesDefined = true;
 
     int prevLevel = pLevelMap.get(SMGJoinLevel.valueOf(pObj1.getLevel(), pObj2.getLevel()));
 
-    SMGHasValueEdges hvEdgesIn1 = inputSMG1.getHVEdges(filterOnSMG1);
-    SMGHasValueEdges hvEdgesIn2 = inputSMG2.getHVEdges(filterOnSMG2);
+    SMGHasValueEdges hvEdgesIn1 = inputSMG1.getHVEdgesFrom(pObj1);
+    SMGHasValueEdges hvEdgesIn2 = inputSMG2.getHVEdgesFrom(pObj2);
     boolean edgesAreAdded = false;
     if (!hvEdgesIn1.isEmpty() && hvEdgesIn1.equals(hvEdgesIn2) && pObj1.equals(pNewObject)) {
       // Fast copy edges

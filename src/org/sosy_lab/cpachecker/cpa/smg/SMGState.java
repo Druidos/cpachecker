@@ -56,7 +56,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
@@ -538,7 +537,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     Set<SMGEdgePointsTo> pointer = SMGUtils.getPointerToThisObject(pOptionalObject, heap);
 
-    SMGHasValueEdges fields = getHVEdges(SMGEdgeHasValueFilter.objectFilter(pOptionalObject));
+    SMGHasValueEdges fields = getHVEdgesFrom(pOptionalObject);
 
     heap.markHeapObjectDeletedAndRemoveEdges(pOptionalObject);
 
@@ -567,7 +566,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     Set<SMGEdgePointsTo> pointer = SMGUtils.getPointerToThisObject(pOptionalObject, heap);
 
-    SMGHasValueEdges fields = getHVEdges(SMGEdgeHasValueFilter.objectFilter(pOptionalObject));
+    SMGHasValueEdges fields = getHVEdgesFrom(pOptionalObject);
 
     SMGObject newObject = SMGRegion.materialize(pOptionalObject);
 
@@ -717,7 +716,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     Iterable<SMGEdgeHasValue> oldSllFieldsToOldRegion =
         heap.getHVEdges(
-            SMGEdgeHasValueFilter.objectFilter(pListSeg)
+            new SMGEdgeHasValueFilter()
+                .filterByObject(pListSeg)
                 .filterAtOffset(nfo)
                 .filterBySize(sizeOfVoidPointerInBits));
     SMGValue oldPointerToRegion = readValue(pListSeg, nfo, sizeOfVoidPointerInBits).getObject();
@@ -728,7 +728,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     SMGValue oldPointerToSll = pPointerToAbstractObject.getValue();
 
-    SMGHasValueEdges oldFieldsEdges = heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pListSeg));
+    SMGHasValueEdges oldFieldsEdges = heap.getHVEdgesFrom(pListSeg);
     Set<SMGEdgePointsTo> oldPtEdges = SMGUtils.getPointerToThisObject(pListSeg, heap);
 
     heap.removePointsToEdge(oldPointerToSll);
@@ -843,7 +843,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     Iterable<SMGEdgeHasValue> oldDllFieldsToOldRegion =
         heap.getHVEdges(
-            SMGEdgeHasValueFilter.objectFilter(pListSeg)
+            new SMGEdgeHasValueFilter()
+                .filterByObject(pListSeg)
                 .filterAtOffset(offsetPointingToRegion)
                 .filterWithoutSize());
     SMGValue oldPointerToRegion =
@@ -868,7 +869,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.removePointsToEdge(oldPointerToDll);
 
-    SMGHasValueEdges oldFieldsEdges = heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pListSeg));
+    SMGHasValueEdges oldFieldsEdges = heap.getHVEdgesFrom(pListSeg);
     Set<SMGEdgePointsTo> oldPtEdges = SMGUtils.getPointerToThisObject(pListSeg, heap);
 
     heap.markHeapObjectDeletedAndRemoveEdges(pListSeg);
@@ -943,7 +944,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     newObjectMap.put(pRoot, pNewRegion);
 
-    for (SMGEdgeHasValue hve : heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pRoot))) {
+    for (SMGEdgeHasValue hve : heap.getHVEdgesFrom(pRoot)) {
       boolean restricted = false;
       for (SMGEdgeHasValue restriction : pRestrictions) {
         if (restriction.overlapsWith(hve)) {
@@ -1055,7 +1056,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       Map<SMGValue, SMGValue> newValueMap) {
 
     SMGObject newObj = newObjectMap.get(pObjToCheck);
-    for (SMGEdgeHasValue hve : heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObjToCheck))) {
+    for (SMGEdgeHasValue hve : heap.getHVEdgesFrom(pObjToCheck)) {
       SMGValue subDlsValue = hve.getValue();
       SMGValue newVal = subDlsValue;
 
@@ -1114,7 +1115,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     reached.add(pRoot);
 
-    for (SMGEdgeHasValue hve : heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pRoot))) {
+    for (SMGEdgeHasValue hve : heap.getHVEdgesFrom(pRoot)) {
       if (!pRestriction.contains(hve.getOffset())) {
 
         SMGValue subDlsValue = hve.getValue();
@@ -1159,7 +1160,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   private void removeRestrictedSubSmg(
       SMGObject pObjToCheck, Set<SMGObject> pToBeChecked, Set<SMGObject> reached) {
 
-    for (SMGEdgeHasValue hve : heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObjToCheck))) {
+    for (SMGEdgeHasValue hve : heap.getHVEdgesFrom(pObjToCheck)) {
       SMGValue subDlsValue = hve.getValue();
 
       if (heap.isPointer(subDlsValue)) {
@@ -1248,7 +1249,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     }
 
     SMGEdgeHasValueFilter filter =
-        SMGEdgeHasValueFilter.objectFilter(pObject)
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObject)
             .filterAtOffset(pOffset)
             .filterBySize(pSizeInBits);
     Iterable<SMGEdgeHasValue> matchingEdges = heap.getHVEdges(filter);
@@ -1403,8 +1405,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGEdgeHasValue new_edge = new SMGEdgeHasValue(pSizeInBits, pOffset, pObject, pValue);
 
     // Check if the edge is  not present already
-    SMGEdgeHasValueFilter filter =
-        SMGEdgeHasValueFilter.objectFilter(pObject).overlapsWith(new_edge);
+    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter().overlapsWith(new_edge);
 
     Iterable<SMGEdgeHasValue> overlappingEdges = heap.getHVEdges(filter);
     if (Iterables.contains(overlappingEdges, new_edge)) {
@@ -1835,9 +1836,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     heap.setValidity(smgObject, false);
     heap.setExternallyAllocatedFlag(smgObject, false);
-    SMGEdgeHasValueFilterByObject filter = SMGEdgeHasValueFilter.objectFilter(smgObject);
 
-    for (SMGEdgeHasValue edge : heap.getHVEdges(filter)) {
+    for (SMGEdgeHasValue edge : heap.getHVEdgesFrom(smgObject)) {
       heap.removeHasValueEdge(edge);
     }
 
@@ -1958,8 +1958,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     return heap.getHVEdges(pFilter);
   }
 
-  SMGHasValueEdges getHVEdges(SMGEdgeHasValueFilterByObject pFilter) {
-    return heap.getHVEdges(pFilter);
+  SMGHasValueEdges getHVEdgesFrom(SMGObject pObject) {
+    return heap.getHVEdgesFrom(pObject);
   }
 
   /**
@@ -2010,11 +2010,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     long targetRangeSize = pTargetOffset + copyRange;
 
-    SMGEdgeHasValueFilterByObject filterSource = SMGEdgeHasValueFilter.objectFilter(pSource);
-    SMGEdgeHasValueFilterByObject filterTarget = SMGEdgeHasValueFilter.objectFilter(pTarget);
-
     // Remove all target edges in range
-    for (SMGEdgeHasValue edge : getHVEdges(filterTarget)) {
+    for (SMGEdgeHasValue edge : getHVEdgesFrom(pTarget)) {
       if (edge.overlapsWith(pTargetOffset, targetRangeSize)) {
         heap.removeHasValueEdge(edge);
 
@@ -2044,7 +2041,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     // Shift the source edge offset depending on the target range offset
     long copyShift = pTargetOffset - pSourceOffset;
-    for (SMGEdgeHasValue edge : getHVEdges(filterSource)) {
+    for (SMGEdgeHasValue edge : getHVEdgesFrom(pSource)) {
       SMGValue newValue = edge.getValue();
       if (edge.overlapsWith(pSourceOffset, pSourceLastCopyBitOffset)) {
         long newSize = edge.getSizeInBits();
@@ -2482,7 +2479,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   }
 
   public void writeUnknownValueInUnknownField(SMGObject target) {
-    heap.getHVEdges(SMGEdgeHasValueFilter.objectFilter(target)).forEach(heap::removeHasValueEdge);
+    heap.getHVEdgesFrom(target).forEach(heap::removeHasValueEdge);
   }
 
   public void clearObjects() {

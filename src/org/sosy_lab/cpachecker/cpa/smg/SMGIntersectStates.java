@@ -18,7 +18,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -248,7 +247,7 @@ public final class SMGIntersectStates {
     destSMG.addHeapObject(pObject);
     pMapping.map(pObject, pObject);
 
-    for (SMGEdgeHasValue hve : pSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject))) {
+    for (SMGEdgeHasValue hve : pSmg.getHVEdgesFrom(pObject)) {
       intersectHveEdgeWithTop(hve, pSmg, pSmgState, pMapping);
     }
   }
@@ -256,8 +255,8 @@ public final class SMGIntersectStates {
   private boolean intersectPairFields(
       SMGObject pObject1, SMGObject pObject2, SMGObject pDestObject) {
 
-    SMGHasValueEdges hves1 = heap1.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject1));
-    SMGHasValueEdges hves2 = heap2.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject2));
+    SMGHasValueEdges hves1 = heap1.getHVEdgesFrom(pObject1);
+    SMGHasValueEdges hves2 = heap2.getHVEdgesFrom(pObject2);
 
     Map<Long, SMGEdgeHasValue> offsetToHve1Map =
         Maps.uniqueIndex(hves1, SMGEdgeHasValue::getOffset);

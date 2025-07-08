@@ -20,7 +20,6 @@ import java.util.Set;
 import org.sosy_lab.cpachecker.cpa.smg.CLangStackFrame;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -126,8 +125,7 @@ public class SMGMemoryPathCollector {
     Map<Long, SMGObject> offsetToRegion = new HashMap<>();
     Map<Long, SMGMemoryPath> offsetToParent = new HashMap<>();
 
-    for (SMGEdgeHasValue objectHve :
-        smg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pSmgObject))) {
+    for (SMGEdgeHasValue objectHve : smg.getHVEdgesFrom(pSmgObject)) {
       SMGValue value = objectHve.getValue();
       long offset = objectHve.getOffset();
 
@@ -223,8 +221,7 @@ public class SMGMemoryPathCollector {
     Map<Long, SMGObject> offsetToRegion = new HashMap<>();
     Map<Long, SMGMemoryPath> offsetToParent = new HashMap<>();
 
-    for (SMGEdgeHasValue objectHve :
-        smg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pSmgObject))) {
+    for (SMGEdgeHasValue objectHve : smg.getHVEdgesFrom(pSmgObject)) {
       SMGValue value = objectHve.getValue();
 
       if (!smg.isPointer(value)) {

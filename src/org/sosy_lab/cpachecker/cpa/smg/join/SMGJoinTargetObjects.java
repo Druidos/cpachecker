@@ -21,7 +21,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll.SMGDoublyLinkedList;
@@ -247,7 +246,7 @@ final class SMGJoinTargetObjects {
     Set<SMGObject> toCheck = new HashSet<>();
 
     pMapping.removeValue(targetObject);
-    SMGHasValueEdges hves = destSMG.getHVEdges(SMGEdgeHasValueFilter.objectFilter(targetObject));
+    SMGHasValueEdges hves = destSMG.getHVEdgesFrom(targetObject);
 
     destSMG.markObjectDeletedAndRemoveEdges(targetObject);
 
@@ -304,8 +303,7 @@ final class SMGJoinTargetObjects {
       SMGNodeMapping pMapping) {
 
     pMapping.removeValue(pObjToCheck);
-    for (SMGEdgeHasValue hve :
-        destSMG.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObjToCheck))) {
+    for (SMGEdgeHasValue hve : destSMG.getHVEdgesFrom(pObjToCheck)) {
       SMGValue val = hve.getValue();
 
       if (!val.isZero()) {

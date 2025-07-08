@@ -85,25 +85,29 @@ public final class SMGJoinSubSMGsForAbstraction {
       prevObj1hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj1)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj1)
                       .filterAtOffset(pfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
       nextObj1hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj1)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj1)
                       .filterAtOffset(nfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
       prevObj2hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj2)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj2)
                       .filterAtOffset(pfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
       nextObj2hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj2)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj2)
                       .filterAtOffset(nfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
 
@@ -128,13 +132,15 @@ public final class SMGJoinSubSMGsForAbstraction {
       nextObj1hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj1)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj1)
                       .filterAtOffset(nfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
       nextObj2hve =
           Iterables.getOnlyElement(
               smg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(obj2)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(obj2)
                       .filterAtOffset(nfo)
                       .filterBySize(smg.getSizeofPtrInBits())));
 

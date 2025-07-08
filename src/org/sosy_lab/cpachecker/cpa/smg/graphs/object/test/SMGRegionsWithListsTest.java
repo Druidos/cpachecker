@@ -113,7 +113,7 @@ public class SMGRegionsWithListsTest {
 
     SMGListAbstractionTestHelpers.executeHeapAbstractionWithConsistencyChecks(state, smg);
 
-    SMGHasValueEdges hvs = smg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(globalListPointer));
+    SMGHasValueEdges hvs = smg.getHVEdgesFrom(globalListPointer);
     assertThat(hvs).hasSize(1);
 
     SMGEdgePointsTo pt = smg.getPointer(Iterables.getOnlyElement(hvs).getValue());
@@ -124,7 +124,8 @@ public class SMGRegionsWithListsTest {
 
     Iterable<SMGEdgeHasValue> dataFieldSet =
         smg.getHVEdges(
-            SMGEdgeHasValueFilter.objectFilter(abstractionResult)
+            new SMGEdgeHasValueFilter()
+                .filterByObject(abstractionResult)
                 .filterAtOffset(dfo)
                 .filterWithoutSize());
     assertThat(dataFieldSet).hasSize(1);

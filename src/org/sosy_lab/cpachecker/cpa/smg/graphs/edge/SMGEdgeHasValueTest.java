@@ -137,7 +137,7 @@ public class SMGEdgeHasValueTest {
     SMGEdgeHasValue hv12at0 = new SMGEdgeHasValue(mockTypeSize, 0, object1, value2);
 
     Predicate<SMGEdgeHasValue> predicate =
-        SMGEdgeHasValueFilter.objectFilter(object1).filterHavingValue(value1)::holdsFor;
+        new SMGEdgeHasValueFilter().filterByObject(object1).filterHavingValue(value1)::holdsFor;
 
     assertThat(predicate.apply(hv11at0)).isTrue();
     assertThat(predicate.apply(hv12at0)).isFalse();

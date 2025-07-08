@@ -73,7 +73,8 @@ public class SMGJoinSubSMGsForAbstractionTest {
     SMGEdgeHasValue nextEdge =
         Iterables.getOnlyElement(
             smg.getHVEdges(
-                SMGEdgeHasValueFilter.objectFilter(firstObject)
+                new SMGEdgeHasValueFilter()
+                    .filterByObject(firstObject)
                     .filterAtOffset(nfo)
                     .filterWithoutSize()));
     SMGObject secondObject = smg.getObjectPointedBy(nextEdge.getValue());

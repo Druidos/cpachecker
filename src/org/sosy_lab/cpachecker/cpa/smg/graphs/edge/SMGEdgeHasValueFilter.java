@@ -10,7 +10,6 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -43,31 +42,6 @@ public class SMGEdgeHasValueFilter {
     sizeInBits = pFilter.sizeInBits;
     sizeNotRequired = pFilter.sizeNotRequired;
     overlapsWith = pFilter.overlapsWith;
-  }
-
-  public static class SMGEdgeHasValueFilterByObject extends SMGEdgeHasValueFilter {
-    @CanIgnoreReturnValue
-    @VisibleForTesting
-    @Override
-    public SMGEdgeHasValueFilterByObject filterByObject(SMGObject pObject) {
-      object = pObject;
-      return this;
-    }
-
-    @Override
-    public SMGHasValueEdges filter(SMGHasValueEdges pEdges) {
-      SMGHasValueEdges filtered;
-      if (object != null) {
-        filtered = pEdges.getEdgesForObject(object);
-      } else {
-        filtered = pEdges.getHvEdges();
-      }
-      return filtered;
-    }
-  }
-
-  public static SMGEdgeHasValueFilterByObject objectFilter(SMGObject pObject) {
-    return new SMGEdgeHasValueFilterByObject().filterByObject(pObject);
   }
 
   public static SMGEdgeHasValueFilter readParamsFilter(SMGReadParams pParams) {
@@ -190,13 +164,10 @@ public class SMGEdgeHasValueFilter {
   }
 
   public Iterable<SMGEdgeHasValue> filter(SMGHasValueEdges pEdges) {
-    SMGHasValueEdges filtered;
     if (object != null) {
-      filtered = pEdges.getEdgesForObject(object);
-    } else {
-      filtered = pEdges.getHvEdges();
+      pEdges = pEdges.getEdgesForObject(object);
     }
-    return filtered.filter(this);
+    return pEdges.filter(this);
   }
 
   public static SMGEdgeHasValueFilter valueFilter(SMGValue pValue) {

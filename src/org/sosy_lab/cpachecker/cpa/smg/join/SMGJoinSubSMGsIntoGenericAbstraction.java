@@ -738,7 +738,7 @@ public class SMGJoinSubSMGsIntoGenericAbstraction {
       }
     }
 
-    SMGHasValueEdges fieldsOfRegion = SMGUtils.getFieldsOfObject(region, pInputSMG);
+    SMGHasValueEdges fieldsOfRegion = pInputSMG.getHVEdgesFrom(region);
     FieldsOfTemplate fieldsOfTemplate = matStep.getFieldsOfThisTemplate(pTemplate);
 
     if (fieldsOfRegion.size() != fieldsOfTemplate.size()) {

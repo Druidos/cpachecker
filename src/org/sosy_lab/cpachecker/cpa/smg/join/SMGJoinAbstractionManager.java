@@ -102,8 +102,8 @@ public class SMGJoinAbstractionManager {
 
     SMGRegion root = (SMGRegion) destObject;
 
-    SMGHasValueEdges fieldsOfObject1 = SMGUtils.getFieldsOfObject(smgObject1, inputSMG1);
-    SMGHasValueEdges fieldsOfObject2 = SMGUtils.getFieldsOfObject(smgObject2, inputSMG2);
+    SMGHasValueEdges fieldsOfObject1 = inputSMG1.getHVEdgesFrom(smgObject1);
+    SMGHasValueEdges fieldsOfObject2 = inputSMG2.getHVEdgesFrom(smgObject2);
 
     FieldsOfObjectsComparison fieldsOfObjectsComparison =
         assignToSharedPPointerAndNonSharedOPointerAndSharedNonPointer(

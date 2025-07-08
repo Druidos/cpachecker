@@ -34,7 +34,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
@@ -362,7 +361,7 @@ public class SMGStateTest {
     SMGObject concreteRegion = newSMG.getObjectPointedBy(value6);
 
     // after materialisation prev and data edges should be present
-    SMGEdgeHasValueFilter regFilter = SMGEdgeHasValueFilter.objectFilter(concreteRegion);
+    SMGEdgeHasValueFilter regFilter = new SMGEdgeHasValueFilter().filterByObject(concreteRegion);
     SMGEdgeHasValue newNextField =
         Iterables.getOnlyElement(
             newSMG.getHVEdges(regFilter.filterAtOffset(nfo).filterWithoutSize()));
@@ -375,7 +374,7 @@ public class SMGStateTest {
 
     // next of new region should point to new dll
     SMGObject newDll = newSMG.getPointer(newNextField.getValue()).getObject();
-    SMGEdgeHasValueFilter newDllFilter = SMGEdgeHasValueFilter.objectFilter(newDll);
+    SMGEdgeHasValueFilter newDllFilter = new SMGEdgeHasValueFilter().filterByObject(newDll);
     SMGEdgeHasValue newDllPrevField =
         Iterables.getOnlyElement(
             newSMG.getHVEdges(newDllFilter.filterAtOffset(pfo).filterWithoutSize()));
@@ -440,7 +439,7 @@ public class SMGStateTest {
     SMGObject concreteRegion = newSMG.getObjectPointedBy(value6);
 
     // after materialisation also the next edge and the second data edge should be present
-    SMGEdgeHasValueFilter regFilter = SMGEdgeHasValueFilter.objectFilter(concreteRegion);
+    SMGEdgeHasValueFilter regFilter = new SMGEdgeHasValueFilter().filterByObject(concreteRegion);
     SMGEdgeHasValue dataFieldBeforeNext =
         Iterables.getOnlyElement(
             newSMG.getHVEdges(regFilter.filterAtOffset(dfo1).filterWithoutSize()));
@@ -578,16 +577,15 @@ public class SMGStateTest {
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
 
     // Check the object values and assert it has only the written 16b value
-    SMGEdgeHasValueFilterByObject filter = SMGEdgeHasValueFilter.objectFilter(pt.getObject());
 
-    SMGHasValueEdges values_for_obj = state.getHVEdges(filter);
+    SMGHasValueEdges values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(hv);
 
     // Write a same 16b value into it and assert that the state did not change
     state.writeValue(pt.getObject(), 0, mockSize16b, new_value);
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(filter);
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(hv);
 
@@ -596,7 +594,7 @@ public class SMGStateTest {
     SMGEdgeHasValue new_hv =
         state.writeValue(pt.getObject(), 0, mockSize16b, newer_value).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(filter);
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(new_hv);
     assertThat(values_for_obj).doesNotContain(hv);
@@ -605,7 +603,7 @@ public class SMGStateTest {
     SMGEdgeHasValue hv8at0 =
         state.writeValue(pt.getObject(), 0, mockSize8b, new_value).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(filter);
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(hv8at0);
 
@@ -613,7 +611,7 @@ public class SMGStateTest {
     SMGEdgeHasValue hv8at8 =
         state.writeValue(pt.getObject(), 8, mockSize8b, new_value).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(filter);
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(2);
     assertThat(values_for_obj).contains(hv8at0);
     assertThat(values_for_obj).contains(hv8at8);
@@ -622,7 +620,7 @@ public class SMGStateTest {
     SMGEdgeHasValue hv8at4 =
         state.writeValue(pt.getObject(), 4, mockSize8b, new_value).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(filter);
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(hv8at4);
     assertThat(values_for_obj).doesNotContain(hv8at0);
@@ -645,8 +643,7 @@ public class SMGStateTest {
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
 
     // Check the object values and assert it has only the written 16b value
-    SMGHasValueEdges values_for_obj =
-        state.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pt.getObject()));
+    SMGHasValueEdges values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(1);
     assertThat(values_for_obj).contains(hv);
 
@@ -655,7 +652,7 @@ public class SMGStateTest {
     SMGEdgeHasValue hv8at4 =
         state.writeValue(pt.getObject(), 4, mockSize8b, SMGUnknownValue.INSTANCE).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pt.getObject()));
+    values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(3);
     assertThat(values_for_obj).contains(hv8at4);
     assertThat(values_for_obj)
@@ -664,7 +661,8 @@ public class SMGStateTest {
         .contains(new SMGEdgeHasValue(4, 12, pt.getObject(), SMGZeroValue.INSTANCE));
 
     SMGEdgeHasValueFilter nullFilter =
-        SMGEdgeHasValueFilter.objectFilter(pt.getObject())
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pt.getObject())
             .filterHavingValue(SMGZeroValue.INSTANCE)
             .filterWithoutSize();
     Iterable<SMGEdgeHasValue> nulls_for_value = state.getHVEdges(nullFilter);

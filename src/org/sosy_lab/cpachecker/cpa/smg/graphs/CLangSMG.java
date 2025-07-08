@@ -294,7 +294,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     while (!workqueue.isEmpty()) {
       SMGObject processed = workqueue.remove();
       if (isObjectExternallyAllocated(processed)) {
-        for (SMGEdgeHasValue outbound : getHVEdges(SMGEdgeHasValueFilter.objectFilter(processed))) {
+        for (SMGEdgeHasValue outbound : getHVEdgesFrom(processed)) {
           SMGObject pointedObject = getObjectPointedBy(outbound.getValue());
           if (objects.contains(pointedObject) && !isObjectExternallyAllocated(pointedObject)) {
             setExternallyAllocatedFlag(pointedObject, true);
@@ -320,7 +320,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
       if (seenObjects.add(obj)) {
         // traverse on valid objects only
         if (isObjectValid(obj)) {
-          for (SMGEdgeHasValue outbound : getHVEdges(SMGEdgeHasValueFilter.objectFilter(obj))) {
+          for (SMGEdgeHasValue outbound : getHVEdgesFrom(obj)) {
             SMGObject pointedObject = getObjectPointedBy(outbound.getValue());
             if (pointedObject != null) {
               workqueue.add(pointedObject);
@@ -449,8 +449,10 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
               || isStackObject(smgObject));
     } else if (elem instanceof SMGEdgeHasValue) {
       SMGEdgeHasValue edgeHasValue = (SMGEdgeHasValue) elem;
+      SMGObject object1 = edgeHasValue.getObject();
       SMGEdgeHasValueFilter filter =
-          SMGEdgeHasValueFilter.objectFilter(edgeHasValue.getObject())
+          new SMGEdgeHasValueFilter()
+              .filterByObject(object1)
               .filterAtOffset(edgeHasValue.getOffset())
               .filterHavingValue(edgeHasValue.getValue())
               .filterBySize(edgeHasValue.getSizeInBits());
@@ -572,7 +574,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
       final long offset = offsets.get(i);
 
       Iterable<SMGEdgeHasValue> hves =
-          getHVEdges(SMGEdgeHasValueFilter.objectFilter(object).filterAtOffset(offset));
+          getHVEdges(new SMGEdgeHasValueFilter().filterByObject(object).filterAtOffset(offset));
       if (!hves.iterator().hasNext()) {
         return Optional.empty();
       }
@@ -708,7 +710,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
    */
   private SMGStateInformation createStateInfo(SMGObject pObj) {
 
-    SMGHasValueEdges hves = getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj));
+    SMGHasValueEdges hves = getHVEdgesFrom(pObj);
     Set<SMGEdgePointsTo> ptes = getPtEdges(SMGEdgePointsToFilter.targetObjectFilter(pObj));
     Set<SMGEdgePointsTo> resultPtes = new LinkedHashSet<>(ptes);
 

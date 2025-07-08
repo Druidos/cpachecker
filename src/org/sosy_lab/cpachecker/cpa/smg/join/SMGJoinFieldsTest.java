@@ -23,8 +23,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -122,8 +120,7 @@ public class SMGJoinFieldsTest {
   private void checkFields(
       UnmodifiableSMG pSmg, Map<Long, Pair<SMGValue, Integer>> pFieldMap, SMGObject pObj) {
 
-    SMGEdgeHasValueFilterByObject filterOnSMG = SMGEdgeHasValueFilter.objectFilter(pObj);
-    SMGHasValueEdges edges = pSmg.getHVEdges(filterOnSMG);
+    SMGHasValueEdges edges = pSmg.getHVEdgesFrom(pObj);
 
     assertThat(edges).hasSize(pFieldMap.size());
 
@@ -296,8 +293,7 @@ public class SMGJoinFieldsTest {
     boolean seenZero = false;
     boolean seenTwo = false;
 
-    SMGEdgeHasValueFilterByObject filter = SMGEdgeHasValueFilter.objectFilter(object);
-    for (SMGEdgeHasValue edge : filter.filter(hvSet)) {
+    for (SMGEdgeHasValue edge : hvSet.getEdgesForObject(object)) {
       if (edge.getOffset() == 0) {
         seenZero = true;
       } else if (edge.getOffset() == 32) {
@@ -331,13 +327,13 @@ public class SMGJoinFieldsTest {
     SMGJoinFields jf = new SMGJoinFields(smg1.copyOf(), smg2.copyOf(), obj1, obj2);
     UnmodifiableSMG resultSMG = jf.getSMG2();
 
-    SMGHasValueEdges edges = resultSMG.getHVEdges(SMGEdgeHasValueFilter.objectFilter(obj2));
+    SMGHasValueEdges edges = resultSMG.getHVEdgesFrom(obj2);
     assertThat(edges.isEmpty()).isFalse();
 
     jf = new SMGJoinFields(smg2.copyOf(), smg1.copyOf(), obj2, obj1);
     resultSMG = jf.getSMG1();
 
-    edges = resultSMG.getHVEdges(SMGEdgeHasValueFilter.objectFilter(obj2));
+    edges = resultSMG.getHVEdgesFrom(obj2);
     assertThat(edges.isEmpty()).isFalse();
   }
 

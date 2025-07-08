@@ -84,22 +84,22 @@ class SMGJoinFields {
       UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2) {
     SMGHasValueEdges returnSet = new SMGHasValueEdgeSet();
 
-    if (pSMG1
-        .getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj1))
-        .equals(pSMG2.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj2)))) {
+    if (pSMG1.getHVEdgesFrom(pObj1).equals(pSMG2.getHVEdgesFrom(pObj2))) {
       return returnSet;
     }
 
     SMGEdgeHasValueFilter filterForSMG1 =
-        SMGEdgeHasValueFilter.objectFilter(pObj1).filterNotHavingValue(SMGZeroValue.INSTANCE);
-    SMGEdgeHasValueFilter filterForSMG2 = SMGEdgeHasValueFilter.objectFilter(pObj2);
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj1)
+            .filterNotHavingValue(SMGZeroValue.INSTANCE);
 
     for (SMGEdgeHasValue edge : pSMG1.getHVEdges(filterForSMG1)) {
       if (!pSMG2
           .getHVEdges(
-              filterForSMG2.overlapsWith(
-                  new SMGEdgeHasValue(
-                      edge.getSizeInBits(), edge.getOffset(), pObj2, edge.getValue())))
+              new SMGEdgeHasValueFilter()
+                  .overlapsWith(
+                      new SMGEdgeHasValue(
+                          edge.getSizeInBits(), edge.getOffset(), pObj2, edge.getValue())))
           .iterator()
           .hasNext()) {
         returnSet =
@@ -153,13 +153,13 @@ class SMGJoinFields {
   static void setCompatibleHVEdgesToSMG(
       SMG pSMG, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2) {
 
-    if (pSMG.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj1))
-        .equals(pSMG2.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj2)))) {
+    if (pSMG.getHVEdgesFrom(pObj1).equals(pSMG2.getHVEdgesFrom(pObj2))) {
       return;
     }
 
     SMGEdgeHasValueFilter nullValueFilter =
-        SMGEdgeHasValueFilter.objectFilter(pObj1)
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj1)
             .filterHavingValue(SMGZeroValue.INSTANCE)
             .filterWithoutSize();
     Iterable<SMGEdgeHasValue> edgesToRemove = pSMG.getHVEdges(nullValueFilter);
@@ -190,9 +190,13 @@ class SMGJoinFields {
     Set<SMGEdgeHasValue> retset = new LinkedHashSet<>();
 
     SMGEdgeHasValueFilter nonNullPtrInSmg2 =
-        SMGEdgeHasValueFilter.objectFilter(pObj2).filterNotHavingValue(SMGZeroValue.INSTANCE);
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj2)
+            .filterNotHavingValue(SMGZeroValue.INSTANCE);
     SMGEdgeHasValueFilter nonNullPtrInSmg1 =
-        SMGEdgeHasValueFilter.objectFilter(pObj1).filterNotHavingValue(SMGZeroValue.INSTANCE);
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj1)
+            .filterNotHavingValue(SMGZeroValue.INSTANCE);
 
     for (SMGEdgeHasValue edge : pSMG2.getHVEdges(nonNullPtrInSmg2)) {
       nonNullPtrInSmg1 = nonNullPtrInSmg1.filterAtOffset(edge.getOffset());
@@ -259,7 +263,8 @@ class SMGJoinFields {
       long start = edgeInSMG1.getOffset();
       long byte_after_end = start + edgeInSMG1.getSizeInBits();
       SMGEdgeHasValueFilter filter =
-          SMGEdgeHasValueFilter.objectFilter(pObj2)
+          new SMGEdgeHasValueFilter()
+              .filterByObject(pObj2)
               .filterAtOffset(edgeInSMG1.getOffset())
               .filterBySize(edgeInSMG1.getSizeInBits());
       Iterable<SMGEdgeHasValue> hvInSMG2Set = pSMG2.getHVEdges(filter);
@@ -287,11 +292,13 @@ class SMGJoinFields {
       UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2)
       throws SMGInconsistentException {
     SMGEdgeHasValueFilter nullEdges1 =
-        SMGEdgeHasValueFilter.objectFilter(pObj1)
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj1)
             .filterHavingValue(SMGZeroValue.INSTANCE)
             .filterWithoutSize();
     SMGEdgeHasValueFilter nullEdges2 =
-        SMGEdgeHasValueFilter.objectFilter(pObj2)
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj2)
             .filterHavingValue(SMGZeroValue.INSTANCE)
             .filterWithoutSize();
     NavigableMap<Long, Long> nullEdgesInSMG1 = pSMG1.getNullEdgesMapOffsetToSizeForObject(pObj1);
@@ -299,11 +306,13 @@ class SMGJoinFields {
 
     if (Iterables.size(
             pSMG1.getHVEdges(
-                SMGEdgeHasValueFilter.objectFilter(pObj1)
+                new SMGEdgeHasValueFilter()
+                    .filterByObject(pObj1)
                     .filterNotHavingValue(SMGZeroValue.INSTANCE)))
         != Iterables.size(
             pSMG2.getHVEdges(
-                SMGEdgeHasValueFilter.objectFilter(pObj2)
+                new SMGEdgeHasValueFilter()
+                    .filterByObject(pObj2)
                     .filterNotHavingValue(SMGZeroValue.INSTANCE)))) {
       throw new SMGInconsistentException(
           "SMGJoinFields output assertion does not hold: the objects do not have identical sets of"

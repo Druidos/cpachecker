@@ -219,7 +219,8 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   @Override
   public boolean contains(SMGEdgeHasValue pHv) {
     SMGEdgeHasValueFilter filter =
-        SMGEdgeHasValueFilter.objectFilter(pHv.getObject())
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pHv.getObject())
             .filterAtOffset(pHv.getOffset())
             .filterHavingValue(pHv.getValue())
             .filterBySize(pHv.getSizeInBits());

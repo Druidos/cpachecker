@@ -72,7 +72,8 @@ class SMGJoinDllProgress
       SMGEdgeHasValue nextHveEdge =
           Iterables.getOnlyElement(
               pSMG.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(nextObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(nextObject)
                       .filterAtOffset(pCandidate.getShape().getNfo())
                       .filterBySize(pSMG.getSizeofPtrInBits())));
       nextObject = pSMG.getPointer(nextHveEdge.getValue()).getObject();

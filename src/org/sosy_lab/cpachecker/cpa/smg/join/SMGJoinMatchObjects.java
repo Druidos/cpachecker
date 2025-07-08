@@ -14,7 +14,6 @@ import java.util.Iterator;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -62,8 +61,8 @@ final class SMGJoinMatchObjects {
       UnmodifiableSMG pSMG1,
       UnmodifiableSMG pSMG2) {
 
-    SMGHasValueEdges edges1 = pSMG1.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj1));
-    SMGHasValueEdges edges2 = pSMG2.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObj2));
+    SMGHasValueEdges edges1 = pSMG1.getHVEdgesFrom(pObj1);
+    SMGHasValueEdges edges2 = pSMG2.getHVEdgesFrom(pObj2);
     Iterator<SMGEdgeHasValue> iterator2 = edges2.iterator();
     SMGEdgeHasValue hv2 = iterator2.hasNext() ? iterator2.next() : null;
 

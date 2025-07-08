@@ -102,7 +102,7 @@ public abstract class SMGAbstractionFinder {
 
     pObjects.add(pObject);
 
-    for (SMGEdgeHasValue hve : inputSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject))) {
+    for (SMGEdgeHasValue hve : inputSmg.getHVEdgesFrom(pObject)) {
       if (check.test(hve)) {
 
         SMGValue subSmgValue = hve.getValue();
@@ -139,8 +139,7 @@ public abstract class SMGAbstractionFinder {
       Set<SMGObject> pObjects,
       Set<SMGValue> pValues) {
 
-    for (SMGEdgeHasValue hve :
-        pInputSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObjToCheck))) {
+    for (SMGEdgeHasValue hve : pInputSmg.getHVEdgesFrom(pObjToCheck)) {
       SMGValue subDlsValue = hve.getValue();
       pValues.add(subDlsValue);
 

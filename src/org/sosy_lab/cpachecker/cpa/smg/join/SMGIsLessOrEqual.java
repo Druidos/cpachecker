@@ -19,7 +19,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -232,15 +231,12 @@ public class SMGIsLessOrEqual {
         (pSMG1.getObjects().contains(pSMGObject1) && pSMG2.getObjects().contains(pSMGObject2)),
         "SMGJoinFields object arguments need to be included in parameter SMGs");
 
-    SMGEdgeHasValueFilterByObject filterForSMG1 = SMGEdgeHasValueFilter.objectFilter(pSMGObject1);
-    SMGEdgeHasValueFilterByObject filterForSMG2 = SMGEdgeHasValueFilter.objectFilter(pSMGObject2);
-
-    SMGHasValueEdges HVE2 = pSMG2.getHVEdges(filterForSMG2);
+    SMGHasValueEdges HVE2 = pSMG2.getHVEdgesFrom(pSMGObject2);
 
     // TODO Merge Zero.
-    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdges(filterForSMG1)) {
+    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pSMGObject1)) {
       if (!HVE2.filter(
-              filterForSMG2
+              new SMGEdgeHasValueFilter()
                   .filterAtOffset(edge1.getOffset())
                   .filterBySize(edge1.getSizeInBits())
                   .filterHavingValue(edge1.getValue()))

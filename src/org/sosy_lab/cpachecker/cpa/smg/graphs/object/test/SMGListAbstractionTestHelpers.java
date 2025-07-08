@@ -304,7 +304,8 @@ public final class SMGListAbstractionTestHelpers {
       for (int offset : new int[] {pNfo, pPfo}) {
         Iterable<SMGEdgeHasValue> set =
             pSmg.getHVEdges(
-                SMGEdgeHasValueFilter.objectFilter(object)
+                new SMGEdgeHasValueFilter()
+                    .filterByObject(object)
                     .filterAtOffset(offset)
                     .filterBySize(pSmg.getSizeofPtrInBits()));
         for (SMGEdgeHasValue hv : set) {
@@ -452,7 +453,8 @@ public final class SMGListAbstractionTestHelpers {
       SMGEdgeHasValue hv =
           Iterables.getOnlyElement(
               pSmg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(pObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(pObject)
                       .filterAtOffset(pDfo)
                       .filterWithoutSize()));
       if (pValues.length > 0) {
@@ -476,7 +478,8 @@ public final class SMGListAbstractionTestHelpers {
     SMGEdgeHasValue hv =
         Iterables.getOnlyElement(
             pSmg.getHVEdges(
-                SMGEdgeHasValueFilter.objectFilter(pSubobject)
+                new SMGEdgeHasValueFilter()
+                    .filterByObject(pSubobject)
                     .filterAtOffset(pDfo)
                     .filterWithoutSize()));
     Truth.assertThat(hv.getValue()).isEqualTo(pSublists[0][0]);

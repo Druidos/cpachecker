@@ -77,11 +77,10 @@ public class SMGEdgeHasValueFilterTest {
   }
 
   private static void symmetricObjects(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    // TODO why different constructors...
     SMGEdgeHasValueFilter f1 =
         new SMGEdgeHasValueFilter().filterByObject(pEdge1.getObject()).filterWithoutSize();
     SMGEdgeHasValueFilter f2 =
-        SMGEdgeHasValueFilter.objectFilter(pEdge2.getObject()).filterWithoutSize();
+        new SMGEdgeHasValueFilter().filterByObject(pEdge2.getObject()).filterWithoutSize();
 
     boolean haveSameObject = pEdge1.getObject().equals(pEdge2.getObject());
     String msg =
@@ -185,17 +184,13 @@ public class SMGEdgeHasValueFilterTest {
           .that(new SMGEdgeHasValueFilter().overlapsWith(hve).holdsFor(hve))
           .isTrue();
 
-      // object TODO why different constructors...
+      // object
       assertWithMessage(hve + " has the same object as itself")
           .that(
               new SMGEdgeHasValueFilter()
                   .filterByObject(hve.getObject())
                   .filterWithoutSize()
                   .holdsFor(hve))
-          .isTrue();
-      assertWithMessage(hve + " has the same object as itself")
-          .that(
-              SMGEdgeHasValueFilter.objectFilter(hve.getObject()).filterWithoutSize().holdsFor(hve))
           .isTrue();
 
       // offset

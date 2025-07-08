@@ -57,7 +57,8 @@ public class SMGDoublyLinkedListCandidateSequence
       SMGEdgeHasValue nextEdge =
           Iterables.getOnlyElement(
               pSMG.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(prevObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(prevObject)
                       .filterAtOffset(nfo)
                       .filterBySize(pSMG.getSizeofPtrInBits())));
       SMGObject nextObject = pSMG.getPointer(nextEdge.getValue()).getObject();
@@ -98,13 +99,15 @@ public class SMGDoublyLinkedListCandidateSequence
       SMGEdgeHasValue prevObj1hve =
           Iterables.getOnlyElement(
               pSMG.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(prevObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(prevObject)
                       .filterAtOffset(pfo)
                       .filterBySize(pSMG.getSizeofPtrInBits())));
       SMGEdgeHasValue nextObj2hve =
           Iterables.getOnlyElement(
               pSMG.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(nextObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(nextObject)
                       .filterAtOffset(nfo)
                       .filterBySize(pSMG.getSizeofPtrInBits())));
 

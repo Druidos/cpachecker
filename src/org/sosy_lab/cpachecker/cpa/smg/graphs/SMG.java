@@ -25,7 +25,6 @@ import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdge;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
@@ -394,8 +393,8 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   }
 
   @Override
-  public final SMGHasValueEdges getHVEdges(SMGEdgeHasValueFilterByObject pFilter) {
-    return pFilter.filter(hv_edges);
+  public final SMGHasValueEdges getHVEdgesFrom(SMGObject pObject) {
+    return hv_edges.getEdgesForObject(pObject);
   }
 
   @Override
@@ -492,7 +491,8 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   public NavigableMap<Long, Long> getNullEdgesMapOffsetToSizeForObject(SMGObject pObj) {
 
     SMGEdgeHasValueFilter nullValueFilter =
-        SMGEdgeHasValueFilter.objectFilter(pObj)
+        new SMGEdgeHasValueFilter()
+            .filterByObject(pObj)
             .filterHavingValue(SMGZeroValue.INSTANCE)
             .filterWithoutSize();
     TreeMap<Long, Long> offsetToSize = new TreeMap<>();

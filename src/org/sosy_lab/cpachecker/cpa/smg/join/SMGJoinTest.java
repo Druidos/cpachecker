@@ -239,7 +239,7 @@ public class SMGJoinTest {
 
     SMGObject global = resultSMG.getGlobalObjects().get(varName);
     SMGEdgeHasValueFilter filter =
-        SMGEdgeHasValueFilter.objectFilter(global).filterAtOffset(0).filterWithoutSize();
+        new SMGEdgeHasValueFilter().filterByObject(global).filterAtOffset(0).filterWithoutSize();
     SMGEdgeHasValue edge = Iterables.getOnlyElement(resultSMG.getHVEdges(filter));
     assertThat(resultSMG.getValues()).contains(edge.getValue());
   }
@@ -260,7 +260,7 @@ public class SMGJoinTest {
 
     SMGObject global = Iterables.get(resultSMG.getStackFrames(), 0).getVariable(varName);
     SMGEdgeHasValueFilter filter =
-        SMGEdgeHasValueFilter.objectFilter(global).filterAtOffset(0).filterWithoutSize();
+        new SMGEdgeHasValueFilter().filterByObject(global).filterAtOffset(0).filterWithoutSize();
     SMGEdgeHasValue edge = Iterables.getOnlyElement(resultSMG.getHVEdges(filter));
     assertThat(resultSMG.getValues()).contains(edge.getValue());
   }

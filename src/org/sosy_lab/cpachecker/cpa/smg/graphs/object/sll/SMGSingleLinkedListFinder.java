@@ -103,7 +103,7 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
 
     boolean startObjectIsSLL = pObject.getKind() == SMGObjectKind.SLL;
 
-    for (SMGEdgeHasValue hveNext : pSmg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(pObject))) {
+    for (SMGEdgeHasValue hveNext : pSmg.getHVEdgesFrom(pObject)) {
 
       long nfo = hveNext.getOffset();
       SMGValue nextPointer = hveNext.getValue();
@@ -237,7 +237,8 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
 
       Iterable<SMGEdgeHasValue> nextObjectNextPointer =
           pSmg.getHVEdges(
-              SMGEdgeHasValueFilter.objectFilter(nextObject)
+              new SMGEdgeHasValueFilter()
+                  .filterByObject(nextObject)
                   .filterAtOffset(nfo)
                   .filterBySize(pSmg.getSizeofPtrInBits()));
 

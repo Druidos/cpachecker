@@ -14,8 +14,6 @@ import java.util.logging.Level;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdge;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -77,10 +75,7 @@ final class SMGConsistencyVerifier {
     }
 
     // Verify that NULL object has no value
-    SMGEdgeHasValueFilterByObject filter =
-        SMGEdgeHasValueFilter.objectFilter(SMGNullObject.getInstance());
-
-    if (!pSmg.getHVEdges(filter).isEmpty()) {
+    if (!pSmg.getHVEdgesFrom(SMGNullObject.getInstance()).isEmpty()) {
       pLogger.log(Level.SEVERE, "SMG inconsistent: null object has some value");
       return false;
     }
@@ -115,9 +110,7 @@ final class SMGConsistencyVerifier {
         continue;
       }
       // Verify that the HasValue edge set for this invalid object is empty
-      SMGEdgeHasValueFilterByObject filter = SMGEdgeHasValueFilter.objectFilter(obj);
-
-      if (!pSmg.getHVEdges(filter).isEmpty()) {
+      if (!pSmg.getHVEdgesFrom(obj).isEmpty()) {
         pLogger.log(Level.SEVERE, "SMG inconsistent: invalid object has a HVEdge");
         return false;
       }
@@ -139,9 +132,7 @@ final class SMGConsistencyVerifier {
       LogManager pLogger, SMGObject pObject, UnmodifiableSMG pSmg) {
 
     // For all fields in the object, verify that sizeof(type)+field_offset < object_size
-    SMGEdgeHasValueFilterByObject filter = SMGEdgeHasValueFilter.objectFilter(pObject);
-
-    for (SMGEdgeHasValue hvEdge : pSmg.getHVEdges(filter)) {
+    for (SMGEdgeHasValue hvEdge : pSmg.getHVEdgesFrom(pObject)) {
       if ((hvEdge.getOffset() + hvEdge.getSizeInBits()) > pObject.getSize()) {
         pLogger.log(Level.SEVERE, "SMG inconistent: field exceedes boundary of the object");
         pLogger.log(Level.SEVERE, "Object: ", pObject);

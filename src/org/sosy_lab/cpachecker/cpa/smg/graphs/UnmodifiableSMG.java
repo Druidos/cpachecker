@@ -14,7 +14,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter.SMGEdgeHasValueFilterByObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -46,7 +45,7 @@ public sealed interface UnmodifiableSMG permits SMG, UnmodifiableCLangSMG {
 
   Iterable<SMGEdgeHasValue> getHVEdges(SMGEdgeHasValueFilter pFilter);
 
-  SMGHasValueEdges getHVEdges(SMGEdgeHasValueFilterByObject pFilter);
+  SMGHasValueEdges getHVEdgesFrom(SMGObject pObject);
 
   Set<SMGEdgePointsTo> getPtEdges(SMGEdgePointsToFilter pFilter);
 

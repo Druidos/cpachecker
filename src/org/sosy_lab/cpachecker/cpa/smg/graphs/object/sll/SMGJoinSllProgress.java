@@ -48,7 +48,8 @@ class SMGJoinSllProgress extends SMGJoinAbstractListProgress<Long, SMGSingleLink
       SMGEdgeHasValue nextHveEdge =
           Iterables.getOnlyElement(
               pSmg.getHVEdges(
-                  SMGEdgeHasValueFilter.objectFilter(nextObject)
+                  new SMGEdgeHasValueFilter()
+                      .filterByObject(nextObject)
                       .filterAtOffset(pCandidate.getShape().getNfo())
                       .filterBySize(pSmg.getSizeofPtrInBits())));
       nextObject = pSmg.getPointer(nextHveEdge.getValue()).getObject();

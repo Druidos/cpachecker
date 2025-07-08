@@ -98,7 +98,8 @@ public class SMGSingleLinkedListFinderTest {
     SMGEdgeHasValue connection = null;
     do {
       SMGEdgeHasValueFilter filter =
-          SMGEdgeHasValueFilter.objectFilter(lastFromHead)
+          new SMGEdgeHasValueFilter()
+              .filterByObject(lastFromHead)
               .filterAtOffset(64)
               .filterBySize(smg.getSizeofPtrInBits());
       Iterable<SMGEdgeHasValue> connections = smg.getHVEdges(filter);
@@ -109,7 +110,7 @@ public class SMGSingleLinkedListFinderTest {
       }
     } while (connection != null);
 
-    for (SMGEdgeHasValue hv : smg.getHVEdges(SMGEdgeHasValueFilter.objectFilter(lastFromHead))) {
+    for (SMGEdgeHasValue hv : smg.getHVEdgesFrom(lastFromHead)) {
       smg.removeHasValueEdge(hv);
     }
 
