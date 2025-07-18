@@ -1016,7 +1016,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
                   recalcEdges.put(offset, restriction.getOffset() - offset);
                 }
                 long endOffset = offset + sizeInBits;
-                long restrictionEndOffset = restriction.getOffset() + restriction.getSizeInBits();
+                long restrictionEndOffset = restriction.getEndOffset();
                 if (endOffset > restrictionEndOffset) {
                   recalcEdges.put(restrictionEndOffset, endOffset - restrictionEndOffset);
                 }
@@ -1272,7 +1272,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     Iterable<SMGEdgeHasValue> matchingEdgesOffsetZero = heap.getHVEdges(filterOffsetZero);
     for (SMGEdgeHasValue object_edge : matchingEdgesOffsetZero) {
       if (pOffset >= object_edge.getOffset()
-          && pOffset + pSizeInBits <= object_edge.getOffset() + object_edge.getSizeInBits()) {
+          && pOffset + pSizeInBits <= object_edge.getEndOffset()) {
         SMGValue symValue = object_edge.getValue();
         if (isExplicit(symValue)) {
           SMGKnownExpValue expValue = getExplicit(symValue);
@@ -1473,31 +1473,25 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGObject object = pNew_edge.getObject();
     long offset = pNew_edge.getOffset();
 
-    long sizeOfType = pNew_edge.getSizeInBits();
-
     // Shrink overlapping zero edges
     for (SMGEdgeHasValue zeroEdge : pOverlappingZeroEdges) {
       heap.removeHasValueEdge(zeroEdge);
 
       long zeroEdgeOffset = zeroEdge.getOffset();
 
-      long offset2 = offset + sizeOfType;
-      long zeroEdgeOffset2 = zeroEdgeOffset + zeroEdge.getSizeInBits();
+      long offset2 = pNew_edge.getEndOffset();
+      long zeroEdgeOffset2 = zeroEdge.getEndOffset();
 
       if (zeroEdgeOffset < offset) {
         SMGEdgeHasValue newZeroEdge =
             new SMGEdgeHasValue(
-                Math.toIntExact(offset - zeroEdgeOffset),
-                zeroEdgeOffset,
-                object,
-                SMGZeroValue.INSTANCE);
+                offset - zeroEdgeOffset, zeroEdgeOffset, object, SMGZeroValue.INSTANCE);
         heap.addHasValueEdge(newZeroEdge);
       }
 
       if (offset2 < zeroEdgeOffset2) {
         SMGEdgeHasValue newZeroEdge =
-            new SMGEdgeHasValue(
-                Math.toIntExact(zeroEdgeOffset2 - offset2), offset2, object, SMGZeroValue.INSTANCE);
+            new SMGEdgeHasValue(zeroEdgeOffset2 - offset2, offset2, object, SMGZeroValue.INSTANCE);
         heap.addHasValueEdge(newZeroEdge);
       }
     }
@@ -2026,7 +2020,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
                     pTargetOffset - zeroEdgeOffset, zeroEdgeOffset, object, SMGZeroValue.INSTANCE));
           }
 
-          long zeroEdgeOffset2 = zeroEdgeOffset + edge.getSizeInBits();
+          long zeroEdgeOffset2 = edge.getEndOffset();
           if (targetRangeSize < zeroEdgeOffset2) {
             heap.addHasValueEdge(
                 new SMGEdgeHasValue(
@@ -2046,7 +2040,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       if (edge.overlapsWith(pSourceOffset, pSourceLastCopyBitOffset)) {
         long newSize = edge.getSizeInBits();
         long edgeOffset = edge.getOffset();
-        long edgeEndOffset = edgeOffset + newSize;
+        long edgeEndOffset = edge.getEndOffset();
         boolean writeEdge = true;
         if (edgeEndOffset > pSourceLastCopyBitOffset) {
           newSize = newSize - (edgeEndOffset - pSourceLastCopyBitOffset);

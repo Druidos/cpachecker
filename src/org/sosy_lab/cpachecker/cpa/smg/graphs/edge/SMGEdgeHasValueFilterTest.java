@@ -62,9 +62,9 @@ public class SMGEdgeHasValueFilterTest {
     SMGEdgeHasValueFilter overlaps2 = new SMGEdgeHasValueFilter().overlapsWith(pEdge2);
 
     long ofs1 = pEdge1.getOffset();
-    long end1 = ofs1 + pEdge1.getSizeInBits();
+    long end1 = pEdge1.getEndOffset();
     long ofs2 = pEdge2.getOffset();
-    long end2 = ofs2 + pEdge2.getSizeInBits();
+    long end2 = pEdge2.getEndOffset();
 
     boolean areOverlapping =
         pEdge1.getObject().equals(pEdge2.getObject())

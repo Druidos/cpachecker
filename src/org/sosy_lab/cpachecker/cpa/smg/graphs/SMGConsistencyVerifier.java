@@ -133,7 +133,7 @@ final class SMGConsistencyVerifier {
 
     // For all fields in the object, verify that sizeof(type)+field_offset < object_size
     for (SMGEdgeHasValue hvEdge : pSmg.getHVEdgesFrom(pObject)) {
-      if ((hvEdge.getOffset() + hvEdge.getSizeInBits()) > pObject.getSize()) {
+      if (hvEdge.getEndOffset() > pObject.getSize()) {
         pLogger.log(Level.SEVERE, "SMG inconistent: field exceedes boundary of the object");
         pLogger.log(Level.SEVERE, "Object: ", pObject);
         pLogger.log(Level.SEVERE, "Field: ", hvEdge);

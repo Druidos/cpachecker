@@ -53,6 +53,10 @@ public class SMGEdgeHasValue extends SMGEdge implements Comparable<SMGEdgeHasVal
     return sizeInBits.longValueExact();
   }
 
+  public long getEndOffset() {
+    return getOffset() + getSizeInBits();
+  }
+
   @Override
   public boolean isConsistentWith(SMGEdge other) {
     if (!(other instanceof SMGEdgeHasValue)) {
@@ -74,15 +78,14 @@ public class SMGEdgeHasValue extends SMGEdge implements Comparable<SMGEdgeHasVal
         "Call of overlapsWith() on Has-Value edges pair not originating from the same object");
 
     long otStart = other.getOffset();
-    long otEnd = otStart + other.getSizeInBits();
+    long otEnd = other.getEndOffset();
     return overlapsWith(otStart, otEnd);
   }
 
   public boolean overlapsWith(long pOtStart, long pOtEnd) {
 
     long myStart = getOffset();
-
-    long myEnd = myStart + getSizeInBits();
+    long myEnd = getEndOffset();
 
     if (myStart < pOtStart) {
       return myEnd > pOtStart;

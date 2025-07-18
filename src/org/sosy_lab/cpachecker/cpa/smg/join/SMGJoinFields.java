@@ -206,7 +206,7 @@ class SMGJoinFields {
             pSMG1.getNullEdgesMapOffsetToSizeForObject(pObj1);
 
         long min = edge.getOffset();
-        long max = edge.getOffset() + edge.getSizeInBits();
+        long max = edge.getEndOffset();
 
         Entry<Long, Long> floorEntry = newNullEdgesOffsetToSize.floorEntry(min);
         if (floorEntry != null && floorEntry.getValue() + floorEntry.getKey() >= max) {
@@ -261,7 +261,6 @@ class SMGJoinFields {
       throws SMGInconsistentException {
     for (SMGEdgeHasValue edgeInSMG1 : pSMG1.getHVEdges(nullEdges1)) {
       long start = edgeInSMG1.getOffset();
-      long byte_after_end = start + edgeInSMG1.getSizeInBits();
       SMGEdgeHasValueFilter filter =
           new SMGEdgeHasValueFilter()
               .filterByObject(pObj2)
@@ -282,7 +281,8 @@ class SMGJoinFields {
               ? start
               : Long.max(start, floorEntry.getKey() + floorEntry.getValue());
       if (hvInSMG2 == null
-          || (nextNotNullBit < byte_after_end && !pSMG2.isPointer(hvInSMG2.getValue()))) {
+          || (nextNotNullBit < edgeInSMG1.getEndOffset()
+              && !pSMG2.isPointer(hvInSMG2.getValue()))) {
         throw new SMGInconsistentException("SMGJoinFields output assertions do not hold");
       }
     }

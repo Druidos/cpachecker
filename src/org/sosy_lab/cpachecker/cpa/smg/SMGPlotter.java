@@ -230,8 +230,7 @@ public final class SMGPlotter {
       }
       List<String> labels = new ArrayList<>();
       for (SMGEdgeHasValue edge : entry.getValue()) {
-        labels.add(
-            String.format("%db-%db", edge.getOffset(), edge.getOffset() + edge.getSizeInBits()));
+        labels.add(String.format("%db-%db", edge.getOffset(), edge.getEndOffset()));
       }
       sb.append(
           newLineWithOffset(

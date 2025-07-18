@@ -63,13 +63,11 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
 
     // Check on overlapping edges
     Entry<Long, SMGEdgeHasValue> ceilingEntry = sortedByOffsets.ceilingEntry(pEdge.getOffset());
-    long endOffset = pEdge.getSizeInBits() + pEdge.getOffset();
+    long endOffset = pEdge.getEndOffset();
     assert (ceilingEntry == null || endOffset <= ceilingEntry.getKey());
 
     Entry<Long, SMGEdgeHasValue> floorEntry = sortedByOffsets.lowerEntry(endOffset);
-    assert (floorEntry == null
-        || pEdge.getOffset()
-            >= floorEntry.getValue().getSizeInBits() + floorEntry.getValue().getOffset());
+    assert (floorEntry == null || pEdge.getOffset() >= floorEntry.getValue().getEndOffset());
 
     // Merge zero edges
     if (pEdge.getValue().isZero()) {
@@ -85,8 +83,7 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         result = result.removeEdgeAndCopy(ceilingEntry.getValue());
       }
       if (floorEntry != null
-          && pEdge.getOffset()
-              == floorEntry.getValue().getSizeInBits() + floorEntry.getValue().getOffset()
+          && pEdge.getOffset() == floorEntry.getValue().getEndOffset()
           && floorEntry.getValue().getValue().isZero()) {
         pEdge =
             new SMGEdgeHasValue(
@@ -123,7 +120,7 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         Entry<Long, SMGEdgeHasValue> floorEntry = sortedByOffsets.floorEntry(pEdge.getOffset());
         if (floorEntry != null) {
           SMGEdgeHasValue removingEdge = floorEntry.getValue();
-          if (removingEdge.getOffset() + removingEdge.getSizeInBits() <= pEdge.getOffset()
+          if (removingEdge.getEndOffset() <= pEdge.getOffset()
               && (removingEdge.getOffset() != pEdge.getOffset())) {
             throw new AssertionError();
           } else {
@@ -135,23 +132,20 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
                   updated.putAndCopy(
                       removingEdge.getOffset(),
                       new SMGEdgeHasValue(
-                          Math.toIntExact(pEdge.getOffset() - removingEdge.getOffset()),
+                          pEdge.getOffset() - removingEdge.getOffset(),
                           removingEdge.getOffset(),
                           pEdge.getObject(),
                           pEdge.getValue()));
               pSize++;
               sizeForObject++;
             }
-            if (removingEdge.getOffset() + removingEdge.getSizeInBits()
-                > pEdge.getOffset() + pEdge.getSizeInBits()) {
+            if (removingEdge.getEndOffset() > pEdge.getEndOffset()) {
               updated =
                   updated.putAndCopy(
-                      pEdge.getOffset() + pEdge.getSizeInBits(),
+                      pEdge.getEndOffset(),
                       new SMGEdgeHasValue(
-                          Math.toIntExact(removingEdge.getOffset() - pEdge.getOffset())
-                              + removingEdge.getSizeInBits()
-                              - pEdge.getSizeInBits(),
-                          pEdge.getOffset() + pEdge.getSizeInBits(),
+                          removingEdge.getEndOffset() - pEdge.getEndOffset(),
+                          pEdge.getEndOffset(),
                           pEdge.getObject(),
                           pEdge.getValue()));
               pSize++;
@@ -360,7 +354,7 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
           SMGEdgeHasValue candidate = candidateEntry.getValue();
 
           // we can return 'sub-edges' for 0-value HVEs
-          long newSize = candidate.getSizeInBits() + candidate.getOffset() - filterOffset;
+          long newSize = candidate.getEndOffset() - filterOffset;
           if (candidate.getValue().isZero() && newSize > 0) {
             if (filterSize != -1 && newSize > filterSize) {
               assert filterSize > 0 : "HVE filter's bitsize is " + filterSize;
@@ -382,14 +376,12 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
 
       if (filterOverlapsWith != null) {
         long startOffset = filterOverlapsWith.getOffset();
-        long endOffset = startOffset + filterOverlapsWith.getSizeInBits();
+        long endOffset = filterOverlapsWith.getEndOffset();
         Entry<Long, SMGEdgeHasValue> floorEntryCandidate = pMap.floorEntry(startOffset);
         if (floorEntryCandidate != null) {
           SMGEdgeHasValue edgeCandidate = floorEntryCandidate.getValue();
-          long edgeCandidateOffset = edgeCandidate.getOffset();
-          long edgeCandidateEndOffset = edgeCandidateOffset + edgeCandidate.getSizeInBits();
-          if (edgeCandidateEndOffset > startOffset) {
-            startOffset = edgeCandidateOffset;
+          if (edgeCandidate.getEndOffset() > startOffset) {
+            startOffset = edgeCandidate.getOffset();
           }
         }
         return pMap.subMap(startOffset, endOffset).values().iterator();
