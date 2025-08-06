@@ -10,35 +10,42 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdgeSet;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymValue;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymbolicValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 
 public class SMGEdgeHasValueFilterTest {
 
-  private static final List<SMGEdgeHasValue> edges = new ArrayList<>();
+  private record PairSet(SMGEdgeHasValue edge1, SMGEdgeHasValue edge2, SMGHasValueEdgeSet set) {
+    @Override
+    public String toString() {
+      return "{" + edge1 + ", " + edge2 + "}=" + set;
+    }
+  }
+
+  private static final ImmutableList<SMGEdgeHasValue> edges;
+
+  @SuppressWarnings("unused")
+  private static final ImmutableList<PairSet> pairsets;
 
   static {
-    final List<SMGObject> objects = new ArrayList<>();
-    final SMGObject object1 = new SMGRegion(31, "a");
-    final SMGObject object4 = new SMGRegion(31, "a");
-    final SMGObject object2 = new SMGRegion(64, "b");
-    final SMGObject object3 = new SMGRegion(129, "c");
-    objects.add(object1);
-    objects.add(object4);
-    objects.add(object2);
-    objects.add(object3);
-
-    final SMGValue v0 = SMGZeroValue.INSTANCE;
-    final SMGValue v1 = SMGKnownSymValue.of();
-    final SMGValue v2 = SMGKnownSymValue.of();
+    final ImmutableList<SMGObject> objects =
+        ImmutableList.of(
+            new SMGRegion(31, "a"),
+            new SMGRegion(31, "a"),
+            new SMGRegion(64, "b"),
+            new SMGRegion(129, "c"));
+    final ImmutableList<SMGKnownSymbolicValue> values =
+        ImmutableList.of(SMGZeroValue.INSTANCE, SMGKnownSymValue.of(), SMGKnownSymValue.of());
 
     final long bitstep = 8;
+    ImmutableList.Builder<SMGEdgeHasValue> edgesBuilder = ImmutableList.builder();
 
     for (SMGObject object : objects) {
       for (long offset = 0; offset < object.getSize(); offset += bitstep) {
@@ -46,15 +53,29 @@ public class SMGEdgeHasValueFilterTest {
             endOffset <= object.getSize();
             endOffset += bitstep) {
           long bitsize = endOffset - offset;
-          SMGEdgeHasValue hve0 = new SMGEdgeHasValue(bitsize, offset, object, v0);
-          SMGEdgeHasValue hve1 = new SMGEdgeHasValue(bitsize, offset, object, v1);
-          SMGEdgeHasValue hve2 = new SMGEdgeHasValue(bitsize, offset, object, v2);
-          edges.add(hve0);
-          edges.add(hve1);
-          edges.add(hve2);
+          for (SMGKnownSymbolicValue value : values) {
+            edgesBuilder.add(new SMGEdgeHasValue(bitsize, offset, object, value));
+          }
         }
       }
     }
+    edges = edgesBuilder.build();
+
+    final ImmutableList.Builder<PairSet> setsBuilder = ImmutableList.builder();
+    for (int i1 = 0; i1 < edges.size(); i1++) {
+      SMGEdgeHasValue edge1 = edges.get(i1);
+      for (int i2 = 0; i2 < edges.size(); i2++) {
+        SMGEdgeHasValue edge2 = edges.get(i2);
+        if (edge1.getObject().equals(edge2.getObject()) && edge1.overlapsWith(edge2)) {
+          // edges intersect -- cannot be in one set
+          continue;
+        }
+        SMGHasValueEdgeSet set =
+            new SMGHasValueEdgeSet().addEdgeAndCopy(edge1).addEdgeAndCopy(edge2);
+        setsBuilder.add(new PairSet(edge1, edge2, set));
+      }
+    }
+    pairsets = setsBuilder.build();
   }
 
   private static void symmetricOverlaps(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
