@@ -11,6 +11,8 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import java.util.Optional;
 import org.junit.Test;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdgeSet;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -27,11 +29,17 @@ public class SMGEdgeHasValueFilterTest {
     public String toString() {
       return "{" + edge1 + ", " + edge2 + "}=" + set;
     }
+
+    Optional<SMGEdgeHasValue> getMergedEdge() {
+      if (set().size() == 1) {
+        return Optional.of(Iterables.getOnlyElement(set()));
+      }
+      assertWithMessage("%s has two edges", this).that(set().size()).isEqualTo(2);
+      return Optional.empty();
+    }
   }
 
   private static final ImmutableList<SMGEdgeHasValue> edges;
-
-  @SuppressWarnings("unused")
   private static final ImmutableList<PairSet> pairsets;
 
   static {
@@ -64,7 +72,7 @@ public class SMGEdgeHasValueFilterTest {
     final ImmutableList.Builder<PairSet> setsBuilder = ImmutableList.builder();
     for (int i1 = 0; i1 < edges.size(); i1++) {
       SMGEdgeHasValue edge1 = edges.get(i1);
-      for (int i2 = 0; i2 < edges.size(); i2++) {
+      for (int i2 = i1 + 1; i2 < edges.size(); i2++) {
         SMGEdgeHasValue edge2 = edges.get(i2);
         if (edge1.getObject().equals(edge2.getObject()) && edge1.overlapsWith(edge2)) {
           // edges intersect -- cannot be in one set
@@ -243,6 +251,140 @@ public class SMGEdgeHasValueFilterTest {
                   .filterWithoutSize()
                   .holdsFor(hve))
           .isFalse();
+    }
+  }
+
+  @Test
+  public void fourfoldContainsTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+        SMGEdgeHasValueFilter commonFilter =
+            new SMGEdgeHasValueFilter()
+                .filterByObject(edge.getObject())
+                .filterAtOffset(edge.getOffset())
+                .filterBySize(edge.getSizeInBits());
+        boolean doesFilterMatch =
+            commonFilter
+                .filterHavingValue(edge.getValue())
+                .filter(pairset.set())
+                .iterator()
+                .hasNext();
+        boolean doesContain = pairset.set().contains(edge);
+        boolean hasCorrespondingRead =
+            Iterables.any(
+                pairset.set().filter(commonFilter), hve -> hve.getValue().equals(edge.getValue()));
+
+        assertWithMessage("%s contains %s", pairset, edge)
+            .that(doesContain)
+            .isEqualTo(doesFilterMatch);
+        assertWithMessage("%s has corresponding read %s is same as contains", pairset, edge)
+            .that(hasCorrespondingRead)
+            .isEqualTo(doesFilterMatch);
+
+        if (doesContain) {
+          if (edge.getValue().isZero()) {
+            // zero-value edge is present if an equal or covering edge is present
+            Optional<SMGEdgeHasValue> maybeCoveringEdge =
+                pairset
+                    .set()
+                    .getCoveringEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+            assertWithMessage("%s contains a covering edge for %s", pairset, edge)
+                .that(maybeCoveringEdge)
+                .isPresent();
+          } else {
+            assertWithMessage("%s contains %s", pairset, edge).that(pairset.set()).contains(edge);
+          }
+        } else {
+          assertWithMessage("%s does not contain %s", pairset, edge)
+              .that(pairset.set())
+              .doesNotContain(edge);
+        }
+      }
+    }
+  }
+
+  private static boolean doesCover(SMGEdgeHasValue pCover, SMGEdgeHasValue pCovered) {
+    return pCover.getObject().equals(pCovered.getObject())
+        && pCover.getOffset() <= pCovered.getOffset()
+        && pCovered.getEndOffset() <= pCover.getEndOffset();
+  }
+
+  private static boolean isEqualOrZeroCovers(SMGEdgeHasValue pCover, SMGEdgeHasValue pCovered) {
+    if (pCover.equals(pCovered)) {
+      return true;
+    }
+    return pCover.getValue().isZero()
+        && pCovered.getValue().isZero()
+        && doesCover(pCover, pCovered);
+  }
+
+  @Test
+  public void containsAndCoversTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+        boolean contains1 = isEqualOrZeroCovers(pairset.edge1(), edge);
+        boolean contains2 = isEqualOrZeroCovers(pairset.edge2(), edge);
+        boolean containsM =
+            pairset.getMergedEdge().isPresent()
+                && isEqualOrZeroCovers(pairset.getMergedEdge().orElseThrow(), edge);
+
+        assertWithMessage("%s contains %s", pairset, edge)
+            .that(pairset.set().contains(edge))
+            .isEqualTo(contains1 || contains2 || containsM);
+
+        Optional<SMGEdgeHasValue> coveringEdge =
+            pairset.set().getCoveringEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+        if (containsM) {
+          assertWithMessage("%s covers %s with the merged edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.getMergedEdge().orElseThrow());
+        } else if (contains1) {
+          assertWithMessage("%s covers %s with the first edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.edge1());
+        } else if (contains2) {
+          assertWithMessage("%s covers %s with the second edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.edge2());
+        } else {
+          // A bigger edge is not considered to contain the edge
+          // even if it is covering the edge and has the same value.
+          assertWithMessage("%s covers %s", pairset, edge)
+              .that(coveringEdge)
+              .isNotEqualTo(Optional.of(edge));
+        }
+      }
+    }
+  }
+
+  @Test
+  public void coversTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+        boolean covers1 = doesCover(pairset.edge1(), edge);
+        boolean covers2 = doesCover(pairset.edge2(), edge);
+        boolean coversM =
+            pairset.getMergedEdge().isPresent()
+                && doesCover(pairset.getMergedEdge().orElseThrow(), edge);
+
+        Optional<SMGEdgeHasValue> coveringEdge =
+            pairset.set().getCoveringEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+        if (coversM) {
+          assertWithMessage("%s covers %s with the merged edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.getMergedEdge().orElseThrow());
+        } else if (covers1) {
+          assertWithMessage("%s covers %s with the first edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.edge1());
+        } else if (covers2) {
+          assertWithMessage("%s covers %s with the second edge", pairset, edge)
+              .that(coveringEdge)
+              .hasValue(pairset.edge2());
+        } else {
+          assertWithMessage("%s covers %s", pairset, edge).that(coveringEdge).isEmpty();
+        }
+      }
     }
   }
 }

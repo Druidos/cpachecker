@@ -15,10 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.sosy_lab.cpachecker.cfa.types.c.CVoidType;
 import org.sosy_lab.cpachecker.cpa.smg.CLangStackFrame;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -231,21 +229,14 @@ public class SMGIsLessOrEqual {
         (pSMG1.getObjects().contains(pSMGObject1) && pSMG2.getObjects().contains(pSMGObject2)),
         "SMGJoinFields object arguments need to be included in parameter SMGs");
 
-    SMGHasValueEdges HVE2 = pSMG2.getHVEdgesFrom(pSMGObject2);
-
     // TODO Merge Zero.
     for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pSMGObject1)) {
-      if (!HVE2.filter(
-              new SMGEdgeHasValueFilter()
-                  .filterAtOffset(edge1.getOffset())
-                  .filterBySize(edge1.getSizeInBits())
-                  .filterHavingValue(edge1.getValue()))
-          .iterator()
-          .hasNext()) {
+      SMGValue value = edge1.getValue();
+      SMGEdgeHasValue copyEdge =
+          new SMGEdgeHasValue(edge1.getSizeInBits(), edge1.getOffset(), pSMGObject2, value);
+      if (!pSMG2.getHVEdges().contains(copyEdge)) {
         return false;
       }
-
-      SMGValue value = edge1.getValue();
 
       if (pSMG1.isPointer(value)) {
         if (!pSMG2.isPointer(value)) {

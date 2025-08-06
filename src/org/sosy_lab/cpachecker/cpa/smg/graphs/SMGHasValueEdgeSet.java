@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.NavigableSet;
+import java.util.Optional;
 import org.sosy_lab.common.collect.PathCopyingPersistentTreeMap;
 import org.sosy_lab.common.collect.PersistentSortedMap;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
@@ -206,20 +207,53 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public Optional<SMGEdgeHasValue> getCoveringEdge(
+      SMGObject pObject, long pOffset, long pSizeInBits) {
+    PersistentSortedMap<Long, SMGEdgeHasValue> objectEdges = map.get(pObject);
+    if (objectEdges == null) {
+      return Optional.empty();
+    }
+
+    Entry<Long, SMGEdgeHasValue> floorEntry = objectEdges.floorEntry(pOffset);
+    if (floorEntry == null) {
+      return Optional.empty();
+    }
+
+    SMGEdgeHasValue candidate = floorEntry.getValue();
+    if (candidate.getEndOffset() < pOffset + pSizeInBits) {
+      return Optional.empty();
+    }
+
+    return Optional.of(candidate);
+  }
+
+  @Override
   public int size() {
     return size;
   }
 
   @Override
-  public boolean contains(SMGEdgeHasValue pHv) {
-    SMGEdgeHasValueFilter filter =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pHv.getObject())
-            .filterAtOffset(pHv.getOffset())
-            .filterHavingValue(pHv.getValue())
-            .filterBySize(pHv.getSizeInBits());
+  public boolean contains(SMGEdgeHasValue pEdge) {
+    Optional<SMGEdgeHasValue> coveringEdge =
+        getCoveringEdge(pEdge.getObject(), pEdge.getOffset(), pEdge.getSizeInBits());
+    if (coveringEdge.isEmpty()) {
+      return false;
+    }
 
-    return filter(filter).iterator().hasNext();
+    SMGEdgeHasValue candidate = coveringEdge.orElseThrow();
+    if (!candidate.getValue().equals(pEdge.getValue())) {
+      // different values => different edges
+      return false;
+    }
+
+    if (candidate.getOffset() == pEdge.getOffset()
+        && candidate.getSizeInBits() == pEdge.getSizeInBits()) {
+      // same edge
+      return true;
+    }
+
+    // only 0-value candidate can contain smaller pEdge
+    return candidate.getValue().isZero();
   }
 
   @Override

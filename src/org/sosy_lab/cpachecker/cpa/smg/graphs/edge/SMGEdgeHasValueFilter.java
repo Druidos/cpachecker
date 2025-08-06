@@ -44,13 +44,6 @@ public class SMGEdgeHasValueFilter {
     overlapsWith = pFilter.overlapsWith;
   }
 
-  public static SMGEdgeHasValueFilter readParamsFilter(SMGReadParams pParams) {
-    return new SMGEdgeHasValueFilter()
-        .filterByObject(pParams.getObject())
-        .filterAtOffset(pParams.getOffset())
-        .filterBySize(pParams.getSize());
-  }
-
   public SMGObject getObject() {
     return object;
   }

@@ -449,15 +449,7 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
               || isStackObject(smgObject));
     } else if (elem instanceof SMGEdgeHasValue) {
       SMGEdgeHasValue edgeHasValue = (SMGEdgeHasValue) elem;
-      SMGObject object1 = edgeHasValue.getObject();
-      SMGEdgeHasValueFilter filter =
-          new SMGEdgeHasValueFilter()
-              .filterByObject(object1)
-              .filterAtOffset(edgeHasValue.getOffset())
-              .filterHavingValue(edgeHasValue.getValue())
-              .filterBySize(edgeHasValue.getSizeInBits());
-      Iterable<SMGEdgeHasValue> edges = getHVEdges(filter);
-      return edges.iterator().hasNext();
+      return getHVEdges().contains(edgeHasValue);
     } else if (elem instanceof SMGEdgePointsTo) {
       SMGEdgePointsTo edgePointsTo = (SMGEdgePointsTo) elem;
       SMGEdgePointsToFilter filter =

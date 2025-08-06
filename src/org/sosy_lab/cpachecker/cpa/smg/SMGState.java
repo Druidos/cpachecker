@@ -1863,13 +1863,11 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
   @Override
   public boolean hasEdgeCorrespondedToRead(SMGReadParams pParams, SMGValue pValue) {
-    SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.readParamsFilter(pParams);
-    for (SMGEdgeHasValue hasValueEdge : getHVEdges(filter)) {
-      if (hasValueEdge.getValue().equals(pValue)) {
-        return true;
-      }
-    }
-    return false;
+    return getHeap()
+        .getHVEdges()
+        .contains(
+            new SMGEdgeHasValue(
+                pParams.getSize(), pParams.getOffset(), pParams.getObject(), pValue));
   }
 
   public void addElementToCurrentChain(Object elem) {
