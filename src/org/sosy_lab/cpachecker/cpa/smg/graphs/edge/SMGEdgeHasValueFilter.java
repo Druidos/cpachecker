@@ -22,7 +22,6 @@ public class SMGEdgeHasValueFilter {
   private Long offset;
   private long sizeInBits;
   private boolean sizeNotRequired;
-  private SMGEdgeHasValue overlapsWith;
 
   public SMGEdgeHasValueFilter() {
     object = null;
@@ -31,7 +30,6 @@ public class SMGEdgeHasValueFilter {
     offset = null;
     sizeInBits = -1;
     sizeNotRequired = false;
-    overlapsWith = null;
   }
 
   public SMGEdgeHasValueFilter(SMGEdgeHasValueFilter pFilter) {
@@ -41,7 +39,6 @@ public class SMGEdgeHasValueFilter {
     offset = pFilter.offset;
     sizeInBits = pFilter.sizeInBits;
     sizeNotRequired = pFilter.sizeNotRequired;
-    overlapsWith = pFilter.overlapsWith;
   }
 
   public SMGObject getObject() {
@@ -62,10 +59,6 @@ public class SMGEdgeHasValueFilter {
 
   public boolean isSizeNotRequired() {
     return sizeNotRequired;
-  }
-
-  public SMGEdgeHasValue getOverlapsWith() {
-    return overlapsWith;
   }
 
   @VisibleForTesting
@@ -114,20 +107,8 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter overlapsWith(SMGEdgeHasValue pEdge) {
-    assert object == null || object == pEdge.getObject()
-        : "cannot filter with a set object "
-            + object
-            + " and overlaps from a different object: "
-            + pEdge;
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.object = pEdge.getObject();
-    filter.overlapsWith = pEdge;
-    return filter;
-  }
-
   public boolean holdsFor(SMGEdgeHasValue pEdge) {
-    assert sizeInBits > 0 || sizeNotRequired || overlapsWith != null;
+    assert sizeInBits > 0 || sizeNotRequired;
     if (object != null && object != pEdge.getObject()) {
       return false;
     }
@@ -141,10 +122,6 @@ public class SMGEdgeHasValueFilter {
     }
 
     if (offset != null && offset != pEdge.getOffset()) {
-      return false;
-    }
-
-    if (overlapsWith != null && !overlapsWith.overlapsWith(pEdge)) {
       return false;
     }
 

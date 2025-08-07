@@ -11,8 +11,10 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.NavigableSet;
@@ -207,6 +209,26 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public Collection<SMGEdgeHasValue> getOverlappingEdges(
+      SMGObject pObject, long pOffset, long pBitsize) {
+    PersistentSortedMap<Long, SMGEdgeHasValue> objectEdges = map.get(pObject);
+    if (objectEdges == null) {
+      return ImmutableList.of();
+    }
+
+    long left = pOffset;
+    long right = pOffset + pBitsize;
+
+    Entry<Long, SMGEdgeHasValue> lowerEntry = objectEdges.lowerEntry(left);
+    if (lowerEntry != null && left < lowerEntry.getValue().getEndOffset()) {
+      // left-lower edge is partially covered, include it in result
+      left = lowerEntry.getKey();
+    }
+
+    return Collections.unmodifiableCollection(objectEdges.subMap(left, right).values());
+  }
+
+  @Override
   public Optional<SMGEdgeHasValue> getCoveringEdge(
       SMGObject pObject, long pOffset, long pSizeInBits) {
     PersistentSortedMap<Long, SMGEdgeHasValue> objectEdges = map.get(pObject);
@@ -331,17 +353,12 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
     protected SMGHasValueEdgeSetIteratorWithFilter(
         SMGHasValueEdgeSet pSMGEdgeHasValues, SMGEdgeHasValueFilter pFilter) {
       SMGObject filterObject = pFilter.getObject();
-      SMGEdgeHasValue filterOverlapsWith = pFilter.getOverlapsWith();
       SMGHasValueEdgeSet filtered;
 
       if (filterObject != null) {
         filtered = pSMGEdgeHasValues.getEdgesForObject(filterObject);
       } else {
         filtered = pSMGEdgeHasValues;
-      }
-
-      if (filterOverlapsWith != null) {
-        filtered = filtered.getEdgesForObject(filterOverlapsWith.getObject());
       }
 
       iteratorMain = filtered.map.values().iterator();
@@ -372,13 +389,9 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
       Long filterOffset = pFilter.getOffset();
       SMGValue filterValue = pFilter.getValue();
       long filterSize = pFilter.getSize();
-      SMGEdgeHasValue filterOverlapsWith = pFilter.getOverlapsWith();
       Collection<SMGEdgeHasValue> candidateSet = ImmutableSet.of();
 
-      if (filterOffset == null
-          && filterValue == null
-          && filterSize == -1
-          && filterOverlapsWith == null) {
+      if (filterOffset == null && filterValue == null && filterSize == -1) {
         return pMap.values().iterator();
       }
 
@@ -406,19 +419,6 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         }
 
         return candidateSet.iterator();
-      }
-
-      if (filterOverlapsWith != null) {
-        long startOffset = filterOverlapsWith.getOffset();
-        long endOffset = filterOverlapsWith.getEndOffset();
-        Entry<Long, SMGEdgeHasValue> floorEntryCandidate = pMap.floorEntry(startOffset);
-        if (floorEntryCandidate != null) {
-          SMGEdgeHasValue edgeCandidate = floorEntryCandidate.getValue();
-          if (edgeCandidate.getEndOffset() > startOffset) {
-            startOffset = edgeCandidate.getOffset();
-          }
-        }
-        return pMap.subMap(startOffset, endOffset).values().iterator();
       }
 
       return pMap.values().iterator();

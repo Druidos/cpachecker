@@ -8,6 +8,7 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs;
 
+import java.util.Collection;
 import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
@@ -40,6 +41,9 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
 
   /** get the edge that fully covers the range (if present) */
   Optional<SMGEdgeHasValue> getCoveringEdge(SMGObject pObject, long pOffset, long pBitsize);
+
+  /** Get all edges that overlap with the range. The collection returned is unmodifiable. */
+  Collection<SMGEdgeHasValue> getOverlappingEdges(SMGObject pObject, long pOffset, long pBitsize);
 
   int size();
 

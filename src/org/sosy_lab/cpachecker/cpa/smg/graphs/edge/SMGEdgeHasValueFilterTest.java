@@ -12,6 +12,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import java.util.Collection;
 import java.util.Optional;
 import org.junit.Test;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdgeSet;
@@ -84,25 +85,6 @@ public class SMGEdgeHasValueFilterTest {
       }
     }
     pairsets = setsBuilder.build();
-  }
-
-  private static void symmetricOverlaps(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    SMGEdgeHasValueFilter overlaps1 = new SMGEdgeHasValueFilter().overlapsWith(pEdge1);
-    SMGEdgeHasValueFilter overlaps2 = new SMGEdgeHasValueFilter().overlapsWith(pEdge2);
-
-    long ofs1 = pEdge1.getOffset();
-    long end1 = pEdge1.getEndOffset();
-    long ofs2 = pEdge2.getOffset();
-    long end2 = pEdge2.getEndOffset();
-
-    boolean areOverlapping =
-        pEdge1.getObject().equals(pEdge2.getObject())
-            && ((ofs1 <= ofs2 && ofs2 < end1) || (ofs2 <= ofs1 && ofs1 < end2));
-
-    String msg =
-        pEdge1 + " and " + pEdge2 + (areOverlapping ? " are" : " are not") + " overlapping";
-    assertWithMessage(msg).that(overlaps1.holdsFor(pEdge2)).isEqualTo(areOverlapping);
-    assertWithMessage(msg).that(overlaps2.holdsFor(pEdge1)).isEqualTo(areOverlapping);
   }
 
   private static void symmetricObjects(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
@@ -192,7 +174,6 @@ public class SMGEdgeHasValueFilterTest {
       for (int j = i + 1; j < edges.size(); j++) {
         SMGEdgeHasValue edge1 = edges.get(i);
         SMGEdgeHasValue edge2 = edges.get(j);
-        symmetricOverlaps(edge1, edge2);
         symmetricObjects(edge1, edge2);
         symmetricOffsets(edge1, edge2);
         if (edge1.getValue().isZero() || edge2.getValue().isZero()) {
@@ -208,11 +189,6 @@ public class SMGEdgeHasValueFilterTest {
   @Test
   public void reflexiveTest() {
     for (SMGEdgeHasValue hve : edges) {
-      // overlap
-      assertWithMessage(hve + " is overlapping itself")
-          .that(new SMGEdgeHasValueFilter().overlapsWith(hve).holdsFor(hve))
-          .isTrue();
-
       // object
       assertWithMessage(hve + " has the same object as itself")
           .that(
@@ -273,7 +249,6 @@ public class SMGEdgeHasValueFilterTest {
         boolean hasCorrespondingRead =
             Iterables.any(
                 pairset.set().filter(commonFilter), hve -> hve.getValue().equals(edge.getValue()));
-
         assertWithMessage("%s contains %s", pairset, edge)
             .that(doesContain)
             .isEqualTo(doesFilterMatch);
@@ -383,6 +358,81 @@ public class SMGEdgeHasValueFilterTest {
               .hasValue(pairset.edge2());
         } else {
           assertWithMessage("%s covers %s", pairset, edge).that(coveringEdge).isEmpty();
+        }
+      }
+    }
+  }
+
+  private static boolean doOverlap(SMGEdgeHasValue p1, SMGEdgeHasValue p2) {
+    return p1.getObject().equals(p2.getObject())
+        && p1.getOffset() < p2.getEndOffset()
+        && p2.getOffset() < p1.getEndOffset();
+  }
+
+  @Test
+  public void overlapsTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+        Iterable<SMGEdgeHasValue> expected =
+            Iterables.filter(pairset.set(), hve -> doOverlap(hve, edge));
+        Collection<SMGEdgeHasValue> methodResult =
+            pairset
+                .set()
+                .getOverlappingEdges(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+        assertWithMessage("edges in %s that overlap %s", pairset, edge)
+            .that(methodResult)
+            .containsExactlyElementsIn(expected);
+      }
+    }
+  }
+
+  @Test
+  public void containsCoversOverlapsTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+        Iterable<SMGEdgeHasValue> expected =
+            Iterables.filter(pairset.set(), hve -> doOverlap(hve, edge));
+
+        // instead of checking presence among overlapping edges, use #contains directly
+        // test shows it has the same result:
+        Optional<SMGEdgeHasValue> coveringEdge =
+            pairset.set().getCoveringEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+
+        if (coveringEdge.isEmpty()) {
+          assertWithMessage(
+                  "%s has no covering edge and does not contain %s in overlapping edges",
+                  pairset, edge)
+              .that(expected)
+              .doesNotContain(edge);
+          assertWithMessage("%s has no covering edge / does not contain %s", pairset, edge)
+              .that(pairset.set().contains(edge))
+              .isFalse();
+
+        } else if (!edge.getValue().isZero() || !coveringEdge.orElseThrow().getValue().isZero()) {
+          assertWithMessage("%s contains %s", pairset, edge)
+              .that(pairset.set().contains(edge))
+              .isEqualTo(Iterables.contains(expected, edge));
+
+        } else if (coveringEdge.orElseThrow().equals(edge)) {
+          assertWithMessage("%s has a zero-value covering edge equal to %s", pairset, edge)
+              .that(expected)
+              .containsExactly(edge);
+          assertWithMessage("%s contains a covering zero-value edge for %s", pairset, edge)
+              .that(pairset.set().contains(edge))
+              .isTrue();
+
+        } else {
+          // zero-value edge can be 'present' if covered by a zero-value edge in the set
+          // -- the only difference between presence in overlapping edges and in the set itself
+          assertWithMessage(
+                  "%s has a zero-value covering edge but does not contain %s in overlapping edges",
+                  pairset, edge)
+              .that(expected)
+              .doesNotContain(edge);
+          // cannot use assertThat(set).contains(edge) as set can contain a super-edge instead
+          assertWithMessage("%s contains a covering zero-value edge for %s", pairset, edge)
+              .that(pairset.set().contains(edge))
+              .isTrue();
         }
       }
     }

@@ -47,6 +47,8 @@ public sealed interface UnmodifiableSMG permits SMG, UnmodifiableCLangSMG {
 
   SMGHasValueEdges getHVEdgesFrom(SMGObject pObject);
 
+  boolean hasHVEdgesOverlapping(SMGObject pObject, long pOffset, long pBitsize);
+
   Set<SMGEdgePointsTo> getPtEdges(SMGEdgePointsToFilter pFilter);
 
   SMGPointsToEdges getPTEdges();

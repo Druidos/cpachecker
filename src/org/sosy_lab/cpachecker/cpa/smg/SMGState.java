@@ -1265,31 +1265,29 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     // TODO this code is ugly and might better be placed inside heap.getHVEdges,
     // but there it removes the existing value from the heap for the rest of the region
     // and that is not wanted. Thus we add this very special case here.
-    SMGEdgeHasValueFilter filterOffsetZero =
-        new SMGEdgeHasValueFilter()
-            .overlapsWith(
-                new SMGEdgeHasValue(pSizeInBits, pOffset, pObject, SMGZeroValue.INSTANCE));
-    Iterable<SMGEdgeHasValue> matchingEdgesOffsetZero = heap.getHVEdges(filterOffsetZero);
-    for (SMGEdgeHasValue object_edge : matchingEdgesOffsetZero) {
-      if (pOffset >= object_edge.getOffset()
-          && pOffset + pSizeInBits <= object_edge.getEndOffset()) {
-        SMGValue symValue = object_edge.getValue();
-        if (isExplicit(symValue)) {
-          SMGKnownExpValue expValue = getExplicit(symValue);
-          BigInteger value = expValue.getValue();
 
-          // extract the important bits
-          // TODO we depend on little or big endian here, query this info from machinemodel?
+    Optional<SMGEdgeHasValue> maybeCoveringEdge =
+        heap.getHVEdges().getCoveringEdge(pObject, pOffset, pSizeInBits);
 
-          // remove the lower part
-          value = value.shiftRight((int) (pOffset - object_edge.getOffset()));
-          for (int i = (int) pSizeInBits; i < value.bitLength(); i++) {
-            value = value.clearBit(i); // remove the upper part
-          }
+    if (maybeCoveringEdge.isPresent()) {
+      SMGEdgeHasValue object_edge = maybeCoveringEdge.orElseThrow();
+      SMGValue symValue = object_edge.getValue();
 
-          addElementToCurrentChain(object_edge);
-          return SMGValueAndState.of(this, SMGKnownExpValue.valueOf(value));
+      if (isExplicit(symValue)) {
+        SMGKnownExpValue expValue = getExplicit(symValue);
+        BigInteger value = expValue.getValue();
+
+        // extract the important bits
+        // TODO we depend on little or big endian here, query this info from machinemodel?
+
+        // remove the lower part
+        value = value.shiftRight((int) (pOffset - object_edge.getOffset()));
+        for (int i = (int) pSizeInBits; i < value.bitLength(); i++) {
+          value = value.clearBit(i); // remove the upper part
         }
+
+        addElementToCurrentChain(object_edge);
+        return SMGValueAndState.of(this, SMGKnownExpValue.valueOf(value));
       }
     }
 
@@ -1405,10 +1403,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     SMGEdgeHasValue new_edge = new SMGEdgeHasValue(pSizeInBits, pOffset, pObject, pValue);
 
     // Check if the edge is  not present already
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter().overlapsWith(new_edge);
-
-    Iterable<SMGEdgeHasValue> overlappingEdges = heap.getHVEdges(filter);
-    if (Iterables.contains(overlappingEdges, new_edge)) {
+    if (heap.getHVEdges().contains(new_edge)) {
       performConsistencyCheck(SMGRuntimeCheck.HALF);
       return new SMGStateEdgePair(this, new_edge);
     }
@@ -1420,7 +1415,8 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     /* We need to remove all non-zero overlapping edges
      * and remember all overlapping zero edges to shrink them later
      */
-    for (SMGEdgeHasValue hv : overlappingEdges) {
+    for (SMGEdgeHasValue hv :
+        heap.getHVEdges().getOverlappingEdges(pObject, pOffset, pSizeInBits)) {
 
       boolean hvEdgeIsZero = hv.getValue() == SMGZeroValue.INSTANCE;
 

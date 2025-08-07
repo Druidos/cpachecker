@@ -94,14 +94,10 @@ class SMGJoinFields {
             .filterNotHavingValue(SMGZeroValue.INSTANCE);
 
     for (SMGEdgeHasValue edge : pSMG1.getHVEdges(filterForSMG1)) {
-      if (!pSMG2
-          .getHVEdges(
-              new SMGEdgeHasValueFilter()
-                  .overlapsWith(
-                      new SMGEdgeHasValue(
-                          edge.getSizeInBits(), edge.getOffset(), pObj2, edge.getValue())))
-          .iterator()
-          .hasNext()) {
+      if (pSMG2
+          .getHVEdges()
+          .getOverlappingEdges(pObj2, edge.getOffset(), edge.getSizeInBits())
+          .isEmpty()) {
         returnSet =
             returnSet.addEdgeAndCopy(
                 new SMGEdgeHasValue(

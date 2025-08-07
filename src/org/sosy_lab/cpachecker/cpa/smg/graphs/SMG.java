@@ -398,6 +398,11 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   }
 
   @Override
+  public boolean hasHVEdgesOverlapping(SMGObject pObject, long pOffset, long pBitsize) {
+    return !getHVEdges().getOverlappingEdges(pObject, pOffset, pBitsize).isEmpty();
+  }
+
+  @Override
   public Set<SMGEdgePointsTo> getPtEdges(SMGEdgePointsToFilter pFilter) {
     return ImmutableSet.copyOf(pFilter.filter(pt_edges));
   }
