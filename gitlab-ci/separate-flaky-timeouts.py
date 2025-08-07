@@ -12,6 +12,10 @@ import os
 import re
 import sys
 from defusedxml.minidom import parse
+from datetime import datetime
+
+year = datetime.today().strftime('%Y')
+today = datetime.today().strftime('%Y-%m-%d')
 
 red_color = '\033[1;31m'
 green_color = '\033[1;32m'
@@ -24,7 +28,7 @@ This file is part of CPAchecker,
 a tool for configurable software verification:
 https://cpachecker.sosy-lab.org
 
-SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-FileCopyrightText: %s Dirk Beyer <https://www.sosy-lab.org>
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -32,7 +36,7 @@ SPDX-License-Identifier: Apache-2.0
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
 <result benchmarkname="%s.%s.%s" tool="CPAchecker" version="CI"
-  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  toolmodule="benchexec.tools.cpachecker" date="%s" starttime="-"
   generator="merged benchexec tables" name="%s">
   <description>Table merged from some GitLab CI results.</description>
   <columns>
@@ -166,12 +170,12 @@ def compose_two_bodies(key_triple, tables):
     testset, rundef, tasks = key_triple
     prefix = f'gitlab-ci/previous-results/{testset}.{rundef}.{tasks}'
     with open(prefix + '.previous-results.xml', 'wt', encoding='utf8') as f:
-        f.write(common_header % (testset, rundef, tasks, 'previous-results'))
+        f.write(common_header % (year, testset, rundef, tasks, today, 'previous-results'))
         f.writelines(common_newline + r.toxml() for r in primary)
         f.write(common_footer)
     if any_flaky:
         with open(prefix + '.timeouts.xml', 'wt', encoding='utf8') as f:
-            f.write(common_header % (testset, rundef, tasks, 'flaky-timeouts'))
+            f.write(common_header % (year, testset, rundef, tasks, today, 'flaky-timeouts'))
             f.writelines(common_newline + r.toxml() for r in secondary)
             f.write(common_footer)
 

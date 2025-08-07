@@ -4,7 +4,7 @@ This file is part of CPAchecker,
 a tool for configurable software verification:
 https://cpachecker.sosy-lab.org
 
-SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -12,7 +12,7 @@ SPDX-License-Identifier: Apache-2.0
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
 <result benchmarkname="long-memsafety.smg.lists" tool="CPAchecker" version="CI"
-  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  toolmodule="benchexec.tools.cpachecker" date="2025-08-06" starttime="-"
   generator="merged benchexec tables" name="previous-results">
   <description>Table merged from some GitLab CI results.</description>
   <columns>
@@ -26,710 +26,229 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
-  <run name="test/programs/benchmarks/memsafety-broom/dll-backwards.yml" files="[test/programs/benchmarks/memsafety-broom/dll-backwards.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.433105243s"/>
-    <column title="memory" value="223420416B"/>
-    <column title="reached" value="19336"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="3.247s"/>
-    <column title="transfer" value="23.323s"/>
-    <column title="walltime" value="31.49892543628812s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.429215699s" hidden="true"/>
-    <column title="cputime-cpu6" value="0.003889544s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:09:30.895018+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.442659406s"/>
-    <column title="memory" value="231424000B"/>
-    <column title="reached" value="20714"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.279s"/>
-    <column title="transfer" value="24.179s"/>
-    <column title="walltime" value="31.50407360587269s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.440843988s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.001815418s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:10:02.718230+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-fst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-fst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.375207903s"/>
-    <column title="memory" value="214183936B"/>
-    <column title="reached" value="15615"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.776s"/>
-    <column title="transfer" value="24.928s"/>
-    <column title="walltime" value="31.432301310822368s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.371805522s" hidden="true"/>
-    <column title="cputime-cpu3" value="0.003402381s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:10:34.460041+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.469924863s"/>
-    <column title="memory" value="228454400B"/>
-    <column title="reached" value="21110"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.457s"/>
-    <column title="transfer" value="24.252s"/>
-    <column title="walltime" value="31.530633637681603s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.468746498s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.001178365s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:11:06.090143+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-lst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-lst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.368502272s"/>
-    <column title="memory" value="214532096B"/>
-    <column title="reached" value="15348"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.837s"/>
-    <column title="transfer" value="24.888s"/>
-    <column title="walltime" value="31.432800169102848s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.364615624s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.003886648s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:11:37.841061+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.462669878s"/>
-    <column title="memory" value="221724672B"/>
-    <column title="reached" value="18710"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.073s"/>
-    <column title="transfer" value="24.570s"/>
-    <column title="walltime" value="31.515583771280944s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.461110818s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.00155906s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:12:09.450703+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll-middle-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-middle-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.389290111s"/>
-    <column title="memory" value="211845120B"/>
-    <column title="reached" value="13400"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.521s"/>
-    <column title="transfer" value="25.164s"/>
-    <column title="walltime" value="31.454979902133346s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.389001978s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.000288133s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:12:41.173134+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/dll.yml" files="[test/programs/benchmarks/memsafety-broom/dll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.427758609s"/>
-    <column title="memory" value="222478336B"/>
-    <column title="reached" value="18249"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="3.341s"/>
-    <column title="transfer" value="23.404s"/>
-    <column title="walltime" value="31.48938926588744s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.424658794s" hidden="true"/>
-    <column title="cputime-cpu2" value="0.003099815s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:13:12.815661+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="2.615257029s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="125796352B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="2.6241703582927585s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="2.615257029s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:13:44.503730+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="2.545612073s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="126910464B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="2.5531212259083986s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="2.545612073s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:13:47.304290+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="2.669316396s"/>
-    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
-    <column title="memory" value="125976576B"/>
-    <column title="status" value="EXCEPTION"/>
-    <column title="walltime" value="2.6792053040117025s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="2.669316396s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="1" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:13:50.028141+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-list-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.443921578s"/>
-    <column title="memory" value="220925952B"/>
-    <column title="reached" value="15731"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.812s"/>
-    <column title="transfer" value="24.934s"/>
-    <column title="walltime" value="31.503164066933095s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.441949121s" hidden="true"/>
-    <column title="cputime-cpu3" value="0.001972457s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:13:52.898845+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-list-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.39679198s"/>
-    <column title="memory" value="217669632B"/>
-    <column title="reached" value="15354"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.755s"/>
-    <column title="transfer" value="24.990s"/>
-    <column title="walltime" value="31.456698533147573s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.395942105s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.000849875s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:14:24.614599+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/linux-list-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.374952633s"/>
-    <column title="memory" value="212357120B"/>
-    <column title="reached" value="14009"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.307s"/>
-    <column title="transfer" value="25.385s"/>
-    <column title="walltime" value="31.422251941636205s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.372935524s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.002017109s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:14:56.318822+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.500312701s"/>
-    <column title="memory" value="233197568B"/>
-    <column title="reached" value="23405"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.647s"/>
-    <column title="transfer" value="23.962s"/>
-    <column title="walltime" value="31.55004345998168s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.498811787s" hidden="true"/>
-    <column title="cputime-cpu6" value="0.001500914s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:15:27.927206+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-fst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-fst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.469309805s"/>
-    <column title="memory" value="214274048B"/>
-    <column title="reached" value="17569"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.907s"/>
-    <column title="transfer" value="24.685s"/>
-    <column title="walltime" value="31.532216689549387s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.465747468s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.003562337s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:15:59.676410+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.477819783s"/>
-    <column title="memory" value="233435136B"/>
-    <column title="reached" value="22940"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.785s"/>
-    <column title="transfer" value="23.822s"/>
-    <column title="walltime" value="31.536866498179734s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.477185467s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.000634316s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:16:31.409868+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-lst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-lst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.411116595s"/>
-    <column title="memory" value="221442048B"/>
-    <column title="reached" value="17556"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.664s"/>
-    <column title="transfer" value="24.836s"/>
-    <column title="walltime" value="31.468479436822236s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.408762676s" hidden="true"/>
-    <column title="cputime-cpu2" value="0.002353919s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:03.143303+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.431703203s"/>
-    <column title="memory" value="230494208B"/>
-    <column title="reached" value="20225"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="2.045s"/>
-    <column title="transfer" value="24.495s"/>
-    <column title="walltime" value="31.493252281099558s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.431057999s" hidden="true"/>
-    <column title="cputime-cpu2" value="0.000645204s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:17:34.803587+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-middle-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-middle-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.480827998s"/>
-    <column title="memory" value="214630400B"/>
-    <column title="reached" value="14944"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.395s"/>
-    <column title="transfer" value="25.188s"/>
-    <column title="walltime" value="31.536419580690563s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.479862127s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.000965871s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:18:06.486070+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-linux-list.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-linux-list.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.462000911s"/>
-    <column title="memory" value="221143040B"/>
-    <column title="reached" value="15030"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.954s"/>
-    <column title="transfer" value="24.643s"/>
-    <column title="walltime" value="31.52328967116773s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.460082388s" hidden="true"/>
-    <column title="cputime-cpu3" value="0.001918523s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:18:38.222867+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-inline.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-inline.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.291530193s"/>
-    <column title="memory" value="198000640B"/>
-    <column title="reached" value="3932"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.536s"/>
-    <column title="transfer" value="26.528s"/>
-    <column title="walltime" value="31.35247119423002s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.28898657s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.002543623s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:19:09.935209+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.28511213s"/>
-    <column title="memory" value="205897728B"/>
-    <column title="reached" value="3568"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.574s"/>
-    <column title="transfer" value="26.477s"/>
-    <column title="walltime" value="31.34441860858351s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.283694995s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.001417135s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:19:41.486407+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.28914094s"/>
-    <column title="memory" value="197656576B"/>
-    <column title="reached" value="3905"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.522s"/>
-    <column title="transfer" value="26.442s"/>
-    <column title="walltime" value="31.336491817608476s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.288081642s" hidden="true"/>
-    <column title="cputime-cpu6" value="0.001059298s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:20:13.026032+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.298195711s"/>
-    <column title="memory" value="206262272B"/>
-    <column title="reached" value="3833"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.560s"/>
-    <column title="transfer" value="26.621s"/>
-    <column title="walltime" value="31.360727002844214s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.296560257s" hidden="true"/>
-    <column title="cputime-cpu2" value="0.001635454s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:20:44.542625+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-after.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-after.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.40737615s"/>
-    <column title="memory" value="213037056B"/>
-    <column title="reached" value="12225"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="3.969s"/>
-    <column title="transfer" value="22.752s"/>
-    <column title="walltime" value="31.46977354492992s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.404975966s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.002400184s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:21:16.103539+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-before.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-before.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.433459964s"/>
-    <column title="memory" value="219963392B"/>
-    <column title="reached" value="15257"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="4.182s"/>
-    <column title="transfer" value="22.298s"/>
-    <column title="walltime" value="31.49533365573734s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.431665474s" hidden="true"/>
-    <column title="cputime-cpu5" value="0.00179449s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:21:47.797914+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll-after.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll-after.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.364950246s"/>
-    <column title="memory" value="201932800B"/>
-    <column title="reached" value="3970"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.452s"/>
-    <column title="transfer" value="26.679s"/>
-    <column title="walltime" value="31.42210217565298s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.362623869s" hidden="true"/>
-    <column title="cputime-cpu6" value="0.002326377s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:22:19.483185+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll-before.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll-before.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.27667636s"/>
-    <column title="memory" value="200818688B"/>
-    <column title="reached" value="4128"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.646s"/>
-    <column title="transfer" value="26.377s"/>
-    <column title="walltime" value="31.323205049149692s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.273573551s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.003102809s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:22:51.128163+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.284508695s"/>
-    <column title="memory" value="203251712B"/>
-    <column title="reached" value="3852"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.502s"/>
-    <column title="transfer" value="26.478s"/>
-    <column title="walltime" value="31.34433165565133s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.281039737s" hidden="true"/>
-    <column title="cputime-cpu4" value="0.003468958s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:23:22.648407+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/memsafety-broom/sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.368998561s"/>
-    <column title="memory" value="209567744B"/>
-    <column title="reached" value="13265"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="3.377s"/>
-    <column title="transfer" value="23.370s"/>
-    <column title="walltime" value="31.429559373296797s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.368135539s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.000863022s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:23:54.193788+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/heap-manipulation/bubble_sort_linux-1.yml" files="[test/programs/benchmarks/heap-manipulation/bubble_sort_linux-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.302385337s"/>
-    <column title="memory" value="195612672B"/>
-    <column title="reached" value="4066"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.302s"/>
-    <column title="transfer" value="26.491s"/>
-    <column title="walltime" value="31.36121355742216s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.298485193s" hidden="true"/>
-    <column title="cputime-cpu7" value="0.003900144s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:24:25.828797+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/heap-manipulation/dancing.yml" files="[test/programs/benchmarks/heap-manipulation/dancing.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="4.29778672s"/>
-    <column title="error" value="Unknown function 'is_list_containing_x' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="160108544B"/>
-    <column title="reached" value="346"/>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_all.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_all.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.00198453s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="192000000B"/>
+    <column title="reached" value="878"/>
     <column title="status" value="ERROR"/>
-    <column title="stop" value="0.003s"/>
-    <column title="transfer" value="0.462s"/>
-    <column title="walltime" value="4.314470807090402s"/>
+    <column title="stop" value="0.182s"/>
+    <column title="transfer" value="1.568s"/>
+    <column title="walltime" value="7.015010505914688s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.29778672s" hidden="true"/>
+    <column title="cputime-cpu0" value="7.00198453s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:24:57.398470+00:00" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:37:58.576801+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/heap-manipulation/dll_of_dll-1.yml" files="[test/programs/benchmarks/heap-manipulation/dll_of_dll-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.370811061s"/>
-    <column title="error" value="Unknown function 'dll_create_generic' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162906112B"/>
-    <column title="reached" value="306"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.006s"/>
-    <column title="transfer" value="0.434s"/>
-    <column title="walltime" value="4.391046924516559s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.370811061s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:25:01.903835+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/heap-manipulation/merge_sort-2.yml" files="[test/programs/benchmarks/heap-manipulation/merge_sort-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.283663893s"/>
-    <column title="memory" value="231075840B"/>
-    <column title="reached" value="2546"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.407s"/>
-    <column title="transfer" value="26.606s"/>
-    <column title="walltime" value="31.33868513442576s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.283401958s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.000261935s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:25:06.487245+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/heap-manipulation/sll_to_dll_rev-2.yml" files="[test/programs/benchmarks/heap-manipulation/sll_to_dll_rev-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.317697011s"/>
-    <column title="memory" value="194797568B"/>
-    <column title="reached" value="4499"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="0.409s"/>
-    <column title="transfer" value="26.489s"/>
-    <column title="walltime" value="31.37955156248063s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.31668818s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.001008831s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:25:38.018027+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/heap-manipulation/tree-1.yml" files="[test/programs/benchmarks/heap-manipulation/tree-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.170554373s"/>
-    <column title="memory" value="158773248B"/>
-    <column title="reached" value="279"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.017s"/>
-    <column title="transfer" value="0.414s"/>
-    <column title="walltime" value="4.179871213622391s"/>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.174355112s"/>
+    <column title="memory" value="192684032B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.227s"/>
+    <column title="transfer" value="2.610s"/>
+    <column title="walltime" value="8.201174598187208s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="correct" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.170554373s" hidden="true"/>
+    <column title="cputime-cpu0" value="8.174355112s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:26:09.592208+00:00" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:05.798550+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/heap-manipulation/tree-2.yml" files="[test/programs/benchmarks/heap-manipulation/tree-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.296098795s"/>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.301555119s"/>
+    <column title="memory" value="194015232B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.319s"/>
+    <column title="transfer" value="2.699s"/>
+    <column title="walltime" value="8.328931365162134s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.301555119s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:14.194666+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.043390198s"/>
+    <column title="memory" value="190722048B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.259s"/>
+    <column title="transfer" value="2.556s"/>
+    <column title="walltime" value="8.070990890264511s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.043390198s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:22.704261+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.767998389s"/>
+    <column title="memory" value="194723840B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.321s"/>
+    <column title="transfer" value="3.106s"/>
+    <column title="walltime" value="8.794259577058256s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.767998389s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:30.967842+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="7.005406655s"/>
     <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="160071680B"/>
-    <column title="reached" value="339"/>
+    <column title="memory" value="191881216B"/>
+    <column title="reached" value="881"/>
     <column title="status" value="ERROR"/>
-    <column title="stop" value="0.010s"/>
-    <column title="transfer" value="0.449s"/>
-    <column title="walltime" value="4.308807554654777s"/>
+    <column title="stop" value="0.361s"/>
+    <column title="transfer" value="1.395s"/>
+    <column title="walltime" value="7.035376307554543s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.296098795s" hidden="true"/>
+    <column title="cputime-cpu0" value="7.005406655s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:26:13.968293+00:00" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:39.972366+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.214962673s"/>
+    <column title="memory" value="189947904B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.262s"/>
+    <column title="transfer" value="2.586s"/>
+    <column title="walltime" value="8.242892255075276s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.214962673s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:47.191736+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="6.918317422s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="181854208B"/>
+    <column title="reached" value="876"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.272s"/>
+    <column title="transfer" value="1.366s"/>
+    <column title="walltime" value="6.941026592627168s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.918317422s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:38:55.632304+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.408376111s"/>
+    <column title="memory" value="190500864B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.341s"/>
+    <column title="transfer" value="2.787s"/>
+    <column title="walltime" value="8.438103973865509s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.408376111s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:39:02.757090+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.524199395s"/>
+    <column title="memory" value="192139264B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.286s"/>
+    <column title="transfer" value="2.823s"/>
+    <column title="walltime" value="8.550853423774242s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.524199395s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:39:11.391665+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.36945907s"/>
+    <column title="memory" value="194322432B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.287s"/>
+    <column title="transfer" value="2.783s"/>
+    <column title="walltime" value="8.390335059724748s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.36945907s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:39:20.126127+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outw_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outw_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.894081804s"/>
+    <column title="memory" value="193220608B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.401s"/>
+    <column title="transfer" value="3.185s"/>
+    <column title="walltime" value="8.916827904060483s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.894081804s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:39:28.717305+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_pthread_mutex_unlock.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_pthread_mutex_unlock.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.244125828s"/>
+    <column title="memory" value="190619648B"/>
+    <column title="reached" value="1059"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.267s"/>
+    <column title="transfer" value="2.626s"/>
+    <column title="walltime" value="8.269384820014238s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.244125828s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:39:37.838275+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/forester-heap/dll-01-2.yml" files="[test/programs/benchmarks/forester-heap/dll-01-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="32.46408159s"/>
@@ -1197,6 +716,343 @@ SPDX-License-Identifier: Apache-2.0
     <column title="starttime" value="2024-07-31T12:36:32.972960+00:00" hidden="true"/>
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
+  <run name="test/programs/benchmarks/heap-manipulation/bubble_sort_linux-1.yml" files="[test/programs/benchmarks/heap-manipulation/bubble_sort_linux-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.302385337s"/>
+    <column title="memory" value="195612672B"/>
+    <column title="reached" value="4066"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.302s"/>
+    <column title="transfer" value="26.491s"/>
+    <column title="walltime" value="31.36121355742216s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.298485193s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.003900144s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:24:25.828797+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/dancing.yml" files="[test/programs/benchmarks/heap-manipulation/dancing.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="4.29778672s"/>
+    <column title="error" value="Unknown function 'is_list_containing_x' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="160108544B"/>
+    <column title="reached" value="346"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.462s"/>
+    <column title="walltime" value="4.314470807090402s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.29778672s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:24:57.398470+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/dll_of_dll-1.yml" files="[test/programs/benchmarks/heap-manipulation/dll_of_dll-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.370811061s"/>
+    <column title="error" value="Unknown function 'dll_create_generic' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162906112B"/>
+    <column title="reached" value="306"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.006s"/>
+    <column title="transfer" value="0.434s"/>
+    <column title="walltime" value="4.391046924516559s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.370811061s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:25:01.903835+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/merge_sort-2.yml" files="[test/programs/benchmarks/heap-manipulation/merge_sort-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.283663893s"/>
+    <column title="memory" value="231075840B"/>
+    <column title="reached" value="2546"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.407s"/>
+    <column title="transfer" value="26.606s"/>
+    <column title="walltime" value="31.33868513442576s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.283401958s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.000261935s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:25:06.487245+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/sll_to_dll_rev-2.yml" files="[test/programs/benchmarks/heap-manipulation/sll_to_dll_rev-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.317697011s"/>
+    <column title="memory" value="194797568B"/>
+    <column title="reached" value="4499"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.409s"/>
+    <column title="transfer" value="26.489s"/>
+    <column title="walltime" value="31.37955156248063s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.31668818s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.001008831s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:25:38.018027+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/tree-1.yml" files="[test/programs/benchmarks/heap-manipulation/tree-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.170554373s"/>
+    <column title="memory" value="158773248B"/>
+    <column title="reached" value="279"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.017s"/>
+    <column title="transfer" value="0.414s"/>
+    <column title="walltime" value="4.179871213622391s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.170554373s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:26:09.592208+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/heap-manipulation/tree-2.yml" files="[test/programs/benchmarks/heap-manipulation/tree-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.296098795s"/>
+    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="160071680B"/>
+    <column title="reached" value="339"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="0.449s"/>
+    <column title="walltime" value="4.308807554654777s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.296098795s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:26:13.968293+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-1.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.720594075s"/>
+    <column title="memory" value="171200512B"/>
+    <column title="reached" value="435"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.031s"/>
+    <column title="transfer" value="0.793s"/>
+    <column title="walltime" value="4.740481369197369s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.720594075s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:42:52.489390+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.576328182s"/>
+    <column title="memory" value="162603008B"/>
+    <column title="reached" value="433"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.064s"/>
+    <column title="transfer" value="0.645s"/>
+    <column title="walltime" value="4.5956901060417295s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.576328182s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:42:57.405702+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-1.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.400819659s"/>
+    <column title="memory" value="161067008B"/>
+    <column title="reached" value="358"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.515s"/>
+    <column title="walltime" value="4.411275133490562s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.400819659s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:02.217037+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="4.468094307s"/>
+    <column title="memory" value="166039552B"/>
+    <column title="reached" value="329"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.634s"/>
+    <column title="walltime" value="4.478699693456292s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.467986453s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.000107854s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:06.832924+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/dll_nullified-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nullified-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.522572132s"/>
+    <column title="memory" value="162533376B"/>
+    <column title="reached" value="435"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.033s"/>
+    <column title="transfer" value="0.707s"/>
+    <column title="walltime" value="4.535449834540486s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.522572132s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:11.502854+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.534480875s"/>
+    <column title="memory" value="161099776B"/>
+    <column title="reached" value="435"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.029s"/>
+    <column title="transfer" value="0.651s"/>
+    <column title="walltime" value="4.556154890917242s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.534480875s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:16.244783+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="4.584242222s"/>
+    <column title="memory" value="163880960B"/>
+    <column title="reached" value="426"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.037s"/>
+    <column title="transfer" value="0.772s"/>
+    <column title="walltime" value="4.60334537178278s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.584242222s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:21.018734+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_length_check-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_length_check-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="15.045124471s"/>
+    <column title="memory" value="220041216B"/>
+    <column title="reached" value="12853"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="1.389s"/>
+    <column title="transfer" value="8.989s"/>
+    <column title="walltime" value="15.080388141795993s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="15.045124471s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:25.792956+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_nondet_insert-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_nondet_insert-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.899498011s"/>
+    <column title="memory" value="306343936B"/>
+    <column title="reached" value="53891"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="6.036s"/>
+    <column title="transfer" value="20.112s"/>
+    <column title="walltime" value="31.96027093846351s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.899343964s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.000154047s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:43:41.049031+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_of_sll_nondet_append-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_of_sll_nondet_append-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.323618022s"/>
+    <column title="memory" value="214822912B"/>
+    <column title="reached" value="10124"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.663s"/>
+    <column title="transfer" value="25.142s"/>
+    <column title="walltime" value="31.384284398518503s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.321548043s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.002069979s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:44:13.191111+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.139309371s"/>
+    <column title="memory" value="164950016B"/>
+    <column title="reached" value="286"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.395s"/>
+    <column title="walltime" value="4.15281174518168s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.139309371s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:44:44.782967+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="4.218414449s"/>
+    <column title="memory" value="161390592B"/>
+    <column title="reached" value="282"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.485s"/>
+    <column title="walltime" value="4.243313484825194s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.218414449s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:44:49.126939+00:00" hidden="true"/>
+  </run>
   <run name="test/programs/benchmarks/list-properties/alternating_list-1.yml" files="[test/programs/benchmarks/list-properties/alternating_list-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="31.395147821s"/>
     <column title="memory" value="223395840B"/>
@@ -1301,230 +1157,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T12:37:54.192150+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_all.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_all.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="7.00198453s"/>
-    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="192000000B"/>
-    <column title="reached" value="878"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.182s"/>
-    <column title="transfer" value="1.568s"/>
-    <column title="walltime" value="7.015010505914688s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="7.00198453s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:37:58.576801+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.174355112s"/>
-    <column title="memory" value="192684032B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.227s"/>
-    <column title="transfer" value="2.610s"/>
-    <column title="walltime" value="8.201174598187208s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.174355112s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:05.798550+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inb_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.301555119s"/>
-    <column title="memory" value="194015232B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.319s"/>
-    <column title="transfer" value="2.699s"/>
-    <column title="walltime" value="8.328931365162134s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.301555119s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:14.194666+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.043390198s"/>
-    <column title="memory" value="190722048B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.259s"/>
-    <column title="transfer" value="2.556s"/>
-    <column title="walltime" value="8.070990890264511s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.043390198s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:22.704261+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inl_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.767998389s"/>
-    <column title="memory" value="194723840B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.321s"/>
-    <column title="transfer" value="3.106s"/>
-    <column title="walltime" value="8.794259577058256s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.767998389s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:30.967842+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="7.005406655s"/>
-    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="191881216B"/>
-    <column title="reached" value="881"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.361s"/>
-    <column title="transfer" value="1.395s"/>
-    <column title="walltime" value="7.035376307554543s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="7.005406655s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:39.972366+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_inw_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.214962673s"/>
-    <column title="memory" value="189947904B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.262s"/>
-    <column title="transfer" value="2.586s"/>
-    <column title="walltime" value="8.242892255075276s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.214962673s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:47.191736+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="6.918317422s"/>
-    <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="181854208B"/>
-    <column title="reached" value="876"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.272s"/>
-    <column title="transfer" value="1.366s"/>
-    <column title="walltime" value="6.941026592627168s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="6.918317422s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:38:55.632304+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outb_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.408376111s"/>
-    <column title="memory" value="190500864B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.341s"/>
-    <column title="transfer" value="2.787s"/>
-    <column title="walltime" value="8.438103973865509s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.408376111s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:39:02.757090+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.524199395s"/>
-    <column title="memory" value="192139264B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.286s"/>
-    <column title="transfer" value="2.823s"/>
-    <column title="walltime" value="8.550853423774242s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.524199395s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:39:11.391665+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outl_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.36945907s"/>
-    <column title="memory" value="194322432B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.287s"/>
-    <column title="transfer" value="2.783s"/>
-    <column title="walltime" value="8.390335059724748s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.36945907s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:39:20.126127+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outw_p.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_outw_p.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.894081804s"/>
-    <column title="memory" value="193220608B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.401s"/>
-    <column title="transfer" value="3.185s"/>
-    <column title="walltime" value="8.916827904060483s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.894081804s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:39:28.717305+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/ddv-machzwd/ddv_machzwd_pthread_mutex_unlock.yml" files="[test/programs/benchmarks/ddv-machzwd/ddv_machzwd_pthread_mutex_unlock.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.244125828s"/>
-    <column title="memory" value="190619648B"/>
-    <column title="reached" value="1059"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.267s"/>
-    <column title="transfer" value="2.626s"/>
-    <column title="walltime" value="8.269384820014238s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.244125828s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:39:37.838275+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/list-simple/dll2c_append_equal.yml" files="[test/programs/benchmarks/list-simple/dll2c_append_equal.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="4.454291999s"/>
@@ -2206,214 +1838,581 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T12:42:47.780195+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-1.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.720594075s"/>
-    <column title="memory" value="171200512B"/>
-    <column title="reached" value="435"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.031s"/>
-    <column title="transfer" value="0.793s"/>
-    <column title="walltime" value="4.740481369197369s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.720594075s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:42:52.489390+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_circular_traversal-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.576328182s"/>
-    <column title="memory" value="162603008B"/>
-    <column title="reached" value="433"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.064s"/>
-    <column title="transfer" value="0.645s"/>
-    <column title="walltime" value="4.5956901060417295s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.576328182s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:42:57.405702+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-1.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.400819659s"/>
-    <column title="memory" value="161067008B"/>
-    <column title="reached" value="358"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.008s"/>
-    <column title="transfer" value="0.515s"/>
-    <column title="walltime" value="4.411275133490562s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.400819659s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:02.217037+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nondet_free_order-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="4.468094307s"/>
-    <column title="memory" value="166039552B"/>
-    <column title="reached" value="329"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.003s"/>
-    <column title="transfer" value="0.634s"/>
-    <column title="walltime" value="4.478699693456292s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.467986453s" hidden="true"/>
-    <column title="cputime-cpu3" value="0.000107854s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:06.832924+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/dll_nullified-2.yml" files="[test/programs/benchmarks/list-ext3-properties/dll_nullified-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.522572132s"/>
-    <column title="memory" value="162533376B"/>
-    <column title="reached" value="435"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.033s"/>
-    <column title="transfer" value="0.707s"/>
-    <column title="walltime" value="4.535449834540486s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.522572132s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:11.502854+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.534480875s"/>
-    <column title="memory" value="161099776B"/>
-    <column title="reached" value="435"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.029s"/>
-    <column title="transfer" value="0.651s"/>
-    <column title="walltime" value="4.556154890917242s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.534480875s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:16.244783+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_circular_traversal-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="4.584242222s"/>
-    <column title="memory" value="163880960B"/>
-    <column title="reached" value="426"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.037s"/>
-    <column title="transfer" value="0.772s"/>
-    <column title="walltime" value="4.60334537178278s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.584242222s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:21.018734+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_length_check-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_length_check-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="15.045124471s"/>
-    <column title="memory" value="220041216B"/>
-    <column title="reached" value="12853"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="1.389s"/>
-    <column title="transfer" value="8.989s"/>
-    <column title="walltime" value="15.080388141795993s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="15.045124471s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:25.792956+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_nondet_insert-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_nondet_insert-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.899498011s"/>
-    <column title="memory" value="306343936B"/>
-    <column title="reached" value="53891"/>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-backwards.yml" files="[test/programs/benchmarks/memsafety-broom/dll-backwards.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.433105243s"/>
+    <column title="memory" value="223420416B"/>
+    <column title="reached" value="19336"/>
     <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="6.036s"/>
-    <column title="transfer" value="20.112s"/>
-    <column title="walltime" value="31.96027093846351s"/>
+    <column title="stop" value="3.247s"/>
+    <column title="transfer" value="23.323s"/>
+    <column title="walltime" value="31.49892543628812s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.899343964s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.000154047s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.429215699s" hidden="true"/>
+    <column title="cputime-cpu6" value="0.003889544s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:43:41.049031+00:00" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:09:30.895018+00:00" hidden="true"/>
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_of_sll_nondet_append-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_of_sll_nondet_append-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.323618022s"/>
-    <column title="memory" value="214822912B"/>
-    <column title="reached" value="10124"/>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.442659406s"/>
+    <column title="memory" value="231424000B"/>
+    <column title="reached" value="20714"/>
     <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="1.663s"/>
-    <column title="transfer" value="25.142s"/>
-    <column title="walltime" value="31.384284398518503s"/>
+    <column title="stop" value="2.279s"/>
+    <column title="transfer" value="24.179s"/>
+    <column title="walltime" value="31.50407360587269s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
     <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.321548043s" hidden="true"/>
-    <column title="cputime-cpu1" value="0.002069979s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.440843988s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.001815418s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:44:13.191111+00:00" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:10:02.718230+00:00" hidden="true"/>
     <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-1.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.139309371s"/>
-    <column title="memory" value="164950016B"/>
-    <column title="reached" value="286"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.395s"/>
-    <column title="walltime" value="4.15281174518168s"/>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-fst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-fst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.375207903s"/>
+    <column title="memory" value="214183936B"/>
+    <column title="reached" value="15615"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.776s"/>
+    <column title="transfer" value="24.928s"/>
+    <column title="walltime" value="31.432301310822368s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.139309371s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.371805522s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.003402381s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:44:44.782967+00:00" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:10:34.460041+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-2.yml" files="[test/programs/benchmarks/list-ext3-properties/sll_shallow_copy-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="4.218414449s"/>
-    <column title="memory" value="161390592B"/>
-    <column title="reached" value="282"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.485s"/>
-    <column title="walltime" value="4.243313484825194s"/>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.469924863s"/>
+    <column title="memory" value="228454400B"/>
+    <column title="reached" value="21110"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.457s"/>
+    <column title="transfer" value="24.252s"/>
+    <column title="walltime" value="31.530633637681603s"/>
     <column title="blkio-read" value="0B" hidden="true"/>
     <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
     <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.218414449s" hidden="true"/>
+    <column title="cputime-cpu0" value="31.468746498s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.001178365s" hidden="true"/>
     <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:44:49.126939+00:00" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:11:06.090143+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
   </run>
-  
+  <run name="test/programs/benchmarks/memsafety-broom/dll-lst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-lst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.368502272s"/>
+    <column title="memory" value="214532096B"/>
+    <column title="reached" value="15348"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.837s"/>
+    <column title="transfer" value="24.888s"/>
+    <column title="walltime" value="31.432800169102848s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.364615624s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.003886648s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:11:37.841061+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/dll-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.462669878s"/>
+    <column title="memory" value="221724672B"/>
+    <column title="reached" value="18710"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.073s"/>
+    <column title="transfer" value="24.570s"/>
+    <column title="walltime" value="31.515583771280944s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.461110818s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.00155906s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:12:09.450703+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/dll-middle-shared.yml" files="[test/programs/benchmarks/memsafety-broom/dll-middle-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.389290111s"/>
+    <column title="memory" value="211845120B"/>
+    <column title="reached" value="13400"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.521s"/>
+    <column title="transfer" value="25.164s"/>
+    <column title="walltime" value="31.454979902133346s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.389001978s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.000288133s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:12:41.173134+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/dll.yml" files="[test/programs/benchmarks/memsafety-broom/dll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.427758609s"/>
+    <column title="memory" value="222478336B"/>
+    <column title="reached" value="18249"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="3.341s"/>
+    <column title="transfer" value="23.404s"/>
+    <column title="walltime" value="31.48938926588744s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.424658794s" hidden="true"/>
+    <column title="cputime-cpu2" value="0.003099815s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:13:12.815661+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.615257029s"/>
+    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
+    <column title="memory" value="125796352B"/>
+    <column title="status" value="EXCEPTION"/>
+    <column title="walltime" value="2.6241703582927585s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.615257029s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="1" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:13:44.503730+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.545612073s"/>
+    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
+    <column title="memory" value="126910464B"/>
+    <column title="status" value="EXCEPTION"/>
+    <column title="walltime" value="2.5531212259083986s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.545612073s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="1" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:13:47.304290+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-hlist-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-hlist-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="2.669316396s"/>
+    <column title="exception" value="Exception in thread &quot;main&quot; java.lang.NullPointerException"/>
+    <column title="memory" value="125976576B"/>
+    <column title="status" value="EXCEPTION"/>
+    <column title="walltime" value="2.6792053040117025s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="2.669316396s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="1" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:13:50.028141+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-list-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.443921578s"/>
+    <column title="memory" value="220925952B"/>
+    <column title="reached" value="15731"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.812s"/>
+    <column title="transfer" value="24.934s"/>
+    <column title="walltime" value="31.503164066933095s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.441949121s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.001972457s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:13:52.898845+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-list-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.39679198s"/>
+    <column title="memory" value="217669632B"/>
+    <column title="reached" value="15354"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.755s"/>
+    <column title="transfer" value="24.990s"/>
+    <column title="walltime" value="31.456698533147573s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.395942105s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.000849875s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:14:24.614599+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/linux-list-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/linux-list-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.374952633s"/>
+    <column title="memory" value="212357120B"/>
+    <column title="reached" value="14009"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.307s"/>
+    <column title="transfer" value="25.385s"/>
+    <column title="walltime" value="31.422251941636205s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.372935524s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.002017109s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:14:56.318822+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-fst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-fst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.500312701s"/>
+    <column title="memory" value="233197568B"/>
+    <column title="reached" value="23405"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.647s"/>
+    <column title="transfer" value="23.962s"/>
+    <column title="walltime" value="31.55004345998168s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.498811787s" hidden="true"/>
+    <column title="cputime-cpu6" value="0.001500914s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:15:27.927206+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-fst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-fst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.469309805s"/>
+    <column title="memory" value="214274048B"/>
+    <column title="reached" value="17569"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.907s"/>
+    <column title="transfer" value="24.685s"/>
+    <column title="walltime" value="31.532216689549387s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.465747468s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.003562337s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:15:59.676410+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.477819783s"/>
+    <column title="memory" value="233435136B"/>
+    <column title="reached" value="22940"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.785s"/>
+    <column title="transfer" value="23.822s"/>
+    <column title="walltime" value="31.536866498179734s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.477185467s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.000634316s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:16:31.409868+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-lst-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-lst-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.411116595s"/>
+    <column title="memory" value="221442048B"/>
+    <column title="reached" value="17556"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.664s"/>
+    <column title="transfer" value="24.836s"/>
+    <column title="walltime" value="31.468479436822236s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.408762676s" hidden="true"/>
+    <column title="cputime-cpu2" value="0.002353919s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:17:03.143303+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-middle-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-middle-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.431703203s"/>
+    <column title="memory" value="230494208B"/>
+    <column title="reached" value="20225"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="2.045s"/>
+    <column title="transfer" value="24.495s"/>
+    <column title="walltime" value="31.493252281099558s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.431057999s" hidden="true"/>
+    <column title="cputime-cpu2" value="0.000645204s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:17:34.803587+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-middle-shared.yml" files="[test/programs/benchmarks/memsafety-broom/sll-middle-shared.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.480827998s"/>
+    <column title="memory" value="214630400B"/>
+    <column title="reached" value="14944"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.395s"/>
+    <column title="transfer" value="25.188s"/>
+    <column title="walltime" value="31.536419580690563s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.479862127s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.000965871s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:18:06.486070+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-linux-list.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-linux-list.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.462000911s"/>
+    <column title="memory" value="221143040B"/>
+    <column title="reached" value="15030"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="1.954s"/>
+    <column title="transfer" value="24.643s"/>
+    <column title="walltime" value="31.52328967116773s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.460082388s" hidden="true"/>
+    <column title="cputime-cpu3" value="0.001918523s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:18:38.222867+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-inline.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-inline.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.291530193s"/>
+    <column title="memory" value="198000640B"/>
+    <column title="reached" value="3932"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.536s"/>
+    <column title="transfer" value="26.528s"/>
+    <column title="walltime" value="31.35247119423002s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.28898657s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.002543623s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:19:09.935209+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-lst-data.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.28511213s"/>
+    <column title="memory" value="205897728B"/>
+    <column title="reached" value="3568"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.574s"/>
+    <column title="transfer" value="26.477s"/>
+    <column title="walltime" value="31.34441860858351s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.283694995s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.001417135s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:19:41.486407+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll-twice.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.28914094s"/>
+    <column title="memory" value="197656576B"/>
+    <column title="reached" value="3905"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.522s"/>
+    <column title="transfer" value="26.442s"/>
+    <column title="walltime" value="31.336491817608476s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.288081642s" hidden="true"/>
+    <column title="cputime-cpu6" value="0.001059298s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:20:13.026032+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-nested-sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll-nested-sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.298195711s"/>
+    <column title="memory" value="206262272B"/>
+    <column title="reached" value="3833"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.560s"/>
+    <column title="transfer" value="26.621s"/>
+    <column title="walltime" value="31.360727002844214s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.296560257s" hidden="true"/>
+    <column title="cputime-cpu2" value="0.001635454s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:20:44.542625+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-after.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-after.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.40737615s"/>
+    <column title="memory" value="213037056B"/>
+    <column title="reached" value="12225"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="3.969s"/>
+    <column title="transfer" value="22.752s"/>
+    <column title="walltime" value="31.46977354492992s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.404975966s" hidden="true"/>
+    <column title="cputime-cpu1" value="0.002400184s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:21:16.103539+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-before.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-before.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.433459964s"/>
+    <column title="memory" value="219963392B"/>
+    <column title="reached" value="15257"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="4.182s"/>
+    <column title="transfer" value="22.298s"/>
+    <column title="walltime" value="31.49533365573734s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.431665474s" hidden="true"/>
+    <column title="cputime-cpu5" value="0.00179449s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:21:47.797914+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll-after.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll-after.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.364950246s"/>
+    <column title="memory" value="201932800B"/>
+    <column title="reached" value="3970"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.452s"/>
+    <column title="transfer" value="26.679s"/>
+    <column title="walltime" value="31.42210217565298s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.362623869s" hidden="true"/>
+    <column title="cputime-cpu6" value="0.002326377s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:22:19.483185+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll-before.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll-before.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.27667636s"/>
+    <column title="memory" value="200818688B"/>
+    <column title="reached" value="4128"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.646s"/>
+    <column title="transfer" value="26.377s"/>
+    <column title="walltime" value="31.323205049149692s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.273573551s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.003102809s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:22:51.128163+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll-shared-sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll-shared-sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.284508695s"/>
+    <column title="memory" value="203251712B"/>
+    <column title="reached" value="3852"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="0.502s"/>
+    <column title="transfer" value="26.478s"/>
+    <column title="walltime" value="31.34433165565133s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.281039737s" hidden="true"/>
+    <column title="cputime-cpu4" value="0.003468958s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:23:22.648407+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/memsafety-broom/sll.yml" files="[test/programs/benchmarks/memsafety-broom/sll.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.368998561s"/>
+    <column title="memory" value="209567744B"/>
+    <column title="reached" value="13265"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="3.377s"/>
+    <column title="transfer" value="23.370s"/>
+    <column title="walltime" value="31.429559373296797s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.368135539s" hidden="true"/>
+    <column title="cputime-cpu7" value="0.000863022s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:23:54.193788+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
 </result>

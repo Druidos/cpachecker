@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is part of CPAchecker,
+a tool for configurable software verification:
+https://cpachecker.sosy-lab.org
+
+SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-License-Identifier: Apache-2.0
+-->
+
 <!DOCTYPE result
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
-<result benchmarkname="smg_color" date="2025-03-20 15:29:35 UTC" starttime="2025-03-20T15:29:36.028796+00:00" tool="CPAchecker" version="3.1-svn-bc8bc967" toolmodule="benchexec.tools.cpachecker" generator="BenchExec 3.25" memlimit="1000000000B" timelimit="60s" cpuCores="1" options="--no-output-files --heap 512M --smg-ldv --preprocess --no-output-files --stats --option cpa.smg.greenMemoryFunctions=green_malloc,green_free --option cpa.smg.redMemoryFunctions=red_malloc,red_free --option cpa.smg.memoryAllocationFunctions = malloc,green_malloc,red_malloc --option cpa.smg.deallocationFunctions = free,green_free,red_free" block="smg_color" name="smg_color.smg_color" endtime="2025-03-20T15:30:24.132722+00:00">
+<result benchmarkname="smg_color.smg_color.smg_color" tool="CPAchecker" version="CI"
+  toolmodule="benchexec.tools.cpachecker" date="2025-08-06" starttime="-"
+  generator="merged benchexec tables" name="previous-results">
+  <description>Table merged from some GitLab CI results.</description>
   <columns>
     <column title="status"/>
     <column title="cputime"/>
@@ -13,153 +25,7 @@
     <column title="error"/>
     <column title="exception"/>
   </columns>
-  <systeminfo hostname="runner-p52yetvy-project-940-concurrent-0">
-    <os name="Linux-6.2.0-37-generic-x86_64-with-glibc2.29"/>
-    <cpu model="Intel Core i5-2500 CPU @ 3.30GHz" cores="4" frequency="3700000000Hz" turboboostActive="true"/>
-    <ram size="16669290496B"/>
-    <environment>
-      <var name="ANT_PROPS_BUILD">-Divy.disable=true</var>
-      <var name="ANT_PROPS_CHECKS">-Divy.disable=true -DskipBuild=true</var>
-      <var name="CI">true</var>
-      <var name="CI_API_GRAPHQL_URL">https://gitlab.ispras.ru/api/graphql</var>
-      <var name="CI_API_V4_URL">https://gitlab.ispras.ru/api/v4</var>
-      <var name="CI_BUILDS_DIR">/builds</var>
-      <var name="CI_COMMIT_AUTHOR">Anton Vasilyev &lt;vasilyev@ispras.ru&gt;</var>
-      <var name="CI_COMMIT_BEFORE_SHA">b018d4eed9cb1b0ebcc74c71d13d9965d44723ff</var>
-      <var name="CI_COMMIT_BRANCH">color_smg_regions</var>
-      <var name="CI_COMMIT_DESCRIPTION"/>
-      <var name="CI_COMMIT_MESSAGE">SMGCPA: additional tests on color free
-</var>
-      <var name="CI_COMMIT_REF_NAME">color_smg_regions</var>
-      <var name="CI_COMMIT_REF_PROTECTED">false</var>
-      <var name="CI_COMMIT_REF_SLUG">color-smg-regions</var>
-      <var name="CI_COMMIT_SHA">bc8bc967e4978634045550975249170dbf44a70c</var>
-      <var name="CI_COMMIT_SHORT_SHA">bc8bc967</var>
-      <var name="CI_COMMIT_TIMESTAMP">2025-03-20T18:07:58+03:00</var>
-      <var name="CI_COMMIT_TITLE">SMGCPA: additional tests on color free</var>
-      <var name="CI_CONCURRENT_ID">0</var>
-      <var name="CI_CONCURRENT_PROJECT_ID">0</var>
-      <var name="CI_CONFIG_PATH">.ispras.gitlab-ci.yml</var>
-      <var name="CI_DEFAULT_BRANCH">smg-master</var>
-      <var name="CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX">gitlab.ispras.ru:443/verification/dependency_proxy/containers</var>
-      <var name="CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX">gitlab.ispras.ru:443/verification/dependency_proxy/containers</var>
-      <var name="CI_DEPENDENCY_PROXY_PASSWORD">glcbt-64_fcrM__yfsex-H9ANhxqu</var>
-      <var name="CI_DEPENDENCY_PROXY_SERVER">gitlab.ispras.ru:443</var>
-      <var name="CI_DEPENDENCY_PROXY_USER">gitlab-ci-token</var>
-      <var name="CI_DIR">test/test-sets/gitlab-ci</var>
-      <var name="CI_DISPOSABLE_ENVIRONMENT">true</var>
-      <var name="CI_JOB_ID">407647</var>
-      <var name="CI_JOB_IMAGE">gitlab.ispras.ru:4567/verification/cpachecker/test:jdk-17</var>
-      <var name="CI_JOB_NAME">smg_color.smg_color.smg_color</var>
-      <var name="CI_JOB_NAME_SLUG">smg-color-smg-color-smg-color</var>
-      <var name="CI_JOB_STAGE">smaller</var>
-      <var name="CI_JOB_STARTED_AT">2025-03-20T15:29:15Z</var>
-      <var name="CI_JOB_STATUS">running</var>
-      <var name="CI_JOB_TIMEOUT">3600</var>
-      <var name="CI_JOB_TOKEN">glcbt-64_fcrM__yfsex-H9ANhxqu</var>
-      <var name="CI_JOB_URL">https://gitlab.ispras.ru/verification/cpachecker/-/jobs/407647</var>
-      <var name="CI_NODE_TOTAL">1</var>
-      <var name="CI_OPEN_MERGE_REQUESTS">verification/cpachecker!5</var>
-      <var name="CI_PAGES_DOMAIN">pages.ispras.ru</var>
-      <var name="CI_PAGES_URL">https://verification.pages.ispras.ru/cpachecker</var>
-      <var name="CI_PIPELINE_CREATED_AT">2025-03-20T15:26:23Z</var>
-      <var name="CI_PIPELINE_ID">75873</var>
-      <var name="CI_PIPELINE_IID">684</var>
-      <var name="CI_PIPELINE_NAME"/>
-      <var name="CI_PIPELINE_SOURCE">parent_pipeline</var>
-      <var name="CI_PIPELINE_URL">https://gitlab.ispras.ru/verification/cpachecker/-/pipelines/75873</var>
-      <var name="CI_PROJECT_CLASSIFICATION_LABEL"/>
-      <var name="CI_PROJECT_DESCRIPTION">ISPRAS fork of CPAchecker https://cpachecker.sosy-lab.org/</var>
-      <var name="CI_PROJECT_DIR">/builds/verification/cpachecker</var>
-      <var name="CI_PROJECT_ID">940</var>
-      <var name="CI_PROJECT_NAME">cpachecker</var>
-      <var name="CI_PROJECT_NAMESPACE">verification</var>
-      <var name="CI_PROJECT_NAMESPACE_ID">1595</var>
-      <var name="CI_PROJECT_PATH">verification/cpachecker</var>
-      <var name="CI_PROJECT_PATH_SLUG">verification-cpachecker</var>
-      <var name="CI_PROJECT_REPOSITORY_LANGUAGES">java,swig,motorola 68k assembly,c,assembly</var>
-      <var name="CI_PROJECT_ROOT_NAMESPACE">verification</var>
-      <var name="CI_PROJECT_TITLE">CPAchecker</var>
-      <var name="CI_PROJECT_URL">https://gitlab.ispras.ru/verification/cpachecker</var>
-      <var name="CI_PROJECT_VISIBILITY">public</var>
-      <var name="CI_REGISTRY">gitlab.ispras.ru:4567</var>
-      <var name="CI_REGISTRY_IMAGE">gitlab.ispras.ru:4567/verification/cpachecker</var>
-      <var name="CI_REGISTRY_PASSWORD">glcbt-64_fcrM__yfsex-H9ANhxqu</var>
-      <var name="CI_REGISTRY_USER">gitlab-ci-token</var>
-      <var name="CI_REPOSITORY_URL">https://gitlab-ci-token:glcbt-64_fcrM__yfsex-H9ANhxqu@gitlab.ispras.ru/verification/cpachecker.git</var>
-      <var name="CI_RUNNER_DESCRIPTION">miller-docker</var>
-      <var name="CI_RUNNER_EXECUTABLE_ARCH">linux/amd64</var>
-      <var name="CI_RUNNER_ID">153</var>
-      <var name="CI_RUNNER_REVISION">d540b510</var>
-      <var name="CI_RUNNER_SHORT_TOKEN">p52yetVy</var>
-      <var name="CI_RUNNER_TAGS">[&quot;docker&quot;]</var>
-      <var name="CI_RUNNER_VERSION">15.9.1</var>
-      <var name="CI_SERVER">yes</var>
-      <var name="CI_SERVER_FQDN">gitlab.ispras.ru</var>
-      <var name="CI_SERVER_HOST">gitlab.ispras.ru</var>
-      <var name="CI_SERVER_NAME">GitLab</var>
-      <var name="CI_SERVER_PORT">443</var>
-      <var name="CI_SERVER_PROTOCOL">https</var>
-      <var name="CI_SERVER_REVISION">f84ae5260f4</var>
-      <var name="CI_SERVER_SHELL_SSH_HOST">gitlab.ispras.ru</var>
-      <var name="CI_SERVER_SHELL_SSH_PORT">22</var>
-      <var name="CI_SERVER_TLS_CA_FILE">/builds/verification/cpachecker.tmp/CI_SERVER_TLS_CA_FILE</var>
-      <var name="CI_SERVER_URL">https://gitlab.ispras.ru</var>
-      <var name="CI_SERVER_VERSION">17.4.1</var>
-      <var name="CI_SERVER_VERSION_MAJOR">17</var>
-      <var name="CI_SERVER_VERSION_MINOR">4</var>
-      <var name="CI_SERVER_VERSION_PATCH">1</var>
-      <var name="CI_TEMPLATE_REGISTRY_HOST">registry.gitlab.com</var>
-      <var name="DEBIAN_FRONTEND">noninteractive</var>
-      <var name="FF_CMD_DISABLE_DELAYED_ERROR_LEVEL_EXPANSION">false</var>
-      <var name="FF_DISABLE_POWERSHELL_STDIN">false</var>
-      <var name="FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR">false</var>
-      <var name="FF_ENABLE_BASH_EXIT_CODE_CHECK">false</var>
-      <var name="FF_ENABLE_JOB_CLEANUP">false</var>
-      <var name="FF_KUBERNETES_HONOR_ENTRYPOINT">false</var>
-      <var name="FF_NETWORK_PER_BUILD">false</var>
-      <var name="FF_POSIXLY_CORRECT_ESCAPES">false</var>
-      <var name="FF_RESOLVE_FULL_TLS_CHAIN">true</var>
-      <var name="FF_SCRIPT_SECTIONS">false</var>
-      <var name="FF_SKIP_NOOP_BUILD_STAGES">true</var>
-      <var name="FF_USE_DIRECT_DOWNLOAD">true</var>
-      <var name="FF_USE_DYNAMIC_TRACE_FORCE_SEND_INTERVAL">false</var>
-      <var name="FF_USE_FASTZIP">false</var>
-      <var name="FF_USE_IMPROVED_URL_MASKING">false</var>
-      <var name="FF_USE_LEGACY_KUBERNETES_EXECUTION_STRATEGY">false</var>
-      <var name="FF_USE_NEW_BASH_EVAL_STRATEGY">false</var>
-      <var name="FF_USE_NEW_SHELL_ESCAPE">false</var>
-      <var name="FF_USE_POWERSHELL_PATH_RESOLVER">false</var>
-      <var name="FF_USE_WINDOWS_LEGACY_PROCESS_STRATEGY">true</var>
-      <var name="GITLAB_CI">true</var>
-      <var name="GITLAB_FEATURES"/>
-      <var name="GITLAB_USER_EMAIL">vasilyev@ispras.ru</var>
-      <var name="GITLAB_USER_ID">687</var>
-      <var name="GITLAB_USER_LOGIN">vasilyev</var>
-      <var name="GITLAB_USER_NAME" encoding="base64">0JLQsNGB0LjQu9GM0LXQsiDQkNC90YLQvtC9INCQ0LvQtdC60YHQsNC90LTRgNC+0LLQuNGH</var>
-      <var name="HOSTNAME">runner-p52yetvy-project-940-concurrent-0</var>
-      <var name="IVY_CACHE_DIR">/.ivy2</var>
-      <var name="LANG">C.UTF-8</var>
-      <var name="OLDPWD">/</var>
-      <var name="PARENT_CI_PIPELINE_SOURCE">push</var>
-      <var name="PARENT_PIPELINE_ID">75856</var>
-      <var name="PATH">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</var>
-      <var name="PIP_CACHE_DIR">/.cache/pip</var>
-      <var name="PROJECT_PATH">sosy-lab/software/cpachecker</var>
-      <var name="PWD">/builds/verification/cpachecker</var>
-      <var name="REFASTER_REPO_REVISION">bba447e6b8e1df7ef8cdb6864319a4569e3e275b</var>
-      <var name="REFASTER_VERSION">2.27.1</var>
-      <var name="RUNDEF">smg_color</var>
-      <var name="RUNNER_TEMP_PROJECT_DIR">/builds/verification/cpachecker.tmp</var>
-      <var name="SHLVL">2</var>
-      <var name="TASKS">smg_color</var>
-      <var name="TESTSET">smg_color</var>
-      <var name="TZ">UTC</var>
-      <var name="_">/usr/bin/benchexec</var>
-      <var name="npm_config_cache">/.cache/npm</var>
-      <var name="npm_config_prefer_offline">true</var>
-    </environment>
-  </systeminfo>
+
   <run name="test/programs/smg_color/colors_deref_1_false.yml" files="[test/programs/smg_color/colors_deref_1_false.c]" options="--option cpa.smg.checkColoredMemleak=true --option cpa.smg.checkColorCompatibility=true" properties="valid-memsafety" propertyFile="test/config/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="3.396215062s"/>
     <column title="memory" value="106893312B"/>
@@ -381,6 +247,4 @@
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2025-03-20T15:30:20.581468+00:00" hidden="true"/>
   </run>
-  <column title="cputime" value="44.503478s"/>
-  <column title="walltime" value="48.10503553599119s"/>
 </result>

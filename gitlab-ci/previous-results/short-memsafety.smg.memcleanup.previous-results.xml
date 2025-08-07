@@ -4,7 +4,7 @@ This file is part of CPAchecker,
 a tool for configurable software verification:
 https://cpachecker.sosy-lab.org
 
-SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -12,7 +12,7 @@ SPDX-License-Identifier: Apache-2.0
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
 <result benchmarkname="short-memsafety.smg.memcleanup" tool="CPAchecker" version="CI"
-  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  toolmodule="benchexec.tools.cpachecker" date="2025-08-06" starttime="-"
   generator="merged benchexec tables" name="previous-results">
   <description>Table merged from some GitLab CI results.</description>
   <columns>
@@ -26,6 +26,438 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.008484845s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162754560B"/>
+    <column title="reached" value="158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.144s"/>
+    <column title="walltime" value="4.0292627811431885s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.008484845s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:10.987169+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.996130135s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161386496B"/>
+    <column title="reached" value="160"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.161s"/>
+    <column title="walltime" value="4.017553262412548s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.996130135s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:15.234883+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.027786841s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161808384B"/>
+    <column title="reached" value="158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.152s"/>
+    <column title="walltime" value="4.037875860929489s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.027786841s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:19.487355+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.111013196s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161959936B"/>
+    <column title="reached" value="160"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.204s"/>
+    <column title="walltime" value="4.1302919909358025s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.111013196s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:23.779346+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.969584249s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161988608B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.170s"/>
+    <column title="walltime" value="3.9890276044607162s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.969584249s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:28.143173+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.005929784s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161456128B"/>
+    <column title="reached" value="161"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.170s"/>
+    <column title="walltime" value="4.013848174363375s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.005929784s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:32.338875+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.961438657s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="160526336B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.007s"/>
+    <column title="transfer" value="0.148s"/>
+    <column title="walltime" value="3.981011964380741s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.961438657s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:36.787324+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.020344962s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="163205120B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.159s"/>
+    <column title="walltime" value="4.036177948117256s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.020344962s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:41.027114+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.970038346s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="160600064B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.155s"/>
+    <column title="walltime" value="3.9870193786919117s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.970038346s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:45.251335+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.01611181s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="163291136B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.157s"/>
+    <column title="walltime" value="4.029489878565073s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.01611181s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:49.551120+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.065396268s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162312192B"/>
+    <column title="reached" value="158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.006s"/>
+    <column title="transfer" value="0.149s"/>
+    <column title="walltime" value="4.074437763541937s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.065396268s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:53.919328+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.015406107s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161734656B"/>
+    <column title="reached" value="160"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.146s"/>
+    <column title="walltime" value="4.036973554641008s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.015406107s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:39:58.219337+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.023850355s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161619968B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.160s"/>
+    <column title="walltime" value="4.041042882949114s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.023850355s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:02.479223+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.967409646s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162377728B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.157s"/>
+    <column title="walltime" value="3.9772336557507515s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.967409646s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:06.843324+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.902769623s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="160800768B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.000s"/>
+    <column title="transfer" value="0.148s"/>
+    <column title="walltime" value="3.9134750440716743s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.902769623s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:11.047120+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.011023978s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161533952B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="0.188s"/>
+    <column title="walltime" value="4.033084776252508s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.011023978s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:15.271339+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.086251989s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161882112B"/>
+    <column title="reached" value="158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.148s"/>
+    <column title="walltime" value="4.101152125746012s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.086251989s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:19.595282+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.975253091s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161841152B"/>
+    <column title="reached" value="160"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.196s"/>
+    <column title="walltime" value="3.986881345510483s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.975253091s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:23.911349+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.993127217s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162242560B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.133s"/>
+    <column title="walltime" value="4.009540818631649s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.993127217s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:28.107110+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.020238668s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162377728B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.003s"/>
+    <column title="transfer" value="0.165s"/>
+    <column title="walltime" value="4.041467219591141s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.020238668s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:32.339019+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.977155296s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="161386496B"/>
+    <column title="reached" value="157"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.185s"/>
+    <column title="walltime" value="3.996924802660942s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.977155296s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:36.679350+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="4.044757036s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162254848B"/>
+    <column title="reached" value="159"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.164s"/>
+    <column title="walltime" value="4.065065171569586s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.044757036s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:40.907123+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.955592385s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="163364864B"/>
+    <column title="reached" value="158"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.010s"/>
+    <column title="transfer" value="0.165s"/>
+    <column title="walltime" value="3.9637972228229046s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.955592385s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:45.191357+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
+    <column title="cputime" value="3.996886671s"/>
+    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
+    <column title="memory" value="162066432B"/>
+    <column title="reached" value="160"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.006s"/>
+    <column title="transfer" value="0.165s"/>
+    <column title="walltime" value="4.017163548618555s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="3.996886671s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T12:40:49.767353+00:00" hidden="true"/>
+  </run>
   <run name="test/programs/benchmarks/forester-heap/dll-01-1.yml" files="[test/programs/benchmarks/forester-heap/dll-01-1.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
     <column title="cputime" value="3.958624517s"/>
     <column title="error" value="Unknown function '__assert_fail' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
@@ -757,437 +1189,4 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T12:39:07.491338+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.008484845s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162754560B"/>
-    <column title="reached" value="158"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.144s"/>
-    <column title="walltime" value="4.0292627811431885s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.008484845s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:10.987169+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.996130135s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161386496B"/>
-    <column title="reached" value="160"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.161s"/>
-    <column title="walltime" value="4.017553262412548s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.996130135s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:15.234883+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.027786841s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161808384B"/>
-    <column title="reached" value="158"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.152s"/>
-    <column title="walltime" value="4.037875860929489s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.027786841s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:19.487355+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.111013196s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161959936B"/>
-    <column title="reached" value="160"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.204s"/>
-    <column title="walltime" value="4.1302919909358025s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.111013196s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:23.779346+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.969584249s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161988608B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.005s"/>
-    <column title="transfer" value="0.170s"/>
-    <column title="walltime" value="3.9890276044607162s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.969584249s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:28.143173+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int64_t_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.005929784s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161456128B"/>
-    <column title="reached" value="161"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.170s"/>
-    <column title="walltime" value="4.013848174363375s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.005929784s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:32.338875+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.961438657s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="160526336B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.007s"/>
-    <column title="transfer" value="0.148s"/>
-    <column title="walltime" value="3.981011964380741s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.961438657s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:36.787324+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.020344962s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="163205120B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.159s"/>
-    <column title="walltime" value="4.036177948117256s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.020344962s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:41.027114+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.970038346s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="160600064B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.003s"/>
-    <column title="transfer" value="0.155s"/>
-    <column title="walltime" value="3.9870193786919117s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.970038346s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:45.251335+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.01611181s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="163291136B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.157s"/>
-    <column title="walltime" value="4.029489878565073s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.01611181s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:49.551120+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.065396268s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162312192B"/>
-    <column title="reached" value="158"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.006s"/>
-    <column title="transfer" value="0.149s"/>
-    <column title="walltime" value="4.074437763541937s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.065396268s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:53.919328+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s01---CWE401_Memory_Leak__int_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.015406107s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161734656B"/>
-    <column title="reached" value="160"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.146s"/>
-    <column title="walltime" value="4.036973554641008s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.015406107s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:39:58.219337+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.023850355s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161619968B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.160s"/>
-    <column title="walltime" value="4.041042882949114s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.023850355s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:02.479223+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.967409646s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162377728B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.157s"/>
-    <column title="walltime" value="3.9772336557507515s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.967409646s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:06.843324+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.902769623s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="160800768B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.000s"/>
-    <column title="transfer" value="0.148s"/>
-    <column title="walltime" value="3.9134750440716743s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.902769623s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:11.047120+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.011023978s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161533952B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.010s"/>
-    <column title="transfer" value="0.188s"/>
-    <column title="walltime" value="4.033084776252508s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.011023978s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:15.271339+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.086251989s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161882112B"/>
-    <column title="reached" value="158"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.148s"/>
-    <column title="walltime" value="4.101152125746012s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.086251989s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:19.595282+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__struct_twoIntsStruct_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.975253091s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161841152B"/>
-    <column title="reached" value="160"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.196s"/>
-    <column title="walltime" value="3.986881345510483s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.975253091s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:23.911349+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.993127217s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162242560B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.133s"/>
-    <column title="walltime" value="4.009540818631649s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.993127217s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:28.107110+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_calloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.020238668s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162377728B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.003s"/>
-    <column title="transfer" value="0.165s"/>
-    <column title="walltime" value="4.041467219591141s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.020238668s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:32.339019+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.977155296s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="161386496B"/>
-    <column title="reached" value="157"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.185s"/>
-    <column title="walltime" value="3.996924802660942s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.977155296s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:36.679350+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_malloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="4.044757036s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162254848B"/>
-    <column title="reached" value="159"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.008s"/>
-    <column title="transfer" value="0.164s"/>
-    <column title="walltime" value="4.065065171569586s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.044757036s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:40.907123+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_45_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.955592385s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="163364864B"/>
-    <column title="reached" value="158"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.010s"/>
-    <column title="transfer" value="0.165s"/>
-    <column title="walltime" value="3.9637972228229046s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.955592385s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:45.191357+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_68_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE401_Memory_Leak---s03---CWE401_Memory_Leak__twoIntsStruct_realloc_68_bad.i]" properties="valid-memcleanup" propertyFile="test/programs/benchmarks/properties/valid-memcleanup.prp" expectedVerdict="false">
-    <column title="cputime" value="3.996886671s"/>
-    <column title="error" value="Unknown function 'time' may be unsafe. Please check the cpa.smg.handleUnknownFunctions and cpa.smg.safeUnknownFunctionsPatterns options"/>
-    <column title="memory" value="162066432B"/>
-    <column title="reached" value="160"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.006s"/>
-    <column title="transfer" value="0.165s"/>
-    <column title="walltime" value="4.017163548618555s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="3.996886671s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T12:40:49.767353+00:00" hidden="true"/>
-  </run>
-  
 </result>

@@ -4,7 +4,7 @@ This file is part of CPAchecker,
 a tool for configurable software verification:
 https://cpachecker.sosy-lab.org
 
-SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -12,7 +12,7 @@ SPDX-License-Identifier: Apache-2.0
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
 <result benchmarkname="long-memsafety.smg-ldv.arrays" tool="CPAchecker" version="CI"
-  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  toolmodule="benchexec.tools.cpachecker" date="2025-08-06" starttime="-"
   generator="merged benchexec tables" name="previous-results">
   <description>Table merged from some GitLab CI results.</description>
   <columns>
@@ -26,6 +26,129 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
+  <run name="test/programs/benchmarks/array-examples/data_structures_set_multi_proc_trivial_ground.yml" files="[test/programs/benchmarks/array-examples/data_structures_set_multi_proc_trivial_ground.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.544877021s"/>
+    <column title="memory" value="264278016B"/>
+    <column title="reached" value="691"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="24.197s"/>
+    <column title="transfer" value="1.719s"/>
+    <column title="walltime" value="31.65991333965212s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.544877021s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:34:57.287092+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/relax-1.yml" files="[test/programs/benchmarks/array-examples/relax-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="7.923526436s"/>
+    <column title="memory" value="205848576B"/>
+    <column title="reached" value="405"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.123s"/>
+    <column title="transfer" value="1.354s"/>
+    <column title="walltime" value="7.974233095534146s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.923526436s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:35:29.085678+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/relax-2-2.yml" files="[test/programs/benchmarks/array-examples/relax-2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="8.352302682s"/>
+    <column title="memory" value="216973312B"/>
+    <column title="reached" value="430"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.184s"/>
+    <column title="transfer" value="1.436s"/>
+    <column title="walltime" value="8.41620082873851s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="unknown" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="8.352302682s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:35:37.232116+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/relax-2.yml" files="[test/programs/benchmarks/array-examples/relax-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="7.812589331s"/>
+    <column title="memory" value="215826432B"/>
+    <column title="reached" value="418"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.164s"/>
+    <column title="transfer" value="1.356s"/>
+    <column title="walltime" value="7.859109487384558s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="7.812589331s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:35:45.792409+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/sanfoundry_24-2.yml" files="[test/programs/benchmarks/array-examples/sanfoundry_24-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="31.449476069s"/>
+    <column title="memory" value="264294400B"/>
+    <column title="reached" value="973"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="20.548s"/>
+    <column title="transfer" value="5.632s"/>
+    <column title="walltime" value="31.5633592447266s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.449476069s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:35:53.852078+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/standard_strcpy_ground-2.yml" files="[test/programs/benchmarks/array-examples/standard_strcpy_ground-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="31.435992568s"/>
+    <column title="memory" value="260231168B"/>
+    <column title="reached" value="708"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="24.224s"/>
+    <column title="transfer" value="1.945s"/>
+    <column title="walltime" value="31.533185380510986s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.435992568s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:36:25.562328+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-examples/standard_strcpy_original-1.yml" files="[test/programs/benchmarks/array-examples/standard_strcpy_original-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
+    <column title="cputime" value="31.489046292s"/>
+    <column title="memory" value="259317760B"/>
+    <column title="reached" value="700"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="23.617s"/>
+    <column title="transfer" value="2.195s"/>
+    <column title="walltime" value="31.606614076532423s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.489046292s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:36:57.240199+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
   <run name="test/programs/benchmarks/array-fpi/indp1.yml" files="[test/programs/benchmarks/array-fpi/indp1.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
     <column title="cputime" value="6.24283331s"/>
     <column title="memory" value="190652416B"/>
@@ -42,6 +165,60 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T12:25:11.085620+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-1.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
+    <column title="cputime" value="6.367980773s"/>
+    <column title="error" value="Unhandled realloc function"/>
+    <column title="memory" value="195276800B"/>
+    <column title="reached" value="288"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.005s"/>
+    <column title="transfer" value="0.558s"/>
+    <column title="walltime" value="6.394483976997435s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="6.367980773s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:37:28.984720+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-2.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="5.932341135s"/>
+    <column title="error" value="Unhandled realloc function"/>
+    <column title="memory" value="195948544B"/>
+    <column title="reached" value="285"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.596s"/>
+    <column title="walltime" value="5.965048134326935s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.932341135s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:37:35.540617+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-3.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
+    <column title="cputime" value="5.94421388s"/>
+    <column title="error" value="Unhandled realloc function"/>
+    <column title="memory" value="195186688B"/>
+    <column title="reached" value="288"/>
+    <column title="status" value="ERROR"/>
+    <column title="stop" value="0.008s"/>
+    <column title="transfer" value="0.562s"/>
+    <column title="walltime" value="5.969603078439832s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.94421388s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T12:37:41.645417+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/array-memsafety/add_last_unsafe.yml" files="[test/programs/benchmarks/array-memsafety/add_last_unsafe.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
     <column title="cputime" value="6.911810727s"/>
@@ -1067,183 +1244,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T12:34:50.202529+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/data_structures_set_multi_proc_trivial_ground.yml" files="[test/programs/benchmarks/array-examples/data_structures_set_multi_proc_trivial_ground.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.544877021s"/>
-    <column title="memory" value="264278016B"/>
-    <column title="reached" value="691"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="24.197s"/>
-    <column title="transfer" value="1.719s"/>
-    <column title="walltime" value="31.65991333965212s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.544877021s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:34:57.287092+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/relax-1.yml" files="[test/programs/benchmarks/array-examples/relax-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="7.923526436s"/>
-    <column title="memory" value="205848576B"/>
-    <column title="reached" value="405"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.123s"/>
-    <column title="transfer" value="1.354s"/>
-    <column title="walltime" value="7.974233095534146s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="7.923526436s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:35:29.085678+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/relax-2-2.yml" files="[test/programs/benchmarks/array-examples/relax-2-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="8.352302682s"/>
-    <column title="memory" value="216973312B"/>
-    <column title="reached" value="430"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.184s"/>
-    <column title="transfer" value="1.436s"/>
-    <column title="walltime" value="8.41620082873851s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="unknown" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="8.352302682s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:35:37.232116+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/relax-2.yml" files="[test/programs/benchmarks/array-examples/relax-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="7.812589331s"/>
-    <column title="memory" value="215826432B"/>
-    <column title="reached" value="418"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.164s"/>
-    <column title="transfer" value="1.356s"/>
-    <column title="walltime" value="7.859109487384558s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="7.812589331s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:35:45.792409+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/sanfoundry_24-2.yml" files="[test/programs/benchmarks/array-examples/sanfoundry_24-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="31.449476069s"/>
-    <column title="memory" value="264294400B"/>
-    <column title="reached" value="973"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="20.548s"/>
-    <column title="transfer" value="5.632s"/>
-    <column title="walltime" value="31.5633592447266s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.449476069s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:35:53.852078+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/standard_strcpy_ground-2.yml" files="[test/programs/benchmarks/array-examples/standard_strcpy_ground-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="31.435992568s"/>
-    <column title="memory" value="260231168B"/>
-    <column title="reached" value="708"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="24.224s"/>
-    <column title="transfer" value="1.945s"/>
-    <column title="walltime" value="31.533185380510986s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.435992568s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:36:25.562328+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-examples/standard_strcpy_original-1.yml" files="[test/programs/benchmarks/array-examples/standard_strcpy_original-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-deref)">
-    <column title="cputime" value="31.489046292s"/>
-    <column title="memory" value="259317760B"/>
-    <column title="reached" value="700"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="23.617s"/>
-    <column title="transfer" value="2.195s"/>
-    <column title="walltime" value="31.606614076532423s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.489046292s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:36:57.240199+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-1.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-1.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-free)">
-    <column title="cputime" value="6.367980773s"/>
-    <column title="error" value="Unhandled realloc function"/>
-    <column title="memory" value="195276800B"/>
-    <column title="reached" value="288"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.005s"/>
-    <column title="transfer" value="0.558s"/>
-    <column title="walltime" value="6.394483976997435s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="6.367980773s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:37:28.984720+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-2.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-2.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="5.932341135s"/>
-    <column title="error" value="Unhandled realloc function"/>
-    <column title="memory" value="195948544B"/>
-    <column title="reached" value="285"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.596s"/>
-    <column title="walltime" value="5.965048134326935s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.932341135s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:37:35.540617+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/array-memsafety-realloc/array-realloc-3.yml" files="[test/programs/benchmarks/array-memsafety-realloc/array-realloc-3.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false(valid-memtrack)">
-    <column title="cputime" value="5.94421388s"/>
-    <column title="error" value="Unhandled realloc function"/>
-    <column title="memory" value="195186688B"/>
-    <column title="reached" value="288"/>
-    <column title="status" value="ERROR"/>
-    <column title="stop" value="0.008s"/>
-    <column title="transfer" value="0.562s"/>
-    <column title="walltime" value="5.969603078439832s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.94421388s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T12:37:41.645417+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/termination-15/array12_alloca.yml" files="[test/programs/benchmarks/termination-15/array12_alloca.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="7.017631577s"/>
@@ -3770,41 +3770,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T13:03:18.268441+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/verifythis/lcp.yml" files="[test/programs/benchmarks/verifythis/lcp.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="31.381604361s"/>
-    <column title="memory" value="290570240B"/>
-    <column title="reached" value="5403"/>
-    <column title="status" value="TIMEOUT"/>
-    <column title="stop" value="15.323s"/>
-    <column title="transfer" value="10.587s"/>
-    <column title="walltime" value="31.53194221947342s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="error" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="31.381604361s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="143" hidden="true"/>
-    <column title="starttime" value="2024-07-31T13:03:24.207809+00:00" hidden="true"/>
-    <column title="terminationreason" value="cputime-soft" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/verifythis/prefixsum_iter.yml" files="[test/programs/benchmarks/verifythis/prefixsum_iter.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="5.969348584s"/>
-    <column title="memory" value="191426560B"/>
-    <column title="reached" value="149"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.120s"/>
-    <column title="transfer" value="0.801s"/>
-    <column title="walltime" value="6.007353659719229s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.969348584s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-07-31T13:03:55.907482+00:00" hidden="true"/>
-  </run>
   <run name="test/programs/benchmarks/verifythis/elimination_max_rec.yml" files="[test/programs/benchmarks/verifythis/elimination_max_rec.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="4.976266395s"/>
     <column title="error" value="line 28: Unsupported feature"/>
@@ -3841,5 +3806,39 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-07-31T13:04:07.226736+00:00" hidden="true"/>
   </run>
-  
+  <run name="test/programs/benchmarks/verifythis/lcp.yml" files="[test/programs/benchmarks/verifythis/lcp.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="31.381604361s"/>
+    <column title="memory" value="290570240B"/>
+    <column title="reached" value="5403"/>
+    <column title="status" value="TIMEOUT"/>
+    <column title="stop" value="15.323s"/>
+    <column title="transfer" value="10.587s"/>
+    <column title="walltime" value="31.53194221947342s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="error" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="31.381604361s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="143" hidden="true"/>
+    <column title="starttime" value="2024-07-31T13:03:24.207809+00:00" hidden="true"/>
+    <column title="terminationreason" value="cputime-soft" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/verifythis/prefixsum_iter.yml" files="[test/programs/benchmarks/verifythis/prefixsum_iter.c]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="5.969348584s"/>
+    <column title="memory" value="191426560B"/>
+    <column title="reached" value="149"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.120s"/>
+    <column title="transfer" value="0.801s"/>
+    <column title="walltime" value="6.007353659719229s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.969348584s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-07-31T13:03:55.907482+00:00" hidden="true"/>
+  </run>
 </result>

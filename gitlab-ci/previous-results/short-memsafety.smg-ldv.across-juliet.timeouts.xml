@@ -4,7 +4,7 @@ This file is part of CPAchecker,
 a tool for configurable software verification:
 https://cpachecker.sosy-lab.org
 
-SPDX-FileCopyrightText: 2024 Dirk Beyer <https://www.sosy-lab.org>
+SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
 SPDX-License-Identifier: Apache-2.0
 -->
 
@@ -12,7 +12,7 @@ SPDX-License-Identifier: Apache-2.0
   PUBLIC '+//IDN sosy-lab.org//DTD BenchExec result 3.0//EN'
   'https://www.sosy-lab.org/benchexec/result-3.0.dtd'>
 <result benchmarkname="short-memsafety.smg-ldv.across-juliet" tool="CPAchecker" version="CI"
-  toolmodule="benchexec.tools.cpachecker" date="-" starttime="-"
+  toolmodule="benchexec.tools.cpachecker" date="2025-08-06" starttime="-"
   generator="merged benchexec tables" name="flaky-timeouts">
   <description>Table merged from some GitLab CI results.</description>
   <columns>
@@ -26,23 +26,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="exception"/>
   </columns>
 
-  <run name="test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__char_type_overrun_memmove_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__char_type_overrun_memmove_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="4.213445859s"/>
-    <column title="memory" value="163401728B"/>
-    <column title="reached" value="208"/>
-    <column title="status" value="true"/>
-    <column title="stop" value="0.009s"/>
-    <column title="transfer" value="0.424s"/>
-    <column title="walltime" value="4.229896355420351s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="wrong" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.213445859s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:19:48.023359+00:00" hidden="true"/>
-  </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_01_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_01_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="4.755934177s"/>
     <column title="memory" value="172564480B"/>
@@ -110,6 +93,23 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:20:07.606846+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__char_type_overrun_memmove_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s01---CWE121_Stack_Based_Buffer_Overflow__char_type_overrun_memmove_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="4.213445859s"/>
+    <column title="memory" value="163401728B"/>
+    <column title="reached" value="208"/>
+    <column title="status" value="true"/>
+    <column title="stop" value="0.009s"/>
+    <column title="transfer" value="0.424s"/>
+    <column title="walltime" value="4.229896355420351s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.213445859s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:19:48.023359+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s02---CWE121_Stack_Based_Buffer_Overflow__CWE193_char_alloca_memcpy_45_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE121_Stack_Based_Buffer_Overflow---s02---CWE121_Stack_Based_Buffer_Overflow__CWE193_char_alloca_memcpy_45_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="5.03920753s"/>
@@ -419,6 +419,57 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:22:24.131140+00:00" hidden="true"/>
   </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="5.03207311s"/>
+    <column title="memory" value="172621824B"/>
+    <column title="reached" value="287"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.112s"/>
+    <column title="transfer" value="0.746s"/>
+    <column title="walltime" value="5.053472451865673s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="5.03207311s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:23:01.515333+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_34_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_34_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="4.954694655s"/>
+    <column title="memory" value="173158400B"/>
+    <column title="reached" value="282"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.120s"/>
+    <column title="transfer" value="0.743s"/>
+    <column title="walltime" value="4.973527815192938s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.954694655s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:23:06.791263+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_42_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_42_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
+    <column title="cputime" value="4.676371452s"/>
+    <column title="memory" value="168402944B"/>
+    <column title="reached" value="210"/>
+    <column title="status" value="false(valid-memtrack)"/>
+    <column title="stop" value="0.004s"/>
+    <column title="transfer" value="0.523s"/>
+    <column title="walltime" value="4.68709072843194s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="wrong" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.676371452s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:23:12.007315+00:00" hidden="true"/>
+  </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__c_CWE129_fgets_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__c_CWE129_fgets_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="5.413937196s"/>
     <column title="memory" value="172498944B"/>
@@ -521,57 +572,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:22:56.283008+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_07_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_07_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="5.03207311s"/>
-    <column title="memory" value="172621824B"/>
-    <column title="reached" value="287"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.112s"/>
-    <column title="transfer" value="0.746s"/>
-    <column title="walltime" value="5.053472451865673s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="5.03207311s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:23:01.515333+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_34_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_34_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="4.954694655s"/>
-    <column title="memory" value="173158400B"/>
-    <column title="reached" value="282"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.120s"/>
-    <column title="transfer" value="0.743s"/>
-    <column title="walltime" value="4.973527815192938s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.954694655s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:23:06.791263+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_42_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s06---CWE122_Heap_Based_Buffer_Overflow__CWE135_42_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
-    <column title="cputime" value="4.676371452s"/>
-    <column title="memory" value="168402944B"/>
-    <column title="reached" value="210"/>
-    <column title="status" value="false(valid-memtrack)"/>
-    <column title="stop" value="0.004s"/>
-    <column title="transfer" value="0.523s"/>
-    <column title="walltime" value="4.68709072843194s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="wrong" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.676371452s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:23:12.007315+00:00" hidden="true"/>
-  </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s08---CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_loop_09_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE122_Heap_Based_Buffer_Overflow---s08---CWE122_Heap_Based_Buffer_Overflow__c_CWE805_int64_t_loop_09_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="6.636180634s"/>
     <column title="memory" value="186789888B"/>
@@ -657,6 +657,23 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:24:00.971016+00:00" hidden="true"/>
   </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__CWE839_listen_socket_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__CWE839_listen_socket_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="4.759498104s"/>
+    <column title="memory" value="174182400B"/>
+    <column title="reached" value="228"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.015s"/>
+    <column title="transfer" value="0.520s"/>
+    <column title="walltime" value="4.780272137373686s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.759498104s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:24:20.091226+00:00" hidden="true"/>
+  </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__char_alloca_ncpy_10_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__char_alloca_ncpy_10_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="4.927265539s"/>
     <column title="memory" value="168144896B"/>
@@ -691,23 +708,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:24:15.455108+00:00" hidden="true"/>
   </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__CWE839_listen_socket_18_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE124_Buffer_Underwrite---s01---CWE124_Buffer_Underwrite__CWE839_listen_socket_18_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="4.759498104s"/>
-    <column title="memory" value="174182400B"/>
-    <column title="reached" value="228"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.015s"/>
-    <column title="transfer" value="0.520s"/>
-    <column title="walltime" value="4.780272137373686s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.759498104s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:24:20.091226+00:00" hidden="true"/>
-  </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE126_Buffer_Overread---s01---CWE126_Buffer_Overread__CWE129_connect_socket_06_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE126_Buffer_Overread---s01---CWE126_Buffer_Overread__CWE129_connect_socket_06_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
     <column title="cputime" value="4.808696008s"/>
     <column title="memory" value="173248512B"/>
@@ -741,6 +741,40 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:24:30.455136+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_41_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_41_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="4.609394328s"/>
+    <column title="memory" value="167931904B"/>
+    <column title="reached" value="185"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.001s"/>
+    <column title="transfer" value="0.450s"/>
+    <column title="walltime" value="4.619819305837154s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.609394328s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:25:26.103323+00:00" hidden="true"/>
+  </run>
+  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_22_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_22_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
+    <column title="cputime" value="4.794413668s"/>
+    <column title="memory" value="172761088B"/>
+    <column title="reached" value="233"/>
+    <column title="status" value="false(valid-deref)"/>
+    <column title="stop" value="0.002s"/>
+    <column title="transfer" value="0.567s"/>
+    <column title="walltime" value="4.813977971673012s"/>
+    <column title="blkio-read" value="0B" hidden="true"/>
+    <column title="blkio-write" value="0B" hidden="true"/>
+    <column title="category" value="correct" hidden="true"/>
+    <column title="cpuCores" value="0" hidden="true"/>
+    <column title="cputime-cpu0" value="4.794413668s" hidden="true"/>
+    <column title="memoryNodes" value="0" hidden="true"/>
+    <column title="returnvalue" value="0" hidden="true"/>
+    <column title="starttime" value="2024-08-02T15:25:31.034933+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__char_alloca_cpy_63_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__char_alloca_cpy_63_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="15.258078682s"/>
@@ -841,40 +875,6 @@ SPDX-License-Identifier: Apache-2.0
     <column title="memoryNodes" value="0" hidden="true"/>
     <column title="returnvalue" value="1" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:25:21.602929+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_41_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_fscanf_41_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="4.609394328s"/>
-    <column title="memory" value="167931904B"/>
-    <column title="reached" value="185"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.001s"/>
-    <column title="transfer" value="0.450s"/>
-    <column title="walltime" value="4.619819305837154s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.609394328s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:25:26.103323+00:00" hidden="true"/>
-  </run>
-  <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_22_bad.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s01---CWE127_Buffer_Underread__CWE839_listen_socket_22_bad.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="false">
-    <column title="cputime" value="4.794413668s"/>
-    <column title="memory" value="172761088B"/>
-    <column title="reached" value="233"/>
-    <column title="status" value="false(valid-deref)"/>
-    <column title="stop" value="0.002s"/>
-    <column title="transfer" value="0.567s"/>
-    <column title="walltime" value="4.813977971673012s"/>
-    <column title="blkio-read" value="0B" hidden="true"/>
-    <column title="blkio-write" value="0B" hidden="true"/>
-    <column title="category" value="correct" hidden="true"/>
-    <column title="cpuCores" value="0" hidden="true"/>
-    <column title="cputime-cpu0" value="4.794413668s" hidden="true"/>
-    <column title="memoryNodes" value="0" hidden="true"/>
-    <column title="returnvalue" value="0" hidden="true"/>
-    <column title="starttime" value="2024-08-02T15:25:31.034933+00:00" hidden="true"/>
   </run>
   <run name="test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__malloc_char_loop_31_good.yml" files="[test/programs/benchmarks/Juliet_Test/CWE127_Buffer_Underread---s02---CWE127_Buffer_Underread__malloc_char_loop_31_good.i]" properties="valid-memsafety" propertyFile="test/programs/benchmarks/properties/valid-memsafety.prp" expectedVerdict="true">
     <column title="cputime" value="14.153631822s"/>
@@ -1250,5 +1250,4 @@ SPDX-License-Identifier: Apache-2.0
     <column title="returnvalue" value="0" hidden="true"/>
     <column title="starttime" value="2024-08-02T15:27:33.203120+00:00" hidden="true"/>
   </run>
-  
 </result>
