@@ -12,14 +12,6 @@
 # to print more details (i.e. count improvements).
 
 import collections
-# This file is part of CPAchecker,
-# a tool for configurable software verification:
-# https://cpachecker.sosy-lab.org
-#
-# SPDX-FileCopyrightText: 2007-2020 Dirk Beyer <https://www.sosy-lab.org>
-#
-# SPDX-License-Identifier: Apache-2.0
-
 import glob
 import os
 import sys
@@ -46,6 +38,13 @@ import benchexec.tablegenerator
 
 benchexec.tablegenerator.DEFAULT_OUTPUT_PATH = "test/results/"
 benchexec.tablegenerator.LIB_URL = "https://www.sosy-lab.org/lib"
+
+
+bold_red = '\033[1;91m'
+thin_red = '\033[31m'
+thin_yellow = '\033[33m'
+green_color = '\033[1;92m'
+no_color = '\033[0m'  # No Color
 
 
 def print_counts(rows, ignore_flapping_timeouts):
@@ -102,12 +101,23 @@ def print_counts(rows, ignore_flapping_timeouts):
             improvements += 1
         elif old.category == result.CATEGORY_CORRECT:
             regressions += 1
+            assert old.columns[1].title == 'cputime' == new.columns[1].title
+            old_cputime = old.values[1][:4] + old.columns[1].unit
+            new_cputime = new.values[1][:4] + new.columns[1].unit
+            print(
+                f"{thin_red}{regressions: 2}. lost verdict{no_color} {old.status} ({old_cputime})"
+                f" to {new.status} ({new_cputime}) in {row.short_filename}"
+            )
         else:
             problem_changes += 1
-
-    red_color = '\033[1;31m'
-    green_color = '\033[1;32m'
-    no_color = '\033[0m'  # No Color
+            assert old.columns[1].title == 'cputime' == new.columns[1].title
+            old_cputime = old.values[1][:4] + old.columns[1].unit
+            new_cputime = new.values[1][:4] + new.columns[1].unit
+            print(
+                f"{thin_yellow}{problem_changes: 2}. changed problem{no_color}"
+                f" from {old.status} ({old_cputime})"
+                f" to {new.status} ({new_cputime}) in {row.short_filename}"
+            )
 
     total = len(rows)
     print("\nStatistics for this run:")
@@ -124,16 +134,16 @@ def print_counts(rows, ignore_flapping_timeouts):
     print(f"flaky timeouts:    {flaky:3d}")
     print(f"regressions:       {regressions:3d}\n")
     if regressions > 0:
-        sys.exit(f"{red_color}There are {regressions} regressions, "
+        sys.exit(f"{bold_red}There are {regressions} regressions, "
                  f"{problem_changes} changed problems, "
                  f"and {improvements} improvements{no_color}.\n")
     elif problem_changes > 0:
-        print(f"{red_color}There are no lost verdicts, but "
+        print(f"{bold_red}There are no lost verdicts, but "
               f"{problem_changes} changed problems and "
               f"{improvements} improvements{no_color}.\n")
         sys.exit(116)  # inspired by EUCLEAN
     elif improvements > 0:
-        print(f"{red_color}There are no regressions and {improvements} improvements{no_color}.\n")
+        print(f"{bold_red}There are no regressions and {improvements} improvements{no_color}.\n")
         sys.exit(116)  # inspired by EUCLEAN
     elif flaky > 0:
         print(f"{green_color}There are no changes in results, "
