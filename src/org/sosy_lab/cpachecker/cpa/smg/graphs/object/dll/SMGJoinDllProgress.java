@@ -8,10 +8,8 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll;
 
-import com.google.common.collect.Iterables;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGJoinAbstractListProgress;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -70,12 +68,7 @@ class SMGJoinDllProgress
 
     for (int i = 1; i < pLength; i++) {
       SMGEdgeHasValue nextHveEdge =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(nextObject)
-                      .filterAtOffset(pCandidate.getShape().getNfo())
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
+          pSMG.getHVEdgeOfPtrBitsizeAt(nextObject, pCandidate.getShape().getNfo()).orElseThrow();
       nextObject = pSMG.getPointer(nextHveEdge.getValue()).getObject();
       if (nextObject.getKind() == SMGObjectKind.DLL) {
         return true;

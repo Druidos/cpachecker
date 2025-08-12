@@ -88,10 +88,8 @@ public class SMGEdgeHasValueFilterTest {
   }
 
   private static void symmetricObjects(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    SMGEdgeHasValueFilter f1 =
-        new SMGEdgeHasValueFilter().filterByObject(pEdge1.getObject()).filterWithoutSize();
-    SMGEdgeHasValueFilter f2 =
-        new SMGEdgeHasValueFilter().filterByObject(pEdge2.getObject()).filterWithoutSize();
+    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterByObject(pEdge1.getObject());
+    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterByObject(pEdge2.getObject());
 
     boolean haveSameObject = pEdge1.getObject().equals(pEdge2.getObject());
     String msg =
@@ -101,10 +99,8 @@ public class SMGEdgeHasValueFilterTest {
   }
 
   private static void symmetricOffsets(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    SMGEdgeHasValueFilter f1 =
-        new SMGEdgeHasValueFilter().filterAtOffset(pEdge1.getOffset()).filterWithoutSize();
-    SMGEdgeHasValueFilter f2 =
-        new SMGEdgeHasValueFilter().filterAtOffset(pEdge2.getOffset()).filterWithoutSize();
+    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterAtOffset(pEdge1.getOffset());
+    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterAtOffset(pEdge2.getOffset());
 
     boolean haveSameOffset = pEdge1.getOffset() == pEdge2.getOffset();
     String msg =
@@ -113,56 +109,21 @@ public class SMGEdgeHasValueFilterTest {
     assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(haveSameOffset);
   }
 
-  private static void symmetricBitsizes(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    long bitsize1 = pEdge1.getSizeInBits();
-    long bitsize2 = pEdge2.getSizeInBits();
-    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterBySize(bitsize1);
-    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterBySize(bitsize2);
-
-    boolean haveSameBitsize = bitsize1 == bitsize2;
-    String msg =
-        pEdge1 + " and " + pEdge2 + (haveSameBitsize ? "" : " do not") + " have the same bitsize";
-
-    assertWithMessage(msg).that(f1.holdsFor(pEdge2)).isEqualTo(haveSameBitsize);
-    assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(haveSameBitsize);
-  }
-
-  private static void asymmetricBitsizes(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    long bitsize1 = pEdge1.getSizeInBits();
-    long bitsize2 = pEdge2.getSizeInBits();
-    boolean isZero1 = pEdge1.getValue().isZero();
-    boolean isZero2 = pEdge2.getValue().isZero();
-
-    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterBySize(bitsize1);
-    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterBySize(bitsize2);
-
-    assertWithMessage(pEdge2 + " can contain " + bitsize1 + " bits")
-        .that(f1.holdsFor(pEdge2))
-        .isEqualTo(bitsize1 == bitsize2 || (isZero2 && bitsize1 <= bitsize2));
-    assertWithMessage(pEdge1 + " can contain " + bitsize2 + " bits")
-        .that(f2.holdsFor(pEdge1))
-        .isEqualTo(bitsize1 == bitsize2 || (isZero1 && bitsize2 <= bitsize1));
-  }
-
   private static void symmetricValues(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
     SMGValue value1 = pEdge1.getValue();
     SMGValue value2 = pEdge2.getValue();
     boolean areSameValue = value1.equals(value2);
 
-    SMGEdgeHasValueFilter f1 =
-        new SMGEdgeHasValueFilter().filterHavingValue(value1).filterWithoutSize();
-    SMGEdgeHasValueFilter f2 =
-        new SMGEdgeHasValueFilter().filterHavingValue(value2).filterWithoutSize();
+    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterHavingValue(value1);
+    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterHavingValue(value2);
 
     String msg =
         pEdge1 + " and " + pEdge2 + (areSameValue ? "" : " do not") + " have the same values";
     assertWithMessage(msg).that(f1.holdsFor(pEdge2)).isEqualTo(areSameValue);
     assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(areSameValue);
 
-    SMGEdgeHasValueFilter f3 =
-        new SMGEdgeHasValueFilter().filterNotHavingValue(value1).filterWithoutSize();
-    SMGEdgeHasValueFilter f4 =
-        new SMGEdgeHasValueFilter().filterNotHavingValue(value2).filterWithoutSize();
+    SMGEdgeHasValueFilter f3 = new SMGEdgeHasValueFilter().filterNotHavingValue(value1);
+    SMGEdgeHasValueFilter f4 = new SMGEdgeHasValueFilter().filterNotHavingValue(value2);
 
     assertWithMessage(msg).that(f3.holdsFor(pEdge2)).isEqualTo(!areSameValue);
     assertWithMessage(msg).that(f4.holdsFor(pEdge1)).isEqualTo(!areSameValue);
@@ -176,11 +137,6 @@ public class SMGEdgeHasValueFilterTest {
         SMGEdgeHasValue edge2 = edges.get(j);
         symmetricObjects(edge1, edge2);
         symmetricOffsets(edge1, edge2);
-        if (edge1.getValue().isZero() || edge2.getValue().isZero()) {
-          asymmetricBitsizes(edge1, edge2);
-        } else {
-          symmetricBitsizes(edge1, edge2);
-        }
         symmetricValues(edge1, edge2);
       }
     }
@@ -191,41 +147,20 @@ public class SMGEdgeHasValueFilterTest {
     for (SMGEdgeHasValue hve : edges) {
       // object
       assertWithMessage(hve + " has the same object as itself")
-          .that(
-              new SMGEdgeHasValueFilter()
-                  .filterByObject(hve.getObject())
-                  .filterWithoutSize()
-                  .holdsFor(hve))
+          .that(new SMGEdgeHasValueFilter().filterByObject(hve.getObject()).holdsFor(hve))
           .isTrue();
 
       // offset
       assertWithMessage(hve + " has the same offset as itself")
-          .that(
-              new SMGEdgeHasValueFilter()
-                  .filterAtOffset(hve.getOffset())
-                  .filterWithoutSize()
-                  .holdsFor(hve))
-          .isTrue();
-
-      // bitsize
-      assertWithMessage(hve + " has the same bitsize as itself")
-          .that(new SMGEdgeHasValueFilter().filterBySize(hve.getSizeInBits()).holdsFor(hve))
+          .that(new SMGEdgeHasValueFilter().filterAtOffset(hve.getOffset()).holdsFor(hve))
           .isTrue();
 
       // value
       assertWithMessage(hve + " has the same value as itself")
-          .that(
-              new SMGEdgeHasValueFilter()
-                  .filterHavingValue(hve.getValue())
-                  .filterWithoutSize()
-                  .holdsFor(hve))
+          .that(new SMGEdgeHasValueFilter().filterHavingValue(hve.getValue()).holdsFor(hve))
           .isTrue();
       assertWithMessage(hve + " has the same value as itself")
-          .that(
-              new SMGEdgeHasValueFilter()
-                  .filterNotHavingValue(hve.getValue())
-                  .filterWithoutSize()
-                  .holdsFor(hve))
+          .that(new SMGEdgeHasValueFilter().filterNotHavingValue(hve.getValue()).holdsFor(hve))
           .isFalse();
     }
   }
@@ -234,29 +169,17 @@ public class SMGEdgeHasValueFilterTest {
   public void fourfoldContainsTest() {
     for (PairSet pairset : pairsets) {
       for (SMGEdgeHasValue edge : edges) {
-        SMGEdgeHasValueFilter commonFilter =
-            new SMGEdgeHasValueFilter()
-                .filterByObject(edge.getObject())
-                .filterAtOffset(edge.getOffset())
-                .filterBySize(edge.getSizeInBits());
-        boolean doesFilterMatch =
-            commonFilter
-                .filterHavingValue(edge.getValue())
-                .filter(pairset.set())
-                .iterator()
-                .hasNext();
+
         boolean doesContain = pairset.set().contains(edge);
-        boolean hasCorrespondingRead =
-            Iterables.any(
-                pairset.set().filter(commonFilter), hve -> hve.getValue().equals(edge.getValue()));
-        assertWithMessage("%s contains %s", pairset, edge)
-            .that(doesContain)
-            .isEqualTo(doesFilterMatch);
-        assertWithMessage("%s has corresponding read %s is same as contains", pairset, edge)
-            .that(hasCorrespondingRead)
-            .isEqualTo(doesFilterMatch);
+        Optional<SMGEdgeHasValue> trifoldMatch =
+            pairset.set().getEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
 
         if (doesContain) {
+          // for {@link SMGState#hasEdgeCorrespondedToRead(SMGReadParams, SMGValue)}
+          assertWithMessage("%s has corresponding read (contains) %s", pairset, edge)
+              .that(trifoldMatch)
+              .hasValue(edge);
+
           if (edge.getValue().isZero()) {
             // zero-value edge is present if an equal or covering edge is present
             Optional<SMGEdgeHasValue> maybeCoveringEdge =
@@ -273,6 +196,12 @@ public class SMGEdgeHasValueFilterTest {
           assertWithMessage("%s does not contain %s", pairset, edge)
               .that(pairset.set())
               .doesNotContain(edge);
+          // for {@link SMGState#hasEdgeCorrespondedToRead(SMGReadParams, SMGValue)}
+          Optional<SMGValue> readValue = trifoldMatch.map(SMGEdgeHasValue::getValue);
+          Optional<SMGValue> edgeValue = Optional.of(edge.getValue());
+          assertWithMessage("%s has no corresponding read (does not contain) %s", pairset, edge)
+              .that(readValue)
+              .isNotEqualTo(edgeValue);
         }
       }
     }
@@ -434,6 +363,47 @@ public class SMGEdgeHasValueFilterTest {
               .that(pairset.set().contains(edge))
               .isTrue();
         }
+      }
+    }
+  }
+
+  private static boolean haveSameBits(SMGEdgeHasValue p1, SMGEdgeHasValue p2) {
+    return p1.getObject().equals(p2.getObject())
+        && p1.getOffset() == p2.getOffset()
+        && p1.getSizeInBits() == p2.getSizeInBits();
+  }
+
+  @Test
+  public void filterByObjectOffsetBitsizeTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGEdgeHasValue edge : edges) {
+
+        Optional<SMGEdgeHasValue> coveringEdge =
+            pairset.set().getCoveringEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+        final Optional<SMGEdgeHasValue> expected;
+
+        if (coveringEdge.isEmpty()) {
+          expected = Optional.empty();
+
+        } else if (haveSameBits(coveringEdge.orElseThrow(), edge)) {
+          expected = coveringEdge;
+
+        } else if (coveringEdge.orElseThrow().getValue().isZero()) {
+          expected =
+              Optional.of(
+                  new SMGEdgeHasValue(
+                      edge.getSizeInBits(),
+                      edge.getOffset(),
+                      edge.getObject(),
+                      SMGZeroValue.INSTANCE));
+
+        } else {
+          expected = Optional.empty();
+        }
+
+        Optional<SMGEdgeHasValue> methodResult =
+            pairset.set().getEdge(edge.getObject(), edge.getOffset(), edge.getSizeInBits());
+        assertWithMessage("find %s in %s", edge, pairset).that(methodResult).isEqualTo(expected);
       }
     }
   }

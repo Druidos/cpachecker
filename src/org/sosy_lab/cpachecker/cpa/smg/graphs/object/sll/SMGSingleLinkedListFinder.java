@@ -10,8 +10,10 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionBlock;
@@ -162,17 +164,28 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
         continue;
       }
 
-      Set<Long> typeSizesOfThisObject = new HashSet<>();
-
-      for (SMGEdgePointsTo edge : SMGUtils.getPointerToThisObject(pObject, pSmg)) {
+      // Constrains on pointer bitsizes were introduced in fbcbaeb661b4e32d5fba19a232ddbe1aaea3d7fc
+      ImmutableSet.Builder<Long> typeSizesBuilder = ImmutableSet.builder();
+      for (SMGEdgePointsTo pte : SMGUtils.getPointerToThisObject(pObject, pSmg)) {
         Iterable<SMGEdgeHasValue> hves =
-            pSmg.getHVEdges(
-                SMGEdgeHasValueFilter.valueFilter(edge.getValue())
-                    .filterBySize(pSmg.getSizeofPtrInBits()));
-        for (SMGEdgeHasValue hve : hves) {
-          typeSizesOfThisObject.add(hve.getSizeInBits());
+            pSmg.getHVEdges(new SMGEdgeHasValueFilter().filterHavingValue(pte.getValue()));
+        Iterable<Long> bitsizes = Iterables.transform(hves, SMGEdgeHasValue::getSizeInBits);
+
+        if (pte.getValue().isZero()) {
+          // zero-value edges can be bigger
+          bitsizes = Iterables.filter(bitsizes, bitsize -> bitsize >= pSmg.getSizeofPtrInBits());
+          typeSizesBuilder.addAll(bitsizes);
+
+        } else {
+          // non-zero edges have to be strict
+          boolean hasStrictBitsize =
+              Iterables.any(bitsizes, bitsize -> bitsize == pSmg.getSizeofPtrInBits());
+          if (hasStrictBitsize) {
+            typeSizesBuilder.add((long) pSmg.getSizeofPtrInBits());
+          }
         }
       }
+      final ImmutableSet<Long> typeSizesOfThisObject = typeSizesBuilder.build();
 
       long nextSize = hveNext.getSizeInBits();
 
@@ -235,18 +248,14 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
 
       // TODO At the moment, we still demand that a value is found at prev or next.
 
-      Iterable<SMGEdgeHasValue> nextObjectNextPointer =
-          pSmg.getHVEdges(
-              new SMGEdgeHasValueFilter()
-                  .filterByObject(nextObject)
-                  .filterAtOffset(nfo)
-                  .filterBySize(pSmg.getSizeofPtrInBits()));
+      Optional<SMGEdgeHasValue> nextObjectNextPointer =
+          pSmg.getHVEdgeOfPtrBitsizeAt(nextObject, nfo);
 
-      if (Iterables.size(nextObjectNextPointer) != 1) {
+      if (nextObjectNextPointer.isEmpty()) {
         return;
       }
 
-      SMGEdgeHasValue nextEdge = Iterables.getOnlyElement(nextObjectNextPointer);
+      SMGEdgeHasValue nextEdge = nextObjectNextPointer.orElseThrow();
 
       if (!pSmg.isPointer(nextEdge.getValue())) {
         return;

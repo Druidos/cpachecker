@@ -10,7 +10,6 @@ package org.sosy_lab.cpachecker.cpa.smg.join;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.Iterables;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -21,7 +20,6 @@ import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGListCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -82,34 +80,10 @@ public final class SMGJoinSubSMGsForAbstraction {
       smg.addHeapObject(dll);
       newAbstractObject = dll;
 
-      prevObj1hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj1)
-                      .filterAtOffset(pfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
-      nextObj1hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj1)
-                      .filterAtOffset(nfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
-      prevObj2hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj2)
-                      .filterAtOffset(pfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
-      nextObj2hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj2)
-                      .filterAtOffset(nfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
+      prevObj1hve = smg.getHVEdgeOfPtrBitsizeAt(obj1, pfo).orElseThrow();
+      nextObj1hve = smg.getHVEdgeOfPtrBitsizeAt(obj1, nfo).orElseThrow();
+      prevObj2hve = smg.getHVEdgeOfPtrBitsizeAt(obj2, pfo).orElseThrow();
+      nextObj2hve = smg.getHVEdgeOfPtrBitsizeAt(obj2, nfo).orElseThrow();
 
       // FIXME: remove only one pointer size
       smg.removeHasValueEdge(prevObj1hve);
@@ -129,20 +103,8 @@ public final class SMGJoinSubSMGsForAbstraction {
       smg.addHeapObject(sll);
       newAbstractObject = sll;
 
-      nextObj1hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj1)
-                      .filterAtOffset(nfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
-      nextObj2hve =
-          Iterables.getOnlyElement(
-              smg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(obj2)
-                      .filterAtOffset(nfo)
-                      .filterBySize(smg.getSizeofPtrInBits())));
+      nextObj1hve = smg.getHVEdgeOfPtrBitsizeAt(obj1, nfo).orElseThrow();
+      nextObj2hve = smg.getHVEdgeOfPtrBitsizeAt(obj2, nfo).orElseThrow();
 
       smg.removeHasValueEdge(nextObj1hve);
       smg.removeHasValueEdge(nextObj2hve);

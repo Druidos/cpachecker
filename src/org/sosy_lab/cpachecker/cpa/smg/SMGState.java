@@ -714,16 +714,10 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     long hfo = pListSeg.getHfo();
     long nfo = pListSeg.getNfo();
 
-    Iterable<SMGEdgeHasValue> oldSllFieldsToOldRegion =
-        heap.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(pListSeg)
-                .filterAtOffset(nfo)
-                .filterBySize(sizeOfVoidPointerInBits));
+    Optional<SMGEdgeHasValue> oldSllFieldToOldRegion = heap.getHVEdgeOfPtrBitsizeAt(pListSeg, nfo);
     SMGValue oldPointerToRegion = readValue(pListSeg, nfo, sizeOfVoidPointerInBits).getObject();
-    if (oldSllFieldsToOldRegion.iterator().hasNext()) {
-      SMGEdgeHasValue oldSllFieldToOldRegion = Iterables.getOnlyElement(oldSllFieldsToOldRegion);
-      heap.removeHasValueEdge(oldSllFieldToOldRegion);
+    if (oldSllFieldToOldRegion.isPresent()) {
+      heap.removeHasValueEdge(oldSllFieldToOldRegion.orElseThrow());
     }
 
     SMGValue oldPointerToSll = pPointerToAbstractObject.getValue();
@@ -845,8 +839,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         heap.getHVEdges(
             new SMGEdgeHasValueFilter()
                 .filterByObject(pListSeg)
-                .filterAtOffset(offsetPointingToRegion)
-                .filterWithoutSize());
+                .filterAtOffset(offsetPointingToRegion));
     SMGValue oldPointerToRegion =
         readValue(pListSeg, offsetPointingToRegion, sizeOfVoidPointerInBits).getObject();
     if (oldDllFieldsToOldRegion.iterator().hasNext()) {
@@ -1248,17 +1241,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
       return SMGValueAndState.withUnknownValue(newState);
     }
 
-    SMGEdgeHasValueFilter filter =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pObject)
-            .filterAtOffset(pOffset)
-            .filterBySize(pSizeInBits);
-    Iterable<SMGEdgeHasValue> matchingEdges = heap.getHVEdges(filter);
-    if (matchingEdges.iterator().hasNext()) {
-      SMGEdgeHasValue object_edge = Iterables.getOnlyElement(matchingEdges);
+    Optional<SMGEdgeHasValue> matchingEdges =
+        heap.getHVEdges().getEdge(pObject, pOffset, pSizeInBits);
+    if (matchingEdges.isPresent()) {
       performConsistencyCheck(SMGRuntimeCheck.HALF);
-      addElementToCurrentChain(object_edge);
-      return SMGValueAndState.of(this, object_edge.getValue());
+      addElementToCurrentChain(matchingEdges.orElseThrow());
+      return SMGValueAndState.of(this, matchingEdges.orElseThrow().getValue());
     }
 
     // if some edge points to a large enough chunk of memory, then use its middle part.

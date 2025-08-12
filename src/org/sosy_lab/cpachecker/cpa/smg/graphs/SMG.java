@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -398,8 +399,8 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   }
 
   @Override
-  public boolean hasHVEdgesOverlapping(SMGObject pObject, long pOffset, long pBitsize) {
-    return !getHVEdges().getOverlappingEdges(pObject, pOffset, pBitsize).isEmpty();
+  public final Optional<SMGEdgeHasValue> getHVEdgeOfPtrBitsizeAt(SMGObject pObject, long pOffset) {
+    return getHVEdges().getEdge(pObject, pOffset, getSizeofPtrInBits());
   }
 
   @Override
@@ -496,10 +497,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   public NavigableMap<Long, Long> getNullEdgesMapOffsetToSizeForObject(SMGObject pObj) {
 
     SMGEdgeHasValueFilter nullValueFilter =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pObj)
-            .filterHavingValue(SMGZeroValue.INSTANCE)
-            .filterWithoutSize();
+        new SMGEdgeHasValueFilter().filterByObject(pObj).filterHavingValue(SMGZeroValue.INSTANCE);
     TreeMap<Long, Long> offsetToSize = new TreeMap<>();
     for (SMGEdgeHasValue edge : nullValueFilter.filter(hv_edges)) {
       long offset = edge.getOffset();

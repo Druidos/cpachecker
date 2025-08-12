@@ -8,7 +8,6 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.dll;
 
-import com.google.common.collect.Iterables;
 import java.util.Map;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionBlock;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
@@ -17,7 +16,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGTargetSpecifier;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractListCandidateSequence;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.join.SMGJoinStatus;
@@ -54,13 +52,7 @@ public class SMGDoublyLinkedListCandidateSequence
 
     for (int i = 1; i < length; i++) {
 
-      SMGEdgeHasValue nextEdge =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(prevObject)
-                      .filterAtOffset(nfo)
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
+      SMGEdgeHasValue nextEdge = pSMG.getHVEdgeOfPtrBitsizeAt(prevObject, nfo).orElseThrow();
       SMGObject nextObject = pSMG.getPointer(nextEdge.getValue()).getObject();
 
       if (nextObject == prevObject) {
@@ -96,20 +88,8 @@ public class SMGDoublyLinkedListCandidateSequence
       addPointsToEdges(pSMG, nextObject, newAbsObj, SMGTargetSpecifier.LAST);
       addPointsToEdges(pSMG, prevObject, newAbsObj, SMGTargetSpecifier.FIRST);
 
-      SMGEdgeHasValue prevObj1hve =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(prevObject)
-                      .filterAtOffset(pfo)
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
-      SMGEdgeHasValue nextObj2hve =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(nextObject)
-                      .filterAtOffset(nfo)
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
+      SMGEdgeHasValue prevObj1hve = pSMG.getHVEdgeOfPtrBitsizeAt(prevObject, pfo).orElseThrow();
+      SMGEdgeHasValue nextObj2hve = pSMG.getHVEdgeOfPtrBitsizeAt(nextObject, nfo).orElseThrow();
 
       for (SMGObject obj : join.getNonSharedObjectsFromSMG1()) {
         pSMG.markHeapObjectDeletedAndRemoveEdges(obj);

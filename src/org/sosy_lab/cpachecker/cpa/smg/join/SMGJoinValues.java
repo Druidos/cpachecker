@@ -14,6 +14,7 @@ import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.SMGTargetSpecifier;
@@ -23,6 +24,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdge;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
@@ -952,19 +954,10 @@ final class SMGJoinValues {
 
     SMGValue nextPointer;
 
-    Iterable<SMGEdgeHasValue> hvesNp =
-        newInputSMG1.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(pTarget)
-                .filterAtOffset(nf)
-                .filterBySize(newDestSMG.getSizeofPtrInBits()));
-
-    if (!hvesNp.iterator().hasNext()) {
-      // Edge lost due to join fields, should be zero
-      nextPointer = SMGZeroValue.INSTANCE;
-    } else {
-      nextPointer = Iterables.getOnlyElement(hvesNp).getValue();
-    }
+    assert newInputSMG1.getSizeofPtrInBits() == newDestSMG.getSizeofPtrInBits();
+    Optional<SMGEdgeHasValue> hvesNp = newInputSMG1.getHVEdgeOfPtrBitsizeAt(pTarget, nf);
+    // Edge lost due to join fields, should be zero
+    nextPointer = hvesNp.map(SMGEdge::getValue).orElse(SMGZeroValue.INSTANCE);
 
     // Algorithm 9 from FIT-TR-2012-04, line 4
     if (mapping1.containsKey(pTarget)) {
@@ -1151,10 +1144,7 @@ final class SMGJoinValues {
   private long getSize(SMGObject pTarget, long pNf, UnmodifiableSMG pInputSMG1) {
     Iterable<SMGEdgeHasValue> oldNfEdge =
         pInputSMG1.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(pTarget)
-                .filterAtOffset(pNf)
-                .filterWithoutSize());
+            new SMGEdgeHasValueFilter().filterByObject(pTarget).filterAtOffset(pNf));
 
     if (!oldNfEdge.iterator().hasNext()) {
       return new SMGEdgeHasValue(
@@ -1223,21 +1213,9 @@ final class SMGJoinValues {
         return Pair.of(false, true);
     }
 
-    Iterable<SMGEdgeHasValue> npHves =
-        newInputSMG2.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(pTarget)
-                .filterAtOffset(nf)
-                .filterBySize(newInputSMG2.getSizeofPtrInBits()));
-
-    SMGValue nextPointer;
-
-    if (!npHves.iterator().hasNext()) {
-      // nullified block, but lacks edge
-      nextPointer = SMGZeroValue.INSTANCE;
-    } else {
-      nextPointer = Iterables.getOnlyElement(npHves).getValue();
-    }
+    Optional<SMGEdgeHasValue> npHves = newInputSMG2.getHVEdgeOfPtrBitsizeAt(pTarget, nf);
+    // nullified block, but lacks edge
+    SMGValue nextPointer = npHves.map(SMGEdgeHasValue::getValue).orElse(SMGZeroValue.INSTANCE);
 
     if (mapping2.containsKey(pTarget)) {
       SMGObject jointList = mapping2.get(pTarget);
@@ -1604,10 +1582,7 @@ final class SMGJoinValues {
 
       if (!pDestSMG
           .getHVEdges(
-              new SMGEdgeHasValueFilter()
-                  .filterByObject(newObj)
-                  .filterAtOffset(hve.getOffset())
-                  .filterWithoutSize())
+              new SMGEdgeHasValueFilter().filterByObject(newObj).filterAtOffset(hve.getOffset()))
           .iterator()
           .hasNext()) {
         if (!pDestSMG.getValues().contains(newVal)) {

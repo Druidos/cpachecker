@@ -8,10 +8,8 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll;
 
-import com.google.common.collect.Iterables;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGJoinAbstractListProgress;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -46,12 +44,7 @@ class SMGJoinSllProgress extends SMGJoinAbstractListProgress<Long, SMGSingleLink
 
     for (int i = 1; i < pLength; i++) {
       SMGEdgeHasValue nextHveEdge =
-          Iterables.getOnlyElement(
-              pSmg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(nextObject)
-                      .filterAtOffset(pCandidate.getShape().getNfo())
-                      .filterBySize(pSmg.getSizeofPtrInBits())));
+          pSmg.getHVEdgeOfPtrBitsizeAt(nextObject, pCandidate.getShape().getNfo()).orElseThrow();
       nextObject = pSmg.getPointer(nextHveEdge.getValue()).getObject();
       if (nextObject.getKind() == SMGObjectKind.SLL) {
         return true;

@@ -12,6 +12,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionBlock;
@@ -204,18 +205,14 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
 
         // TODO At the moment, we still demand that a pointer is found at prev or next.
 
-        Iterable<SMGEdgeHasValue> prevObjectprevPointer =
-            pSmg.getHVEdges(
-                new SMGEdgeHasValueFilter()
-                    .filterByObject(pObject)
-                    .filterAtOffset(pfo)
-                    .filterBySize(pSmg.getSizeofPtrInBits()));
+        Optional<SMGEdgeHasValue> prevObjectprevPointer =
+            pSmg.getHVEdgeOfPtrBitsizeAt(pObject, pfo);
 
-        if (Iterables.size(prevObjectprevPointer) != 1) {
+        if (prevObjectprevPointer.isEmpty()) {
           continue;
         }
 
-        if (!pSmg.isPointer(Iterables.getOnlyElement(prevObjectprevPointer).getValue())) {
+        if (!pSmg.isPointer(prevObjectprevPointer.orElseThrow().getValue())) {
           continue;
         }
 
@@ -284,25 +281,14 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
 
       // TODO At the moment, we still demand that a pointer is found at prev or next.
 
-      Iterable<SMGEdgeHasValue> nextObjectNextField =
-          pSmg.getHVEdges(
-              new SMGEdgeHasValueFilter()
-                  .filterByObject(nextObject)
-                  .filterAtOffset(nfo)
-                  .filterBySize(pSmg.getSizeofPtrInBits()));
+      Optional<SMGEdgeHasValue> nextObjectNextField = pSmg.getHVEdgeOfPtrBitsizeAt(nextObject, nfo);
 
-      if (Iterables.size(nextObjectNextField) != 1) {
+      if (nextObjectNextField.isEmpty()) {
         return;
       }
 
-      SMGEdgeHasValue nfoField = Iterables.getOnlyElement(nextObjectNextField);
-      SMGEdgeHasValue pfoField =
-          Iterables.getOnlyElement(
-              pSmg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(nextObject)
-                      .filterAtOffset(pfo)
-                      .filterBySize(pSmg.getSizeofPtrInBits())));
+      SMGEdgeHasValue nfoField = nextObjectNextField.orElseThrow();
+      SMGEdgeHasValue pfoField = pSmg.getHVEdgeOfPtrBitsizeAt(nextObject, pfo).orElseThrow();
 
       if (!pSmg.isPointer(nfoField.getValue())) {
         return;
@@ -362,10 +348,7 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
     SMGValue prevValue =
         Iterables.getOnlyElement(
                 pSmg.getHVEdges(
-                    new SMGEdgeHasValueFilter()
-                        .filterByObject(nextObject)
-                        .filterAtOffset(pfo)
-                        .filterWithoutSize()))
+                    new SMGEdgeHasValueFilter().filterByObject(nextObject).filterAtOffset(pfo)))
             .getValue();
 
     nonSharedValues1.remove(prevValue);

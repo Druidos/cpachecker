@@ -101,8 +101,7 @@ final class SMGJoinSubSMGs {
 
     for (SMGEdgeHasValue hvIn1 : hvEdgesIn1) {
       Iterable<SMGEdgeHasValue> hvEdges2 =
-          hvEdgesIn2.filter(
-              new SMGEdgeHasValueFilter().filterAtOffset(hvIn1.getOffset()).filterWithoutSize());
+          hvEdgesIn2.filter(new SMGEdgeHasValueFilter().filterAtOffset(hvIn1.getOffset()));
 
       // FIXME: check why it is possible to have no edges
       if (Iterables.size(hvEdges2) != 1) {

@@ -25,6 +25,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 
 public class SMGHasValueEdgeSet implements SMGHasValueEdges {
 
@@ -250,6 +251,27 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset, long pBitsize) {
+    Optional<SMGEdgeHasValue> coveringEdge = getCoveringEdge(pObject, pOffset, pBitsize);
+    if (coveringEdge.isEmpty()) {
+      return Optional.empty();
+    }
+
+    SMGEdgeHasValue candidate = coveringEdge.orElseThrow();
+    if (candidate.getValue().isZero()) {
+      // covering zero-value edge contains all smaller edges
+      return Optional.of(new SMGEdgeHasValue(pBitsize, pOffset, pObject, SMGZeroValue.INSTANCE));
+    }
+
+    // non-zero value means there must be strict equality in start and end offsets
+    if (candidate.getOffset() != pOffset || candidate.getSizeInBits() != pBitsize) {
+      return Optional.empty();
+    }
+
+    return Optional.of(candidate);
+  }
+
+  @Override
   public int size() {
     return size;
   }
@@ -388,10 +410,9 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         PersistentSortedMap<Long, SMGEdgeHasValue> pMap, SMGEdgeHasValueFilter pFilter) {
       Long filterOffset = pFilter.getOffset();
       SMGValue filterValue = pFilter.getValue();
-      long filterSize = pFilter.getSize();
       Collection<SMGEdgeHasValue> candidateSet = ImmutableSet.of();
 
-      if (filterOffset == null && filterValue == null && filterSize == -1) {
+      if (filterOffset == null && filterValue == null) {
         return pMap.values().iterator();
       }
 
@@ -403,10 +424,6 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
           // we can return 'sub-edges' for 0-value HVEs
           long newSize = candidate.getEndOffset() - filterOffset;
           if (candidate.getValue().isZero() && newSize > 0) {
-            if (filterSize != -1 && newSize > filterSize) {
-              assert filterSize > 0 : "HVE filter's bitsize is " + filterSize;
-              newSize = filterSize;
-            }
             candidate =
                 new SMGEdgeHasValue(
                     newSize, filterOffset, candidate.getObject(), candidate.getValue());

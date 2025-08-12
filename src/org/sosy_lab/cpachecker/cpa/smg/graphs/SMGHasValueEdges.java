@@ -45,6 +45,17 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
   /** Get all edges that overlap with the range. The collection returned is unmodifiable. */
   Collection<SMGEdgeHasValue> getOverlappingEdges(SMGObject pObject, long pOffset, long pBitsize);
 
+  /**
+   * Get the edge matching the (object, offset, bitsize).
+   *
+   * <p>If an edge from the object starts from the offset and has the bitsize, return it.
+   *
+   * <p>If a zero-value edge covers the queried bits, return the matching subedge.
+   *
+   * <p>Otherwise, return Optional.empty().
+   */
+  Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset, long pBitsize);
+
   int size();
 
   boolean contains(SMGEdgeHasValue pHv);

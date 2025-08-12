@@ -139,10 +139,7 @@ public class SMGRegionsWithRegionsTest {
 
     Iterable<SMGEdgeHasValue> dataFieldSet =
         smg.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(abstractionResult)
-                .filterAtOffset(dfo)
-                .filterWithoutSize());
+            new SMGEdgeHasValueFilter().filterByObject(abstractionResult).filterAtOffset(dfo));
     assertThat(dataFieldSet).hasSize(1);
     SMGEdgeHasValue dataField = Iterables.getOnlyElement(dataFieldSet);
     SMGValue dataValue = dataField.getValue();

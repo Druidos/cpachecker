@@ -9,7 +9,6 @@
 package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
@@ -20,16 +19,12 @@ public class SMGEdgeHasValueFilter {
   private SMGValue value;
   private boolean valueComplement;
   private Long offset;
-  private long sizeInBits;
-  private boolean sizeNotRequired;
 
   public SMGEdgeHasValueFilter() {
     object = null;
     value = null;
     valueComplement = false;
     offset = null;
-    sizeInBits = -1;
-    sizeNotRequired = false;
   }
 
   public SMGEdgeHasValueFilter(SMGEdgeHasValueFilter pFilter) {
@@ -37,8 +32,6 @@ public class SMGEdgeHasValueFilter {
     value = pFilter.value;
     valueComplement = pFilter.valueComplement;
     offset = pFilter.offset;
-    sizeInBits = pFilter.sizeInBits;
-    sizeNotRequired = pFilter.sizeNotRequired;
   }
 
   public SMGObject getObject() {
@@ -53,14 +46,6 @@ public class SMGEdgeHasValueFilter {
     return offset;
   }
 
-  public long getSize() {
-    return sizeInBits;
-  }
-
-  public boolean isSizeNotRequired() {
-    return sizeNotRequired;
-  }
-
   @VisibleForTesting
   public SMGEdgeHasValueFilter filterByObject(SMGObject pObject) {
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
@@ -68,19 +53,10 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter filterWithoutSize() {
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.sizeNotRequired = true;
-    return filter;
-  }
-
   public SMGEdgeHasValueFilter filterHavingValue(SMGValue pValue) {
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
     filter.value = pValue;
     filter.valueComplement = false;
-    if (!pValue.isZero()) {
-      filter.sizeNotRequired = true;
-    }
     return filter;
   }
 
@@ -88,9 +64,6 @@ public class SMGEdgeHasValueFilter {
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
     filter.value = pValue;
     filter.valueComplement = true;
-    if (pValue.isZero()) {
-      filter.sizeNotRequired = true;
-    }
     return filter;
   }
 
@@ -100,15 +73,7 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter filterBySize(long pSizeInBits) {
-    Preconditions.checkArgument(pSizeInBits > 0, "cannot filter HVE by size %s", pSizeInBits);
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.sizeInBits = pSizeInBits;
-    return filter;
-  }
-
   public boolean holdsFor(SMGEdgeHasValue pEdge) {
-    assert sizeInBits > 0 || sizeNotRequired;
     if (object != null && object != pEdge.getObject()) {
       return false;
     }
@@ -123,11 +88,6 @@ public class SMGEdgeHasValueFilter {
 
     if (offset != null && offset != pEdge.getOffset()) {
       return false;
-    }
-
-    if (sizeInBits >= 0 && sizeInBits != pEdge.getSizeInBits()) {
-      // zero edge with bigger size can hold current edge
-      return sizeInBits < pEdge.getSizeInBits() && pEdge.getValue().isZero();
     }
 
     return true;
@@ -147,7 +107,6 @@ public class SMGEdgeHasValueFilter {
   @Override
   public String toString() {
     return String.format(
-        "Filter %s<object=%s@%d, value=%s, size=%d>",
-        valueComplement ? "NOT" : "", object, offset, value, sizeInBits);
+        "Filter %s<object=%s@%d, value=%s>", valueComplement ? "NOT" : "", object, offset, value);
   }
 }

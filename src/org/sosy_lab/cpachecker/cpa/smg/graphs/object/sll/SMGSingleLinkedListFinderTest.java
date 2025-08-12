@@ -11,8 +11,8 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import org.junit.Test;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
@@ -21,7 +21,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionCandidate;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -95,20 +94,11 @@ public class SMGSingleLinkedListFinderTest {
             addressOfInside);
 
     SMGObject lastFromHead = smg.getPointer(head.getValue()).getObject();
-    SMGEdgeHasValue connection = null;
-    do {
-      SMGEdgeHasValueFilter filter =
-          new SMGEdgeHasValueFilter()
-              .filterByObject(lastFromHead)
-              .filterAtOffset(64)
-              .filterBySize(smg.getSizeofPtrInBits());
-      Iterable<SMGEdgeHasValue> connections = smg.getHVEdges(filter);
-      connection = null;
-      if (connections.iterator().hasNext()) {
-        connection = Iterables.getOnlyElement(connections);
-        lastFromHead = smg.getPointer(connection.getValue()).getObject();
-      }
-    } while (connection != null);
+    Optional<SMGEdgeHasValue> connections = smg.getHVEdgeOfPtrBitsizeAt(lastFromHead, 64);
+    while (connections.isPresent()) {
+      lastFromHead = smg.getPointer(connections.orElseThrow().getValue()).getObject();
+      connections = smg.getHVEdgeOfPtrBitsizeAt(lastFromHead, 64);
+    }
 
     for (SMGEdgeHasValue hv : smg.getHVEdgesFrom(lastFromHead)) {
       smg.removeHasValueEdge(hv);

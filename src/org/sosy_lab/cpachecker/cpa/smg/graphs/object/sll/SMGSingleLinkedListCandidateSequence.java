@@ -8,7 +8,6 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll;
 
-import com.google.common.collect.Iterables;
 import java.util.Map;
 import org.sosy_lab.cpachecker.cpa.smg.SMGAbstractionBlock;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
@@ -18,7 +17,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGUtils;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractListCandidateSequence;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -54,13 +52,7 @@ public class SMGSingleLinkedListCandidateSequence
 
     for (int i = 1; i < length; i++) {
 
-      SMGEdgeHasValue nextEdge =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(prevObject)
-                      .filterAtOffset(nfo)
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
+      SMGEdgeHasValue nextEdge = pSMG.getHVEdgeOfPtrBitsizeAt(prevObject, nfo).orElseThrow();
       SMGObject nextObject = pSMG.getPointer(nextEdge.getValue()).getObject();
 
       if (nextObject == prevObject) {
@@ -104,13 +96,7 @@ public class SMGSingleLinkedListCandidateSequence
 
       addPointsToEdges(pSMG, prevObject, newAbsObj, SMGTargetSpecifier.FIRST);
 
-      SMGEdgeHasValue nextObj2hve =
-          Iterables.getOnlyElement(
-              pSMG.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(nextObject)
-                      .filterAtOffset(nfo)
-                      .filterBySize(pSMG.getSizeofPtrInBits())));
+      SMGEdgeHasValue nextObj2hve = pSMG.getHVEdgeOfPtrBitsizeAt(nextObject, nfo).orElseThrow();
 
       for (SMGObject obj : join.getNonSharedObjectsFromSMG1()) {
         pSMG.markHeapObjectDeletedAndRemoveEdges(obj);

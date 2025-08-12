@@ -301,17 +301,8 @@ public final class SMGListAbstractionTestHelpers {
         "The provided array must not be null or empty.");
     for (SMGValue address : pAddresses) {
       SMGObject object = pSmg.getObjectPointedBy(address);
-      for (int offset : new int[] {pNfo, pPfo}) {
-        Iterable<SMGEdgeHasValue> set =
-            pSmg.getHVEdges(
-                new SMGEdgeHasValueFilter()
-                    .filterByObject(object)
-                    .filterAtOffset(offset)
-                    .filterBySize(pSmg.getSizeofPtrInBits()));
-        for (SMGEdgeHasValue hv : set) {
-          pSmg.removeHasValueEdge(hv);
-        }
-      }
+      pSmg.getHVEdgeOfPtrBitsizeAt(object, pNfo).ifPresent(hve -> pSmg.removeHasValueEdge(hve));
+      pSmg.getHVEdgeOfPtrBitsizeAt(object, pPfo).ifPresent(hve -> pSmg.removeHasValueEdge(hve));
     }
   }
 
@@ -453,10 +444,7 @@ public final class SMGListAbstractionTestHelpers {
       SMGEdgeHasValue hv =
           Iterables.getOnlyElement(
               pSmg.getHVEdges(
-                  new SMGEdgeHasValueFilter()
-                      .filterByObject(pObject)
-                      .filterAtOffset(pDfo)
-                      .filterWithoutSize()));
+                  new SMGEdgeHasValueFilter().filterByObject(pObject).filterAtOffset(pDfo)));
       if (pValues.length > 0) {
         Truth.assertThat(hv.getValue()).isEqualTo(pValues[0]);
       }
@@ -478,10 +466,7 @@ public final class SMGListAbstractionTestHelpers {
     SMGEdgeHasValue hv =
         Iterables.getOnlyElement(
             pSmg.getHVEdges(
-                new SMGEdgeHasValueFilter()
-                    .filterByObject(pSubobject)
-                    .filterAtOffset(pDfo)
-                    .filterWithoutSize()));
+                new SMGEdgeHasValueFilter().filterByObject(pSubobject).filterAtOffset(pDfo)));
     Truth.assertThat(hv.getValue()).isEqualTo(pSublists[0][0]);
   }
 

@@ -9,6 +9,7 @@
 package org.sosy_lab.cpachecker.cpa.smg.graphs;
 
 import java.util.NavigableMap;
+import java.util.Optional;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
@@ -47,7 +48,8 @@ public sealed interface UnmodifiableSMG permits SMG, UnmodifiableCLangSMG {
 
   SMGHasValueEdges getHVEdgesFrom(SMGObject pObject);
 
-  boolean hasHVEdgesOverlapping(SMGObject pObject, long pOffset, long pBitsize);
+  /** get a has-value edge (if present) from pObject:pOffset with pointer bitsize */
+  Optional<SMGEdgeHasValue> getHVEdgeOfPtrBitsizeAt(SMGObject pObject, long pOffset);
 
   Set<SMGEdgePointsTo> getPtEdges(SMGEdgePointsToFilter pFilter);
 
