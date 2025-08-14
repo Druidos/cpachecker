@@ -187,15 +187,10 @@ class SMGJoinFields {
         new SMGEdgeHasValueFilter()
             .filterByObject(pObj2)
             .filterNotHavingValue(SMGZeroValue.INSTANCE);
-    SMGEdgeHasValueFilter nonNullPtrInSmg1 =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pObj1)
-            .filterNotHavingValue(SMGZeroValue.INSTANCE);
 
     for (SMGEdgeHasValue edge : pSMG2.getHVEdges(nonNullPtrInSmg2)) {
-      nonNullPtrInSmg1 = nonNullPtrInSmg1.filterAtOffset(edge.getOffset());
-
-      if (!pSMG1.getHVEdges(nonNullPtrInSmg1).iterator().hasNext()) {
+      Optional<SMGEdgeHasValue> edge1 = pSMG1.getHVEdges().getEdge(pObj1, edge.getOffset());
+      if (edge1.isEmpty() || edge1.orElseThrow().getValue().isZero()) {
         NavigableMap<Long, Long> newNullEdgesOffsetToSize =
             pSMG1.getNullEdgesMapOffsetToSizeForObject(pObj1);
 

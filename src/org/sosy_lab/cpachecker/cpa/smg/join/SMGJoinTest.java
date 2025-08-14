@@ -29,7 +29,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
@@ -238,9 +237,7 @@ public class SMGJoinTest {
     assertObjectCounts(resultSMG, 1, 1, 0);
 
     SMGObject global = resultSMG.getGlobalObjects().get(varName);
-    SMGEdgeHasValueFilter filter =
-        new SMGEdgeHasValueFilter().filterByObject(global).filterAtOffset(0);
-    SMGEdgeHasValue edge = Iterables.getOnlyElement(resultSMG.getHVEdges(filter));
+    SMGEdgeHasValue edge = resultSMG.getHVEdges().getEdge(global, 0).orElseThrow();
     assertThat(resultSMG.getValues()).contains(edge.getValue());
   }
 
@@ -259,9 +256,7 @@ public class SMGJoinTest {
     assertObjectCounts(resultSMG, 0, 1, 1);
 
     SMGObject global = Iterables.get(resultSMG.getStackFrames(), 0).getVariable(varName);
-    SMGEdgeHasValueFilter filter =
-        new SMGEdgeHasValueFilter().filterByObject(global).filterAtOffset(0);
-    SMGEdgeHasValue edge = Iterables.getOnlyElement(resultSMG.getHVEdges(filter));
+    SMGEdgeHasValue edge = resultSMG.getHVEdges().getEdge(global, 0).orElseThrow();
     assertThat(resultSMG.getValues()).contains(edge.getValue());
   }
 

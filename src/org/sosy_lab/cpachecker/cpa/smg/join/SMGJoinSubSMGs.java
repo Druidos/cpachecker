@@ -11,10 +11,10 @@ package org.sosy_lab.cpachecker.cpa.smg.join;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
 import org.sosy_lab.cpachecker.cpa.smg.SMGTargetSpecifier;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
@@ -22,7 +22,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -100,20 +99,19 @@ final class SMGJoinSubSMGs {
     }
 
     for (SMGEdgeHasValue hvIn1 : hvEdgesIn1) {
-      Iterable<SMGEdgeHasValue> hvEdges2 =
-          hvEdgesIn2.filter(new SMGEdgeHasValueFilter().filterAtOffset(hvIn1.getOffset()));
+      Optional<SMGEdgeHasValue> hvEdges2 = hvEdgesIn2.getEdge(pObj2, hvIn1.getOffset());
 
       // FIXME: check why it is possible to have no edges
-      if (Iterables.size(hvEdges2) != 1) {
+      if (hvEdges2.isEmpty()) {
         defined = false;
         status = SMGJoinStatus.INCOMPARABLE;
         return;
       }
 
-      SMGEdgeHasValue hvIn2 = Iterables.getOnlyElement(hvEdges2);
+      SMGValue value2 = hvEdges2.orElseThrow().getValue();
 
       int value1Level = getValueLevel(pObj1, hvIn1.getValue(), inputSMG1);
-      int value2Level = getValueLevel(pObj2, hvIn2.getValue(), inputSMG2);
+      int value2Level = getValueLevel(pObj2, value2, inputSMG2);
       int levelDiff1 = value1Level - pObj1.getLevel();
       int levelDiff2 = value2Level - pObj2.getLevel();
       int lDiff = pLDiff + (levelDiff1 - levelDiff2);
@@ -137,7 +135,7 @@ final class SMGJoinSubSMGs {
               mapping2,
               levelMap,
               hvIn1.getValue(),
-              hvIn2.getValue(),
+              value2,
               lDiff,
               identicalInputSmg,
               value1Level,

@@ -10,7 +10,6 @@ package org.sosy_lab.cpachecker.cpa.smg.join;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Iterables;
 import org.junit.Test;
 import org.sosy_lab.common.configuration.Configuration;
 import org.sosy_lab.common.configuration.InvalidConfigurationException;
@@ -25,7 +24,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGUtils;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.sll.SMGSingleLinkedList;
@@ -70,10 +68,7 @@ public class SMGJoinSubSMGsForAbstractionTest {
             MachineModel.LINUX32);
 
     long nfo = candidate.getShape().getNfo();
-    SMGEdgeHasValue nextEdge =
-        Iterables.getOnlyElement(
-            smg.getHVEdges(
-                new SMGEdgeHasValueFilter().filterByObject(firstObject).filterAtOffset(nfo)));
+    SMGEdgeHasValue nextEdge = smg.getHVEdges().getEdge(firstObject, nfo).orElseThrow();
     SMGObject secondObject = smg.getObjectPointedBy(nextEdge.getValue());
     assertThat(secondObject.getKind()).isSameInstanceAs(SMGObjectKind.REG);
 

@@ -29,7 +29,6 @@ import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.CLangStackFrame;
 import org.sosy_lab.cpachecker.cpa.smg.SMGStateInformation;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
@@ -565,13 +564,12 @@ public final class CLangSMG extends SMG implements UnmodifiableCLangSMG {
     for (int i = 0; i < offsets.length(); i++) {
       final long offset = offsets.get(i);
 
-      Iterable<SMGEdgeHasValue> hves =
-          getHVEdges(new SMGEdgeHasValueFilter().filterByObject(object).filterAtOffset(offset));
-      if (!hves.iterator().hasNext()) {
+      Optional<SMGEdgeHasValue> hves = getHVEdges().getEdge(object, offset);
+      if (hves.isEmpty()) {
         return Optional.empty();
       }
 
-      SMGEdgeHasValue hve = Iterables.getOnlyElement(hves);
+      SMGEdgeHasValue hve = hves.orElseThrow();
       if (i == offsets.length() - 1) {
         return Optional.of(hve);
       }

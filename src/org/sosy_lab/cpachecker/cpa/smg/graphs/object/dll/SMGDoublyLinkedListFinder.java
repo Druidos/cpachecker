@@ -345,11 +345,7 @@ public class SMGDoublyLinkedListFinder extends SMGAbstractionFinder {
 
     nonSharedValues2.remove(pValue);
 
-    SMGValue prevValue =
-        Iterables.getOnlyElement(
-                pSmg.getHVEdges(
-                    new SMGEdgeHasValueFilter().filterByObject(nextObject).filterAtOffset(pfo)))
-            .getValue();
+    SMGValue prevValue = pSmg.getHVEdges().getEdge(nextObject, pfo).orElseThrow().getValue();
 
     nonSharedValues1.remove(prevValue);
 

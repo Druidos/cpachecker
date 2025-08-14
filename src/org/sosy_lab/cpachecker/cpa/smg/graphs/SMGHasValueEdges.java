@@ -56,6 +56,13 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
    */
   Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset, long pBitsize);
 
+  /**
+   * Get the edge starting from pObject:pOffset.
+   *
+   * <p>If a zero-value edge covers the requested bit, return the sub-edge starting from pOffset.
+   */
+  Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset);
+
   int size();
 
   boolean contains(SMGEdgeHasValue pHv);

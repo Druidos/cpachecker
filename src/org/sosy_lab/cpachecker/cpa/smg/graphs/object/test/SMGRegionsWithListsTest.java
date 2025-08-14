@@ -13,6 +13,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.Truth;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +32,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGStateStatistics;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -122,11 +122,9 @@ public class SMGRegionsWithListsTest {
     SMGListAbstractionTestHelpers.assertAbstractListSegmentAsExpected(
         abstractionResult, nodeSize, LEVEL_ZERO, listKind, sublists.length);
 
-    Iterable<SMGEdgeHasValue> dataFieldSet =
-        smg.getHVEdges(
-            new SMGEdgeHasValueFilter().filterByObject(abstractionResult).filterAtOffset(dfo));
-    assertThat(dataFieldSet).hasSize(1);
-    SMGEdgeHasValue dataField = Iterables.getOnlyElement(dataFieldSet);
+    Optional<SMGEdgeHasValue> dataFieldSet = smg.getHVEdges().getEdge(abstractionResult, dfo);
+    assertThat(dataFieldSet).isPresent();
+    SMGEdgeHasValue dataField = dataFieldSet.orElseThrow();
     SMGValue dataValue = dataField.getValue();
 
     // assert that the abstract list points to an abstract sublist

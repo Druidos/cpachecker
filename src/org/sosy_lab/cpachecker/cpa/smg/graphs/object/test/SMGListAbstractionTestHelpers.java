@@ -25,7 +25,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGState;
 import org.sosy_lab.cpachecker.cpa.smg.SMGTargetSpecifier;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGAbstractList;
@@ -441,10 +440,7 @@ public final class SMGListAbstractionTestHelpers {
   static void assertStoredDataOfAbstractList(
       CLangSMG pSmg, SMGValue[] pValues, SMGObject pObject, int pDfo) {
     if (Collections3.allElementsEqual(pValues)) {
-      SMGEdgeHasValue hv =
-          Iterables.getOnlyElement(
-              pSmg.getHVEdges(
-                  new SMGEdgeHasValueFilter().filterByObject(pObject).filterAtOffset(pDfo)));
+      SMGEdgeHasValue hv = pSmg.getHVEdges().getEdge(pObject, pDfo).orElseThrow();
       if (pValues.length > 0) {
         Truth.assertThat(hv.getValue()).isEqualTo(pValues[0]);
       }
@@ -463,10 +459,7 @@ public final class SMGListAbstractionTestHelpers {
       return; // not all values in union of sublists are equal
     }
 
-    SMGEdgeHasValue hv =
-        Iterables.getOnlyElement(
-            pSmg.getHVEdges(
-                new SMGEdgeHasValueFilter().filterByObject(pSubobject).filterAtOffset(pDfo)));
+    SMGEdgeHasValue hv = pSmg.getHVEdges().getEdge(pSubobject, pDfo).orElseThrow();
     Truth.assertThat(hv.getValue()).isEqualTo(pSublists[0][0]);
   }
 

@@ -361,20 +361,15 @@ public class SMGStateTest {
     SMGObject concreteRegion = newSMG.getObjectPointedBy(value6);
 
     // after materialisation prev and data edges should be present
-    SMGEdgeHasValueFilter regFilter = new SMGEdgeHasValueFilter().filterByObject(concreteRegion);
-    SMGEdgeHasValue newNextField =
-        Iterables.getOnlyElement(newSMG.getHVEdges(regFilter.filterAtOffset(nfo)));
-    SMGEdgeHasValue prevField =
-        Iterables.getOnlyElement(newSMG.getHVEdges(regFilter.filterAtOffset(pfo)));
+    SMGEdgeHasValue newNextField = newSMG.getHVEdges().getEdge(concreteRegion, nfo).orElseThrow();
+    SMGEdgeHasValue prevField = newSMG.getHVEdges().getEdge(concreteRegion, pfo).orElseThrow();
 
     Truth.assertThat(newNextField.getSizeInBits()).isEqualTo(ptrSizeInBits);
     Truth.assertThat(prevField.getSizeInBits()).isEqualTo(2 * ptrSizeInBits);
 
     // next of new region should point to new dll
     SMGObject newDll = newSMG.getPointer(newNextField.getValue()).getObject();
-    SMGEdgeHasValueFilter newDllFilter = new SMGEdgeHasValueFilter().filterByObject(newDll);
-    SMGEdgeHasValue newDllPrevField =
-        Iterables.getOnlyElement(newSMG.getHVEdges(newDllFilter.filterAtOffset(pfo)));
+    SMGEdgeHasValue newDllPrevField = newSMG.getHVEdges().getEdge(newDll, pfo).orElseThrow();
 
     // assert that region points to dll and dll points back to region
     Truth.assertThat(newSMG.getPointer(newDllPrevField.getValue()).getObject())
@@ -436,13 +431,11 @@ public class SMGStateTest {
     SMGObject concreteRegion = newSMG.getObjectPointedBy(value6);
 
     // after materialisation also the next edge and the second data edge should be present
-    SMGEdgeHasValueFilter regFilter = new SMGEdgeHasValueFilter().filterByObject(concreteRegion);
     SMGEdgeHasValue dataFieldBeforeNext =
-        Iterables.getOnlyElement(newSMG.getHVEdges(regFilter.filterAtOffset(dfo1)));
-    SMGEdgeHasValue nextField =
-        Iterables.getOnlyElement(newSMG.getHVEdges(regFilter.filterAtOffset(nfo)));
+        newSMG.getHVEdges().getEdge(concreteRegion, dfo1).orElseThrow();
+    SMGEdgeHasValue nextField = newSMG.getHVEdges().getEdge(concreteRegion, nfo).orElseThrow();
     SMGEdgeHasValue dataFieldAfterNext =
-        Iterables.getOnlyElement(newSMG.getHVEdges(regFilter.filterAtOffset(dfo2)));
+        newSMG.getHVEdges().getEdge(concreteRegion, dfo2).orElseThrow();
 
     // assert that each field has the correct size
     Truth.assertThat(dataFieldBeforeNext.getSizeInBits()).isEqualTo(ptrSizeInBits);
@@ -649,10 +642,10 @@ public class SMGStateTest {
     values_for_obj = state.getHVEdgesFrom(pt.getObject());
     assertThat(values_for_obj).hasSize(3);
     assertThat(values_for_obj).contains(hv8at4);
-    assertThat(values_for_obj)
-        .contains(new SMGEdgeHasValue(4, 0, pt.getObject(), SMGZeroValue.INSTANCE));
-    assertThat(values_for_obj)
-        .contains(new SMGEdgeHasValue(4, 12, pt.getObject(), SMGZeroValue.INSTANCE));
+    SMGEdgeHasValue hve1 = new SMGEdgeHasValue(4, 0, pt.getObject(), SMGZeroValue.INSTANCE);
+    assertThat(values_for_obj).contains(hve1);
+    SMGEdgeHasValue hve2 = new SMGEdgeHasValue(4, 12, pt.getObject(), SMGZeroValue.INSTANCE);
+    assertThat(values_for_obj).contains(hve2);
 
     SMGEdgeHasValueFilter nullFilter =
         new SMGEdgeHasValueFilter()
@@ -661,8 +654,8 @@ public class SMGStateTest {
     Iterable<SMGEdgeHasValue> nulls_for_value = state.getHVEdges(nullFilter);
     assertThat(nulls_for_value).hasSize(2);
 
-    assertThat(state.getHVEdges(nullFilter.filterAtOffset(0))).hasSize(1);
-    assertThat(state.getHVEdges(nullFilter.filterAtOffset(12))).hasSize(1);
+    assertThat(state.getHeap().getHVEdges().getEdge(pt.getObject(), 0)).hasValue(hve1);
+    assertThat(state.getHeap().getHVEdges().getEdge(pt.getObject(), 12)).hasValue(hve2);
   }
 
   @Test

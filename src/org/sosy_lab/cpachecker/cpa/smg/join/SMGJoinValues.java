@@ -1142,17 +1142,11 @@ final class SMGJoinValues {
   }
 
   private long getSize(SMGObject pTarget, long pNf, UnmodifiableSMG pInputSMG1) {
-    Iterable<SMGEdgeHasValue> oldNfEdge =
-        pInputSMG1.getHVEdges(
-            new SMGEdgeHasValueFilter().filterByObject(pTarget).filterAtOffset(pNf));
-
-    if (!oldNfEdge.iterator().hasNext()) {
-      return new SMGEdgeHasValue(
-              pInputSMG1.getSizeofPtrInBits(), pNf, pTarget, SMGZeroValue.INSTANCE)
-          .getSizeInBits();
-    } else {
-      return Iterables.getOnlyElement(oldNfEdge).getSizeInBits();
-    }
+    return pInputSMG1
+        .getHVEdges()
+        .getEdge(pTarget, pNf)
+        .map(SMGEdgeHasValue::getSizeInBits)
+        .orElse((long) pInputSMG1.getSizeofPtrInBits());
   }
 
   private Pair<Boolean, Boolean> insertRightListAndJoin(
@@ -1580,11 +1574,7 @@ final class SMGJoinValues {
         }
       }
 
-      if (!pDestSMG
-          .getHVEdges(
-              new SMGEdgeHasValueFilter().filterByObject(newObj).filterAtOffset(hve.getOffset()))
-          .iterator()
-          .hasNext()) {
+      if (pDestSMG.getHVEdges().getEdge(newObj, hve.getOffset()).isEmpty()) {
         if (!pDestSMG.getValues().contains(newVal)) {
           pDestSMG.addValue(newVal);
         }

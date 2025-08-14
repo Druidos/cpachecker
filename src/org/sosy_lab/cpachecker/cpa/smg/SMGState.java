@@ -835,15 +835,12 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
 
     long hfo = pListSeg.getHfo();
 
-    Iterable<SMGEdgeHasValue> oldDllFieldsToOldRegion =
-        heap.getHVEdges(
-            new SMGEdgeHasValueFilter()
-                .filterByObject(pListSeg)
-                .filterAtOffset(offsetPointingToRegion));
+    Optional<SMGEdgeHasValue> oldDllFieldsToOldRegion =
+        heap.getHVEdges().getEdge(pListSeg, offsetPointingToRegion);
     SMGValue oldPointerToRegion =
         readValue(pListSeg, offsetPointingToRegion, sizeOfVoidPointerInBits).getObject();
-    if (oldDllFieldsToOldRegion.iterator().hasNext()) {
-      SMGEdgeHasValue oldDllFieldToOldRegion = Iterables.getOnlyElement(oldDllFieldsToOldRegion);
+    if (oldDllFieldsToOldRegion.isPresent()) {
+      SMGEdgeHasValue oldDllFieldToOldRegion = oldDllFieldsToOldRegion.orElseThrow();
 
       // Work around with nullified memory block
       if (oldDllFieldToOldRegion.getValue().isZero()) {

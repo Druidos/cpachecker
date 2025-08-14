@@ -12,7 +12,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -24,7 +23,6 @@ import org.sosy_lab.common.collect.PersistentSortedMap;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 
 public class SMGHasValueEdgeSet implements SMGHasValueEdges {
@@ -272,6 +270,29 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public final Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset) {
+    // find edge covering at least the first bit
+    Optional<SMGEdgeHasValue> coveringEdge = getCoveringEdge(pObject, pOffset, 1);
+    if (coveringEdge.isEmpty()) {
+      return Optional.empty();
+    }
+
+    SMGEdgeHasValue candidate = coveringEdge.orElseThrow();
+    if (candidate.getValue().isZero()) {
+      // covering zero-value edge contains all smaller edges
+      long bitsize = candidate.getEndOffset() - pOffset;
+      return Optional.of(new SMGEdgeHasValue(bitsize, pOffset, pObject, SMGZeroValue.INSTANCE));
+    }
+
+    // non-zero value means there must be strict equality in start and end offsets
+    if (candidate.getOffset() != pOffset) {
+      return Optional.empty();
+    }
+
+    return Optional.of(candidate);
+  }
+
+  @Override
   public int size() {
     return size;
   }
@@ -400,45 +421,10 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
           }
           iteratorSecond = null;
         } else {
-          iteratorSecond = computeSecondLevelIterator(iteratorMain.next(), filter);
+          iteratorSecond = iteratorMain.next().values().iterator();
         }
       }
       return endOfData();
-    }
-
-    private Iterator<SMGEdgeHasValue> computeSecondLevelIterator(
-        PersistentSortedMap<Long, SMGEdgeHasValue> pMap, SMGEdgeHasValueFilter pFilter) {
-      Long filterOffset = pFilter.getOffset();
-      SMGValue filterValue = pFilter.getValue();
-      Collection<SMGEdgeHasValue> candidateSet = ImmutableSet.of();
-
-      if (filterOffset == null && filterValue == null) {
-        return pMap.values().iterator();
-      }
-
-      if (filterOffset != null) {
-        Entry<Long, SMGEdgeHasValue> candidateEntry = pMap.floorEntry(filterOffset);
-        if (candidateEntry != null) {
-          SMGEdgeHasValue candidate = candidateEntry.getValue();
-
-          // we can return 'sub-edges' for 0-value HVEs
-          long newSize = candidate.getEndOffset() - filterOffset;
-          if (candidate.getValue().isZero() && newSize > 0) {
-            candidate =
-                new SMGEdgeHasValue(
-                    newSize, filterOffset, candidate.getObject(), candidate.getValue());
-          }
-
-          if (pFilter.holdsFor(candidate)) {
-            candidateSet = ImmutableSet.of(candidate);
-            return candidateSet.iterator();
-          }
-        }
-
-        return candidateSet.iterator();
-      }
-
-      return pMap.values().iterator();
     }
   }
 

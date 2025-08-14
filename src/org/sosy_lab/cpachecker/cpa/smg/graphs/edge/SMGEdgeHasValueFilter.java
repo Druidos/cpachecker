@@ -18,20 +18,17 @@ public class SMGEdgeHasValueFilter {
   protected SMGObject object;
   private SMGValue value;
   private boolean valueComplement;
-  private Long offset;
 
   public SMGEdgeHasValueFilter() {
     object = null;
     value = null;
     valueComplement = false;
-    offset = null;
   }
 
   public SMGEdgeHasValueFilter(SMGEdgeHasValueFilter pFilter) {
     object = pFilter.object;
     value = pFilter.value;
     valueComplement = pFilter.valueComplement;
-    offset = pFilter.offset;
   }
 
   public SMGObject getObject() {
@@ -40,10 +37,6 @@ public class SMGEdgeHasValueFilter {
 
   public SMGValue getValue() {
     return value;
-  }
-
-  public Long getOffset() {
-    return offset;
   }
 
   @VisibleForTesting
@@ -67,12 +60,6 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter filterAtOffset(long pOffset) {
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.offset = pOffset;
-    return filter;
-  }
-
   public boolean holdsFor(SMGEdgeHasValue pEdge) {
     if (object != null && object != pEdge.getObject()) {
       return false;
@@ -84,10 +71,6 @@ public class SMGEdgeHasValueFilter {
       } else if (!valueComplement && !pEdge.getValue().equals(value)) {
         return false;
       }
-    }
-
-    if (offset != null && offset != pEdge.getOffset()) {
-      return false;
     }
 
     return true;
@@ -107,6 +90,6 @@ public class SMGEdgeHasValueFilter {
   @Override
   public String toString() {
     return String.format(
-        "Filter %s<object=%s@%d, value=%s>", valueComplement ? "NOT" : "", object, offset, value);
+        "Filter %s<object=%s, value=%s>", valueComplement ? "NOT" : "", object, value);
   }
 }
