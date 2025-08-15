@@ -8,7 +8,6 @@
 
 package org.sosy_lab.cpachecker.cpa.smg.graphs;
 
-import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -65,14 +64,9 @@ public sealed interface UnmodifiableSMG permits SMG, UnmodifiableCLangSMG {
 
   int getSizeofPtrInBits();
 
-  //  FIXME: replace by filter
-  NavigableMap<Long, Long> getNullEdgesMapOffsetToSizeForObject(SMGObject pObj);
-
   boolean isPointer(SMGValue value);
 
   SMGEdgePointsTo getPointer(SMGValue value);
-
-  boolean isCoveredByNullifiedBlocks(SMGEdgeHasValue pEdge);
 
   boolean haveNeqRelation(SMGValue pV1, SMGValue pV2);
 

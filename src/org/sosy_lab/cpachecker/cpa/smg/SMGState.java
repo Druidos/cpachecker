@@ -1257,6 +1257,9 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     if (maybeCoveringEdge.isPresent()) {
       SMGEdgeHasValue object_edge = maybeCoveringEdge.orElseThrow();
       SMGValue symValue = object_edge.getValue();
+      if (symValue.isZero()) {
+        return SMGValueAndState.of(this, SMGZeroValue.INSTANCE);
+      }
 
       if (isExplicit(symValue)) {
         SMGKnownExpValue expValue = getExplicit(symValue);
@@ -1274,12 +1277,6 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
         addElementToCurrentChain(object_edge);
         return SMGValueAndState.of(this, SMGKnownExpValue.valueOf(value));
       }
-    }
-
-    SMGEdgeHasValue edge =
-        new SMGEdgeHasValue(pSizeInBits, pOffset, pObject, SMGZeroValue.INSTANCE);
-    if (heap.isCoveredByNullifiedBlocks(edge)) {
-      return SMGValueAndState.of(this, SMGZeroValue.INSTANCE);
     }
 
     performConsistencyCheck(SMGRuntimeCheck.HALF);

@@ -13,12 +13,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-import java.util.Map.Entry;
-import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.sosy_lab.common.collect.PathCopyingPersistentTreeMap;
 import org.sosy_lab.common.collect.PersistentMap;
@@ -480,34 +477,6 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   }
 
   /**
-   * Obtains a TreeMap offset to size signifying where the object bytes are nullified.
-   *
-   * <p>Constant.
-   *
-   * <p>Example: an entry "{0:32,48:16}" represents a region of at least 64b with two ZERO values
-   * located at offset 0 (length 32) and 48 (length 16). We assure that the returned intervals do
-   * not overlap, i.e., we never return something like {0:32,16:32} or {0:32,32:32}, but would
-   * return {0:48} or {0:64} here.
-   *
-   * @param pObj SMGObject for which the information is to be obtained
-   * @return A mapping of offsets to sizes which are covered by a HasValue edge leading from the
-   *     object to NULL value
-   */
-  @Override
-  public NavigableMap<Long, Long> getNullEdgesMapOffsetToSizeForObject(SMGObject pObj) {
-
-    SMGEdgeHasValueFilter nullValueFilter =
-        new SMGEdgeHasValueFilter().filterByObject(pObj).filterHavingValue(SMGZeroValue.INSTANCE);
-    TreeMap<Long, Long> offsetToSize = new TreeMap<>();
-    for (SMGEdgeHasValue edge : nullValueFilter.filter(hv_edges)) {
-      long offset = edge.getOffset();
-      long size = edge.getSizeInBits();
-      offsetToSize.put(offset, size);
-    }
-    return offsetToSize;
-  }
-
-  /**
    * Checks, whether a {@link SMGEdgePointsTo} edge exists with the given value as source.
    *
    * @param value the source of the {@link SMGEdgePointsTo} edge.
@@ -528,19 +497,6 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   @Override
   public SMGEdgePointsTo getPointer(SMGValue value) {
     return pt_edges.getEdgeWithValue(value);
-  }
-
-  @Override
-  public boolean isCoveredByNullifiedBlocks(SMGEdgeHasValue pEdge) {
-    return isCoveredByNullifiedBlocks(pEdge.getObject(), pEdge.getOffset(), pEdge.getSizeInBits());
-  }
-
-  private boolean isCoveredByNullifiedBlocks(SMGObject pObject, long pOffset, long size) {
-    long expectedMinClear = pOffset + size;
-
-    NavigableMap<Long, Long> nullEdgesOffsetToSize = getNullEdgesMapOffsetToSizeForObject(pObject);
-    Entry<Long, Long> floorEntry = nullEdgesOffsetToSize.floorEntry(pOffset);
-    return (floorEntry != null && floorEntry.getValue() + floorEntry.getKey() >= expectedMinClear);
   }
 
   public SMGValue getReplacedValue(SMGValue fresh) {

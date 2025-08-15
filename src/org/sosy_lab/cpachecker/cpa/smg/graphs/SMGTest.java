@@ -11,12 +11,12 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -76,8 +76,12 @@ public class SMGTest {
     SMGEdgeHasValue hv = new SMGEdgeHasValue(mockTypeSize, 32, obj1, SMGZeroValue.INSTANCE);
     smg1.addHasValueEdge(hv);
 
-    Map<Long, Long> nullEdges = smg1.getNullEdgesMapOffsetToSizeForObject(obj1);
-    assertThat(nullEdges).containsExactly(32L, 32L);
+    Iterable<SMGEdgeHasValue> nullEdges =
+        new SMGEdgeHasValueFilter()
+            .filterByObject(obj1)
+            .filterHavingValue(SMGZeroValue.INSTANCE)
+            .filter(smg1.getHVEdges());
+    assertThat(nullEdges).containsExactly(hv);
   }
 
   @Test
