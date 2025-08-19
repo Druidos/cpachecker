@@ -33,7 +33,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.CLangSMGTest;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.AllocationColor;
@@ -625,37 +624,25 @@ public class SMGStateTest {
 
     // Add an 16b object and write a 16b zero value into it
     SMGEdgePointsTo pt = state.addNewHeapAllocation(16, "OBJECT", AllocationColor.COLORLESS);
-    SMGEdgeHasValue hv =
-        state.writeValue(pt.getObject(), 0, mockSize16b, SMGZeroValue.INSTANCE).getNewEdge();
+    SMGObject obj = pt.getObject();
+    SMGEdgeHasValue hv = state.writeValue(obj, 0, mockSize16b, SMGZeroValue.INSTANCE).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
 
     // Check the object values and assert it has only the written 16b value
-    SMGHasValueEdges values_for_obj = state.getHVEdgesFrom(pt.getObject());
-    assertThat(values_for_obj).hasSize(1);
-    assertThat(values_for_obj).contains(hv);
+    assertThat(state.getHeap().getHVEdges()).containsExactly(hv);
 
     // Write a 8b value at index 4
     // We should see three Has-Value edges: 4b zero, 8b just written, 4b zero
     SMGEdgeHasValue hv8at4 =
-        state.writeValue(pt.getObject(), 4, mockSize8b, SMGUnknownValue.INSTANCE).getNewEdge();
+        state.writeValue(obj, 4, mockSize8b, SMGUnknownValue.INSTANCE).getNewEdge();
     state.performConsistencyCheck(SMGRuntimeCheck.FORCED);
-    values_for_obj = state.getHVEdgesFrom(pt.getObject());
-    assertThat(values_for_obj).hasSize(3);
-    assertThat(values_for_obj).contains(hv8at4);
-    SMGEdgeHasValue hve1 = new SMGEdgeHasValue(4, 0, pt.getObject(), SMGZeroValue.INSTANCE);
-    assertThat(values_for_obj).contains(hve1);
-    SMGEdgeHasValue hve2 = new SMGEdgeHasValue(4, 12, pt.getObject(), SMGZeroValue.INSTANCE);
-    assertThat(values_for_obj).contains(hve2);
+    SMGEdgeHasValue leftZeroHve = new SMGEdgeHasValue(4, 0, obj, SMGZeroValue.INSTANCE);
+    SMGEdgeHasValue rightZeroHve = new SMGEdgeHasValue(4, 12, obj, SMGZeroValue.INSTANCE);
 
-    SMGEdgeHasValueFilter nullFilter =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pt.getObject())
-            .filterHavingValue(SMGZeroValue.INSTANCE);
-    Iterable<SMGEdgeHasValue> nulls_for_value = state.getHVEdges(nullFilter);
-    assertThat(nulls_for_value).hasSize(2);
-
-    assertThat(state.getHeap().getHVEdges().getEdge(pt.getObject(), 0)).hasValue(hve1);
-    assertThat(state.getHeap().getHVEdges().getEdge(pt.getObject(), 12)).hasValue(hve2);
+    assertThat(state.getHeap().getHVEdges()).containsExactly(hv8at4, leftZeroHve, rightZeroHve);
+    assertThat(state.getHeap().getHVEdges().getEdge(obj, 0).stream()).containsExactly(leftZeroHve);
+    assertThat(state.getHeap().getHVEdges().getEdge(obj, 12).stream())
+        .containsExactly(rightZeroHve);
   }
 
   @Test

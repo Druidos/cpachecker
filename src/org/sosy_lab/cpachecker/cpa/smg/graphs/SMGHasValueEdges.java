@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
 /**
  * An immutable collection of has-value-edges. Should keep invariant: All has-value-edges,
@@ -62,6 +63,9 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
    * <p>If a zero-value edge covers the requested bit, return the sub-edge starting from pOffset.
    */
   Optional<SMGEdgeHasValue> getEdge(SMGObject pObject, long pOffset);
+
+  /** Get all edges that have (lead to) pValue. */
+  Iterable<SMGEdgeHasValue> getEdgesTo(SMGValue pValue);
 
   int size();
 

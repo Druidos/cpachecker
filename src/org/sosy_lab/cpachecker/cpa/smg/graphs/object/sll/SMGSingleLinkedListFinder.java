@@ -25,7 +25,6 @@ import org.sosy_lab.cpachecker.cpa.smg.SMGUtils;
 import org.sosy_lab.cpachecker.cpa.smg.UnmodifiableSMGState;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObjectKind;
@@ -167,8 +166,7 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
       // Constrains on pointer bitsizes were introduced in fbcbaeb661b4e32d5fba19a232ddbe1aaea3d7fc
       ImmutableSet.Builder<Long> typeSizesBuilder = ImmutableSet.builder();
       for (SMGEdgePointsTo pte : SMGUtils.getPointerToThisObject(pObject, pSmg)) {
-        Iterable<SMGEdgeHasValue> hves =
-            pSmg.getHVEdges(new SMGEdgeHasValueFilter().filterHavingValue(pte.getValue()));
+        Iterable<SMGEdgeHasValue> hves = pSmg.getHVEdges().getEdgesTo(pte.getValue());
         Iterable<Long> bitsizes = Iterables.transform(hves, SMGEdgeHasValue::getSizeInBits);
 
         if (pte.getValue().isZero()) {
@@ -338,8 +336,7 @@ public class SMGSingleLinkedListFinder extends SMGAbstractionFinder {
         /* Nothing besides the one link from the prev object pointer may
          * point to the next object in a sll
          */
-        Iterable<SMGEdgeHasValue> prevs =
-            pSmg.getHVEdges(SMGEdgeHasValueFilter.valueFilter(pte.getValue()));
+        Iterable<SMGEdgeHasValue> prevs = pSmg.getHVEdges().getEdgesTo(pte.getValue());
 
         if (Iterables.size(prevs) != 1) {
           return;

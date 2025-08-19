@@ -120,10 +120,8 @@ class SMGJoinFields {
 
     // for every zero-value bit that is not covered by some zero-value edge in the new SMG,
     // update the join status
-    final SMGEdgeHasValueFilter zeroValue =
-        SMGEdgeHasValueFilter.valueFilter(SMGZeroValue.INSTANCE);
-
-    for (SMGEdgeHasValue origEdge : pOrigSMG.getHVEdgesFrom(pObject).filter(zeroValue)) {
+    for (SMGEdgeHasValue origEdge :
+        pOrigSMG.getHVEdgesFrom(pObject).getEdgesTo(SMGZeroValue.INSTANCE)) {
       Optional<SMGEdgeHasValue> newCoveringEdge =
           pNewSMG
               .getHVEdges()
@@ -151,9 +149,8 @@ class SMGJoinFields {
       return;
     }
 
-    SMGEdgeHasValueFilter nullValueFilter =
-        new SMGEdgeHasValueFilter().filterByObject(pObj1).filterHavingValue(SMGZeroValue.INSTANCE);
-    Iterable<SMGEdgeHasValue> edgesToRemove = pSMG.getHVEdges(nullValueFilter);
+    Iterable<SMGEdgeHasValue> edgesToRemove =
+        pSMG.getHVEdgesFrom(pObj1).getEdgesTo(SMGZeroValue.INSTANCE);
     Set<SMGEdgeHasValue> edgesToAdd1 = getHVSetOfCommonNullValues(pSMG, pSMG2, pObj1, pObj2);
     Set<SMGEdgeHasValue> edgesToAdd2 = getHVSetOfMissingNullValues(pSMG, pSMG2, pObj1, pObj2);
 
@@ -203,18 +200,14 @@ class SMGJoinFields {
       UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2) {
     ImmutableSet.Builder<SMGEdgeHasValue> resultBuilder = ImmutableSet.builder();
 
-    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pObj1)) {
-      if (edge1.getValue().isZero()) {
-        for (SMGEdgeHasValue edge2 :
-            pSMG2
-                .getHVEdges()
-                .getOverlappingEdges(pObj2, edge1.getOffset(), edge1.getSizeInBits())) {
-          if (edge2.getValue().isZero()) {
-            long ofs = Long.max(edge1.getOffset(), edge2.getOffset());
-            long end = Long.min(edge1.getEndOffset(), edge2.getEndOffset());
-            long bitsize = end - ofs;
-            resultBuilder.add(new SMGEdgeHasValue(bitsize, ofs, pObj1, SMGZeroValue.INSTANCE));
-          }
+    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pObj1).getEdgesTo(SMGZeroValue.INSTANCE)) {
+      for (SMGEdgeHasValue edge2 :
+          pSMG2.getHVEdges().getOverlappingEdges(pObj2, edge1.getOffset(), edge1.getSizeInBits())) {
+        if (edge2.getValue().isZero()) {
+          long ofs = Long.max(edge1.getOffset(), edge2.getOffset());
+          long end = Long.min(edge1.getEndOffset(), edge2.getEndOffset());
+          long bitsize = end - ofs;
+          resultBuilder.add(new SMGEdgeHasValue(bitsize, ofs, pObj1, SMGZeroValue.INSTANCE));
         }
       }
     }
@@ -226,10 +219,7 @@ class SMGJoinFields {
       UnmodifiableSMG pSMG1, SMGObject pObj1, UnmodifiableSMG pSMG2, SMGObject pObj2)
       throws SMGInconsistentException {
 
-    SMGEdgeHasValueFilter hasZeroValue =
-        new SMGEdgeHasValueFilter().filterHavingValue(SMGZeroValue.INSTANCE);
-
-    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pObj1).filter(hasZeroValue)) {
+    for (SMGEdgeHasValue edge1 : pSMG1.getHVEdgesFrom(pObj1).getEdgesTo(SMGZeroValue.INSTANCE)) {
       Optional<SMGEdgeHasValue> edge2 =
           pSMG2.getHVEdges().getEdge(pObj2, edge1.getOffset(), edge1.getSizeInBits());
       if (edge2.isEmpty()) {

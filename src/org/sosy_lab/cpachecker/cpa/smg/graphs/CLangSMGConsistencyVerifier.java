@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cpa.smg.CLangStackFrame;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -271,8 +270,7 @@ public class CLangSMGConsistencyVerifier {
 
     for (SMGEdgePointsTo ptEdge : pSmg.getPTEdges()) {
       if (!ptEdge.getValue().isZero() && !ptEdge.getObject().isNullObject()) {
-        SMGEdgeHasValueFilter filter = SMGEdgeHasValueFilter.valueFilter(ptEdge.getValue());
-        for (SMGEdgeHasValue hvEdge : pSmg.getHVEdges(filter)) {
+        for (SMGEdgeHasValue hvEdge : pSmg.getHVEdges().getEdgesTo(ptEdge.getValue())) {
           if (hvEdge.getSizeInBits() != pSmg.getSizeofPtrInBits()) {
             pLogger.log(
                 Level.SEVERE,

@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.sosy_lab.common.log.LogManager;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
@@ -75,13 +74,7 @@ public class SMGTest {
     smg1.addObject(obj1);
     SMGEdgeHasValue hv = new SMGEdgeHasValue(mockTypeSize, 32, obj1, SMGZeroValue.INSTANCE);
     smg1.addHasValueEdge(hv);
-
-    Iterable<SMGEdgeHasValue> nullEdges =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(obj1)
-            .filterHavingValue(SMGZeroValue.INSTANCE)
-            .filter(smg1.getHVEdges());
-    assertThat(nullEdges).containsExactly(hv);
+    assertThat(smg1.getHVEdgesFrom(obj1).getEdgesTo(SMGZeroValue.INSTANCE)).containsExactly(hv);
   }
 
   @Test

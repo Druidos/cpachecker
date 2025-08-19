@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import org.sosy_lab.common.collect.PersistentSortedMap;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 
 public class SMGHasValueEdgeSet implements SMGHasValueEdges {
@@ -290,6 +292,11 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
     }
 
     return Optional.of(candidate);
+  }
+
+  @Override
+  public final Iterable<SMGEdgeHasValue> getEdgesTo(SMGValue pValue) {
+    return Iterables.filter(this, hve -> hve.getValue().equals(pValue));
   }
 
   @Override

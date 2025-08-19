@@ -521,7 +521,7 @@ public class SMGJoinSubSMGsIntoGenericAbstraction {
     for (SMGEdgeHasValueTemplate fieldTmp : pointerToThisAbstraction) {
       SMGValue absVal = fieldTmp.getAbstractValue();
       SMGValue concreteValue = abstractToConcreteMap.get(absVal);
-      Iterables.addAll(result, SMGUtils.getFieldsofThisValue(concreteValue, pInputSMG));
+      Iterables.addAll(result, pInputSMG.getHVEdges().getEdgesTo(concreteValue));
     }
     return result;
   }
@@ -621,7 +621,7 @@ public class SMGJoinSubSMGsIntoGenericAbstraction {
       }
     }
 
-    Iterable<SMGEdgeHasValue> fields = SMGUtils.getFieldsofThisValue(pValue, pInputSMG);
+    Iterable<SMGEdgeHasValue> fields = pInputSMG.getHVEdges().getEdgesTo(pValue);
 
     Set<SMGEdgeHasValueTemplate> fieldsTemplate = pMatStep.getFieldsOfValue(pValueTemplate);
 

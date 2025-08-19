@@ -17,26 +17,19 @@ public class SMGEdgeHasValueFilter {
 
   protected SMGObject object;
   private SMGValue value;
-  private boolean valueComplement;
 
   public SMGEdgeHasValueFilter() {
     object = null;
     value = null;
-    valueComplement = false;
   }
 
   public SMGEdgeHasValueFilter(SMGEdgeHasValueFilter pFilter) {
     object = pFilter.object;
     value = pFilter.value;
-    valueComplement = pFilter.valueComplement;
   }
 
   public SMGObject getObject() {
     return object;
-  }
-
-  public SMGValue getValue() {
-    return value;
   }
 
   @VisibleForTesting
@@ -46,17 +39,9 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter filterHavingValue(SMGValue pValue) {
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.value = pValue;
-    filter.valueComplement = false;
-    return filter;
-  }
-
   public SMGEdgeHasValueFilter filterNotHavingValue(SMGValue pValue) {
     SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
     filter.value = pValue;
-    filter.valueComplement = true;
     return filter;
   }
 
@@ -65,12 +50,8 @@ public class SMGEdgeHasValueFilter {
       return false;
     }
 
-    if (value != null) {
-      if (valueComplement && pEdge.getValue().equals(value)) {
-        return false;
-      } else if (!valueComplement && !pEdge.getValue().equals(value)) {
-        return false;
-      }
+    if (pEdge.getValue().equals(value)) {
+      return false;
     }
 
     return true;
@@ -83,13 +64,8 @@ public class SMGEdgeHasValueFilter {
     return pEdges.filter(this);
   }
 
-  public static SMGEdgeHasValueFilter valueFilter(SMGValue pValue) {
-    return new SMGEdgeHasValueFilter().filterHavingValue(pValue);
-  }
-
   @Override
   public String toString() {
-    return String.format(
-        "Filter %s<object=%s, value=%s>", valueComplement ? "NOT" : "", object, value);
+    return String.format("Filter <object=%s, NOT value=%s>", object, value);
   }
 }

@@ -42,17 +42,16 @@ public class SMGEdgeHasValueFilterTest {
 
   private static final ImmutableList<SMGEdgeHasValue> edges;
   private static final ImmutableList<PairSet> pairsets;
+  private static final ImmutableList<SMGObject> objects =
+      ImmutableList.of(
+          new SMGRegion(31, "a"),
+          new SMGRegion(31, "a"),
+          new SMGRegion(64, "b"),
+          new SMGRegion(129, "c"));
+  private static final ImmutableList<SMGKnownSymbolicValue> values =
+      ImmutableList.of(SMGZeroValue.INSTANCE, SMGKnownSymValue.of(), SMGKnownSymValue.of());
 
   static {
-    final ImmutableList<SMGObject> objects =
-        ImmutableList.of(
-            new SMGRegion(31, "a"),
-            new SMGRegion(31, "a"),
-            new SMGRegion(64, "b"),
-            new SMGRegion(129, "c"));
-    final ImmutableList<SMGKnownSymbolicValue> values =
-        ImmutableList.of(SMGZeroValue.INSTANCE, SMGKnownSymValue.of(), SMGKnownSymValue.of());
-
     final long bitstep = 8;
     ImmutableList.Builder<SMGEdgeHasValue> edgesBuilder = ImmutableList.builder();
 
@@ -103,13 +102,8 @@ public class SMGEdgeHasValueFilterTest {
     SMGValue value2 = pEdge2.getValue();
     boolean areSameValue = value1.equals(value2);
 
-    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterHavingValue(value1);
-    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterHavingValue(value2);
-
     String msg =
         pEdge1 + " and " + pEdge2 + (areSameValue ? "" : " do not") + " have the same values";
-    assertWithMessage(msg).that(f1.holdsFor(pEdge2)).isEqualTo(areSameValue);
-    assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(areSameValue);
 
     SMGEdgeHasValueFilter f3 = new SMGEdgeHasValueFilter().filterNotHavingValue(value1);
     SMGEdgeHasValueFilter f4 = new SMGEdgeHasValueFilter().filterNotHavingValue(value2);
@@ -139,9 +133,6 @@ public class SMGEdgeHasValueFilterTest {
           .isTrue();
 
       // value
-      assertWithMessage(hve + " has the same value as itself")
-          .that(new SMGEdgeHasValueFilter().filterHavingValue(hve.getValue()).holdsFor(hve))
-          .isTrue();
       assertWithMessage(hve + " has the same value as itself")
           .that(new SMGEdgeHasValueFilter().filterNotHavingValue(hve.getValue()).holdsFor(hve))
           .isFalse();
@@ -427,6 +418,20 @@ public class SMGEdgeHasValueFilterTest {
         assertWithMessage("find edge from %s:%s in %s", edge.getObject(), edge.getOffset(), pairset)
             .that(methodResult)
             .isEqualTo(expected);
+      }
+    }
+  }
+
+  @Test
+  public void filterHavingValue() {
+    for (PairSet pairset : pairsets) {
+      for (SMGValue value : values) {
+        Iterable<SMGEdgeHasValue> expected =
+            Iterables.filter(pairset.set(), hve -> hve.getValue().equals(value));
+        Iterable<SMGEdgeHasValue> methodResult = pairset.set().getEdgesTo(value);
+        assertWithMessage("filter %s for value %s", pairset, value)
+            .that(methodResult)
+            .containsExactlyElementsIn(expected);
       }
     }
   }

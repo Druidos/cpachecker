@@ -755,7 +755,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     long sizeOfPointerToSll;
 
     Iterable<SMGEdgeHasValue> fieldsContainingOldPointerToSll =
-        heap.getHVEdges(SMGEdgeHasValueFilter.valueFilter(oldPointerToSll));
+        heap.getHVEdges().getEdgesTo(oldPointerToSll);
 
     if (!fieldsContainingOldPointerToSll.iterator().hasNext()) {
       sizeOfPointerToSll = sizeOfVoidPointerInBits;
@@ -893,7 +893,7 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
     long sizeOfPointerToDll;
 
     Iterable<SMGEdgeHasValue> fieldsContainingOldPointerToDll =
-        heap.getHVEdges(SMGEdgeHasValueFilter.valueFilter(oldPointerToDll));
+        heap.getHVEdges().getEdgesTo(oldPointerToDll);
 
     if (!fieldsContainingOldPointerToDll.iterator().hasNext()) {
       sizeOfPointerToDll = sizeOfVoidPointerInBits;

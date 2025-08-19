@@ -159,7 +159,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
     neq = neq.removeValueAndCopy(pValue);
     pathPredicate.removeValue(pValue);
     errorPredicate.removeValue(pValue);
-    assert !hv_edges.filter(SMGEdgeHasValueFilter.valueFilter(pValue)).iterator().hasNext();
+    assert !getHVEdges().getEdgesTo(pValue).iterator().hasNext();
   }
 
   /**
@@ -541,7 +541,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
     pathPredicate.replace(fresh, old);
     errorPredicate.replace(fresh, old);
 
-    for (SMGEdgeHasValue old_hve : getHVEdges(SMGEdgeHasValueFilter.valueFilter(old))) {
+    for (SMGEdgeHasValue old_hve : getHVEdges().getEdgesTo(old)) {
       SMGEdgeHasValue newHvEdge =
           new SMGEdgeHasValue(
               old_hve.getSizeInBits(), old_hve.getOffset(), old_hve.getObject(), fresh);
@@ -569,8 +569,7 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
 
     // Workaround for removed object
     // it's ok to replace newPte if nobody had these values anyway
-    assert newPte == null
-            || !getHVEdges(SMGEdgeHasValueFilter.valueFilter(fresh)).iterator().hasNext()
+    assert newPte == null || !getHVEdges().getEdgesTo(fresh).iterator().hasNext()
         : oldPte + " replaces " + newPte;
     // add pte fresh->oldObject
     pt_edges =
