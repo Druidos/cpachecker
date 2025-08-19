@@ -86,35 +86,16 @@ public class SMGEdgeHasValueFilterTest {
     pairsets = setsBuilder.build();
   }
 
-  private static void symmetricObjects(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    SMGEdgeHasValueFilter f1 = new SMGEdgeHasValueFilter().filterByObject(pEdge1.getObject());
-    SMGEdgeHasValueFilter f2 = new SMGEdgeHasValueFilter().filterByObject(pEdge2.getObject());
-
-    boolean haveSameObject = pEdge1.getObject().equals(pEdge2.getObject());
-    String msg =
-        pEdge1 + " and " + pEdge2 + (haveSameObject ? "" : " do not") + " have the same object";
-    assertWithMessage(msg).that(f1.holdsFor(pEdge2)).isEqualTo(haveSameObject);
-    assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(haveSameObject);
-  }
-
   @Test
-  public void symmetricTest() {
-    for (int i = 0; i < edges.size(); i++) {
-      for (int j = i + 1; j < edges.size(); j++) {
-        SMGEdgeHasValue edge1 = edges.get(i);
-        SMGEdgeHasValue edge2 = edges.get(j);
-        symmetricObjects(edge1, edge2);
+  public void filterObjectTest() {
+    for (PairSet pairset : pairsets) {
+      for (SMGObject object : objects) {
+        Iterable<SMGEdgeHasValue> expected =
+            Iterables.filter(pairset.set(), hve -> hve.getObject().equals(object));
+        assertWithMessage("%s has edges from %s", pairset, object)
+            .that(pairset.set().getEdgesForObject(object))
+            .containsExactlyElementsIn(expected);
       }
-    }
-  }
-
-  @Test
-  public void reflexiveTest() {
-    for (SMGEdgeHasValue hve : edges) {
-      // object
-      assertWithMessage(hve + " has the same object as itself")
-          .that(new SMGEdgeHasValueFilter().filterByObject(hve.getObject()).holdsFor(hve))
-          .isTrue();
     }
   }
 

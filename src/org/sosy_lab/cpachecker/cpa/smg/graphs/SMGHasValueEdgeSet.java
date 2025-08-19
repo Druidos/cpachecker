@@ -22,7 +22,6 @@ import java.util.Optional;
 import org.sosy_lab.common.collect.PathCopyingPersistentTreeMap;
 import org.sosy_lab.common.collect.PersistentSortedMap;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
@@ -181,17 +180,6 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
         }
       }
     }
-  }
-
-  @Override
-  public SMGHasValueEdgeSet getHvEdges() {
-    return this;
-  }
-
-  @Override
-  public Iterable<SMGEdgeHasValue> filter(SMGEdgeHasValueFilter pFilter) {
-    SMGHasValueEdgeSet smgEdgeHasValues = this;
-    return () -> new SMGHasValueEdgeSetIteratorWithFilter(smgEdgeHasValues, pFilter);
   }
 
   @Override
@@ -397,47 +385,6 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   @Override
   public AbstractIterator<SMGEdgeHasValue> iterator() {
     return new SMGHasValueEdgeSetIterator(this);
-  }
-
-  private static class SMGHasValueEdgeSetIteratorWithFilter
-      extends AbstractIterator<SMGEdgeHasValue> {
-    SMGEdgeHasValueFilter filter;
-    Iterator<PersistentSortedMap<Long, SMGEdgeHasValue>> iteratorMain;
-    Iterator<SMGEdgeHasValue> iteratorSecond;
-
-    protected SMGHasValueEdgeSetIteratorWithFilter(
-        SMGHasValueEdgeSet pSMGEdgeHasValues, SMGEdgeHasValueFilter pFilter) {
-      SMGObject filterObject = pFilter.getObject();
-      SMGHasValueEdgeSet filtered;
-
-      if (filterObject != null) {
-        filtered = pSMGEdgeHasValues.getEdgesForObject(filterObject);
-      } else {
-        filtered = pSMGEdgeHasValues;
-      }
-
-      iteratorMain = filtered.map.values().iterator();
-      iteratorSecond = null;
-      filter = pFilter;
-    }
-
-    @Override
-    protected SMGEdgeHasValue computeNext() {
-      while (iteratorMain.hasNext() || iteratorSecond != null) {
-        if (iteratorSecond != null) {
-          while (iteratorSecond.hasNext()) {
-            SMGEdgeHasValue result = iteratorSecond.next();
-            if (filter.holdsFor(result)) {
-              return result;
-            }
-          }
-          iteratorSecond = null;
-        } else {
-          iteratorSecond = iteratorMain.next().values().iterator();
-        }
-      }
-      return endOfData();
-    }
   }
 
   private static class SMGHasValueEdgeSetIterator extends AbstractIterator<SMGEdgeHasValue> {

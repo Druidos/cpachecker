@@ -10,8 +10,6 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableSet;
-import java.util.Set;
 import org.junit.Test;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdgeSet;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
@@ -144,25 +142,7 @@ public class SMGEdgeHasValueTest {
     allEdges = allEdges.addEdgeAndCopy(hv21at0);
     allEdges = allEdges.addEdgeAndCopy(hv22at4);
 
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter();
-
-    assertThat(filter.holdsFor(hv11at0)).isTrue();
-    assertThat(filter.holdsFor(hv12at4)).isTrue();
-    assertThat(filter.holdsFor(hv21at0)).isTrue();
-    assertThat(filter.holdsFor(hv22at4)).isTrue();
-
-    filter = filter.filterByObject(object1);
-
-    assertThat(filter.holdsFor(hv11at0)).isTrue();
-    assertThat(filter.holdsFor(hv12at4)).isTrue();
-    assertThat(filter.holdsFor(hv21at0)).isFalse();
-    assertThat(filter.holdsFor(hv22at4)).isFalse();
-
-    Set<SMGEdgeHasValue> filteredSet = ImmutableSet.copyOf(filter.filter(allEdges));
-
-    assertThat(filteredSet).hasSize(2);
-    assertThat(filteredSet).contains(hv11at0);
-    assertThat(filteredSet).contains(hv12at4);
+    assertThat(allEdges.getEdgesForObject(object1)).containsExactly(hv11at0, hv12at4);
   }
 
   @Test

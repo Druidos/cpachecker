@@ -22,7 +22,6 @@ import org.sosy_lab.common.collect.PersistentMap;
 import org.sosy_lab.cpachecker.cfa.types.MachineModel;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdge;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGNullObject;
@@ -376,18 +375,6 @@ public sealed class SMG implements UnmodifiableSMG permits CLangSMG {
   @Override
   public final SMGHasValueEdges getHVEdges() {
     return hv_edges;
-  }
-
-  /**
-   * Getter for obtaining unmodifiable view on Has-Value edges set, filtered by a certain set of
-   * criteria.
-   *
-   * @param pFilter Filtering object
-   * @return A set of Has-Value edges for which the criteria in p hold
-   */
-  @Override
-  public final Iterable<SMGEdgeHasValue> getHVEdges(SMGEdgeHasValueFilter pFilter) {
-    return pFilter.filter(hv_edges);
   }
 
   @Override

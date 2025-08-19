@@ -11,7 +11,6 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs;
 import java.util.Collection;
 import java.util.Optional;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
@@ -31,11 +30,6 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
   SMGHasValueEdges removeEdgeAndCopy(SMGEdgeHasValue pEdge);
 
   // Querying methods
-
-  /** get all outgoing edges of all {@link SMGObject}s. */
-  SMGHasValueEdges getHvEdges();
-
-  Iterable<SMGEdgeHasValue> filter(SMGEdgeHasValueFilter pFilter);
 
   /** get all outgoing edges of an {@link SMGObject}, e.g., all values of this object. */
   SMGHasValueEdges getEdgesForObject(SMGObject pObject);

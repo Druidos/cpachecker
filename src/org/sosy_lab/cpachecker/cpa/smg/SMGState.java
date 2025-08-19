@@ -10,7 +10,6 @@ package org.sosy_lab.cpachecker.cpa.smg;
 
 import static java.util.Collections.singletonList;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
@@ -55,7 +54,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGPredicateRelation;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGType;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableCLangSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsTo;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgePointsToFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGReadParams;
@@ -1921,11 +1919,6 @@ public class SMGState implements UnmodifiableSMGState, AbstractQueryableState, G
   @Override
   public SMGState withInvalidFree() {
     return new SMGState(this, Property.INVALID_FREE);
-  }
-
-  @VisibleForTesting
-  Iterable<SMGEdgeHasValue> getHVEdges(SMGEdgeHasValueFilter pFilter) {
-    return heap.getHVEdges(pFilter);
   }
 
   SMGHasValueEdges getHVEdgesFrom(SMGObject pObject) {
