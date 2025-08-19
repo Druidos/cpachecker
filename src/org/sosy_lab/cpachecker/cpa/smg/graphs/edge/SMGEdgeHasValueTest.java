@@ -19,6 +19,7 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGRegion;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownExpValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
+import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
 
 public class SMGEdgeHasValueTest {
 
@@ -192,26 +193,22 @@ public class SMGEdgeHasValueTest {
     SMGObject object1 = new SMGRegion(64, "object1");
     SMGObject object2 = new SMGRegion(64, "Object2");
 
-    SMGValue value1 = SMGKnownExpValue.valueOf(1);
+    SMGValue value1 = SMGZeroValue.INSTANCE;
     SMGValue value2 = SMGKnownExpValue.valueOf(2);
 
     SMGEdgeHasValue hv11at0 = new SMGEdgeHasValue(mockTypeSize, 0, object1, value1);
     SMGEdgeHasValue hv12at4 = new SMGEdgeHasValue(mockTypeSize, 32, object1, value2);
     SMGEdgeHasValue hv21at0 = new SMGEdgeHasValue(mockTypeSize, 0, object2, value1);
     SMGEdgeHasValue hv22at4 = new SMGEdgeHasValue(mockTypeSize, 32, object2, value2);
+
     SMGHasValueEdges allEdges = new SMGHasValueEdgeSet();
     allEdges = allEdges.addEdgeAndCopy(hv11at0);
     allEdges = allEdges.addEdgeAndCopy(hv12at4);
     allEdges = allEdges.addEdgeAndCopy(hv21at0);
     allEdges = allEdges.addEdgeAndCopy(hv22at4);
+
     assertThat(allEdges.getEdgesTo(value1)).containsExactly(hv11at0, hv21at0);
     assertThat(allEdges.getEdgesTo(value2)).containsExactly(hv12at4, hv22at4);
-
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter().filterNotHavingValue(value1);
-    assertThat(filter.holdsFor(hv11at0)).isFalse();
-    assertThat(filter.holdsFor(hv12at4)).isTrue();
-    assertThat(filter.holdsFor(hv21at0)).isFalse();
-    assertThat(filter.holdsFor(hv22at4)).isTrue();
-    assertThat(filter.filter(allEdges)).containsExactly(hv22at4, hv12at4);
+    assertThat(allEdges.getNonZeroEdges()).containsExactly(hv22at4, hv12at4);
   }
 }

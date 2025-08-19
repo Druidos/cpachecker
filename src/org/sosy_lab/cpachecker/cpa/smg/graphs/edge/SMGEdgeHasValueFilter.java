@@ -11,21 +11,17 @@ package org.sosy_lab.cpachecker.cpa.smg.graphs.edge;
 import com.google.common.annotations.VisibleForTesting;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGValue;
 
 public class SMGEdgeHasValueFilter {
 
   protected SMGObject object;
-  private SMGValue value;
 
   public SMGEdgeHasValueFilter() {
     object = null;
-    value = null;
   }
 
   public SMGEdgeHasValueFilter(SMGEdgeHasValueFilter pFilter) {
     object = pFilter.object;
-    value = pFilter.value;
   }
 
   public SMGObject getObject() {
@@ -39,18 +35,8 @@ public class SMGEdgeHasValueFilter {
     return filter;
   }
 
-  public SMGEdgeHasValueFilter filterNotHavingValue(SMGValue pValue) {
-    SMGEdgeHasValueFilter filter = new SMGEdgeHasValueFilter(this);
-    filter.value = pValue;
-    return filter;
-  }
-
   public boolean holdsFor(SMGEdgeHasValue pEdge) {
     if (object != null && object != pEdge.getObject()) {
-      return false;
-    }
-
-    if (pEdge.getValue().equals(value)) {
       return false;
     }
 
@@ -66,6 +52,6 @@ public class SMGEdgeHasValueFilter {
 
   @Override
   public String toString() {
-    return String.format("Filter <object=%s, NOT value=%s>", object, value);
+    return String.format("Filter <object=%s>", object);
   }
 }

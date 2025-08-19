@@ -97,21 +97,6 @@ public class SMGEdgeHasValueFilterTest {
     assertWithMessage(msg).that(f2.holdsFor(pEdge1)).isEqualTo(haveSameObject);
   }
 
-  private static void symmetricValues(SMGEdgeHasValue pEdge1, SMGEdgeHasValue pEdge2) {
-    SMGValue value1 = pEdge1.getValue();
-    SMGValue value2 = pEdge2.getValue();
-    boolean areSameValue = value1.equals(value2);
-
-    String msg =
-        pEdge1 + " and " + pEdge2 + (areSameValue ? "" : " do not") + " have the same values";
-
-    SMGEdgeHasValueFilter f3 = new SMGEdgeHasValueFilter().filterNotHavingValue(value1);
-    SMGEdgeHasValueFilter f4 = new SMGEdgeHasValueFilter().filterNotHavingValue(value2);
-
-    assertWithMessage(msg).that(f3.holdsFor(pEdge2)).isEqualTo(!areSameValue);
-    assertWithMessage(msg).that(f4.holdsFor(pEdge1)).isEqualTo(!areSameValue);
-  }
-
   @Test
   public void symmetricTest() {
     for (int i = 0; i < edges.size(); i++) {
@@ -119,7 +104,6 @@ public class SMGEdgeHasValueFilterTest {
         SMGEdgeHasValue edge1 = edges.get(i);
         SMGEdgeHasValue edge2 = edges.get(j);
         symmetricObjects(edge1, edge2);
-        symmetricValues(edge1, edge2);
       }
     }
   }
@@ -131,11 +115,6 @@ public class SMGEdgeHasValueFilterTest {
       assertWithMessage(hve + " has the same object as itself")
           .that(new SMGEdgeHasValueFilter().filterByObject(hve.getObject()).holdsFor(hve))
           .isTrue();
-
-      // value
-      assertWithMessage(hve + " has the same value as itself")
-          .that(new SMGEdgeHasValueFilter().filterNotHavingValue(hve.getValue()).holdsFor(hve))
-          .isFalse();
     }
   }
 
@@ -425,12 +404,16 @@ public class SMGEdgeHasValueFilterTest {
   @Test
   public void filterHavingValue() {
     for (PairSet pairset : pairsets) {
+      Iterable<SMGEdgeHasValue> expected =
+          Iterables.filter(pairset.set(), hve -> !hve.getValue().isZero());
+      assertWithMessage("filter %s for non-zero fields", pairset)
+          .that(pairset.set().getNonZeroEdges())
+          .containsExactlyElementsIn(expected);
+
       for (SMGValue value : values) {
-        Iterable<SMGEdgeHasValue> expected =
-            Iterables.filter(pairset.set(), hve -> hve.getValue().equals(value));
-        Iterable<SMGEdgeHasValue> methodResult = pairset.set().getEdgesTo(value);
+        expected = Iterables.filter(pairset.set(), hve -> hve.getValue().equals(value));
         assertWithMessage("filter %s for value %s", pairset, value)
-            .that(methodResult)
+            .that(pairset.set().getEdgesTo(value))
             .containsExactlyElementsIn(expected);
       }
     }

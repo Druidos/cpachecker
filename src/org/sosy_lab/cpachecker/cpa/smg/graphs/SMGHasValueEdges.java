@@ -67,6 +67,9 @@ public interface SMGHasValueEdges extends Iterable<SMGEdgeHasValue> {
   /** Get all edges that have (lead to) pValue. */
   Iterable<SMGEdgeHasValue> getEdgesTo(SMGValue pValue);
 
+  /** get all edges that have (lead to) a value other than zero */
+  Iterable<SMGEdgeHasValue> getNonZeroEdges();
+
   int size();
 
   boolean contains(SMGEdgeHasValue pHv);

@@ -300,6 +300,11 @@ public class SMGHasValueEdgeSet implements SMGHasValueEdges {
   }
 
   @Override
+  public final Iterable<SMGEdgeHasValue> getNonZeroEdges() {
+    return Iterables.filter(this, hve -> !hve.getValue().isZero());
+  }
+
+  @Override
   public int size() {
     return size;
   }

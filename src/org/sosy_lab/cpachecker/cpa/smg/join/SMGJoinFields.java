@@ -12,7 +12,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 import org.sosy_lab.cpachecker.cpa.smg.SMGInconsistentException;
@@ -21,7 +20,6 @@ import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdgeSet;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.SMGHasValueEdges;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.UnmodifiableSMG;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValue;
-import org.sosy_lab.cpachecker.cpa.smg.graphs.edge.SMGEdgeHasValueFilter;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.object.SMGObject;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGKnownSymValue;
 import org.sosy_lab.cpachecker.cpa.smg.graphs.value.SMGZeroValue;
@@ -88,12 +86,7 @@ class SMGJoinFields {
       return returnSet;
     }
 
-    SMGEdgeHasValueFilter filterForSMG1 =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pObj1)
-            .filterNotHavingValue(SMGZeroValue.INSTANCE);
-
-    for (SMGEdgeHasValue edge : pSMG1.getHVEdges(filterForSMG1)) {
+    for (SMGEdgeHasValue edge : pSMG1.getHVEdgesFrom(pObj1).getNonZeroEdges()) {
       if (pSMG2
           .getHVEdges()
           .getOverlappingEdges(pObj2, edge.getOffset(), edge.getSizeInBits())
@@ -173,16 +166,11 @@ class SMGJoinFields {
    * in the other one the edge points to a non-NULL value.
    */
   @VisibleForTesting
-  static Set<SMGEdgeHasValue> getHVSetOfMissingNullValues(
+  static ImmutableSet<SMGEdgeHasValue> getHVSetOfMissingNullValues(
       UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2) {
-    Set<SMGEdgeHasValue> retset = new LinkedHashSet<>();
+    ImmutableSet.Builder<SMGEdgeHasValue> retset = ImmutableSet.builder();
 
-    SMGEdgeHasValueFilter nonNullPtrInSmg2 =
-        new SMGEdgeHasValueFilter()
-            .filterByObject(pObj2)
-            .filterNotHavingValue(SMGZeroValue.INSTANCE);
-
-    for (SMGEdgeHasValue edge : pSMG2.getHVEdges(nonNullPtrInSmg2)) {
+    for (SMGEdgeHasValue edge : pSMG2.getHVEdgesFrom(pObj2).getNonZeroEdges()) {
       Optional<SMGEdgeHasValue> coveringEdge =
           pSMG1.getHVEdges().getCoveringEdge(pObj1, edge.getOffset(), edge.getSizeInBits());
       if (coveringEdge.isPresent() && coveringEdge.orElseThrow().getValue().isZero()) {
@@ -191,7 +179,7 @@ class SMGJoinFields {
                 edge.getSizeInBits(), edge.getOffset(), pObj1, SMGZeroValue.INSTANCE));
       }
     }
-    return retset;
+    return retset.build();
   }
 
   /** get all HV-Edges that are common in both SMGs, i.e. where both objects point to NULL. */
@@ -245,16 +233,8 @@ class SMGJoinFields {
       UnmodifiableSMG pSMG1, UnmodifiableSMG pSMG2, SMGObject pObj1, SMGObject pObj2)
       throws SMGInconsistentException {
 
-    if (Iterables.size(
-            pSMG1.getHVEdges(
-                new SMGEdgeHasValueFilter()
-                    .filterByObject(pObj1)
-                    .filterNotHavingValue(SMGZeroValue.INSTANCE)))
-        != Iterables.size(
-            pSMG2.getHVEdges(
-                new SMGEdgeHasValueFilter()
-                    .filterByObject(pObj2)
-                    .filterNotHavingValue(SMGZeroValue.INSTANCE)))) {
+    if (Iterables.size(pSMG1.getHVEdgesFrom(pObj1).getNonZeroEdges())
+        != Iterables.size(pSMG2.getHVEdgesFrom(pObj2).getNonZeroEdges())) {
       throw new SMGInconsistentException(
           "SMGJoinFields output assertion does not hold: "
               + "the objects do not have the same count of non-zero fields");
