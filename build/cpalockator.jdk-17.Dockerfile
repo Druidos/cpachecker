@@ -2,25 +2,25 @@
 # a tool for configurable software verification:
 # https://cpachecker.sosy-lab.org
 #
-# SPDX-FileCopyrightText: 2007-2020 Dirk Beyer <https://www.sosy-lab.org>
+# SPDX-FileCopyrightText: 2025 Dirk Beyer <https://www.sosy-lab.org>
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# This is a Docker image for running the tests.
-# It should be pushed to registry.gitlab.com/sosy-lab/software/cpachecker/test
-# and will be used by CI as declared in .gitlab-ci.yml.
+# This is a Docker image for running the CPALockator CI.
 #
 # Commands for updating the image:
-# docker build --pull -t registry.gitlab.com/sosy-lab/software/cpachecker/test:jdk-11 - < build/gitlab-ci.Dockerfile.jdk-11
-# docker push registry.gitlab.com/sosy-lab/software/cpachecker/test
+# 1. build the image using this file
+# docker build --pull -t gitlab.ispras.ru:4567/verification/cpachecker/cpalockator:jdk-17 - < build/cpalockator.jdk-17.Dockerfile
+# 2. push it
+# docker push gitlab.ispras.ru:4567/verification/cpachecker/cpalockator:jdk-17
 
-FROM registry.gitlab.com/sosy-lab/software/cpachecker/test:jdk-11
+FROM registry.gitlab.com/sosy-lab/software/cpachecker/test:jdk-17
 
-# evil hack to not modify origin image
-# 3.7 is needed for ci-script in subprocess.run
-RUN apt install -y python3.7
-RUN rm -rf /usr/bin/python3
-RUN ln -s /usr/bin/python3.7 /usr/bin/python3
+# install pyyaml... so install pip first. cleaning apt lists afterwards is considered good
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends pip \
+    && pip3 install pyyaml \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://gitlab.com/sosy-lab/software/ldv-klever-benchmarks.git /opt/ldv-klever-benchmarks/
 # ADD linux-4.2.6-races.tar.xz /opt/ldv-benchmarks/
